@@ -2,7 +2,7 @@
 <project name="saas" default="test" basedir=".">
     <!-- set local values, like git location -->
     <property file="phing/build.properties" override="true" />
-    <property name="cmd.composer" value="composer" />
+    <property name="cmd.composer" value="" />
     <property name="php.interpreter" value="php" />
 
     <target name="test" description="Run unit tests" depends="clean">
