@@ -7,9 +7,11 @@
 		"guzzle/guzzle": "*"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "3.7.*",
+		"guzzle/plugin-mock": "*",
 		"phing/phing": "*",
-		"guzzle/plugin-mock": "*"
+		"phpunit/phpunit": "3.7.*",
+		"squizlabs/php_codesniffer": "*",
+		"typo3/codesniffer": "dev-master"
 	},
 	"autoload": {
 		"psr-0": {
