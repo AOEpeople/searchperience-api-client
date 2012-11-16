@@ -10,7 +10,7 @@
         <foreignId>13211</foreignId>
 
         <content>
-            <xml></xml>
+            <xml>some value</xml>
         </content>
 
         <lastProcessingTime>2012-11-14 17:35:03</lastProcessingTime>
