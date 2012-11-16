@@ -1,0 +1,32 @@
+{
+	"name": "aoe-media/searchperience-api-client",
+	"description": "PHP LIbrary to communitcate with the searchperience API",
+	"homepage": "http://www.searchperience.com/",
+	"license": "MIT",
+	"require": {
+		"guzzle/guzzle": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "3.7.*",
+		"phing/phing": "*",
+		"guzzle/plugin-mock": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Searchperience\\Tests": "tests/",
+			"Searchperience": "src/"
+		}
+	},
+	"minimum-stability": "stable",
+	"authors": [
+		{
+			"name": "Michael Klapper",
+			"email": "michael.klapper@aoemedia.de"
+		},
+		{
+			"name": "AOE media",
+			"email": "dev@aoemedia.de",
+			"homepage": "http://www.aoemedia.com"
+		}
+	]
+}

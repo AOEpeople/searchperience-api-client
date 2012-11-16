@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="saas" default="test" basedir=".">
+    <!-- set local values, like git location -->
+    <property file="phing/build.properties" override="true" />
+    <property name="cmd.composer" value="composer" />
+    <property name="php.interpreter" value="php" />
+
+    <target name="test" description="Run unit tests" depends="clean">
+        <exec passthru="true" command="${project.basedir}/vendor/bin/phpunit --configuration=${project.basedir}/phpunit.xml --debug --verbose" checkReturn="true" />
+    </target>
+
+    <target name="clean">
+         <delete dir="${project.basedir}/build/pearwork"/>
+    </target>
+
+
+    <target name="sniff" description="Check code for PSR-2 compliance">
+    <phpcodesniffer
+            standard="PSR2"
+            format="summary" />
+    </target>
+
+    <target name="install-composer" description="Installs composer locally if it can't be found in build.properties or global install.">
+        <if>
+            <contains string="${cmd.composer}" substring="composer" />
+            <then>
+                <echo>Using composer at ${cmd.composer}</echo>
+            </then>
+            <else>
+                <exec command="which composer" outputProperty="cmd.composer" />
+                <if>
+                    <contains string="${cmd.composer}" substring="composer" />
+                    <then>
+                        <echo>Using composer at ${cmd.composer}</echo>
+                    </then>
+
+                    <elseif>
+                        <available file="${project.basedir}/composer.phar" />
+                        <then>
+                            <echo>Composer is installed locally</echo>
+                            <property name="cmd.composer" value="${php.interpreter} ${project.basedir}/composer.phar" override="true"/>
+                        </then>
+                    </elseif>
+
+                    <else>
+                        <echo message="Installing composer locally" />
+                        <exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
+                        <property name="cmd.composer" value="${php.interpreter} ${project.basedir}/composer.phar" override="true"/>
+                    </else>
+                </if>
+            </else>
+        </if>
+        <echo message="cmd.composer is ${cmd.composer}"/>
+    </target>
+
+    <target name="clean-dependencies">
+        <delete dir="${project.basedir}/vendor"/>
+        <delete file="${project.basedir}/composer.lock" />
+    </target>
+
+    <target name="install-dependencies" depends="install-composer">
+        <exec command="${cmd.composer} install --dev" passthru="true" />
+    </target>
+
+    <target name="update-dependencies" depends="install-composer">
+        <exec command="${cmd.composer} update --dev" passthru="true" />
+    </target>
+
+</project>
