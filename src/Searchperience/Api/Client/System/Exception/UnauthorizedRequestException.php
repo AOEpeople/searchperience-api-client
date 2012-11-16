@@ -3,9 +3,9 @@
 namespace Searchperience\Api\Client\System\Exception;
 
 /**
- * User: michael.klapper
- * Date: 15.11.12
- * Time: 11:13
+ * @author Michael Klapper <michael.klapper@aoemedia.de>
+ * @date 15.11.12
+ * @time 11:13
  */
 class UnauthorizedRequestException extends \Exception {
 

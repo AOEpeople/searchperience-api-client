@@ -1,8 +1,8 @@
 <?php
 /**
- * User: michael.klapper
- * Date: 14.11.12
- * Time: 17:34
+ * @author Michael Klapper <michael.klapper@aoemedia.de>
+ * @date 14.11.12
+ * @time 17:34
  */
 
 error_reporting(E_ALL | E_STRICT);

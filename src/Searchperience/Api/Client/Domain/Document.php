@@ -3,11 +3,10 @@
 namespace Searchperience\Api\Client\Domain;
 
 /**
- * Created by JetBrains PhpStorm.
- * User: michael.klapper
- * Date: 14.11.12
- * Time: 15:13
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Michael Klapper <michael.klapper@aoemedia.de>
+ * @date 14.11.12
+ * @time 15:13
  */
 class Document {
 

@@ -3,9 +3,9 @@
 namespace Searchperience\Api\Client\Domain;
 
 /**
- * User: michael.klapper
- * Date: 14.11.12
- * Time: 15:13
+ * @author Michael Klapper <michael.klapper@aoemedia.de>
+ * @date 14.11.12
+ * @time 15:13
  */
 class DocumentRepository {
 

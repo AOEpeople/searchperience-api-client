@@ -5,9 +5,9 @@ namespace Searchperience\Api\Client\System\Storage;
 use Guzzle\Http\Client;
 
 /**
- * User: michael.klapper
- * Date: 14.11.12
- * Time: 15:17
+ * @author Michael Klapper <michael.klapper@aoemedia.de>
+ * @date 14.11.12
+ * @time 15:17
  */
 class RestDocumentBackend implements \Searchperience\Api\Client\System\Storage\StorageDocumentBackendInterface {
 
