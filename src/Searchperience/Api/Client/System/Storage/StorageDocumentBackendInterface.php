@@ -28,7 +28,7 @@ interface StorageDocumentBackendInterface {
 	public function setBaseUrl($baseUrl);
 
 	/**
-	 * @param \Searchperience\Domain\Document $document
+	 * @param \Searchperience\Api\Client\Domain\Document $document
 	 * @throwsException \Searchperience\System\Exception\UnauthorizedRequestException
 	 * @return mixed
 	 */
@@ -40,7 +40,7 @@ interface StorageDocumentBackendInterface {
 	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
 	 * @return mixed
 	 */
-	public function get($foreignId);
+	public function getByForeignId($foreignId);
 
 	/**
 	 * @param integer $foreignId
@@ -48,5 +48,5 @@ interface StorageDocumentBackendInterface {
 	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
 	 * @return mixed
 	 */
-	public function delete($foreignId);
+	public function deleteByForeignId($foreignId);
 }

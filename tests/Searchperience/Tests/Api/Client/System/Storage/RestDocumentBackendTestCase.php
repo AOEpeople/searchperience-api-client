@@ -66,9 +66,12 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			->method('getBody')
 			->will($this->returnValue($this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
 
-		$request = $this->getMock('\Guzzle\Http\Message\Request', array('send', 'setAuth'), array(), '', FALSE);
+		$request = $this->getMock('\Guzzle\Http\Message\Request', array('send', 'setAuth', 'setBaseUrl'), array(), '', FALSE);
 		$request->expects($this->once())
 			->method('setAuth')
+			->will($this->returnValue($request));
+		$request->expects($this->once())
+			->method('setBaseUrl')
 			->will($this->returnValue($request));
 		$request->expects($this->once())
 			->method('send')
@@ -80,7 +83,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			->will($this->returnValue($request));
 
 		$this->documentBackend->injectRestClient($restClient);
-		$document = $this->documentBackend->get(1);
+		$document = $this->documentBackend->getByForeignId(1);
 
 		$expectedDocument = new \Searchperience\Api\Client\Domain\Document();
 		$expectedDocument->setId(12);

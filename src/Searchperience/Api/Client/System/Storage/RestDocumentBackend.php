@@ -24,10 +24,6 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$this->restClient = $restClient;
 	}
 
-	public function __construct($baseUrl) {
-		$this->restClient = new Client($baseUrl);
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -57,8 +53,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get($foreignId) {
+	public function getByForeignId($foreignId) {
 		$response = $this->restClient->get('/documents?foreignId=' . $foreignId)
+			->setBaseUrl($this->baseUrl)
 			->setAuth($this->username, $this->password)
 			->send();
 
@@ -68,7 +65,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
-	public function delete($foreignId) {
+	public function deleteByForeignId($foreignId) {
 		// TODO: Implement delete() method.
 	}
 
