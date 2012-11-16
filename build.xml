@@ -13,11 +13,8 @@
          <delete dir="${project.basedir}/build/pearwork"/>
     </target>
 
-
     <target name="sniff" description="Check code for PSR-2 compliance">
-    <phpcodesniffer
-            standard="PSR2"
-            format="summary" />
+        <exec passthru="true" command="${project.basedir}/vendor/bin/phpcs --standard=TYPO3 ${project.basedir}/src" checkReturn="true" />
     </target>
 
     <target name="install-composer" description="Installs composer locally if it can't be found in build.properties or global install.">

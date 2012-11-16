@@ -9,17 +9,7 @@ use Guzzle\Http\Client;
  * @date 14.11.12
  * @time 15:17
  */
-class RestDocumentBackend implements \Searchperience\Api\Client\System\Storage\StorageDocumentBackendInterface {
-
-	/**
-	 * @var string
-	 */
-	protected $username;
-
-	/**
-	 * @var
-	 */
-	protected $password;
+class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\StorageDocumentBackendInterface {
 
 	/**
 	 * @var \Guzzle\Http\Client
@@ -83,28 +73,6 @@ class RestDocumentBackend implements \Searchperience\Api\Client\System\Storage\S
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function setUsername($username) {
-		// TODO: Implement setUsername() method.
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setPassword($password) {
-		// TODO: Implement setPassword() method.
-	}
-
-	/**
-	 * @param string $baseUrl
-	 * @return mixed
-	 */
-	public function setBaseUrl($baseUrl) {
-		// TODO: Implement setBaseUrl() method.
-	}
-
-	/**
 	 * @param string $response
 	 * @return \Searchperience\Api\Client\Domain\Document
 	 */
@@ -113,7 +81,17 @@ class RestDocumentBackend implements \Searchperience\Api\Client\System\Storage\S
 		$documentAttributeArray = (array)$xml->document->attributes();
 
 		$document = new \Searchperience\Api\Client\Domain\Document();
-		$document->setId($documentAttributeArray['@attributes']['id']);
+		$document->setId((integer)$documentAttributeArray['@attributes']['id']);
+		$document->setUrl((string)$xml->document->url);
+		$document->setForeignId((integer)$xml->document->foreignId);
+		$document->setBoostFactor((integer)$xml->document->boostFactor);
+		$document->setContent((string)$xml->document->content->children()->asXML());
+		$document->setGeneralPriority((integer)$xml->document->generalPriority);
+		$document->setTemporaryPriority((integer)$xml->document->temporaryPriority);
+		$document->setMimeType((string)$xml->document->mimeType);
+		$document->setIsMarkedForProcessing((integer)$xml->document->isMarkedForProcessing);
+		$document->setLastProcessing((string)$xml->document->lastProcessingTime);
+		$document->setNoIndex((integer)$xml->document->noIndex);
 
 		return $document;
 	}

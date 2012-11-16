@@ -85,7 +85,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$expectedDocument = new \Searchperience\Api\Client\Domain\Document();
 		$expectedDocument->setId(12);
 		$expectedDocument->setForeignId(13211);
-		$expectedDocument->setContent('<xml></xml>');
+		$expectedDocument->setContent('<xml>some value</xml>');
 		$expectedDocument->setUrl('http://www.dummy.tld/some/product');
 		$expectedDocument->setForeignId(13211);
 		$expectedDocument->setGeneralPriority(0);
