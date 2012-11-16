@@ -7,7 +7,7 @@
         <mimeType>text/xml</mimeType>
         <generalPriority>0</generalPriority>
         <temporaryPriority>2</temporaryPriority>
-        <foreignid>13211</foreignid>
+        <foreignId>13211</foreignId>
 
         <content>
             <xml></xml>
