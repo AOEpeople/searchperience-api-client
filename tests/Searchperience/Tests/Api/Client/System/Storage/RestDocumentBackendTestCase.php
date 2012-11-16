@@ -83,7 +83,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			->will($this->returnValue($request));
 
 		$this->documentBackend->injectRestClient($restClient);
-		$document = $this->documentBackend->getByForeignId(1);
+		$document = $this->documentBackend->getByForeignId(13211);
 
 		$expectedDocument = new \Searchperience\Api\Client\Domain\Document();
 		$expectedDocument->setId(12);
@@ -100,7 +100,6 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$expectedDocument->setIsMarkedForProcessing(0);
 
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
-		$this->assertEquals($expectedDocument->getId(), $document->getId());
 		$this->assertEquals($expectedDocument, $document);
 	}
 
