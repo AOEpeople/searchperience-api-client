@@ -60,7 +60,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function canGetDocumentByDocumentId() {
+	public function canGetDocumentByDocumentForeignId() {
 		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getBody'), array(), '', FALSE);
 		$response->expects($this->once())
 			->method('getBody')
@@ -106,8 +106,19 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function canGetDocumentByForeignId() {
-		$this->markTestIncomplete('');
+	public function verifyAbstractRestBackendsSetter() {
+		$baseUrl = 'http://www.searchperience.com/';
+		$username = 'user';
+		$password = 'pass';
+		/** @var $restBackend \Searchperience\Api\Client\System\Storage\AbstractRestBackend */
+		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
+		$restBackend->setBaseUrl($baseUrl);
+		$restBackend->setPassword($password);
+		$restBackend->setUsername($username);
+
+		$this->assertEquals($baseUrl, $restBackend->_get('baseUrl'));
+		$this->assertEquals($username, $restBackend->_get('username'));
+		$this->assertEquals($password, $restBackend->_get('password'));
 	}
 
 	/**
