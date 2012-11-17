@@ -9,7 +9,7 @@ use Guzzle\Http\Client;
  * @date 14.11.12
  * @time 15:17
  */
-class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\StorageDocumentBackendInterface {
+class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\DocumentBackendInterface {
 
 	/**
 	 * @var \Guzzle\Http\Client

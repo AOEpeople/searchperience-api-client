@@ -7,7 +7,7 @@ namespace Searchperience\Api\Client\System\Storage;
  * @date 14.11.12
  * @time 15:17
  */
-interface StorageDocumentBackendInterface {
+interface DocumentBackendInterface {
 
 	/**
 	 * @param string $username

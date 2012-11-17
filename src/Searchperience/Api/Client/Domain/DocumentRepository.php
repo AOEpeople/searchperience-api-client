@@ -10,17 +10,17 @@ namespace Searchperience\Api\Client\Domain;
 class DocumentRepository {
 
 	/**
-	 * @var StorageDocumentBackendInterface
+	 * @var \Searchperience\Api\Client\System\Storage\DocumentBackendInterface
 	 */
 	protected $storageBackend;
 
 	/**
 	 * Injects the storage backend.
 	 *
-	 * @param \Searchperience\Api\Client\System\Storage\StorageDocumentBackendInterface $storageBackend
+	 * @param \Searchperience\Api\Client\System\Storage\DocumentBackendInterface $storageBackend
 	 * @return void
 	 */
-	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\StorageDocumentBackendInterface $storageBackend) {
+	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\DocumentBackendInterface $storageBackend) {
 		$this->storageBackend = $storageBackend;
 	}
 
