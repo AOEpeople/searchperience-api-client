@@ -38,19 +38,6 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	}
 
 	/**
-	 * @param integer $statusCode
-	 */
-	protected function transformStatusCode($statusCode) {
-
-		switch ($statusCode) {
-			case 200:
-				// OK
-			case 201:
-				// created OK
-		}
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getByForeignId($foreignId) {
@@ -66,7 +53,10 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function deleteByForeignId($foreignId) {
-		// TODO: Implement delete() method.
+		$response = $this->restClient->delete('/documents?foreignId=' . $foreignId)
+			->setBaseUrl($this->baseUrl)
+			->setAuth($this->username, $this->password)
+			->send();
 	}
 
 	/**

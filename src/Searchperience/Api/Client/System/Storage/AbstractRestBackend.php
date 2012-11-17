@@ -45,4 +45,17 @@ abstract class AbstractRestBackend {
 	public function setBaseUrl($baseUrl) {
 		$this->baseUrl = $baseUrl;
 	}
+
+	/**
+	 * @param integer $statusCode
+	 */
+	protected function transformStatusCodeToException($statusCode) {
+
+		switch ($statusCode) {
+			case 200:
+				// OK
+			case 201:
+				// created OK
+		}
+	}
 }

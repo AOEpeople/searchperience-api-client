@@ -20,7 +20,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->documentBackend = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend("");
+		$this->documentBackend = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
 	}
 
 	/**
@@ -103,22 +103,30 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals($expectedDocument, $document);
 	}
 
-	/**
-	 * @test
-	 */
-	public function verifyAbstractRestBackendsSetter() {
-		$baseUrl = 'http://www.searchperience.com/';
-		$username = 'user';
-		$password = 'pass';
-		/** @var $restBackend \Searchperience\Api\Client\System\Storage\AbstractRestBackend */
-		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
-		$restBackend->setBaseUrl($baseUrl);
-		$restBackend->setPassword($password);
-		$restBackend->setUsername($username);
+	public function canDeleteDocumentByForeignId() {
+		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getBody'), array(), '', FALSE);
+		$response->expects($this->once())
+			->method('getBody')
+			->will($this->returnValue($this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
 
-		$this->assertEquals($baseUrl, $restBackend->_get('baseUrl'));
-		$this->assertEquals($username, $restBackend->_get('username'));
-		$this->assertEquals($password, $restBackend->_get('password'));
+		$request = $this->getMock('\Guzzle\Http\Message\Request', array('send', 'setAuth', 'setBaseUrl'), array(), '', FALSE);
+		$request->expects($this->once())
+			->method('setAuth')
+			->will($this->returnValue($request));
+		$request->expects($this->once())
+			->method('setBaseUrl')
+			->will($this->returnValue($request));
+		$request->expects($this->once())
+			->method('send')
+			->will($this->returnValue($response));
+
+		$restClient = $this->getMock('\Guzzle\Http\Client', array('delete'));
+		$restClient->expects($this->once())
+			->method('delete')
+			->will($this->returnValue($request));
+
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getByForeignId(13211);
 	}
 
 	/**
