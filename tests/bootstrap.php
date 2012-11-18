@@ -6,6 +6,7 @@
  */
 
 error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
 
 // Ensure that composer has installed all dependencies
 if (!file_exists(dirname(__DIR__) . '/composer.lock')) {
