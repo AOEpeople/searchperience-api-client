@@ -8,6 +8,7 @@ namespace Searchperience\Tests\Api\Client\System\Storage;
  * @time 09:37
  */
 class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
+
 	/**
 	 * Initialize test environment
 	 *
@@ -43,6 +44,56 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	}
 
 	/**
+	 * Provides some invalid value for authentication
+	 *
+	 * @return array
+	 */
+	public function verifySetBaseUrlThrowsExceptionOnInvalidArgumentDataProvider() {
+		return array(
+			array(NULL),
+			array(''),
+			array(array()),
+			array(new \stdClass()),
+		);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $invalidValue
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 * @dataProvider verifySetBaseUrlThrowsExceptionOnInvalidArgumentDataProvider
+	 */
+	public function verifySetBaseUrlThrowsExceptionOnInvalidArgument($invalidValue) {
+		/** @var $restBackend \Searchperience\Api\Client\System\Storage\AbstractRestBackend */
+		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
+		$restBackend->setBaseUrl($invalidValue);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $invalidValue
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 * @dataProvider verifySetBaseUrlThrowsExceptionOnInvalidArgumentDataProvider
+	 */
+	public function verifySetUsernameThrowsExceptionOnInvalidArgument($invalidValue) {
+		/** @var $restBackend \Searchperience\Api\Client\System\Storage\AbstractRestBackend */
+		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
+		$restBackend->setUsername($invalidValue);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $invalidValue
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 * @dataProvider verifySetBaseUrlThrowsExceptionOnInvalidArgumentDataProvider
+	 */
+	public function verifySetPasswordThrowsExceptionOnInvalidArgument($invalidValue) {
+		/** @var $restBackend \Searchperience\Api\Client\System\Storage\AbstractRestBackend */
+		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
+		$restBackend->setPassword($invalidValue);
+	}
+
+	/**
 	 * Provides Status codes and their expected Exception class names
 	 *
 	 * @return array
@@ -62,6 +113,6 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @dataProvider verifyTransformStatusCodeIntoRightExceptionDataProvider
 	 */
 	public function verifyTransformStatusCodeIntoRightException($statusCode, $exceptionClassName) {
-
+		$this->markTestIncomplete();
 	}
 }

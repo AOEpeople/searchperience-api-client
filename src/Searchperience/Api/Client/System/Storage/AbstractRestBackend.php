@@ -25,24 +25,44 @@ abstract class AbstractRestBackend {
 	protected $baseUrl;
 
 	/**
-	 * {@inheritdoc}
+	 * Set the username to access the api.
+	 *
+	 * @param string $username
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @return void
 	 */
 	public function setUsername($username) {
+		if (!is_string($username) || $username === '') {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('baseUrl cannot be empty string.');
+		}
 		$this->username = $username;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Set the password to access the api.
+	 *
+	 * @param string $password
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @return void
 	 */
 	public function setPassword($password) {
+		if (!is_string($password) || $password === '') {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('baseUrl cannot be empty string.');
+		}
 		$this->password = $password;
 	}
 
 	/**
-	 * @param string $baseUrl
-	 * @return mixed
+	 * Set the api base url including the customer path key.
+	 *
+	 * @param string $baseUrl Example: http://api.searchperience.com/bosch/
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @return void
 	 */
 	public function setBaseUrl($baseUrl) {
+		if (!is_string($baseUrl) || $baseUrl === '') {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('baseUrl cannot be empty string.');
+		}
 		$this->baseUrl = $baseUrl;
 	}
 
