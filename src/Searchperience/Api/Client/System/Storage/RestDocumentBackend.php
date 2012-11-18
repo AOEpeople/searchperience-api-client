@@ -43,10 +43,13 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function getByForeignId($foreignId) {
+		/** @var $response \Guzzle\http\Message\Response */
 		$response = $this->restClient->get('/documents?foreignId=' . $foreignId)
 			->setBaseUrl($this->baseUrl)
 			->setAuth($this->username, $this->password)
 			->send();
+
+		$this->transformStatusCodeToException($response->getStatusCode());
 
 		return $this->buildDocumentFromRequest($response->getBody());
 	}

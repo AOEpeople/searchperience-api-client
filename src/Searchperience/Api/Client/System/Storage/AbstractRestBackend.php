@@ -51,11 +51,24 @@ abstract class AbstractRestBackend {
 	 */
 	protected function transformStatusCodeToException($statusCode) {
 
-		switch ($statusCode) {
-			case 200:
-				// OK
-			case 201:
-				// created OK
+		// HTTP informational
+		if ($statusCode >= 100 && $statusCode <= 199) {
+
+		}
+
+		// HTTP redirection
+		if ($statusCode >= 300 && $statusCode <= 399) {
+
+		}
+
+		// HTTP client error
+		if ($statusCode >= 400 && $statusCode <= 499) {
+
+		}
+
+		// HTTP server error
+		if ($statusCode >= 500 && $statusCode <= 599) {
+
 		}
 	}
 }
