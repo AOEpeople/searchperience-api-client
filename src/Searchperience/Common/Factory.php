@@ -17,7 +17,7 @@ class Factory {
 	 *
 	 * @return \Searchperience\Api\Client\Domain\DocumentRepository
 	 */
-	public function getDocumentRepository($baseUrl, $username, $password) {
+	public static function getDocumentRepository($baseUrl, $username, $password) {
 		$documentStorage = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
 		$documentStorage->injectRestClient(new \Guzzle\Http\Client());
 		$documentStorage->setBaseUrl($baseUrl);
