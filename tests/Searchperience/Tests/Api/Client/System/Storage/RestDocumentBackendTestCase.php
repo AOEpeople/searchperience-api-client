@@ -87,45 +87,29 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals($expectedDocument, $document);
 	}
 
+	/**
+	 * @test
+	 */
 	public function canDeleteDocumentByForeignId() {
-		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getBody'), array(), '', FALSE);
-		$response->expects($this->once())
-			->method('getBody')
-			->will($this->returnValue($this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
-
-		$request = $this->getMock('\Guzzle\Http\Message\Request', array('send', 'setAuth', 'setBaseUrl'), array(), '', FALSE);
-		$request->expects($this->once())
-			->method('setAuth')
-			->will($this->returnValue($request));
-		$request->expects($this->once())
-			->method('setBaseUrl')
-			->will($this->returnValue($request));
-		$request->expects($this->once())
-			->method('send')
-			->will($this->returnValue($response));
-
-		$restClient = $this->getMock('\Guzzle\Http\Client', array('delete'));
-		$restClient->expects($this->once())
-			->method('delete')
-			->will($this->returnValue($request));
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(200));
+		$restClient->addSubscriber($mock);
 
 		$this->documentBackend->injectRestClient($restClient);
-		$document = $this->documentBackend->getByForeignId(13211);
+		$this->assertEquals(200, $this->documentBackend->deleteByForeignId(13211));
 	}
 
 	/**
 	 * @test
-	 * @expectedException \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException
+	 * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
 	 */
-	public function canPostDocument() {
-		$this->markTestIncomplete('');
-
-		$restClient = $this->getMock('\Guzzle\Http\Client', array('post'));
-		$restClient->expects($this->once())
-			->method('post')
-			->will($this->throwException(new \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException));
+	public function verifyPostDocumentThrowsClientErrorResponseExceptionWhileInvalidAuthenticationGiven() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(403));
+		$restClient->addSubscriber($mock);
 		$this->documentBackend->injectRestClient($restClient);
-
 		$this->documentBackend->post($this->getDocument());
 	}
 }
