@@ -6,7 +6,7 @@
     <property name="php.interpreter" value="php" />
 
     <target name="test" description="Run unit tests" depends="clean">
-        <exec passthru="true" command="${project.basedir}/vendor/bin/phpunit --configuration=${project.basedir}/phpunit.xml --debug --verbose" checkReturn="true" />
+        <exec passthru="true" command="${project.basedir}/vendor/bin/phpunit --configuration=${project.basedir}/phpunit.xml --verbose" checkReturn="true" />
     </target>
 
     <target name="clean">
