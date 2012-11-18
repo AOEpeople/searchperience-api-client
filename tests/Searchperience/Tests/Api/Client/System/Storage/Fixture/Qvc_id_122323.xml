@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<error xmlns="urn:com.searchperience.error" xmlns:atom="http://www.w3.org/2005/Atom">
+    <code>0</code>
+    <message> No document with id (122323) found / Document not found</message>
+    <class>Domain_Exception_DocumentNotInRepositoryException</class>
+</error>
