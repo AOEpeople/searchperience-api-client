@@ -36,12 +36,12 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function getDocumentReturnsValidDomainDocument() {
-		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('get'));
+		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
 		$this->documentRepository->expects($this->once())
-			->method('get')
+			->method('getByForeignId')
 			->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
 
-		$document = $this->documentRepository->get(312);
+		$document = $this->documentRepository->getByForeignId(312);
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
 	}
 
@@ -50,12 +50,12 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @expectedException \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException
 	 */
 	public function getDocumentWithoutCredentials() {
-		$this->documentRepository = $this->getMock('\Searchperience\Domain\DocumentRepository', array('get'));
+		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
 		$this->documentRepository->expects($this->once())
-			->method('get')
+			->method('getByForeignId')
 			->will($this->throwException(new \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException));
 
-		$this->documentRepository->get(312);
+		$this->documentRepository->getByForeignId(312);
 	}
 
 	/**
@@ -63,11 +63,20 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @expectedException \Searchperience\Api\Client\Domain\Exception\DocumentNotFoundException
 	 */
 	public function getDocumentByForeignIdThrowsExceptionIfDocumentNotFound() {
-		$this->documentRepository = $this->getMock('\Searchperience\Domain\DocumentRepository', array('get'));
+		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
 		$this->documentRepository->expects($this->once())
-			->method('get')
+			->method('getByForeignId')
 			->will($this->throwException(new \Searchperience\Api\Client\Domain\Exception\DocumentNotFoundException));
 
-		$this->documentRepository->get(312);
+		$this->documentRepository->getByForeignId(312);
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function getByForeignIdThrowsInvalidArgumentExceptionOnInvalidArgument() {
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$this->documentRepository->getByForeignId('');
 	}
 }

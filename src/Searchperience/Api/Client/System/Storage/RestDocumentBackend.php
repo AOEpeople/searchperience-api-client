@@ -21,7 +21,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return void
 	 */
 	public function injectRestClient(\Guzzle\Http\Client $restClient) {
-		$this->restClient = $restClient;
+		$this->restClient = $restClient->setDefaultHeaders(array(
+			'User-Agent' => 'Searchperience-API-Client',
+		));
 	}
 
 	/**
@@ -53,7 +55,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function deleteByForeignId($foreignId) {
-		$response = $this->restClient->delete('/documents?foreignId=' . $foreignId)
+		$response = $this->restClient->delete($this->baseUrl . '/documents?foreignId=' . $foreignId)
 			->setBaseUrl($this->baseUrl)
 			->setAuth($this->username, $this->password)
 			->send();

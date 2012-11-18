@@ -38,12 +38,18 @@ class DocumentRepository {
 	/**
 	 * Get a Document by foreignId
 	 *
-	 * @param $foreignId
-	 * @thorwsException DocumentNotFoundException
+	 * @param integer $foreignId
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @thorws \Searchperience\Common\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
-	public function get($foreignId) {
-		$document = $this->storageBackend->get($foreignId);
+	public function getByForeignId($foreignId) {
+		if (!is_integer($foreignId)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $foreignId. Input was: ' . serialize($foreignId));
+		}
+
+		$document = $this->storageBackend->getByForeignId($foreignId);
 
 		return $document;
 	}
