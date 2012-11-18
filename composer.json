@@ -1,5 +1,5 @@
 {
-	"name": "aoe-media/searchperience-api-client",
+	"name": "aoemedia/searchperience-api-client",
 	"description": "PHP LIbrary to communitcate with the searchperience API",
 	"homepage": "http://www.searchperience.com/",
 	"license": "MIT",
