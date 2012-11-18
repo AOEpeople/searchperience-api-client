@@ -2,13 +2,21 @@
 Searchperience Api Client
 ++++++++++++++++++++++++
 
-PHP Library to communicate with the searchperience RestFul API [www.searchperience.com]
+:Author: Michael Klapper <michael.klapper@aoemedia.de>
+:Author: AOE media <dev@aoemedia.com>
+:Version: dev-master
+:Description: PHP Library to communicate with the searchperience RestFul API
+:Homepage: www.searchperience.com
 
-### Installing via Composer
+
+Installing via Composer
+========================
 
 The recommended way to install Searchperience API client is through [Composer](http://getcomposer.org).
 
 1. Add ``aoemedia/searchperience-api-client`` as a dependency in your project's ``composer.json`` file:
+
+::
 
 	{
 		"require": {
@@ -16,13 +24,17 @@ The recommended way to install Searchperience API client is through [Composer](h
 		}
 	}
 
-    Consider tightening your dependencies to a known version when deploying mission critical applications (e.g. ``1.0.*``).
+Consider tightening your dependencies to a known version when deploying mission critical applications (e.g. ``1.0.*``).
 
 2. Download and install Composer:
+
+::
 
 	curl -s http://getcomposer.org/installer | php
 
 3. Install your dependencies:
+
+::
 
 	php composer.phar install
 
@@ -30,13 +42,17 @@ The recommended way to install Searchperience API client is through [Composer](h
 
 Composer also prepares an autoload file that's capable of autoloading all of the classes in any of the libraries that it downloads. To use it, just add the following line to your code's bootstrap process:
 
+::
+
 	require 'vendor/autoload.php';
 
 You can find out more on how to install Composer, configure autoloading, and other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org).
 
 Add new documents to the indexer
 -----------
-```php
+
+::
+
 	$document = new \Searchperience\Api\Client\Domain\Document();
 	$document->setContent('some content');
 	$document->setForeignId(12);
@@ -44,18 +60,19 @@ Add new documents to the indexer
 
 	$documentRepsository = \Searchperience\Common\Exception\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
 	$documentRepsository->add($document);
-```
 
 Get document from indexer
 -----------
-```php
+
+::
+
 	$documentRepsository = \Searchperience\Common\Exception\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
 	$document = $documentRepsository->getByForeignId(12);
-```
 
 Delete document from indexer
 -----------
-```php
+
+::
+
 	$documentRepsository = \Searchperience\Common\Exception\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
 	$documentRepsository->deleteByForeignId(12);
-```
