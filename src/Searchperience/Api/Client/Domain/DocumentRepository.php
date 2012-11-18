@@ -31,8 +31,8 @@ class DocumentRepository {
 	 * @return boolean
 	 */
 	public function add(\Searchperience\Api\Client\Domain\Document $document) {
-		$status = $this->storageBackend->put('document', $document);
-
+		$status = $this->storageBackend->post($document);
+		return $status;
 	}
 
 	/**
@@ -50,7 +50,6 @@ class DocumentRepository {
 		}
 
 		$document = $this->storageBackend->getByForeignId($foreignId);
-
 		return $document;
 	}
 }
