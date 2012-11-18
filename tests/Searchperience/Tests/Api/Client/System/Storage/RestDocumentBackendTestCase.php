@@ -61,26 +61,10 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canGetDocumentByDocumentForeignId() {
-		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getBody'), array(), '', FALSE);
-		$response->expects($this->once())
-			->method('getBody')
-			->will($this->returnValue($this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
-
-		$request = $this->getMock('\Guzzle\Http\Message\Request', array('send', 'setAuth', 'setBaseUrl'), array(), '', FALSE);
-		$request->expects($this->once())
-			->method('setAuth')
-			->will($this->returnValue($request));
-		$request->expects($this->once())
-			->method('setBaseUrl')
-			->will($this->returnValue($request));
-		$request->expects($this->once())
-			->method('send')
-			->will($this->returnValue($response));
-
-		$restClient = $this->getMock('\Guzzle\Http\Client', array('get'));
-		$restClient->expects($this->once())
-			->method('get')
-			->will($this->returnValue($request));
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
+		$restClient->addSubscriber($mock);
 
 		$this->documentBackend->injectRestClient($restClient);
 		$document = $this->documentBackend->getByForeignId(13211);
