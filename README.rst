@@ -6,7 +6,7 @@ Searchperience Api Client
 :Author: AOE media <dev@aoemedia.com>
 :Version: dev-master
 :Description: PHP Library to communicate with the searchperience RestFul API
-:Homepage: www.searchperience.com
+:Homepage: http://www.searchperience.com
 
 
 Installing via Composer
@@ -48,6 +48,9 @@ Composer also prepares an autoload file that's capable of autoloading all of the
 
 You can find out more on how to install Composer, configure autoloading, and other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org).
 
+Searchperience API Client basics
+========================
+
 Add new documents to the indexer
 -----------
 
@@ -58,7 +61,7 @@ Add new documents to the indexer
 	$document->setForeignId(12);
 	$document->setUrl('http://www.some.test/product/detail');
 
-	$documentRepsository = \Searchperience\Common\Exception\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
+	$documentRepsository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
 	$documentRepsository->add($document);
 
 Get document from indexer
@@ -66,7 +69,7 @@ Get document from indexer
 
 ::
 
-	$documentRepsository = \Searchperience\Common\Exception\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
+	$documentRepsository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
 	$document = $documentRepsository->getByForeignId(12);
 
 Delete document from indexer
@@ -74,5 +77,6 @@ Delete document from indexer
 
 ::
 
-	$documentRepsository = \Searchperience\Common\Exception\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
+	$documentRepsository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
 	$documentRepsository->deleteByForeignId(12);
+
