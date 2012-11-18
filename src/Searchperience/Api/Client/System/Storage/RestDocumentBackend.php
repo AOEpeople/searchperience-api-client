@@ -47,32 +47,33 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 */
 	public function getByForeignId($foreignId) {
 		/** @var $response \Guzzle\http\Message\Response */
-		$response = $this->restClient->get('/documents?foreignId=' . $foreignId)
-			->setBaseUrl($this->baseUrl)
+		$response = $this->restClient->setBaseUrl($this->baseUrl)
+			->get('/documents?foreignId=' . $foreignId)
 			->setAuth($this->username, $this->password)
 			->send();
-
 		$this->transformStatusCodeToException($response->getStatusCode());
 
-		return $this->buildDocumentFromRequest($response->getBody());
+		return $this->buildDocumentFromXml($response->xml());
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function deleteByForeignId($foreignId) {
-		$response = $this->restClient->delete($this->baseUrl . '/documents?foreignId=' . $foreignId)
-			->setBaseUrl($this->baseUrl)
+		$response = $this->restClient->setBaseUrl($this->baseUrl)
+			->delete($this->baseUrl . '/documents?foreignId=' . $foreignId)
 			->setAuth($this->username, $this->password)
 			->send();
+		$this->transformStatusCodeToException($response->getStatusCode());
+		return $response->getStatusCode();
 	}
 
 	/**
-	 * @param string $response
+	 * @param \SimpleXMLElement $xml
+	 *
 	 * @return \Searchperience\Api\Client\Domain\Document
 	 */
-	protected function buildDocumentFromRequest($response) {
-		$xml = simplexml_load_string($response); /** @var xml SimpleXMLElement */
+	protected function buildDocumentFromXml(\SimpleXMLElement $xml) {
 		$documentAttributeArray = (array)$xml->document->attributes();
 
 		$document = new \Searchperience\Api\Client\Domain\Document();
