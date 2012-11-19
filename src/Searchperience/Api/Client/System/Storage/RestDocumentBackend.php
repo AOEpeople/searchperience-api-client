@@ -32,19 +32,21 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
 			->post('/{customerKey}/documents', array(
-			'foreignId' => $document->getForeignId(),
-			'url' => $document->getUrl(),
-			'mimeType' => $document->getMimeType(),
-			'noIndex' => $document->getNoIndex(),
-			'content' => $document->getContent(),
-			'source' => $document->getSource(),
-			'lastProcessing' => $document->getLastProcessing(),
-			'boostFactor' => $document->getBoostFactor(),
-			'isProminent' => $document->getIsProminent(),
-			'isMarkedForProcessing' => $document->getIsMarkedForProcessing(),
-			'generalPriority' => $document->getGeneralPriority(),
-			'temporaryPriority' => $document->getTemporaryPriority(),
-			))->send();
+				'foreignId' => $document->getForeignId(),
+				'url' => $document->getUrl(),
+				'mimeType' => $document->getMimeType(),
+				'noIndex' => $document->getNoIndex(),
+				'content' => $document->getContent(),
+				'source' => $document->getSource(),
+				'lastProcessing' => $document->getLastProcessing(),
+				'boostFactor' => $document->getBoostFactor(),
+				'isProminent' => $document->getIsProminent(),
+				'isMarkedForProcessing' => $document->getIsMarkedForProcessing(),
+				'generalPriority' => $document->getGeneralPriority(),
+				'temporaryPriority' => $document->getTemporaryPriority(),
+			))
+			->setAuth($this->username, $this->password)
+			->send();
 
 		return $response->getStatusCode();
 	}
