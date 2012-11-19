@@ -8,6 +8,7 @@
 	},
 	"require-dev": {
 		"guzzle/plugin-mock": "*",
+		"guzzle/plugin-log": "*",
 		"phing/phing": "*",
 		"phpunit/phpunit": "3.7.*",
 		"squizlabs/php_codesniffer": "*",
