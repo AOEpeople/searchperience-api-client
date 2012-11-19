@@ -31,7 +31,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->post('/{customerKey}/documents', array(
+			->post('/{customerKey}/documents', NULL, array(
 				'foreignId' => $document->getForeignId(),
 				'url' => $document->getUrl(),
 				'mimeType' => $document->getMimeType(),
