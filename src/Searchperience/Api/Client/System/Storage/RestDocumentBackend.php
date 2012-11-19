@@ -30,16 +30,22 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
-		$url = '/documents?';
-		$url .= '&foreignId='.$document->getForeignId();
-		$url .= '&url='.$document->getUrl();
-		$url .= '&source='.$document->getUrl();
+		$response = $this->restClient->post('/documents', array(
+			'foreignId' => $document->getForeignId(),
+			'url' => $document->getUrl(),
+			'mimeType' => $document->getMimeType(),
+			'noIndex' => $document->getNoIndex(),
+			'content' => $document->getContent(),
+			'source' => $document->getSource(),
+			'lastProcessing' => $document->getLastProcessing(),
+			'boostFactor' => $document->getBoostFactor(),
+			'isProminent' => $document->getIsProminent(),
+			'isMarkedForProcessing' => $document->getIsMarkedForProcessing(),
+			'generalPriority' => $document->getGeneralPriority(),
+			'temporaryPriority' => $document->getTemporaryPriority(),
+			))->send();
 
-		$this->restClient->post(
-			$url,
-			NULL
-			, 'body of the request')
-		->send();
+		return $response->getStatusCode();
 	}
 
 	/**
