@@ -30,16 +30,25 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
-		$url = '/documents?';
-		$url .= '&foreignId='.$document->getForeignId();
-		$url .= '&url='.$document->getUrl();
-		$url .= '&source='.$document->getUrl();
+		$response = $this->restClient->setBaseUrl($this->baseUrl)
+			->post('/{customerKey}/documents', NULL, array(
+				'foreignId' => $document->getForeignId(),
+				'url' => $document->getUrl(),
+				'mimeType' => $document->getMimeType(),
+				'noIndex' => $document->getNoIndex(),
+				'content' => $document->getContent(),
+				'source' => $document->getSource(),
+				'lastProcessing' => $document->getLastProcessing(),
+				'boostFactor' => $document->getBoostFactor(),
+				'isProminent' => $document->getIsProminent(),
+				'isMarkedForProcessing' => $document->getIsMarkedForProcessing(),
+				'generalPriority' => $document->getGeneralPriority(),
+				'temporaryPriority' => $document->getTemporaryPriority(),
+			))
+			->setAuth($this->username, $this->password)
+			->send();
 
-		$this->restClient->post(
-			$url,
-			NULL
-			, 'body of the request')
-		->send();
+		return $response->getStatusCode();
 	}
 
 	/**
@@ -48,7 +57,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	public function getByForeignId($foreignId) {
 		/** @var $response \Guzzle\http\Message\Response */
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->get('/documents?foreignId=' . $foreignId)
+			->get('/{customerKey}/documents', NULL, array(
+				'foreignId' => $foreignId
+			))
 			->setAuth($this->username, $this->password)
 			->send();
 		$this->transformStatusCodeToException($response->getStatusCode());
@@ -61,7 +72,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 */
 	public function deleteByForeignId($foreignId) {
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->delete($this->baseUrl . '/documents?foreignId=' . $foreignId)
+			->delete($this->baseUrl . '/{customerKey}/documents', NULL, array(
+				'foreignId' => $foreignId
+			))
 			->setAuth($this->username, $this->password)
 			->send();
 		$this->transformStatusCodeToException($response->getStatusCode());

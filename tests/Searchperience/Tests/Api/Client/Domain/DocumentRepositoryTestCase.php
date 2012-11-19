@@ -35,7 +35,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function getDocumentReturnsValidDomainDocument() {
+	public function verifyGetByForeignIdReturnsValidDomainDocument() {
 		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
 		$this->documentRepository->expects($this->once())
 			->method('getByForeignId')
@@ -49,7 +49,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 * @expectedException \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException
 	 */
-	public function getDocumentWithoutCredentials() {
+	public function verifyGetByForeignIdThrowsUnauthorizedRequestException() {
 		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
 		$this->documentRepository->expects($this->once())
 			->method('getByForeignId')
@@ -62,7 +62,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 * @expectedException \Searchperience\Api\Client\Domain\Exception\DocumentNotFoundException
 	 */
-	public function getDocumentByForeignIdThrowsExceptionIfDocumentNotFound() {
+	public function getByForeignIdThrowsExceptionIfDocumentNotFound() {
 		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
 		$this->documentRepository->expects($this->once())
 			->method('getByForeignId')

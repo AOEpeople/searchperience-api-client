@@ -61,22 +61,22 @@ Add new documents to the indexer
 	$document->setForeignId(12);
 	$document->setUrl('http://www.some.test/product/detail');
 
-	$documentRepsository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
-	$documentRepsository->add($document);
+	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$documentRepository->add($document);
 
 Get document from indexer
 -----------
 
 ::
 
-	$documentRepsository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
-	$document = $documentRepsository->getByForeignId(12);
+	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$document = $documentRepository->getByForeignId(12);
 
 Delete document from indexer
 -----------
 
 ::
 
-	$documentRepsository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/qvc/', 'username', 'password');
-	$documentRepsository->deleteByForeignId(12);
+	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$documentRepository->deleteByForeignId(12);
 

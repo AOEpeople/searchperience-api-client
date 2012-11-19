@@ -52,4 +52,22 @@ class DocumentRepository {
 		$document = $this->storageBackend->getByForeignId($foreignId);
 		return $document;
 	}
+
+	/**
+	 * Get a Document by foreignId
+	 *
+	 * @param integer $foreignId
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @thorws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 */
+	public function deleteByForeignId($foreignId) {
+		if (!is_integer($foreignId)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $foreignId. Input was: ' . serialize($foreignId));
+		}
+
+		$document = $this->storageBackend->deleteByForeignId($foreignId);
+		return $document;
+	}
 }
