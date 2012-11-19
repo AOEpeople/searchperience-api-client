@@ -11,15 +11,21 @@ class Factory {
 	/**
 	 * Create a new instance of DocumentRepository
 	 *
-	 * @param string $baseUrl Example: http://api.searchperience.com/bosch/
+	 * @param string $baseUrl Example: http://api.searchperience.com/
+	 * @param string $customerKey Example: qvc
 	 * @param string $username
 	 * @param string $password
 	 *
+	 * @internal param string $customerkey
 	 * @return \Searchperience\Api\Client\Domain\DocumentRepository
 	 */
-	public static function getDocumentRepository($baseUrl, $username, $password) {
+	public static function getDocumentRepository($baseUrl, $customerKey, $username, $password) {
+		$guzzle = new \Guzzle\Http\Client();
+		$guzzle->setConfig(array(
+			'customerKey' => $customerKey,
+		));
 		$documentStorage = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
-		$documentStorage->injectRestClient(new \Guzzle\Http\Client());
+		$documentStorage->injectRestClient($guzzle);
 		$documentStorage->setBaseUrl($baseUrl);
 		$documentStorage->setUsername($username);
 		$documentStorage->setPassword($password);

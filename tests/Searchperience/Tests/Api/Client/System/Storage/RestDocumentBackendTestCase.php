@@ -36,24 +36,18 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * Get a dummy Document
 	 *
 	 * @param array $default
+	 * @return \Searchperience\Api\Client\Domain\Document
 	 */
-	protected function getDocument($default = array(
-		'content'           => '',
-		'foreignId'         => '',
-		'generalPriority'   => '',
-		'temporaryPriority' => '',
-		'source'            => '',
-		'url'               => '',
-		'mimeType'          => '',
-	)) {
+	protected function getDocument($default = array()) {
 		$document = new \Searchperience\Api\Client\Domain\Document();
-		$document->setContent($default['content']);
-		$document->setForeignId($default['foreignId']);
-		$document->setGeneralPriority($default['generalPriority']);
-		$document->setTemporaryPriority($default['temporaryPriority']);
-		$document->setSource($default['source']);
-		$document->setUrl($default['url']);
-		$document->setMimeType($default['mimeType']);
+
+		if (count($default) > 0) {
+			foreach ($default as $key => $value) {
+				$method = 'set' . ucfirst($key);
+				$document->$method($value);
+			}
+		}
+
 		return $document;
 	}
 
@@ -69,19 +63,19 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->documentBackend->injectRestClient($restClient);
 		$document = $this->documentBackend->getByForeignId(13211);
 
-		$expectedDocument = new \Searchperience\Api\Client\Domain\Document();
-		$expectedDocument->setId(12);
-		$expectedDocument->setForeignId(13211);
-		$expectedDocument->setContent('<xml>some value</xml>');
-		$expectedDocument->setUrl('http://www.dummy.tld/some/product');
-		$expectedDocument->setForeignId(13211);
-		$expectedDocument->setGeneralPriority(0);
-		$expectedDocument->setTemporaryPriority(2);
-		$expectedDocument->setLastProcessing('2012-11-14 17:35:03');
-		$expectedDocument->setBoostFactor(1);
-		$expectedDocument->setNoIndex(0);
-		$expectedDocument->setIsProminent(0);
-		$expectedDocument->setIsMarkedForProcessing(0);
+		$expectedDocument = $this->getDocument(array(
+			'id' => 12,
+			'foreignId' => 13211,
+			'content' => '<xml>some value</xml>',
+			'url' => 'http://www.dummy.tld/some/product',
+			'generalPriority' => 0,
+			'temporaryPriority' => 2,
+			'lastProcessing' => '2012-11-14 17:35:03',
+			'boostFactor' => 1,
+			'noIndex' => 0,
+			'isProminent' => 0,
+			'isMarkedForProcessing' => 0
+		));
 
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
 		$this->assertEquals($expectedDocument, $document);
@@ -111,5 +105,18 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$restClient->addSubscriber($mock);
 		$this->documentBackend->injectRestClient($restClient);
 		$this->documentBackend->post($this->getDocument());
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyPostCreateNewDocument() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201));
+		$restClient->addSubscriber($mock);
+		$this->documentBackend->injectRestClient($restClient);
+		$statusCode = $this->documentBackend->post($this->getDocument());
+		$this->assertEquals($statusCode, 201);
 	}
 }
