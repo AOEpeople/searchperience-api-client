@@ -30,7 +30,8 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
-		$response = $this->restClient->post('/documents', array(
+		$response = $this->restClient->setBaseUrl($this->baseUrl)
+			->post('/{customerKey}/documents', array(
 			'foreignId' => $document->getForeignId(),
 			'url' => $document->getUrl(),
 			'mimeType' => $document->getMimeType(),
@@ -54,7 +55,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	public function getByForeignId($foreignId) {
 		/** @var $response \Guzzle\http\Message\Response */
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->get('/documents?foreignId=' . $foreignId)
+			->get('/{customerKey}/documents?foreignId=' . $foreignId)
 			->setAuth($this->username, $this->password)
 			->send();
 		$this->transformStatusCodeToException($response->getStatusCode());
@@ -67,7 +68,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 */
 	public function deleteByForeignId($foreignId) {
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->delete($this->baseUrl . '/documents?foreignId=' . $foreignId)
+			->delete($this->baseUrl . '/{customerKey}/documents?foreignId=' . $foreignId)
 			->setAuth($this->username, $this->password)
 			->send();
 		$this->transformStatusCodeToException($response->getStatusCode());
