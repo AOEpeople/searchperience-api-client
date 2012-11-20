@@ -38,6 +38,9 @@ class DocumentRepository {
 	/**
 	 * Get a Document by foreignId
 	 *
+	 * The foreignId can be a string of:
+	 * 0-9a-zA-Z_-.:
+	 * 
 	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
@@ -56,7 +59,10 @@ class DocumentRepository {
 	/**
 	 * Get a Document by foreignId
 	 *
-	 * @param string $foreignId
+	 * The foreignId can be a string of:
+	 * 0-9a-zA-Z_-.:
+	 *
+	 *  @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @thorws \Searchperience\Common\Exception\DocumentNotFoundException
