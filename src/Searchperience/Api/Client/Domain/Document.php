@@ -5,14 +5,11 @@ namespace Searchperience\Api\Client\Domain;
 /**
  *
  * @author Michael Klapper <michael.klapper@aoemedia.de>
- * @date 14.11.12
- * @time 15:13
  */
 class Document {
 
 	/**
 	 * @var integer
-	 * @unique
 	 */
 	protected $id;
 
@@ -22,39 +19,34 @@ class Document {
 	 *
 	 * @var string
 	 */
-	protected $lastProcessing = '';
+	protected $lastProcessing;
 
 	/**
-	 * Default document boost factor
-	 *
 	 * @var int
 	 */
-	protected $boostFactor = 1;
+	protected $boostFactor;
 
 	/**
-	 * Default prominent status
-	 *
 	 * @var int
 	 */
-	protected $isProminent = 0;
+	protected $isProminent;
 
 	/**
 	 * Schedule a document for (re-)processing
 	 *
 	 * @var int
 	 */
-	protected $isMarkedForProcessing = 1;
+	protected $isMarkedForProcessing;
 
 	/**
 	 * Can be used to remove a document from the index
 	 *
 	 * @var int
 	 */
-	protected $noIndex = 0;
+	protected $noIndex;
 
 	/**
 	 * @var int
-	 * @unique
 	 */
 	protected $foreignId;
 
@@ -69,16 +61,14 @@ class Document {
 	protected $source;
 
 	/**
-	 * Default value is set to "text/xml"
-	 *
 	 * @var string
 	 */
-	protected $mimeType = 'text/xml';
+	protected $mimeType;
 
 	/**
 	 * @var string
 	 */
-	protected $content = '';
+	protected $content;
 
 	/**
 	 * @var string
@@ -271,5 +261,4 @@ class Document {
 	public function getUrl() {
 		return $this->url;
 	}
-
 }
