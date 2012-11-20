@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<documents xmlns="urn:com.searchperience.document" xmlns:atom="http://www.w3.org/2005/Atom">
+<documents xmlns:atom="http://www.w3.org/2005/Atom">
     <document id="12">
         <atom:link rel="delete"
             href="/qvc/documents/12" />
@@ -8,15 +8,11 @@
         <generalPriority>0</generalPriority>
         <temporaryPriority>2</temporaryPriority>
         <foreignId>13211</foreignId>
-
-        <content>
-            <xml>some value</xml>
-        </content>
-
+        <content><![CDATA[<xml>some value</xml>]]></content>
         <lastProcessingTime>2012-11-14 17:35:03</lastProcessingTime>
         <boostFactor>1</boostFactor>
         <noindex>0</noindex>
-        <isProminent>0</isProminent>
+        <isProminent>1</isProminent>
         <isMarkedForProcessing>0</isMarkedForProcessing>
     </document>
 </documents>
