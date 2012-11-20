@@ -77,6 +77,6 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function getByForeignIdThrowsInvalidArgumentExceptionOnInvalidArgument() {
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
-		$this->documentRepository->getByForeignId('');
+		$this->documentRepository->getByForeignId(NULL);
 	}
 }

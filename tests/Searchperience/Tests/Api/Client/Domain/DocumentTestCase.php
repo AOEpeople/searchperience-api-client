@@ -38,16 +38,6 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function verifyGetterAndSetter() {
 		$this->document = new \Searchperience\Api\Client\Domain\Document();
 
-		$this->assertEquals($this->document->getMimeType(), 'text/xml', 'Default mimeType is not set.');
-		$this->assertNull($this->document->getForeignId(), 'Default foreignId is not NULL.');
-		$this->assertNull($this->document->getSource(), 'Default source is not NULL.');
-		$this->assertNull($this->document->getUrl(), 'Default url is not NULL.');
-		$this->assertEquals($this->document->getBoostFactor(), 1, 'Default boost factor is not integer 1.');
-		$this->assertEquals($this->document->getLastProcessing(), '', 'Default last processing is not empty string.');
-		$this->assertEquals($this->document->getIsProminent(), 0, 'Default is prominent is not integer 0.');
-		$this->assertEquals($this->document->getIsMarkedForProcessing(), 1, 'Default is marked for processing is not integer 1.');
-		$this->assertEquals($this->document->getNoIndex(), 0, 'Default no index is not integer 0.');
-
 		$this->document->setId(12);
 		$this->document->setForeignId(312);
 		$this->document->setMimeType('application/json');
