@@ -46,12 +46,12 @@ Composer also prepares an autoload file that's capable of autoloading all of the
 
 	require 'vendor/autoload.php';
 
-You can find out more on how to install Composer, configure autoloading, and other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org).
+You can find out more on how to install Composer, configure autoloading, and other best-practices for defining dependencies at http://getcomposer.org.
 
 Searchperience API Client basics
 ========================
 
-Add new documents to the indexer
+Add or update documents
 -----------
 
 ::
