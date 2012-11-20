@@ -46,7 +46,7 @@ class Document {
 	protected $noIndex;
 
 	/**
-	 * @var int
+	 * @var string
 	 */
 	protected $foreignId;
 
@@ -179,14 +179,17 @@ class Document {
 	}
 
 	/**
-	 * @param int $foreignId
+	 * The foreignId can be a string of:
+	 * 0-9a-zA-Z_-.:
+	 *
+	 * @param string $foreignId
 	 */
 	public function setForeignId($foreignId) {
 		$this->foreignId = $foreignId;
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
 	public function getForeignId() {
 		return $this->foreignId;
