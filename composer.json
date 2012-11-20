@@ -4,7 +4,7 @@
 	"homepage": "http://www.searchperience.com/",
 	"license": "MIT",
 	"require": {
-		"guzzle/guzzle": "*"
+		"guzzle/guzzle": "3.0.5",
 	},
 	"require-dev": {
 		"guzzle/plugin-mock": "*",

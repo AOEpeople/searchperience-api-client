@@ -31,20 +31,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->post('/{customerKey}/documents', NULL, array(
-				'foreignId' => $document->getForeignId(),
-				'url' => $document->getUrl(),
-				'mimeType' => $document->getMimeType(),
-				'noIndex' => $document->getNoIndex(),
-				'content' => $document->getContent(),
-				'source' => $document->getSource(),
-				'lastProcessing' => $document->getLastProcessing(),
-				'boostFactor' => $document->getBoostFactor(),
-				'isProminent' => $document->getIsProminent(),
-				'isMarkedForProcessing' => $document->getIsMarkedForProcessing(),
-				'generalPriority' => $document->getGeneralPriority(),
-				'temporaryPriority' => $document->getTemporaryPriority(),
-			))
+			->post('/{customerKey}/documents', NULL, $this->buildRequestArrayFromDocument($document))
 			->setAuth($this->username, $this->password)
 			->send();
 
@@ -88,7 +75,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$document = new \Searchperience\Api\Client\Domain\Document();
 		$document->setId((integer)$documentAttributeArray['@attributes']['id']);
 		$document->setUrl((string)$xml->document->url);
-		$document->setForeignId((integer)$xml->document->foreignId);
+		$document->setForeignId((string)$xml->document->foreignId);
 		$document->setBoostFactor((integer)$xml->document->boostFactor);
 		$document->setContent((string)$xml->document->content->children()->asXML());
 		$document->setGeneralPriority((integer)$xml->document->generalPriority);
@@ -99,5 +86,54 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$document->setNoIndex((integer)$xml->document->noIndex);
 
 		return $document;
+	}
+
+	/**
+	 * Create an array containing only the available document property values.
+	 *
+	 * @param \Searchperience\Api\Client\Domain\Document $document
+	 * @return array
+	 */
+	protected function buildRequestArrayFromDocument(\Searchperience\Api\Client\Domain\Document $document) {
+		$valueArray = array();
+
+		if (!is_null($document->getLastProcessing())) {
+			$valueArray['lastProcessing'] = $document->getLastProcessing();
+		}
+		if (!is_null($document->getBoostFactor())) {
+			$valueArray['boostFactor'] = $document->getBoostFactor();
+		}
+		if (!is_null($document->getIsProminent())) {
+			$valueArray['isProminent'] = $document->getIsProminent();
+		}
+		if (!is_null($document->getIsMarkedForProcessing())) {
+			$valueArray['isMarkedForProcessing'] = $document->getIsMarkedForProcessing();
+		}
+		if (!is_null($document->getNoIndex())) {
+			$valueArray['noIndex'] = $document->getNoIndex();
+		}
+		if (!is_null($document->getForeignId())) {
+			$valueArray['foreignId'] = $document->getForeignId();
+		}
+		if (!is_null($document->getUrl())) {
+			$valueArray['url'] = $document->getUrl();
+		}
+		if (!is_null($document->getSource())) {
+			$valueArray['source'] = $document->getSource();
+		}
+		if (!is_null($document->getMimeType())) {
+			$valueArray['mimeType'] = $document->getMimeType();
+		}
+		if (!is_null($document->getContent())) {
+			$valueArray['content'] = $document->getContent();
+		}
+		if (!is_null($document->getGeneralPriority())) {
+			$valueArray['generalPriority'] = $document->getGeneralPriority();
+		}
+		if (!is_null($document->getTemporaryPriority())) {
+			$valueArray['temporaryPriority'] = $document->getTemporaryPriority();
+		}
+
+		return $valueArray;
 	}
 }

@@ -65,7 +65,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$expectedDocument = $this->getDocument(array(
 			'id' => 12,
-			'foreignId' => 13211,
+			'foreignId' => '13211',
 			'content' => '<xml>some value</xml>',
 			'url' => 'http://www.dummy.tld/some/product',
 			'generalPriority' => 0,
@@ -74,7 +74,8 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'boostFactor' => 1,
 			'noIndex' => 0,
 			'isProminent' => 0,
-			'isMarkedForProcessing' => 0
+			'isMarkedForProcessing' => 0,
+			'mimeType' => 'text/xml'
 		));
 
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
