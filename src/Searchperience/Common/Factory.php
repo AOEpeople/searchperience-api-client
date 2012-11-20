@@ -23,6 +23,7 @@ class Factory {
 		$guzzle = new \Guzzle\Http\Client();
 		$guzzle->setConfig(array(
 			'customerKey' => $customerKey,
+			'redirect.disable' => true
 		));
 		$documentStorage = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
 		$documentStorage->injectRestClient($guzzle);
