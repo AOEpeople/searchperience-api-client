@@ -2,6 +2,9 @@
 
 namespace Searchperience\Common;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
  * @date 18.11.12
@@ -26,6 +29,9 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\DocumentRepository
 	 */
 	public static function getDocumentRepository($baseUrl, $customerKey, $username, $password) {
+		$pathToSymfonyValidator = realpath(dirname(__FILE__). '\..\..\..\vendor\symfony\validator');
+		\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace("Symfony\Component\Validator\Constraint", $pathToSymfonyValidator);
+
 		$guzzle = new \Guzzle\Http\Client();
 		$guzzle->setConfig(array(
 			'customerKey' => $customerKey,
@@ -48,6 +54,8 @@ class Factory {
 
 		$documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
 		$documentRepository->injectStorageBackend($documentStorage);
+
+		$documentRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $documentRepository;
 	}

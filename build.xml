@@ -10,7 +10,7 @@
     </target>
 
     <target name="clean">
-         <delete dir="${project.basedir}/build/pearwork"/>
+         <delete dir="${project.basedir}/build/artifacts/logs"/>
     </target>
 
     <target name="sniff" description="Check code for PSR-2 compliance">
