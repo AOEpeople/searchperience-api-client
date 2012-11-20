@@ -35,7 +35,7 @@ interface DocumentBackendInterface {
 	public function post(\Searchperience\Api\Client\Domain\Document $document);
 
 	/**
-	 * @param integer $foreignId
+	 * @param string $foreignId
 	 * @throwsException \Searchperience\System\Exception\UnauthorizedRequestException
 	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
 	 * @return mixed
@@ -43,7 +43,7 @@ interface DocumentBackendInterface {
 	public function getByForeignId($foreignId);
 
 	/**
-	 * @param integer $foreignId
+	 * @param string $foreignId
 	 * @throwsException \Searchperience\System\Exception\UnauthorizedRequestException
 	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
 	 * @return mixed

@@ -75,7 +75,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$document = new \Searchperience\Api\Client\Domain\Document();
 		$document->setId((integer)$documentAttributeArray['@attributes']['id']);
 		$document->setUrl((string)$xml->document->url);
-		$document->setForeignId((integer)$xml->document->foreignId);
+		$document->setForeignId((string)$xml->document->foreignId);
 		$document->setBoostFactor((integer)$xml->document->boostFactor);
 		$document->setContent((string)$xml->document->content->children()->asXML());
 		$document->setGeneralPriority((integer)$xml->document->generalPriority);
