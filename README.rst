@@ -23,7 +23,7 @@ The recommended way to install Searchperience API client is through [Composer](h
 			"aoemedia/searchperience-api-client": "*"
 		},
 		"require-dev": {
-			"guzzle/plugin-log": "*",
+			"guzzle/plugin-log": "*"
 		}
 	}
 
