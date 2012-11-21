@@ -21,6 +21,9 @@ The recommended way to install Searchperience API client is through [Composer](h
 	{
 		"require": {
 			"aoemedia/searchperience-api-client": "*"
+		},
+		"require-dev": {
+			"guzzle/plugin-log": "*",
 		}
 	}
 
@@ -80,3 +83,10 @@ Delete document from indexer
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$documentRepository->deleteByForeignId(12);
 
+Trouble shooting
+----------------
+There is a HTTP_DEBUG mode which can be easy enabled.
+
+::
+
+	\Searchperience\Common\Factory::$HTTP_DEBUG = TRUE;
