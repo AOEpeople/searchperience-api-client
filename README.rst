@@ -83,3 +83,10 @@ Delete document from indexer
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$documentRepository->deleteByForeignId(12);
 
+Trouble shooting
+----------------
+There is a HTTP_DEBUG mode which can be easy enabled.
+
+::
+
+	\Searchperience\Common\Factory::$HTTP_DEBUG = TRUE;
