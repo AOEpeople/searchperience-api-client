@@ -47,32 +47,6 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
-	 * @expectedException \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException
-	 */
-	public function verifyGetByForeignIdThrowsUnauthorizedRequestException() {
-		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
-		$this->documentRepository->expects($this->once())
-			->method('getByForeignId')
-			->will($this->throwException(new \Searchperience\Api\Client\System\Exception\UnauthorizedRequestException));
-
-		$this->documentRepository->getByForeignId(312);
-	}
-
-	/**
-	 * @test
-	 * @expectedException \Searchperience\Api\Client\Domain\Exception\DocumentNotFoundException
-	 */
-	public function getByForeignIdThrowsExceptionIfDocumentNotFound() {
-		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
-		$this->documentRepository->expects($this->once())
-			->method('getByForeignId')
-			->will($this->throwException(new \Searchperience\Api\Client\Domain\Exception\DocumentNotFoundException));
-
-		$this->documentRepository->getByForeignId(312);
-	}
-
-	/**
-	 * @test
 	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function getByForeignIdThrowsInvalidArgumentExceptionOnInvalidArgument() {

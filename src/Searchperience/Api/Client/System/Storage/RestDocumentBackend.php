@@ -30,10 +30,17 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document $document) {
-		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->post('/{customerKey}/documents', NULL, $this->buildRequestArrayFromDocument($document))
-			->setAuth($this->username, $this->password)
-			->send();
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->post('/{customerKey}/documents', NULL, $this->buildRequestArrayFromDocument($document))
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+			throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($e->getMessage(), 1353489647, $e);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
+			throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($e->getMessage(), 1353489698, $e);
+		}
 
 		return $response->getStatusCode();
 	}
@@ -42,12 +49,17 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function getByForeignId($foreignId) {
-		/** @var $response \Guzzle\http\Message\Response */
-		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->get('/{customerKey}/documents?foreignId=' . $foreignId)
-			->setAuth($this->username, $this->password)
-			->send();
-		$this->transformStatusCodeToException($response->getStatusCode());
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->get('/{customerKey}/documents?foreignId=' . $foreignId)
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+			throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($e->getMessage(), 1353489784, $e);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
+			throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($e->getMessage(), 1353489792, $e);
+		}
 
 		return $this->buildDocumentFromXml($response->xml());
 	}
@@ -56,11 +68,18 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function deleteByForeignId($foreignId) {
-		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->delete('/{customerKey}/documents?foreignId=' . $foreignId)
-			->setAuth($this->username, $this->password)
-			->send();
-		$this->transformStatusCodeToException($response->getStatusCode());
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->delete('/{customerKey}/documents?foreignId=' . $foreignId)
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+			throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($e->getMessage(), 1353489844, $e);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
+			throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($e->getMessage(), 1353489849, $e);
+		}
+
 		return $response->getStatusCode();
 	}
 

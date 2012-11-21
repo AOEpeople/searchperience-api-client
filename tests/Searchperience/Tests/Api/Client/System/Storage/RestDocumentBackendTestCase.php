@@ -97,7 +97,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
-	 * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
+	 * @expectedException \Searchperience\Common\Http\Exception\ClientErrorResponseException
 	 */
 	public function verifyPostDocumentThrowsClientErrorResponseExceptionWhileInvalidAuthenticationGiven() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
