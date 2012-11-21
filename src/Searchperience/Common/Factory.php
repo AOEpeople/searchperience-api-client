@@ -8,6 +8,9 @@ namespace Searchperience\Common;
  */
 class Factory {
 
+	/**
+	 * @var bool
+	 */
 	public static $HTTP_DEBUG = FALSE;
 
 	/**
