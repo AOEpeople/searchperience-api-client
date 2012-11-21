@@ -53,4 +53,22 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
 		$this->documentRepository->getByForeignId(NULL);
 	}
+
+	/**
+	 * @test
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function addThrowsInvalidArgumentExceptionOnInvalidArgument() {
+		$violationList = $this->getMock('\Symfony\Component\Validator\ConstraintViolationList', array('count'), array(), '', FALSE);
+		$violationList->expects($this->once())
+			->method('count')
+			->will($this->returnValue(1));
+		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
+		$validator->expects($this->once())
+			->method('validate')
+			->will($this->returnValue($violationList));
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$this->documentRepository->injectValidator($validator);
+		$this->documentRepository->add(new \Searchperience\Api\Client\Domain\Document());
+	}
 }
