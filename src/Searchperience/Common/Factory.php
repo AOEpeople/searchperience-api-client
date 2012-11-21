@@ -8,6 +8,8 @@ namespace Searchperience\Common;
  */
 class Factory {
 
+	public static $HTTP_DEBUG = FALSE;
+
 	/**
 	 * Create a new instance of DocumentRepository
 	 *
@@ -16,6 +18,7 @@ class Factory {
 	 * @param string $username
 	 * @param string $password
 	 *
+	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 * @internal param string $customerkey
 	 * @return \Searchperience\Api\Client\Domain\DocumentRepository
 	 */
@@ -25,6 +28,15 @@ class Factory {
 			'customerKey' => $customerKey,
 			'redirect.disable' => true
 		));
+
+		if (self::$HTTP_DEBUG === TRUE) {
+			if (class_exists('\Guzzle\Plugin\Log\LogPlugin')) {
+				$guzzle->addSubscriber(\Guzzle\Plugin\Log\LogPlugin::getDebugPlugin());
+			} else {
+				throw new \Searchperience\Common\Exception\RuntimeException('Please run "composer install --dev" to install "guzzle/plugin-log"');
+			}
+		}
+
 		$documentStorage = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
 		$documentStorage->injectRestClient($guzzle);
 		$documentStorage->setBaseUrl($baseUrl);
