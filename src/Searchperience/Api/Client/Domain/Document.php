@@ -2,6 +2,8 @@
 
 namespace Searchperience\Api\Client\Domain;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  *
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -47,21 +49,28 @@ class Document {
 
 	/**
 	 * @var string
+	 * @Assert\Length(min = 1, max = 255)
 	 */
 	protected $foreignId;
 
 	/**
 	 * @var string
+	 * @Assert\Url
+	 * @Assert\Length(max = 1000)
 	 */
 	protected $url;
 
 	/**
 	 * @var string
+	 * @Assert\Length(min = 3, max = 40)
+	 * @Assert\NotBlank
 	 */
 	protected $source;
 
 	/**
 	 * @var string
+	 * @Assert\Length(min = 3, max = 128)
+	 * @Assert\NotBlank
 	 */
 	protected $mimeType;
 

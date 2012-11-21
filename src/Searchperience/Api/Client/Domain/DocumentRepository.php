@@ -2,6 +2,8 @@
 
 namespace Searchperience\Api\Client\Domain;
 
+use Symfony\Component\Validator\Validation;
+
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
  * @date 14.11.12
@@ -15,6 +17,11 @@ class DocumentRepository {
 	protected $storageBackend;
 
 	/**
+	 * @var \Symfony\Component\Validator\ValidatorInterface
+	 */
+	protected $documentValidator;
+
+	/**
 	 * Injects the storage backend.
 	 *
 	 * @param \Searchperience\Api\Client\System\Storage\DocumentBackendInterface $storageBackend
@@ -25,12 +32,29 @@ class DocumentRepository {
 	}
 
 	/**
+	 * Injects the validation service
+	 *
+	 * @param \Symfony\Component\Validator\ValidatorInterface $documentValidator
+	 * @return void
+	 */
+	public function injectValidator(\Symfony\Component\Validator\ValidatorInterface $documentValidator) {
+		$this->documentValidator = $documentValidator;
+	}
+
+	/**
 	 * Add a new Document to the index
 	 *
 	 * @param \Searchperience\Api\Client\Domain\Document $document
-	 * @return boolean
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @return integer HTTP Status code
 	 */
 	public function add(\Searchperience\Api\Client\Domain\Document $document) {
+		$violations = $this->documentValidator->validate($document);
+
+		if ($violations->count() > 0) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Given object of type "' . get_class($document) . '" is not valid: ' . PHP_EOL . $violations);
+		}
+
 		$status = $this->storageBackend->post($document);
 		return $status;
 	}
