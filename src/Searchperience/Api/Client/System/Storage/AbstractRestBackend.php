@@ -67,28 +67,62 @@ abstract class AbstractRestBackend {
 	}
 
 	/**
-	 * @param integer $statusCode
+	 * @param \Guzzle\Http\Exception\ClientErrorResponseException $exception
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return void
 	 */
-	protected function transformStatusCodeToException($statusCode) {
+	protected function transformStatusCodeToClientErrorResponseException(\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
 
-		// HTTP informational
-		if ($statusCode >= 100 && $statusCode <= 199) {
+		switch ($exception->getResponse()->getStatusCode()) {
+			case 401:
 
+				throw new \Searchperience\Common\Http\Exception\UnauthorizedException($exception->getMessage(), 1353574907, $exception);
+				break;
+
+			case 403:
+				throw new \Searchperience\Common\Http\Exception\ForbiddenException($exception->getMessage(), 1353574915, $exception);
+				break;
+
+			case 404:
+				throw new \Searchperience\Common\Http\Exception\DocumentNotFoundException($exception->getMessage(), 1353574919, $exception);
+				break;
+
+			case 405:
+				throw new \Searchperience\Common\Http\Exception\MethodNotAllowedException($exception->getMessage(), 1353574923, $exception);
+				break;
+
+			case 413:
+				throw new \Searchperience\Common\Http\Exception\RequestEntityTooLargeException($exception->getMessage(), 1353574956, $exception);
+				break;
+
+			default:
+				throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($exception->getMessage(), 1353574962, $exception);
 		}
+	}
 
-		// HTTP redirection
-		if ($statusCode >= 300 && $statusCode <= 399) {
+	/**
+	 * @param \Guzzle\Http\Exception\ServerErrorResponseException $exception
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @return void
+	 */
+	protected function transformStatusCodeToServerErrorResponseException(\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
 
-		}
+		switch($exception->getResponse()->getStatusCode()) {
+			case 500:
+				throw new \Searchperience\Common\Http\Exception\InternalServerErrorException($exception->getMessage(), 1353574974, $exception);
+				break;
 
-		// HTTP client error
-		if ($statusCode >= 400 && $statusCode <= 499) {
-
-		}
-
-		// HTTP server error
-		if ($statusCode >= 500 && $statusCode <= 599) {
-
+			default:
+				throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($exception->getMessage(), 1353574979, $exception);
 		}
 	}
 }

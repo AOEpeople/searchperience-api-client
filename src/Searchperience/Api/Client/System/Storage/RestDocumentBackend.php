@@ -37,10 +37,12 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 				->post('/{customerKey}/documents', NULL, $this->buildRequestArrayFromDocument($document))
 				->setAuth($this->username, $this->password)
 				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
-			throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($e->getMessage(), 1353489647, $e);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
-			throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($e->getMessage(), 1353489698, $e);
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
 		}
 
 		return $response->getStatusCode();
@@ -56,10 +58,12 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 				->get('/{customerKey}/documents?foreignId=' . $foreignId)
 				->setAuth($this->username, $this->password)
 				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
-			throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($e->getMessage(), 1353489784, $e);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
-			throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($e->getMessage(), 1353489792, $e);
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
 		}
 
 		return $this->buildDocumentFromXml($response->xml());
@@ -75,10 +79,12 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 				->delete('/{customerKey}/documents?foreignId=' . $foreignId)
 				->setAuth($this->username, $this->password)
 				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
-			throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($e->getMessage(), 1353489844, $e);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
-			throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($e->getMessage(), 1353489849, $e);
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
 		}
 
 		return $response->getStatusCode();
