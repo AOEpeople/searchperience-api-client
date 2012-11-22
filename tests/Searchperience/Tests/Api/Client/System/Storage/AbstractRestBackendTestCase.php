@@ -98,11 +98,15 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 *
 	 * @return array
 	 */
-	public function verifyTransformStatusCodeIntoRightExceptionDataProvider() {
+	public function verifyTransformStatusCodeToClientErrorResponseExceptionDataProvider() {
 		return array(
-			array('200', NULL),
-			array('201', NULL),
-			array('404', NULL),
+			array('401', '\Searchperience\Common\Http\Exception\UnauthorizedException'),
+			array('403', '\Searchperience\Common\Http\Exception\ForbiddenException'),
+			array('404', '\Searchperience\Common\Http\Exception\DocumentNotFoundException'),
+			array('405', '\Searchperience\Common\Http\Exception\MethodNotAllowedException'),
+			array('413', '\Searchperience\Common\Http\Exception\RequestEntityTooLargeException'),
+			array('414', '\Searchperience\Common\Http\Exception\ClientErrorResponseException'),
+			array('499', '\Searchperience\Common\Http\Exception\ClientErrorResponseException'),
 		);
 	}
 
@@ -110,9 +114,54 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 * @param string $statusCode
 	 * @param string $exceptionClassName
-	 * @dataProvider verifyTransformStatusCodeIntoRightExceptionDataProvider
+	 * @dataProvider verifyTransformStatusCodeToClientErrorResponseExceptionDataProvider
 	 */
-	public function verifyTransformStatusCodeIntoRightException($statusCode, $exceptionClassName) {
-		$this->markTestIncomplete();
+	public function verifyTransformStatusCodeToClientErrorResponseException($statusCode, $exceptionClassName) {
+		$this->setExpectedException($exceptionClassName);
+		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', FALSE);
+		$response->expects($this->once())
+			->method('getStatusCode')
+			->will($this->returnValue($statusCode));
+		$clientException = $this->getMock('\Guzzle\Http\Exception\ClientErrorResponseException', array('getResponse'));
+		$clientException->expects($this->once())
+			->method('getResponse')
+			->will($this->returnValue($response));
+		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
+
+		$restBackend->_call('transformStatusCodeToClientErrorResponseException', $clientException);
+	}
+
+	/**
+	 * Provides Status codes and their expected Exception class names
+	 *
+	 * @return array
+	 */
+	public function verifyTransformStatusCodeToServerErrorResponseExceptionDataProvider() {
+		return array(
+			array('500', '\Searchperience\Common\Http\Exception\InternalServerErrorException'),
+			array('501', '\Searchperience\Common\Http\Exception\ServerErrorResponseException'),
+			array('555', '\Searchperience\Common\Http\Exception\ServerErrorResponseException'),
+		);
+	}
+
+	/**
+	 * @test
+	 * @param string $statusCode
+	 * @param string $exceptionClassName
+	 * @dataProvider verifyTransformStatusCodeToServerErrorResponseExceptionDataProvider
+	 */
+	public function verifyTransformStatusCodeToServerErrorResponseException($statusCode, $exceptionClassName) {
+		$this->setExpectedException($exceptionClassName);
+		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', FALSE);
+		$response->expects($this->once())
+			->method('getStatusCode')
+			->will($this->returnValue($statusCode));
+		$serverException = $this->getMock('\Guzzle\Http\Exception\ServerErrorResponseException', array('getResponse'));
+		$serverException->expects($this->once())
+			->method('getResponse')
+			->will($this->returnValue($response));
+		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
+
+		$restBackend->_call('transformStatusCodeToServerErrorResponseException', $serverException);
 	}
 }
