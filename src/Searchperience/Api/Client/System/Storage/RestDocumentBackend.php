@@ -23,7 +23,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	public function injectRestClient(\Guzzle\Http\Client $restClient) {
 		$this->restClient = $restClient->setDefaultHeaders(array(
 			'User-Agent' => 'Searchperience-API-Client version: ' . \Searchperience\Common\Version::Version,
-			'Accepts' => 'text/xml,application/xml',
+			'Accepts' => 'application/searchperienceproduct+xml,application/xml,text/xml',
 		));
 	}
 
