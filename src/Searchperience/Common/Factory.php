@@ -29,8 +29,10 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\DocumentRepository
 	 */
 	public static function getDocumentRepository($baseUrl, $customerKey, $username, $password) {
-		$pathToSymfonyValidator = realpath(dirname(__FILE__). '\..\..\..\vendor\symfony\validator');
-		\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace("Symfony\Component\Validator\Constraint", $pathToSymfonyValidator);
+		// TODO resolve this "autoloading" in a right way
+		class_exists('\Symfony\Component\Validator\Constraints\Url');
+		class_exists('\Symfony\Component\Validator\Constraints\NotBlank');
+		class_exists('\Symfony\Component\Validator\Constraints\Length');
 
 		$guzzle = new \Guzzle\Http\Client();
 		$guzzle->setConfig(array(
@@ -54,7 +56,6 @@ class Factory {
 
 		$documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
 		$documentRepository->injectStorageBackend($documentStorage);
-
 		$documentRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $documentRepository;
