@@ -109,6 +109,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$document->setTemporaryPriority((integer)$xml->document->temporaryPriority);
 		$document->setMimeType((string)$xml->document->mimeType);
 		$document->setIsMarkedForProcessing((integer)$xml->document->isMarkedForProcessing);
+		$document->setIsProminent((integer)$xml->document->isProminent);
 		$document->setLastProcessing((string)$xml->document->lastProcessingTime);
 		$document->setNoIndex((integer)$xml->document->noIndex);
 

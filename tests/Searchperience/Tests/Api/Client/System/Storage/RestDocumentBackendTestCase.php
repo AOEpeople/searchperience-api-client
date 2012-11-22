@@ -66,6 +66,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$expectedDocument = $this->getDocument(array(
 			'id' => 12,
 			'foreignId' => '13211',
+			'source' => 'magento',
 			'content' => '<xml>some value</xml>',
 			'url' => 'http://www.dummy.tld/some/product',
 			'generalPriority' => 0,
@@ -73,7 +74,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'lastProcessing' => '2012-11-14 17:35:03',
 			'boostFactor' => 1,
 			'noIndex' => 0,
-			'isProminent' => 0,
+			'isProminent' => 1,
 			'isMarkedForProcessing' => 0,
 			'mimeType' => 'text/xml'
 		));
