@@ -78,7 +78,7 @@ class Document {
 	 * Content can be set up to 3MB
 	 *
 	 * @var string
-	 * @Entity\Length(max = 3145728)
+	 * @Assert\Length(max = 3145728)
 	 */
 	protected $content;
 
