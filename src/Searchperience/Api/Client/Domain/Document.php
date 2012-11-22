@@ -75,7 +75,10 @@ class Document {
 	protected $mimeType;
 
 	/**
+	 * Content can be set up to 3MB
+	 *
 	 * @var string
+	 * @Entity\Length(max = 3145728)
 	 */
 	protected $content;
 
@@ -174,6 +177,8 @@ class Document {
 	}
 
 	/**
+	 * Maximum content size is 3MB
+	 *
 	 * @param string $content
 	 */
 	public function setContent($content) {
