@@ -7,9 +7,7 @@ Searchperience Api Client
 :Version: dev-master
 :Description: PHP Library to communicate with the searchperience RestFul API
 :Homepage: http://www.searchperience.com
-:Build status: .. image:: https://secure.travis-ci.org/AOEmedia/searchperience-api-client.png?branch=master
-   :alt: Build Status
-   :target: http://travis-ci.org/AOEmedia/searchperience-api-client
+:Build status: |buildStatusIcon|
 
 
 Installing via Composer
@@ -93,3 +91,9 @@ There is a HTTP_DEBUG mode which can be easy enabled.
 ::
 
 	\Searchperience\Common\Factory::$HTTP_DEBUG = TRUE;
+
+
+
+.. |buildStatusIcon| image:: https://secure.travis-ci.org/AOEmedia/searchperience-api-client.png?branch=master
+   :alt: Build Status
+   :target: http://travis-ci.org/AOEmedia/searchperience-api-client
