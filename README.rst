@@ -8,6 +8,8 @@ Searchperience Api Client
 :Description: PHP Library to communicate with the searchperience RestFul API
 :Homepage: http://www.searchperience.com
 :Build status: .. image:: https://secure.travis-ci.org/AOEmedia/searchperience-api-client.png?branch=master
+   :alt: Build Status
+   :target: http://travis-ci.org/AOEmedia/searchperience-api-client
 
 
 Installing via Composer
