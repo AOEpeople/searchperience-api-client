@@ -64,6 +64,7 @@ class DocumentRepository {
 	 *
 	 * The foreignId can be a string of:
 	 * 0-9a-zA-Z_-.:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
 	 * 
 	 * @param string $foreignId
 	 *
@@ -72,7 +73,7 @@ class DocumentRepository {
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function getByForeignId($foreignId) {
-		if (!is_string($foreignId)) {
+		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[[:alnum:]]*$/u', $foreignId) !== 1) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
@@ -85,6 +86,7 @@ class DocumentRepository {
 	 *
 	 * The foreignId can be a string of:
 	 * 0-9a-zA-Z_-.:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
 	 *
 	 *  @param string $foreignId
 	 *
@@ -93,7 +95,7 @@ class DocumentRepository {
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function deleteByForeignId($foreignId) {
-		if (!is_string($foreignId)) {
+		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[[:alnum:]]*$/u', $foreignId) !== 1) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
