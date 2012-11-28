@@ -20,9 +20,11 @@ abstract class AbstractRestBackend {
 	protected $password;
 
 	/**
+	 * Default is set to "http://api.searchperience.me/"
+	 *
 	 * @string
 	 */
-	protected $baseUrl;
+	protected $baseUrl = 'http://api.searchperience.me/';
 
 	/**
 	 * Set the username to access the api.
