@@ -69,7 +69,7 @@ class DocumentRepository {
 	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
-	 * @thorws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function getByForeignId($foreignId) {
@@ -91,7 +91,7 @@ class DocumentRepository {
 	 *  @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
-	 * @thorws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function deleteByForeignId($foreignId) {
