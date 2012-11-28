@@ -2,7 +2,7 @@
 <documents xmlns:atom="http://www.w3.org/2005/Atom">
     <document id="12">
         <atom:link rel="delete"
-            href="/qvc/documents/12" />
+                   href="/qvc/documents/12"/>
         <url>http://www.dummy.tld/some/product</url>
         <source>magento</source>
         <mimeType>text/xml</mimeType>
