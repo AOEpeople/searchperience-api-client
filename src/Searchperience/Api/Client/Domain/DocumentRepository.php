@@ -65,7 +65,7 @@ class DocumentRepository {
 	 * The foreignId can be a string of:
 	 * 0-9a-zA-Z_-.:
 	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
-	 * 
+	 *
 	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
@@ -88,7 +88,7 @@ class DocumentRepository {
 	 * 0-9a-zA-Z_-.:
 	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
 	 *
-	 *  @param string $foreignId
+	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException

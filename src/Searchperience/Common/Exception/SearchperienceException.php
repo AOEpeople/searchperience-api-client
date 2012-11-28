@@ -7,4 +7,5 @@ namespace Searchperience\Common\Exception;
  * @date: 21.11.12
  * @time: 09:58
  */
-interface SearchperienceException {}
+interface SearchperienceException {
+}

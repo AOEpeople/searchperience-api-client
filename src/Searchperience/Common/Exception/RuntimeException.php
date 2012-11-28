@@ -7,4 +7,5 @@ namespace Searchperience\Common\Exception;
  * @date: 18.11.12
  * @time: 09:58
  */
-class RuntimeException extends \RuntimeException implements SearchperienceException {}
+class RuntimeException extends \RuntimeException implements SearchperienceException {
+}

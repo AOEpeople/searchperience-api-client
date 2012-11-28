@@ -118,7 +118,7 @@ abstract class AbstractRestBackend {
 	 */
 	protected function transformStatusCodeToServerErrorResponseException(\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
 
-		switch($exception->getResponse()->getStatusCode()) {
+		switch ($exception->getResponse()->getStatusCode()) {
 			case 500:
 				throw new \Searchperience\Common\Http\Exception\InternalServerErrorException($exception->getMessage(), 1353574974, $exception);
 				break;
