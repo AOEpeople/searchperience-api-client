@@ -33,16 +33,67 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	}
 
 	/**
-	 * @test
+	 * Provides some valid fixtures
+	 *
+	 * @return array
 	 */
-	public function verifyGetByForeignIdReturnsValidDomainDocument() {
-		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\DocumentRepository', array('getByForeignId'));
-		$this->documentRepository->expects($this->once())
+	public function verifyGetByForeignIdReturnsValidDomainDocumentDataProvider() {
+		return array(
+			array(312),
+			array(0),
+			array('asd'),
+			array('158977_1'),
+			array('158977-1'),
+		);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $foreignId
+	 * @dataProvider verifyGetByForeignIdReturnsValidDomainDocumentDataProvider
+	 */
+	public function verifyGetByForeignIdReturnsValidDomainDocument($foreignId) {
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByForeignId'));
+		$storageBackend->expects($this->once())
 			->method('getByForeignId')
 			->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
 
-		$document = $this->documentRepository->getByForeignId(312);
+		$this->documentRepository->injectStorageBackend($storageBackend);
+		$document = $this->documentRepository->getByForeignId($foreignId);
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+	}
+
+	/**
+	 * Provides some valid fixtures
+	 *
+	 * @return array
+	 */
+	public function verifyDeleteByForeignIdReturnsValidDomainDocumentDataProvider() {
+		return array(
+			array(312),
+			array(0),
+			array('asd'),
+			array('158977_1'),
+			array('158977-1'),
+		);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $foreignId
+	 * @dataProvider verifyDeleteByForeignIdReturnsValidDomainDocumentDataProvider
+	 */
+	public function verifyDeleteByForeignIdReturnsValidDomainDocument($foreignId) {
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteByForeignId'));
+		$storageBackend->expects($this->once())
+			->method('deleteByForeignId')
+			->will($this->returnValue(200));
+
+		$this->documentRepository->injectStorageBackend($storageBackend);
+		$statusCode = $this->documentRepository->deleteByForeignId($foreignId);
+		$this->assertEquals(200, $statusCode);
 	}
 
 	/**

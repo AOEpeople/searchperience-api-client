@@ -73,7 +73,7 @@ class DocumentRepository {
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function getByForeignId($foreignId) {
-		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[[:alnum:]]*$/u', $foreignId) !== 1) {
+		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[a-zA-Z0-9_-]*$/u', $foreignId) !== 1) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
@@ -92,14 +92,14 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 * @return integer HTTP status code
 	 */
 	public function deleteByForeignId($foreignId) {
-		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[[:alnum:]]*$/u', $foreignId) !== 1) {
+		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[a-zA-Z0-9_-]*$/u', $foreignId) !== 1) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
-		$document = $this->storageBackend->deleteByForeignId($foreignId);
-		return $document;
+		$statusCode = $this->storageBackend->deleteByForeignId($foreignId);
+		return $statusCode;
 	}
 }

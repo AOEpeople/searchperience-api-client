@@ -4,7 +4,6 @@ Searchperience Api Client
 
 :Author: Michael Klapper <michael.klapper@aoemedia.de>
 :Author: AOE media <dev@aoemedia.com>
-:Version: dev-master
 :Description: PHP Library to communicate with the searchperience RestFul API
 :Homepage: http://www.searchperience.com
 :Build status: |buildStatusIcon|
