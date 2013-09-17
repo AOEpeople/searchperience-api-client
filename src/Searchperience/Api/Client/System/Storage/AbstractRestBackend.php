@@ -35,7 +35,7 @@ abstract class AbstractRestBackend {
 	 */
 	public function setUsername($username) {
 		if (!is_string($username) || $username === '') {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('baseUrl cannot be empty string.');
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('username cannot be empty string.');
 		}
 		$this->username = $username;
 	}
@@ -49,7 +49,7 @@ abstract class AbstractRestBackend {
 	 */
 	public function setPassword($password) {
 		if (!is_string($password) || $password === '') {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('baseUrl cannot be empty string.');
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('password cannot be empty string.');
 		}
 		$this->password = $password;
 	}
