@@ -98,6 +98,19 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
+	 */
+	public function canDeleteDocumentBySource() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(200));
+		$restClient->addSubscriber($mock);
+
+		$this->documentBackend->injectRestClient($restClient);
+		$this->assertEquals(200, $this->documentBackend->deleteBySource("magento"));
+	}
+
+	/**
+	 * @test
 	 * @expectedException \Searchperience\Common\Http\Exception\ClientErrorResponseException
 	 */
 	public function verifyPostDocumentThrowsClientErrorResponseExceptionWhileInvalidAuthenticationGiven() {

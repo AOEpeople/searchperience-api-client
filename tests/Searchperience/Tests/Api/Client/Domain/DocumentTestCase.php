@@ -49,6 +49,7 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->document->setBoostFactor(2);
 		$this->document->setIsProminent(1);
 		$this->document->setIsMarkedForProcessing(1);
+		$this->document->setIsMarkedForDeletion(1);
 		$this->document->setNoIndex(1);
 
 		$this->assertEquals($this->document->getId(), 12);
@@ -62,6 +63,7 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals($this->document->getBoostFactor(), 2);
 		$this->assertEquals($this->document->getIsProminent(), 1);
 		$this->assertEquals($this->document->getIsMarkedForProcessing(), 1);
+		$this->assertEquals($this->document->getIsMarkedForDeletion(), 1);
 		$this->assertEquals($this->document->getNoIndex(), 1);
 	}
 }

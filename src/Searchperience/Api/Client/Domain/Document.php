@@ -41,6 +41,13 @@ class Document {
 	protected $isMarkedForProcessing;
 
 	/**
+	 * Schedule a document for deleting
+	 *
+	 * @var int
+	 */
+	protected $isMarkedForDeletion;
+
+	/**
 	 * Can be used to remove a document from the index
 	 *
 	 * @var int
@@ -146,6 +153,21 @@ class Document {
 	 */
 	public function getIsMarkedForProcessing() {
 		return $this->isMarkedForProcessing;
+	}
+
+
+	/**
+	 * @param int $isMarkedForDeletion
+	 */
+	public function setIsMarkedForDeletion($isMarkedForDeletion) {
+		$this->isMarkedForDeletion = $isMarkedForDeletion;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getIsMarkedForDeletion() {
+		return $this->isMarkedForDeletion;
 	}
 
 	/**

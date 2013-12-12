@@ -97,6 +97,34 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	}
 
 	/**
+	 * Provides some valid fixtures
+	 *
+	 * @return array
+	 */
+	public function verifyDeleteBySourceReturnsValidDomainDocumentDataProvider() {
+		return array(
+			array('magento')
+		);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $source
+	 * @dataProvider verifyDeleteBySourceReturnsValidDomainDocumentDataProvider
+	 */
+	public function verifyDeleteBySourceReturnsValidDomainDocument($source) {
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteBySource'));
+		$storageBackend->expects($this->once())
+			->method('deleteBySource')
+			->will($this->returnValue(200));
+
+		$this->documentRepository->injectStorageBackend($storageBackend);
+		$statusCode = $this->documentRepository->deleteBySource($source);
+		$this->assertEquals(200, $statusCode);
+	}
+
+	/**
 	 * @test
 	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
 	 */

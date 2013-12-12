@@ -91,6 +91,27 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function deleteBySource($source) {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+					->delete('/{customerKey}/documents?source=' . $source)
+					->setAuth($this->username, $this->password)
+					->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1386845400, $exception);
+		}
+
+		return $response->getStatusCode();
+	}
+
+	/**
 	 * @param \SimpleXMLElement $xml
 	 *
 	 * @return \Searchperience\Api\Client\Domain\Document
@@ -109,6 +130,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$document->setTemporaryPriority((integer)$xml->document->temporaryPriority);
 		$document->setMimeType((string)$xml->document->mimeType);
 		$document->setIsMarkedForProcessing((integer)$xml->document->isMarkedForProcessing);
+		$document->setIsMarkedForDeletion((integer)$xml->document->isMarkedForDeletion);
 		$document->setIsProminent((integer)$xml->document->isProminent);
 		$document->setLastProcessing((string)$xml->document->lastProcessingTime);
 		$document->setNoIndex((integer)$xml->document->noIndex);
@@ -136,6 +158,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		}
 		if (!is_null($document->getIsMarkedForProcessing())) {
 			$valueArray['isMarkedForProcessing'] = $document->getIsMarkedForProcessing();
+		}
+		if (!is_null($document->getIsMarkedForDeletion())) {
+			$valueArray['isMarkedForDeletion'] = $document->getIsMarkedForDeletion();
 		}
 		if (!is_null($document->getNoIndex())) {
 			$valueArray['noIndex'] = $document->getNoIndex();

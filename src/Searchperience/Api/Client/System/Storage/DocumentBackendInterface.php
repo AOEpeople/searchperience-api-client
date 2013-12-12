@@ -68,4 +68,12 @@ interface DocumentBackendInterface {
 	 * @return mixed
 	 */
 	public function deleteByForeignId($foreignId);
+
+	/**
+	 * @param string $source
+	 * @throwsException \Searchperience\System\Exception\UnauthorizedRequestException
+	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
+	 * @return mixed
+	 */
+	public function deleteBySource($source);
 }

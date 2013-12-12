@@ -82,7 +82,7 @@ class DocumentRepository {
 	}
 
 	/**
-	 * Get a Document by foreignId
+	 * Delete a Document by foreignId
 	 *
 	 * The foreignId can be a string of:
 	 * 0-9a-zA-Z_-.:
@@ -101,5 +101,26 @@ class DocumentRepository {
 
 		$statusCode = $this->storageBackend->deleteByForeignId($foreignId);
 		return $statusCode;
+	}
+
+	/**
+	 * Delete Document by source
+	 *
+	 * The source can be a string of:
+	 * 0-9a-zA-Z_-.:
+	 *
+	 * @param string $source
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @thorws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 */
+	public function deleteBySource($source) {
+		if (!is_string($source)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $source. Input was: ' . serialize($source));
+		}
+
+		$document = $this->storageBackend->deleteBySource($source);
+		return $document;
 	}
 }
