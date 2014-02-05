@@ -56,6 +56,36 @@ interface DocumentBackendInterface {
 	public function getByForeignId($foreignId);
 
 	/**
+	 * @param string $url
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return \Searchperience\Api\Client\Domain\Document
+	 */
+	public function getByUrl($url);
+
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 * @param string $source
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return \Searchperience\Api\Client\Domain\Document
+	 */
+	public function getAll($start, $limit, $source);
+
+	/**
 	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException

@@ -72,6 +72,49 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getByUrl($url) {
+		try {
+			$url = urlencode($url);
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+					->get('/{customerKey}/documents?url=' . $url)
+					->setAuth($this->username, $this->password)
+					->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
+		}
+
+		return $this->buildDocumentFromXml($response->xml());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAll($start = 0, $limit = 10, $source = '') {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+					->get('/{customerKey}/documents?source=' . $source.'&start='.$start . '&limit=' . $limit)
+					->setAuth($this->username, $this->password)
+					->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
+		}
+
+		return $this->buildDocumentFromXml($response->xml());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function deleteByForeignId($foreignId) {
 		try {
 			/** @var $response \Guzzle\http\Message\Response */

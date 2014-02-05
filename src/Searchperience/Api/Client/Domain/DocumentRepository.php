@@ -82,6 +82,58 @@ class DocumentRepository {
 	}
 
 	/**
+	 * Get a Document by url
+	 *
+	 * The url can be a string of:
+	 * 0-9a-zA-Z_-.:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
+	 *
+	 * @param string $url
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 */
+	public function getByUrl($url) {
+		if (!is_string($url) ) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
+		}
+
+		$document = $this->storageBackend->getByUrl($url);
+		return $document;
+	}
+
+	/**
+	 * Get all documents by source
+	 *
+	 * The source can be a string of:
+	 * 0-9a-zA-Z_-.:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
+	 *
+	 * @param int $start
+	 * @param int $limit
+	 * @param string $source
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 */
+	public function getAll($start = 0, $limit = 10, $source = '') {
+		if (isset($source) && (!is_string($source) && !is_integer($source) || preg_match('/^[a-zA-Z0-9_-]*$/u', $source) !== 1)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($source));
+		}
+		if ( !is_integer($start) ) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($source));
+		}
+		if (!is_integer($limit)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($source));
+		}
+
+		$document = $this->storageBackend->getAll($start, $limit, $source);
+		return $document;
+	}
+
+	/**
 	 * Delete a Document by foreignId
 	 *
 	 * The foreignId can be a string of:

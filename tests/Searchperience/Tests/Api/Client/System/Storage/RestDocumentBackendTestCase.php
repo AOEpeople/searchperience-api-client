@@ -86,6 +86,70 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function canGetDocumentByDocumentUrl() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
+		$restClient->addSubscriber($mock);
+
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getByUrl('http://www.dummy.tld/some/product');
+
+		$expectedDocument = $this->getDocument(array(
+			'id' => 12,
+			'foreignId' => '13211',
+			'source' => 'magento',
+			'content' => '<xml>some value</xml>',
+			'url' => 'http://www.dummy.tld/some/product',
+			'generalPriority' => 0,
+			'temporaryPriority' => 2,
+			'lastProcessing' => '2012-11-14 17:35:03',
+			'boostFactor' => 1,
+			'noIndex' => 0,
+			'isProminent' => 1,
+			'isMarkedForProcessing' => 0,
+			'mimeType' => 'text/xml'
+		));
+
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+		$this->assertEquals($expectedDocument, $document);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetAllDocuments() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
+		$restClient->addSubscriber($mock);
+
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getAll(0,10,'magento');
+
+		$expectedDocument = $this->getDocument(array(
+			'id' => 12,
+			'foreignId' => '13211',
+			'source' => 'magento',
+			'content' => '<xml>some value</xml>',
+			'url' => 'http://www.dummy.tld/some/product',
+			'generalPriority' => 0,
+			'temporaryPriority' => 2,
+			'lastProcessing' => '2012-11-14 17:35:03',
+			'boostFactor' => 1,
+			'noIndex' => 0,
+			'isProminent' => 1,
+			'isMarkedForProcessing' => 0,
+			'mimeType' => 'text/xml'
+		));
+
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+		$this->assertEquals($expectedDocument, $document);
+	}
+
+	/**
+	 * @test
+	 */
 	public function canDeleteDocumentByForeignId() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();

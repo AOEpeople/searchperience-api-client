@@ -89,11 +89,48 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteByForeignId'));
 		$storageBackend->expects($this->once())
 			->method('deleteByForeignId')
+			->with($foreignId)
 			->will($this->returnValue(200));
 
 		$this->documentRepository->injectStorageBackend($storageBackend);
 		$statusCode = $this->documentRepository->deleteByForeignId($foreignId);
 		$this->assertEquals(200, $statusCode);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $url
+	 */
+	public function verifyGetByUrlReturnsValidDomainDocument() {
+		$url = 'http://www.qvc.it';
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByUrl'));
+		$storageBackend->expects($this->once())
+				->method('getByUrl')
+				->with($url)
+				->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
+
+		$this->documentRepository->injectStorageBackend($storageBackend);
+		$document = $this->documentRepository->getByUrl($url);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+	}
+
+	/**
+	 * @test
+	 * @param mixed $source
+	 */
+	public function verifyGetAllReturnsValidDomainDocument() {
+		$source = 'magento';
+		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAll'));
+		$storageBackend->expects($this->once())
+				->method('getAll')
+				->with(1,11,$source)
+				->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
+
+		$this->documentRepository->injectStorageBackend($storageBackend);
+		$document = $this->documentRepository->getAll(1,11,$source);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
 	}
 
 	/**
