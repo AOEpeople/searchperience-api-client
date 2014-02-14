@@ -160,25 +160,31 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return \Searchperience\Api\Client\Domain\Document
 	 */
 	protected function buildDocumentFromXml(\SimpleXMLElement $xml) {
-		$documentAttributeArray = (array)$xml->document->attributes();
 
-		$document = new \Searchperience\Api\Client\Domain\Document();
-		$document->setId((integer)$documentAttributeArray['@attributes']['id']);
-		$document->setUrl((string)$xml->document->url);
-		$document->setForeignId((string)$xml->document->foreignId);
-		$document->setSource((string)$xml->document->source);
-		$document->setBoostFactor((integer)$xml->document->boostFactor);
-		$document->setContent((string)$xml->document->content);
-		$document->setGeneralPriority((integer)$xml->document->generalPriority);
-		$document->setTemporaryPriority((integer)$xml->document->temporaryPriority);
-		$document->setMimeType((string)$xml->document->mimeType);
-		$document->setIsMarkedForProcessing((integer)$xml->document->isMarkedForProcessing);
-		$document->setIsMarkedForDeletion((integer)$xml->document->isMarkedForDeletion);
-		$document->setIsProminent((integer)$xml->document->isProminent);
-		$document->setLastProcessing((string)$xml->document->lastProcessingTime);
-		$document->setNoIndex((integer)$xml->document->noIndex);
+		$documents=$xml->xpath('document');
+		$documentArray = array();
 
-		return $document;
+		foreach($documents as $document) {
+			$documentAttributeArray = (array)$document->attributes();
+			$documentObject = new \Searchperience\Api\Client\Domain\Document();
+			$documentObject ->setId((integer)$documentAttributeArray['@attributes']['id']);
+			$documentObject ->setUrl((string)$document->url);
+			$documentObject ->setForeignId((string)$document->foreignId);
+			$documentObject ->setSource((string)$document->source);
+			$documentObject ->setBoostFactor((integer)$document->boostFactor);
+			$documentObject ->setContent((string)$document->content);
+			$documentObject ->setGeneralPriority((integer)$document->generalPriority);
+			$documentObject ->setTemporaryPriority((integer)$document->temporaryPriority);
+			$documentObject ->setMimeType((string)$document->mimeType);
+			$documentObject ->setIsMarkedForProcessing((integer)$document->isMarkedForProcessing);
+			$documentObject ->setIsMarkedForDeletion((integer)$document->isMarkedForDeletion);
+			$documentObject ->setIsProminent((integer)$document->isProminent);
+			$documentObject ->setLastProcessing((string)$document->lastProcessingTime);
+			$documentObject ->setNoIndex((integer)$document->noIndex);
+			$documentArray[]=$documentObject;
+		}
+
+		return $documentArray ;
 	}
 
 	/**
