@@ -109,7 +109,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
 		}
 
-		return $this->buildDocumentListFromXml($response->xml());
+		return $this->buildDocumentsFromXml($response->xml());
 	}
 
 	/**
@@ -160,33 +160,16 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return \Searchperience\Api\Client\Domain\Document
 	 */
 	protected function buildDocumentFromXml(\SimpleXMLElement $xml) {
-		$documentAttributeArray = (array)$xml->document->attributes();
-
-		$document = new \Searchperience\Api\Client\Domain\Document();
-		$document->setId((integer)$documentAttributeArray['@attributes']['id']);
-		$document->setUrl((string)$xml->document->url);
-		$document->setForeignId((string)$xml->document->foreignId);
-		$document->setSource((string)$xml->document->source);
-		$document->setBoostFactor((integer)$xml->document->boostFactor);
-		$document->setContent((string)$xml->document->content);
-		$document->setGeneralPriority((integer)$xml->document->generalPriority);
-		$document->setTemporaryPriority((integer)$xml->document->temporaryPriority);
-		$document->setMimeType((string)$xml->document->mimeType);
-		$document->setIsMarkedForProcessing((integer)$xml->document->isMarkedForProcessing);
-		$document->setIsMarkedForDeletion((integer)$xml->document->isMarkedForDeletion);
-		$document->setIsProminent((integer)$xml->document->isProminent);
-		$document->setLastProcessing((string)$xml->document->lastProcessingTime);
-		$document->setNoIndex((integer)$xml->document->noIndex);
-
-		return $document;
+		$documents = $this->buildDocumentsFromXml($xml);
+		return reset($documents);
 	}
 
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document[]
 	 */
-	protected function buildDocumentListFromXml(\SimpleXMLElement $xml) {
+	protected function buildDocumentsFromXml(\SimpleXMLElement $xml) {
 
 		$documents=$xml->xpath('document');
 		$documentArray = array();
