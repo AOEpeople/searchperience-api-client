@@ -4,7 +4,7 @@
 	"homepage": "http://www.searchperience.com/",
 	"license": "MIT",
 	"require": {
-		"guzzle/guzzle": "3.0.5",
+		"guzzle/guzzle": "3.8.1",
 		"php": ">=5.3.3",
 		"symfony/validator": "v2.1.3",
 		"doctrine/common": "2.3"
