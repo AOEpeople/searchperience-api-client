@@ -6,7 +6,7 @@
 	"require": {
 		"guzzle/guzzle": "v3.8.1",
 		"php": ">=5.3.3",
-		"symfony/validator": "*",
+		"symfony/validator": "v2.4.2",
 		"doctrine/common": "2.3"
 	},
 	"require-dev": {
