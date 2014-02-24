@@ -116,7 +116,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 * @return \Searchperience\Api\Client\Domain\Document[]
 	 */
 	public function getAll($start = 0, $limit = 10, $source = '') {
 		if (isset($source) && (!is_string($source) && !is_integer($source) || preg_match('/^[a-zA-Z0-9_-]*$/u', $source) !== 1)) {
@@ -129,8 +129,8 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($source));
 		}
 
-		$document = $this->storageBackend->getAll($start, $limit, $source);
-		return $document;
+		$documents = $this->storageBackend->getAll($start, $limit, $source);
+		return $documents;
 	}
 
 	/**

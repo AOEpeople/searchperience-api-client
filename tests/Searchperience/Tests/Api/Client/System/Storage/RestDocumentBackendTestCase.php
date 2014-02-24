@@ -125,7 +125,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$restClient->addSubscriber($mock);
 
 		$this->documentBackend->injectRestClient($restClient);
-		$document = $this->documentBackend->getAll(0,10,'magento');
+		$documents = $this->documentBackend->getAll(0,10,'magento');
 
 		$expectedDocument = $this->getDocument(array(
 			'id' => 12,
@@ -143,8 +143,10 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'mimeType' => 'text/xml'
 		));
 
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
-		$this->assertEquals($expectedDocument, $document);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\DocumentCollection', $documents);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $documents[0]);
+
+		$this->assertEquals($expectedDocument, $documents[0]);
 	}
 
 	/**
