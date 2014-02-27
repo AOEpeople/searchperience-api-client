@@ -132,7 +132,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document[]
+	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
 	 * @deperated
 	 */
 	public function getAll($start = 0, $limit = 10, $source = '') {
@@ -163,7 +163,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
 	 */
 	public function getAllByFilters($start = 0, $limit = 10, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null){
 
@@ -174,9 +174,9 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
 		}
 
-		$document = $this->storageBackend->getAllByFilters($start, $limit, $filtersCollection);
+		$documents = $this->storageBackend->getAllByFilters($start, $limit, $filtersCollection);
 
-		return $document;
+		return $documents;
 	}
 
 	/**
