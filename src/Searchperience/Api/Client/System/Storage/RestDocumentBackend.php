@@ -94,12 +94,22 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 
 	/**
 	 * {@inheritdoc}
+	 * @param int $start
+	 * @param int $limit
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
-	public function getAll($start = 0, $limit = 10, $source = '') {
+	public function getAllByFilters($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
+		$filterUrlString = '';
+		if($filtersCollection != null) {
+			$filterUrlString = $filtersCollection->getFilterStringFromAll();
+		}
+
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/documents?source=' . $source.'&start='.$start . '&limit=' . $limit)
+					->get('/{customerKey}/documents?start=' . $start . '&limit=' . $limit . $filterUrlString)
 					->setAuth($this->username, $this->password)
 					->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
@@ -110,7 +120,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
 		}
 
-		return $this->buildDocumentsFromXml($response->xml());
+		$xmlElement = $response->xml();
+
+		return $this->buildDocumentsFromXml($xmlElement);
 	}
 
 	/**
@@ -249,4 +261,5 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 
 		return $valueArray;
 	}
+
 }

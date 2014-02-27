@@ -1,6 +1,9 @@
 <?php
 
 namespace Searchperience\Tests\Api\Client;
+use Searchperience\Api\Client\Domain\Filters\FilterCollection;
+use Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory;
+use Searchperience\Api\Client\Domain\Filters\SourceFilter;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -49,7 +52,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
-	 * @param mixed $foreignId
+	 * @params mixed $foreignId
 	 * @dataProvider verifyGetByForeignIdReturnsValidDomainDocumentDataProvider
 	 */
 	public function verifyGetByForeignIdReturnsValidDomainDocument($foreignId) {
@@ -81,7 +84,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
-	 * @param mixed $foreignId
+	 * @params mixed $foreignId
 	 * @dataProvider verifyDeleteByForeignIdReturnsValidDomainDocumentDataProvider
 	 */
 	public function verifyDeleteByForeignIdReturnsValidDomainDocument($foreignId) {
@@ -99,7 +102,6 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
-	 * @param mixed $url
 	 */
 	public function verifyGetByUrlReturnsValidDomainDocument() {
 		$url = 'http://www.qvc.it';
@@ -117,19 +119,26 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @test
-	 * @param mixed $source
 	 */
 	public function verifyGetAllReturnsValidDomainDocument() {
-		$source = 'magento';
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAll'));
+
+		$filterCollection = new FilterCollection();
+		$sourceFilter = new SourceFilter();
+		$sourceFilter->setSource('magento');
+		$filterCollection->addFilter($sourceFilter);
+
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAllByFilters'));
 		$storageBackend->expects($this->once())
-				->method('getAll')
-				->with(1,11,$source)
+				->method('getAllByFilters')
+				->with(1,11, $filterCollection)
 				->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
 
+
 		$this->documentRepository->injectStorageBackend($storageBackend);
-		$document = $this->documentRepository->getAll(1,11,$source);
+		$this->documentRepository->injectFilterCollectionFactory(new FilterCollectionFactory());
+		$document = $this->documentRepository->getAll(1,11,'magento');
+
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
 	}
 

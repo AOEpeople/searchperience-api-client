@@ -70,22 +70,6 @@ interface DocumentBackendInterface {
 	public function getByUrl($url);
 
 	/**
-	 * @param int $start
-	 * @param int $limit
-	 * @param string $source
-	 *
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document
-	 */
-	public function getAll($start, $limit, $source);
-
-	/**
 	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
@@ -106,4 +90,20 @@ interface DocumentBackendInterface {
 	 * @return mixed
 	 */
 	public function deleteBySource($source);
+
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return \Searchperience\Api\Client\Domain\Document[]
+	 */
+	public function getAllByFilters($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
 }
