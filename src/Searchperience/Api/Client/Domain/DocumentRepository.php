@@ -85,7 +85,7 @@ class DocumentRepository {
 	 * @param string $foreignId
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
-	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function getByForeignId($foreignId) {
@@ -107,7 +107,7 @@ class DocumentRepository {
 	 * @param string $url
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
-	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document $document
 	 */
 	public function getByUrl($url) {
@@ -131,7 +131,7 @@ class DocumentRepository {
 	 * @param string $source
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
-	 * @thorws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
 	 * @deperated
 	 */
