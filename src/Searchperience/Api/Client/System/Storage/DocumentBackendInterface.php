@@ -105,5 +105,5 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
 	 */
-	public function getAllByFilters($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
 }

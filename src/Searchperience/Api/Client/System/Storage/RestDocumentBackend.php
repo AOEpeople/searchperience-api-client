@@ -100,7 +100,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return \Searchperience\Api\Client\Domain\Document
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
-	public function getAllByFilters($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
 		$filterUrlString = '';
 		if($filtersCollection != null) {
 			$filterUrlString = $filtersCollection->getFilterStringFromAll();

@@ -128,9 +128,9 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$sourceFilter->setSource('magento');
 		$filterCollection->addFilter($sourceFilter);
 
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAllByFilters'));
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAllByFilterCollection'));
 		$storageBackend->expects($this->once())
-				->method('getAllByFilters')
+				->method('getAllByFilterCollection')
 				->with(1,11, $filterCollection)
 				->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
 

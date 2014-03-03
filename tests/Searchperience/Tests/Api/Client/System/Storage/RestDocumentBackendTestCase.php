@@ -141,7 +141,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->documentBackend->injectRestClient($restClient);
 
 		$filtersCollection = new \Searchperience\Api\Client\Domain\Filters\FilterCollection();
-		$documents = $this->documentBackend->getAllByFilters(0, 10, $filtersCollection);
+		$documents = $this->documentBackend->getAllByFilterCollection(0, 10, $filtersCollection);
 
 		$expectedDocument = $this->getDocument(array(
 			'id' => 12,
@@ -268,6 +268,6 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$filterCollectionFactory = new \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory();
 		$filterCollection = $filterCollectionFactory->createFromFilterArguments($filters);
-		$this->documentBackend->getAllByFilters(0, 10, $filterCollection);
+		$this->documentBackend->getAllByFilterCollection(0, 10, $filterCollection);
 	}
 }

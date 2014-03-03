@@ -72,8 +72,49 @@ Get document from indexer
 
 ::
 
+Get documents by foreign id
+
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$document = $documentRepository->getByForeignId(12);
+
+Get documents by query and filters
+
+	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$document = $documentRepository->getAllByFilters(
+		0,
+		10,
+		array(
+			'crawl' => array(
+				'crawlStart' => '2014-01-03 10:00:00',
+				'crawlEnd' => '2014-01-03 10:00:00'
+			),
+			'source' => array(
+				'source' => 'magento'
+			),
+			'query' => array(
+				'queryString' => 'test',
+				'queryFields' => 'id,url'
+			),
+			'boostFactor' => array(
+				'bfEnd' => 123.00
+			),
+			'pageRank' => array(
+				'prStart' => 0.00, 'prEnd' => 123.00
+			),
+			'lastProcessed' => array(
+				'processStart' => '2014-01-01 10:00:00',
+				'processEnd' => '2014-01-03 10:00:00'
+			),
+			'notifications' => array(
+				'isduplicateof' => false,
+				'lasterror' => true,
+				'processingthreadid' => true
+			)
+		)
+	);
+
+
+::
 
 Delete document from indexer
 -----------

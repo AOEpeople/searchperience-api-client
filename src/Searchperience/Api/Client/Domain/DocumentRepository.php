@@ -140,17 +140,17 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($source));
 		}
 		if ( !is_integer($start) ) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($source));
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
 		if (!is_integer($limit)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($source));
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
 		}
 
 		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments(
 				array('source' => array('source' => $source))
 		);
 
-		return $this->getAllByFilters($start, $limit, $filterCollection);
+		return $this->getAllByFilterCollection($start, $limit, $filterCollection);
 	}
 
 
@@ -159,14 +159,37 @@ class DocumentRepository {
 	 *
 	 * @param int $start
 	 * @param int $limit
-	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 * @param array $filterArguments
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
 	 */
-	public function getAllByFilters($start = 0, $limit = 10, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null){
+	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array()){
+		if ( !is_integer($start) ) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+		}
+		if (!is_integer($limit)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_array($filterArguments)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+		}
 
+		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
+		$documents = $this->getAllByFilterCollection($start, $limit, $filterCollection);
+
+		return $documents;
+	}
+
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 * @param Filters\FilterCollection $filtersCollection
+	 * @return DocumentCollection
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	protected function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection= null) {
 		if (!is_integer($start)) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
@@ -174,8 +197,7 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
 		}
 
-		$documents = $this->storageBackend->getAllByFilters($start, $limit, $filtersCollection);
-
+		$documents = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection);
 		return $documents;
 	}
 
@@ -221,5 +243,4 @@ class DocumentRepository {
 		$document = $this->storageBackend->deleteBySource($source);
 		return $document;
 	}
-
 }
