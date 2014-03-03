@@ -189,7 +189,7 @@ class DocumentRepository {
 	 * @return DocumentCollection
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
-	protected function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection= null) {
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection= null) {
 		if (!is_integer($start)) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
