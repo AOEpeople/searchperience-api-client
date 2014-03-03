@@ -56,6 +56,7 @@ class Factory {
 
 		$documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
 		$documentRepository->injectStorageBackend($documentStorage);
+		$documentRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory());
 		$documentRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $documentRepository;
