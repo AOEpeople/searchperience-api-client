@@ -70,14 +70,17 @@ Add or update documents
 Get document from indexer
 -----------
 
-::
-
 Get documents by foreign id
+
+::
 
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$document = $documentRepository->getByForeignId(12);
 
+
 Get documents by query and filters
+
+::
 
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$document = $documentRepository->getAllByFilters(
