@@ -99,10 +99,10 @@ Get documents by query and filters
 				'queryFields' => 'id,url'
 			),
 			'boostFactor' => array(
-				'bfEnd' => 123.00
+				'boostFactorEnd' => 123.00
 			),
 			'pageRank' => array(
-				'prStart' => 0.00, 'prEnd' => 123.00
+				'pageRankStart' => 0.00, 'pageRankEnd' => 123.00
 			),
 			'lastProcessed' => array(
 				'processStart' => '2014-01-01 10:00:00',

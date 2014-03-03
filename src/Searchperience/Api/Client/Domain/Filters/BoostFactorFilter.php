@@ -23,54 +23,54 @@ class BoostFactorFilter {
 	protected $filterString;
 
 	/**
-	 * @var string $bfStart
+	 * @var string $boostFactorStart
 	 * @Assert\Type(type="double", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
-	protected $bfStart;
+	protected $boostFactorStart;
 
 	/**
-	 * @var string $bfEnd
+	 * @var string $boostFactorEnd
 	 * @Assert\Type(type="double", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
-	protected $bfEnd;
+	protected $boostFactorEnd;
 
 	/**
-	 * @param string $bfEnd
+	 * @param string $boostFactorEnd
 	 */
-	public function setBfEnd($bfEnd) {
-		$this->bfEnd = $bfEnd;
+	public function setBoostFactorEnd($boostFactorEnd) {
+		$this->boostFactorEnd = $boostFactorEnd;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getBfEnd() {
-		return $this->bfEnd;
+	public function getBoostFactorEnd() {
+		return $this->boostFactorEnd;
 	}
 
 	/**
-	 * @param string $bfStart
+	 * @param string $boostFactorStart
 	 */
-	public function setBfStart($bfStart) {
-		$this->bfStart = $bfStart;
+	public function setBoostFactorStart($boostFactorStart) {
+		$this->boostFactorStart = $boostFactorStart;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getBfStart() {
-		return $this->bfStart;
+	public function getBoostFactorStart() {
+		return $this->boostFactorStart;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getFilterString() {
-		if (isset($this->bfStart)) {
-			$this->filterString = sprintf("&bfStart=%s", rawurlencode($this->getBfStart()));
+		if (isset($this->boostFactorStart)) {
+			$this->filterString = sprintf("&boostFactorStart=%s", rawurlencode($this->getBoostFactorStart()));
 		}
-		if (isset($this->bfEnd)) {
-			$this->filterString .= sprintf("&bfEnd=%s", rawurlencode($this->getBfEnd()));
+		if (isset($this->boostFactorEnd)) {
+			$this->filterString .= sprintf("&boostFactorEnd=%s", rawurlencode($this->getBoostFactorEnd()));
 		}
 		return $this->filterString;
 	}

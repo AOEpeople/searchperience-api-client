@@ -18,25 +18,24 @@ class BoostFactorFilterTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function filterParamsProvider() {
 		return array(
-				array('bfStart' => 0.001, 'bfEnd' => 123.00, 'expectedResult' => '&bfStart=0.001&bfEnd=123'),
-				array('bfStart' => 0.001, 'bfEnd' => null, 'expectedResult' => '&bfStart=0.001'),
-				array('bfStart' => null, 'bfEnd' => 158.569, 'expectedResult' => '&bfEnd=158.569'),
-				array('bfStart' => null, 'bfEnd' => null, 'expectedResult' => ''),
+				array('boostFactorStart' => 0.001, 'boostFactorEnd' => 123.00, 'expectedResult' => '&boostFactorStart=0.001&boostFactorEnd=123'),
+				array('boostFactorStart' => 0.001, 'boostFactorEnd' => null, 'expectedResult' => '&boostFactorStart=0.001'),
+				array('boostFactorStart' => null, 'boostFactorEnd' => 158.569, 'expectedResult' => '&boostFactorEnd=158.569'),
+				array('boostFactorStart' => null, 'boostFactorEnd' => null, 'expectedResult' => ''),
 		);
 	}
 	/**
-	 * @params string $bfStart
-	 * @params string $bfEnd
+	 * @params string $boostFactorStart
+	 * @params string $boostFactorEnd
 	 * @params string $expectedResult
 	 * @test
 	 * @dataProvider filterParamsProvider
 	 */
-	public function canSetFilterParams($bfStart, $bfEnd, $expectedResult) {
+	public function canSetFilterParams($boostFactorStart, $boostFactorEnd, $expectedResult) {
 		$instance = new \Searchperience\Api\Client\Domain\Filters\BoostFactorFilter;
-		$instance->setBfStart($bfStart);
-		$instance->setBfEnd($bfEnd);
+		$instance->setBoostFactorStart($boostFactorStart);
+		$instance->setBoostFactorEnd($boostFactorEnd);
 
 		$this->assertEquals($expectedResult, $instance->getFilterString());
 	}
 }
- 

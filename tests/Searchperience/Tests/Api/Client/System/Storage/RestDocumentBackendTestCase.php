@@ -39,8 +39,8 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$filters = array('source' => 123,
 				'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
 				'crawl' => array('crawlStart' => '2014-01-01 10:00:00', 'crawlEnd' => '2014-01-03 10:00:00'),
-				'boostFactor' => array('bfStart' => '0.00', 'bfEnd' => '123.00'),
-				'pageRank' => array('prStart' => '0.00', 'prEnd' => '123.00'),
+				'boostFactor' => array('boostFactorStart' => '0.00', 'boostFactorEnd' => '123.00'),
+				'pageRank' => array('pageRankStart' => '0.00', 'pageRankEnd' => '123.00'),
 				'lastProcessed' => array('processStart' => '2014-01-01 10:00:00', 'processEnd' => '2014-01-03 10:00:00'),
 				'notifications' => array('isduplicateof' => false, 'lasterror' => 1, 'processingthreadid' => 1),
 		);
@@ -224,8 +224,8 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$filters = array('crawl' => array('crawlStart' => '2014-01-03 10:00:00', 'crawlEnd' => '2014-01-03 10:00:00'),
 				'source' => array('source' => 'magento'),
 				'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
-				'boostFactor' => array('bfEnd' => 123.00),
-				'pageRank' => array('prStart' => 0.00, 'prEnd' => 123.00),
+				'boostFactor' => array('boostFactorEnd' => 123.00),
+				'pageRank' => array('pageRankStart' => 0.00, 'pageRankEnd' => 123.00),
 				'lastProcessed' => array('processStart' => '2014-01-01 10:00:00', 'processEnd' => '2014-01-03 10:00:00'),
 				'notifications' => array('isduplicateof' => false, 'lasterror' => true, 'processingthreadid' => true),
 		);
@@ -235,8 +235,8 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 						'crawlEnd=2014-01-03%2010%3A00%3A00&'.
 						'source=magento&query=test&'.
 						'queryFields=id%2Curl&'.
-						'bfEnd=123&'.
-						'prEnd=123&'.
+						'boostFactorEnd=123&'.
+						'pageRankEnd=123&'.
 						'processStart=2014-01-01%2010%3A00%3A00&'.
 						'processEnd=2014-01-03%2010%3A00%3A00&'.
 						'lasterror=1&'.

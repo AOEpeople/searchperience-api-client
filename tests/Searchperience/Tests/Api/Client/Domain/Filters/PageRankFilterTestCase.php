@@ -18,24 +18,24 @@ class PageRankFilterTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function filterParamsProvider() {
 		return array(
-				array('prStart' => 0.001, 'prEnd' => 123.00, 'expectedResult' => '&prStart=0.001&prEnd=123'),
-				array('prStart' => 0.001, 'prEnd' => null, 'expectedResult' => '&prStart=0.001'),
-				array('prStart' => null, 'prEnd' => 158.569, 'expectedResult' => '&prEnd=158.569'),
-				array('prStart' => null, 'prEnd' => null, 'expectedResult' => ''),
+				array('pageRankStart' => 0.001, 'pageRankEnd' => 123.00, 'expectedResult' => '&pageRankStart=0.001&pageRankEnd=123'),
+				array('pageRankStart' => 0.001, 'pageRankEnd' => null, 'expectedResult' => '&pageRankStart=0.001'),
+				array('pageRankStart' => null, 'pageRankEnd' => 158.569, 'expectedResult' => '&pageRankEnd=158.569'),
+				array('pageRankStart' => null, 'pageRankEnd' => null, 'expectedResult' => ''),
 		);
 	}
 
 	/**
-	 * @params string $prStart
-	 * @params string $prEnd
+	 * @params string $pageRankStart
+	 * @params string $pageRankEnd
 	 * @params string $expectedResult
 	 * @test
 	 * @dataProvider filterParamsProvider
 	 */
-	public function canSetFilterParams($prStart, $prEnd, $expectedResult) {
+	public function canSetFilterParams($pageRankStart, $pageRankEnd, $expectedResult) {
 		$instance = new \Searchperience\Api\Client\Domain\Filters\PageRankFilter;
-		$instance->setPrStart($prStart);
-		$instance->setPrEnd($prEnd);
+		$instance->setPageRankStart($pageRankStart);
+		$instance->setPageRankEnd($pageRankEnd);
 
 		$this->assertEquals($expectedResult, $instance->getFilterString());
 	}

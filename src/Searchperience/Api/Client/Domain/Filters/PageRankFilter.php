@@ -21,55 +21,55 @@ class PageRankFilter {
 	protected $filterString;
 
 	/**
-	 * @var string $prStart
+	 * @var string $pageRankStart
 	 * @Assert\Type(type="double", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
-	protected $prStart;
+	protected $pageRankStart;
 
 	/**
-	 * @var string $prEnd
+	 * @var string $pageRankEnd
 	 * @Assert\Type(type="double", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
-	protected $prEnd;
+	protected $pageRankEnd;
 
 	/**
-	 * @param string $prEnd
+	 * @param string $pageRankEnd
 	 */
-	public function setPrEnd($prEnd) {
-		$this->prEnd = $prEnd;
+	public function setPageRankEnd($pageRankEnd) {
+		$this->pageRankEnd = $pageRankEnd;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPrEnd() {
-		return $this->prEnd;
+	public function getPageRankEnd() {
+		return $this->pageRankEnd;
 	}
 
 	/**
-	 * @param string $prStart
+	 * @param string $pageRankStart
 	 */
-	public function setPrStart($prStart) {
-		$this->prStart = $prStart;
+	public function setPageRankStart($pageRankStart) {
+		$this->pageRankStart = $pageRankStart;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPrStart() {
-		return $this->prStart;
+	public function getPageRankStart() {
+		return $this->pageRankStart;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getFilterString() {
-		if (!empty($this->prStart)) {
-			$this->filterString = sprintf("&prStart=%s", rawurlencode($this->getPrStart()));
+		if (!empty($this->pageRankStart)) {
+			$this->filterString = sprintf("&pageRankStart=%s", rawurlencode($this->getPageRankStart()));
 		}
-		if (!empty($this->prEnd)) {
-			$this->filterString .= sprintf("&prEnd=%s", rawurlencode($this->getPrEnd()));
+		if (!empty($this->pageRankEnd)) {
+			$this->filterString .= sprintf("&pageRankEnd=%s", rawurlencode($this->getPageRankEnd()));
 		}
 		return $this->filterString;
 	}
-} 
+}
