@@ -61,12 +61,4 @@ class Factory {
 
 		return $documentRepository;
 	}
-
-
-	/**
-	 *
-	 */
-	public static function getFilterCollectionFactory() {
-
-	}
 }
