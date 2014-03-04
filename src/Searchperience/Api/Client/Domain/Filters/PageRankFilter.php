@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class PageRankFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class PageRankFilter {
+class PageRankFilter extends AbstractFilter {
 
 	/**
 	 * @var string

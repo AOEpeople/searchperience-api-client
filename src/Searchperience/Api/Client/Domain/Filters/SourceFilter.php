@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class SourceFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class SourceFilter {
+class SourceFilter extends AbstractFilter {
 
 	/**
 	 * @var string $source

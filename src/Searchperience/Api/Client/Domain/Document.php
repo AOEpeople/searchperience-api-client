@@ -16,12 +16,9 @@ class Document {
 	protected $id;
 
 	/**
-	 * Unix timestamp
-	 * Read only attribute
-	 *
-	 * @var string
+	 * @var \DateTime
 	 */
-	protected $lastProcessing;
+	protected $lastProcessingDate = null;
 
 	/**
 	 * @var int
@@ -101,16 +98,33 @@ class Document {
 
 	/**
 	 * @param string $lastProcessing
+	 * @deprecated
 	 */
 	public function setLastProcessing($lastProcessing) {
-		$this->lastProcessing = $lastProcessing;
+		$this->lastProcessingDate  = \DateTime::createFromFormat('Y-m-d H:i:s',$lastProcessing,new \DateTimeZone('UTC'));
 	}
 
 	/**
 	 * @return string
+	 * @deprecated
 	 */
 	public function getLastProcessing() {
-		return $this->lastProcessing;
+		return ($this->lastProcessingDate instanceof \DateTime) ?  $this->lastProcessingDate->format('Y-m-d H:i:s') : '';
+	}
+
+	/**
+	 * @param \DateTime $lastProcessingDate
+	 * @return void
+	 */
+	public function setLastProcessingDate(\DateTime $lastProcessingDate) {
+		return $this->lastProcessingDate = $lastProcessingDate;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getLastProcessingDate() {
+		return $this->lastProcessingDate;
 	}
 
 	/**

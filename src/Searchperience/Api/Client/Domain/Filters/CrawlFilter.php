@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class CrawlFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class CrawlFilter {
+class CrawlFilter extends AbstractDateFilter {
 
 	/**
 	 * @var string
@@ -21,40 +21,40 @@ class CrawlFilter {
 	protected $filterString;
 
 	/**
-	 * @var string $crawlStart
+	 * @var \DateTime $crawlStart
 	 * @Assert\DateTime(message="The value {{ value }} is not a valid datetime.")
 	 */
 	protected $crawlStart;
 
 	/**
-	 * @var string $crawlEnd
+	 * @var \DateTime $crawlEnd
 	 * @Assert\DateTime(message="The value {{ value }} is not a valid datetime.")
 	 */
 	protected $crawlEnd;
 
 	/**
-	 * @param string $crawlEnd
+	 * @param \DateTime  $crawlEnd
 	 */
 	public function setCrawlEnd($crawlEnd) {
 		$this->crawlEnd = $crawlEnd;
 	}
 
 	/**
-	 * @return string
+	 * @return \DateTime
 	 */
 	public function getCrawlEnd() {
 		return $this->crawlEnd;
 	}
 
 	/**
-	 * @param string $crawlStart
+	 * @param \DateTime $crawlStart
 	 */
 	public function setCrawlStart($crawlStart) {
 		$this->crawlStart = $crawlStart;
 	}
 
 	/**
-	 * @return string
+	 * @return \DateTime
 	 */
 	public function getCrawlStart() {
 		return $this->crawlStart;
@@ -65,11 +65,11 @@ class CrawlFilter {
 	 */
 	public function getFilterString() {
 		if(!empty($this->crawlStart)) {
-			$this->filterString = sprintf("&crawlStart=%s", rawurlencode($this->getCrawlStart()));
+			$this->filterString = sprintf("&crawlStart=%s", rawurlencode($this->toString($this->getCrawlStart())));
 		}
 		if (!empty($this->crawlEnd)) {
-			$this->filterString .= sprintf("&crawlEnd=%s", rawurlencode($this->getCrawlEnd()));
+			$this->filterString .= sprintf("&crawlEnd=%s", rawurlencode($this->toString($this->getCrawlEnd())));
 		}
 		return $this->filterString;
 	}
-} 
+}

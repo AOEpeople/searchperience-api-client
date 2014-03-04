@@ -21,6 +21,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function setUp() {
 		$this->documentBackend = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
+		$this->documentBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 	}
 
 	/**
@@ -29,21 +30,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @return void
 	 */
 	public function tearDown() {
-		$this->backend = NULL;
-	}
-
-	/**
-	 * @dataProvider
-	 */
-	public function dataProvider() {
-		$filters = array('source' => 123,
-				'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
-				'crawl' => array('crawlStart' => '2014-01-01 10:00:00', 'crawlEnd' => '2014-01-03 10:00:00'),
-				'boostFactor' => array('boostFactorStart' => '0.00', 'boostFactorEnd' => '123.00'),
-				'pageRank' => array('pageRankStart' => '0.00', 'pageRankEnd' => '123.00'),
-				'lastProcessed' => array('processStart' => '2014-01-01 10:00:00', 'processEnd' => '2014-01-03 10:00:00'),
-				'notifications' => array('isduplicateof' => false, 'lasterror' => 1, 'processingthreadid' => 1),
-		);
+		$this->documentBackend = NULL;
 	}
 
 	/**
@@ -92,6 +79,15 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'isMarkedForProcessing' => 0,
 			'mimeType' => 'text/xml'
 		));
+
+
+		$this->assertEquals('2012-11-14 17:35:03',$expectedDocument->getLastProcessing());
+
+		/**
+		 * @var $lastProcessingDate \DateTime
+		 */
+		$lastProcessingDate = $document->getLastProcessingDate();
+		$this->assertEquals($lastProcessingDate->format('Y'),'2012');
 
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
 		$this->assertEquals($expectedDocument, $document);
@@ -221,13 +217,20 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canGetAllByFiltersTriggersExpectedBackendUrl() {
-		$filters = array('crawl' => array('crawlStart' => '2014-01-03 10:00:00', 'crawlEnd' => '2014-01-03 10:00:00'),
-				'source' => array('source' => 'magento'),
-				'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
-				'boostFactor' => array('boostFactorEnd' => 123.00),
-				'pageRank' => array('pageRankStart' => 0.00, 'pageRankEnd' => 123.00),
-				'lastProcessed' => array('processStart' => '2014-01-01 10:00:00', 'processEnd' => '2014-01-03 10:00:00'),
-				'notifications' => array('isduplicateof' => false, 'lasterror' => true, 'processingthreadid' => true),
+		$filters = array(
+						'crawl' => array(
+							'crawlStart' => $this->getUTCDateTimeObject('2014-01-03 10:00:00'),
+							'crawlEnd' => $this->getUTCDateTimeObject('2014-01-03 10:00:00')
+						),
+						'source' => array('source' => 'magento'),
+						'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
+						'boostFactor' => array('boostFactorEnd' => 123.00),
+						'pageRank' => array('pageRankStart' => 0.00, 'pageRankEnd' => 123.00),
+						'lastProcessed' => array(
+							'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+							'processEnd' => $this->getUTCDateTimeObject('2014-01-03 10:00:00')
+						),
+						'notifications' => array('isduplicateof' => false, 'lasterror' => true, 'processingthreadid' => true),
 		);
 
 		$expectedUrl = '/{customerKey}/documents?start=0&limit=10&'.

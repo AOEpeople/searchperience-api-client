@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class BoostFactorFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class BoostFactorFilter {
+class BoostFactorFilter extends AbstractFilter {
 
 	/**
 	 * @var string

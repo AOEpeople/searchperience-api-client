@@ -43,13 +43,19 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 		return array(
 				array('data' =>
 						array('boostFactor' => array('boostFactorStart' => 0.0, 'boostFactorEnd' => 123.05),
-								'crawl' => array('crawlStart' => '2014-01-01 10:00:00', 'crawlEnd' => '2014-01-01 10:00:00'),
-								'lastProcessed' => array('processStart' => '2014-01-01 10:00:00', 'processEnd' => '2014-01-01 10:00:00'),
+								'crawl' => array(
+									'crawlStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+									'crawlEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')
+								),
+								'lastProcessed' => array(
+									'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+									'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')
+								),
 								'notifications' => array('isduplicateof' => true, 'lasterror' => true, 'processingthreadid' => true),
 								'pageRank' => array('pageRankStart' => 0.0, 'pageRankEnd' => 123.05),
 								'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
 								'source' => array('source' => 'magento')),
-						'expectedResult' => '&boostFactorStart=0&boostFactorEnd=123.05&crawlStart=2014-01-01%2010%3A00%3A00&crawlEnd=2014-01-01%2010%3A00%3A00&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00&isduplicateof=1&lasterror=1&processingthreadid=1&pageRankEnd=123.05&query=test&queryFields=id%2Curl&source=magento'
+								'expectedResult' => '&boostFactorStart=0&boostFactorEnd=123.05&crawlStart=2014-01-01%2010%3A00%3A00&crawlEnd=2014-01-01%2010%3A00%3A00&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00&isduplicateof=1&lasterror=1&processingthreadid=1&pageRankEnd=123.05&query=test&queryFields=id%2Curl&source=magento'
 				),
 		);
 	}
@@ -107,8 +113,8 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 	public function filtersInvalidValuesProvider() {
 		return array(
 				array('data' => array('boostFactor' => array('boostFactorStart' => 'wrong', 'boostFactorEnd' => 123.05))),
-				array('data' => array('crawl' => array('crawlStart' => 'wrong', 'crawlEnd' => '2014-01-01 10:00:00'))),
-				array('data' => array('lastProcessed' => array('processStart' => 'wrong', 'processEnd' => '2014-01-01 10:00:00'))),
+				array('data' => array('crawl' => array('crawlStart' => 'wrong', 'crawlEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')))),
+				array('data' => array('lastProcessed' => array('processStart' => 'wrong', 'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')))),
 				array('data' => array('notifications' => array('isduplicateof' => 132, 'lasterror' => true, 'processingthreadid' => true))),
 				array('data' => array('pageRank' => array('pageRankStart' => 'wrong', 'pageRankEnd' => 123.00,))),
 				array('data' => array('query' => array('query' => 'test case', 'queryFields' => 132))),

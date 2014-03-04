@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class NotificationsFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class NotificationsFilter {
+class NotificationsFilter extends AbstractFilter {
 
 	/**
 	 * @var string
@@ -94,4 +94,4 @@ class NotificationsFilter {
 		}
 		return $this->filterString;
 	}
-} 
+}

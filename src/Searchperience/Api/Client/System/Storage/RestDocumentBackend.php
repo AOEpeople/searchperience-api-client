@@ -18,6 +18,11 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	protected $restClient;
 
 	/**
+	 * @var \Searchperience\Api\Client\System\DateTime\DateTimeService
+	 */
+	protected $dateTimeService;
+
+	/**
 	 * @param \Guzzle\Http\Client $restClient
 	 * @return void
 	 */
@@ -26,6 +31,14 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			'User-Agent' => 'Searchperience-API-Client version: ' . \Searchperience\Common\Version::Version,
 			'Accepts' => 'application/searchperienceproduct+xml,application/xml,text/xml',
 		));
+	}
+
+	/**
+	 * @param \Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService
+	 * @return void
+	 */
+	public function injectDateTimeService(\Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService) {
+		$this->dateTimeService = $dateTimeService;
 	}
 
 	/**
@@ -202,7 +215,13 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			$documentObject ->setIsMarkedForProcessing((integer)$document->isMarkedForProcessing);
 			$documentObject ->setIsMarkedForDeletion((integer)$document->isMarkedForDeletion);
 			$documentObject ->setIsProminent((integer)$document->isProminent);
-			$documentObject ->setLastProcessing((string)$document->lastProcessingTime);
+
+			if(trim($document->lastProcessingTime) != '') {
+				//we assume that the restapi allways return y-m-d H:i:s in the utc format
+				$lastProcessingDate = $this->dateTimeService->getDateTimeFromApiDateString($document->lastProcessingTime);
+				$documentObject ->setLastProcessingDate($lastProcessingDate);
+			}
+
 			$documentObject ->setNoIndex((integer)$document->noIndex);
 			$documentArray[]=$documentObject;
 		}
@@ -219,8 +238,8 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	protected function buildRequestArrayFromDocument(\Searchperience\Api\Client\Domain\Document $document) {
 		$valueArray = array();
 
-		if (!is_null($document->getLastProcessing())) {
-			$valueArray['lastProcessing'] = $document->getLastProcessing();
+		if ($document->getLastProcessingDate() instanceof \DateTime) {
+			$valueArray['lastProcessing'] = $this->dateTimeService->getDateStringFromDateTime($document->getLastProcessingDate());
 		}
 		if (!is_null($document->getBoostFactor())) {
 			$valueArray['boostFactor'] = $document->getBoostFactor();

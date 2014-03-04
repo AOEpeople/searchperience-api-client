@@ -48,8 +48,12 @@ class Factory {
 			}
 		}
 
+
+		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+
 		$documentStorage = new \Searchperience\Api\Client\System\Storage\RestDocumentBackend();
 		$documentStorage->injectRestClient($guzzle);
+		$documentStorage->injectDateTimeService($dateTimeService);
 		$documentStorage->setBaseUrl($baseUrl);
 		$documentStorage->setUsername($username);
 		$documentStorage->setPassword($password);

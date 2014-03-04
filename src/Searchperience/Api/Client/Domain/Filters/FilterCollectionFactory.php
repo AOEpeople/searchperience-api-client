@@ -86,11 +86,15 @@ class FilterCollectionFactory {
 	protected function initFilter($filterClassName, $filterValue) {
 		$filter = new $filterClassName();
 
+		if($filter instanceof \Searchperience\Api\Client\Domain\Filters\AbstractDateFilter) {
+			$filter->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
+		}
+
 		if (!is_array($filterValue)) {
 			throw new \Searchperience\Common\Exception\UnexpectedValueException($filterClassName.' values "' . __METHOD__ . '" should be an array: ' . $filterValue);
 		} else {
 			foreach ($filterValue as $key => $value) {
-				if (trim($value) != '') {
+				if ( is_object($value) || trim($value) != '') {
 					if (method_exists($filter, $method = ('set' . ucfirst($key)))) {
 						$filter->$method($value);
 						$this->validateFilter($filter);
@@ -103,4 +107,4 @@ class FilterCollectionFactory {
 
 		return $filter;
 	}
-} 
+}

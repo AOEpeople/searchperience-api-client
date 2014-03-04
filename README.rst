@@ -88,8 +88,8 @@ Get documents by query and filters
 		10,
 		array(
 			'crawl' => array(
-				'crawlStart' => '2014-01-03 10:00:00',
-				'crawlEnd' => '2014-01-03 10:00:00'
+				'crawlStart' => new DateTime(),
+				'crawlEnd' =>  new DateTime()
 			),
 			'source' => array(
 				'source' => 'magento'
@@ -102,11 +102,12 @@ Get documents by query and filters
 				'boostFactorEnd' => 123.00
 			),
 			'pageRank' => array(
-				'pageRankStart' => 0.00, 'pageRankEnd' => 123.00
+				'pageRankStart' => 0.00,
+				'pageRankEnd' => 123.00
 			),
 			'lastProcessed' => array(
-				'processStart' => '2014-01-01 10:00:00',
-				'processEnd' => '2014-01-03 10:00:00'
+				'processStart' =>  new DateTime(),
+				'processEnd' =>  new DateTime()
 			),
 			'notifications' => array(
 				'isduplicateof' => false,

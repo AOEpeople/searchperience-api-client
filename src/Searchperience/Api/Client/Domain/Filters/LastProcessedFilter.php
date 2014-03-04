@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class LastProcessedFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class LastProcessedFilter {
+class LastProcessedFilter extends AbstractDateFilter {
 
 	/**
 	 * @var string
@@ -20,40 +20,40 @@ class LastProcessedFilter {
 	protected $filterString;
 
 	/**
-	 * @var string $processStart
+	 * @var \DateTime $processStart
 	 * @Assert\DateTime(message="The value {{ value }} is not a valid datetime.")
 	 */
 	protected $processStart;
 
 	/**
-	 * @var string $processEnd
+	 * @var \DateTime $processEnd
 	 * @Assert\DateTime(message="The value {{ value }} is not a valid datetime.")
 	 */
 	protected $processEnd;
 
 	/**
-	 * @param string $processEnd
+	 * @param \DateTime $processEnd
 	 */
 	public function setProcessEnd($processEnd) {
 		$this->processEnd = $processEnd;
 	}
 
 	/**
-	 * @return string
+	 * @return \DateTime
 	 */
 	public function getProcessEnd() {
 		return $this->processEnd;
 	}
 
 	/**
-	 * @param string $processStart
+	 * @param \DateTime $processStart
 	 */
 	public function setProcessStart($processStart) {
 		$this->processStart = $processStart;
 	}
 
 	/**
-	 * @return string
+	 * @return \DateTime
 	 */
 	public function getProcessStart() {
 		return $this->processStart;
@@ -64,11 +64,11 @@ class LastProcessedFilter {
 	 */
 	public function getFilterString() {
 		if (!empty($this->processStart)) {
-			$this->filterString = sprintf("&processStart=%s", rawurlencode($this->getProcessStart()));
+			$this->filterString = sprintf("&processStart=%s", rawurlencode($this->toString($this->getProcessStart())));
 		}
 		if (!empty($this->processEnd)) {
-			$this->filterString .= sprintf("&processEnd=%s", rawurlencode($this->getProcessEnd()));
+			$this->filterString .= sprintf("&processEnd=%s", rawurlencode($this->toString($this->getProcessEnd())));
 		}
 		return $this->filterString;
 	}
-} 
+}

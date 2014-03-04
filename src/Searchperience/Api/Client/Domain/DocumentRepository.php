@@ -50,7 +50,7 @@ class DocumentRepository {
 	/**
 	 * Injects the filter collection factory
 	 *
-	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory $filterCollectionFactory
 	 * @return void
 	 */
 	public function injectFilterCollectionFactory(\Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory $filterCollectionFactory) {

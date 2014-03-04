@@ -143,4 +143,13 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 			throw new \RuntimeException('Could not inject ' . $name . ' into object of type ' . get_class($target));
 		}
 	}
+
+
+	/**
+	 * @param string $UTCDateString
+	 * @return \DateTime
+	 */
+	protected function getUTCDateTimeObject($UTCDateString) {
+		return \DateTime::createFromFormat('Y-m-d H:i:s', $UTCDateString,new \DateTimeZone('UTC'));
+	}
 }

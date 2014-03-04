@@ -18,10 +18,26 @@ class LastProcessedFilterTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function filterParamsProvider() {
 		return array(
-				array('processStart' => '2014-01-01 10:00:00', 'processEnd' => '2014-01-01 10:00:00', 'expectedResult' => '&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00'),
-				array('processStart' => '2014-01-01 10:00:00', 'processEnd' => null, 'expectedResult' => '&processStart=2014-01-01%2010%3A00%3A00'),
-				array('processStart' => null, 'processEnd' => '2014-01-01 10:00:00', 'expectedResult' => '&processEnd=2014-01-01%2010%3A00%3A00'),
-				array('processStart' => null, 'processEnd' => null, 'expectedResult' => ''),
+			array(
+				'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+				'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+				'expectedResult' => '&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00'
+			),
+			array(
+				'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+				'processEnd' => null,
+				'expectedResult' => '&processStart=2014-01-01%2010%3A00%3A00'
+			),
+			array(
+				'processStart' => null,
+				'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+				'expectedResult' => '&processEnd=2014-01-01%2010%3A00%3A00'
+			),
+			array(
+				'processStart' => null,
+				'processEnd' => null,
+				'expectedResult' => ''
+			),
 		);
 	}
 
@@ -33,11 +49,18 @@ class LastProcessedFilterTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @dataProvider filterParamsProvider
 	 */
 	public function canSetFilterParams($processStart, $processEnd, $expectedResult) {
-		$instance = new \Searchperience\Api\Client\Domain\Filters\LastProcessedFilter;
-		$instance->setProcessStart($processStart);
-		$instance->setProcessEnd($processEnd);
+		$instance = new \Searchperience\Api\Client\Domain\Filters\LastProcessedFilter();
+		$instance->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
+
+		if ($processStart instanceof \DateTime) {
+			$instance->setProcessStart($processStart);
+		}
+
+		if ($processEnd instanceof \DateTime) {
+			$instance->setProcessEnd($processEnd);
+
+		}
 
 		$this->assertEquals($expectedResult, $instance->getFilterString());
 	}
 }
- 

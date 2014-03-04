@@ -18,10 +18,26 @@ class CrawlFilterTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function filterParamsProvider() {
 		return array(
-				array('crawlStart' => '2014-01-01 10:00:00', 'crawlEnd' => '2014-01-01 10:00:00', 'expectedResult' => '&crawlStart=2014-01-01%2010%3A00%3A00&crawlEnd=2014-01-01%2010%3A00%3A00'),
-				array('crawlStart' => '2014-01-01 10:00:00', 'crawlEnd' => null, 'expectedResult' => '&crawlStart=2014-01-01%2010%3A00%3A00'),
-				array('crawlStart' => null, 'crawlEnd' => '2014-01-01 10:00:00', 'expectedResult' => '&crawlEnd=2014-01-01%2010%3A00%3A00'),
-				array('crawlStart' => null, 'crawlEnd' => null, 'expectedResult' => ''),
+				array(
+					'crawlStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+					'crawlEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+					'expectedResult' => '&crawlStart=2014-01-01%2010%3A00%3A00&crawlEnd=2014-01-01%2010%3A00%3A00'
+				),
+				array(
+					'crawlStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+					'crawlEnd' => null,
+					'expectedResult' => '&crawlStart=2014-01-01%2010%3A00%3A00'
+				),
+				array(
+					'crawlStart' => null,
+					'crawlEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+					'expectedResult' => '&crawlEnd=2014-01-01%2010%3A00%3A00'
+				),
+				array(
+					'crawlStart' => null,
+					'crawlEnd' => null,
+					'expectedResult' => ''
+				),
 		);
 	}
 
@@ -34,10 +50,16 @@ class CrawlFilterTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function canSetFilterParams($crawlStart, $crawlEnd, $expectedResult) {
 		$instance = new \Searchperience\Api\Client\Domain\Filters\CrawlFilter;
-		$instance->setCrawlStart($crawlStart);
-		$instance->setCrawlEnd($crawlEnd);
+		$instance->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
+
+		if($crawlStart instanceof \DateTime) {
+			$instance->setCrawlStart($crawlStart);
+		}
+
+		if($crawlEnd instanceof \DateTime) {
+			$instance->setCrawlEnd($crawlEnd);
+		}
 
 		$this->assertEquals($expectedResult, $instance->getFilterString());
 	}
 }
- 

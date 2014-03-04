@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class QueryFilter
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class QueryFilter {
+class QueryFilter extends AbstractFilter {
 
 	/**
 	 * @var string
@@ -72,4 +72,4 @@ class QueryFilter {
 		}
 		return $this->filterString;
 	}
-} 
+}
