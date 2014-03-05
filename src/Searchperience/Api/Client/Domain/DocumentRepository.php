@@ -133,7 +133,7 @@ class DocumentRepository {
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
-	 * @deperated
+	 * @deprecated Please now use getAllByFilters with a filter arguments array or getAllByFilterCollection with a proper FilterCollection
 	 */
 	public function getAll($start = 0, $limit = 10, $source = '') {
 		if (isset($source) && (!is_string($source) && !is_integer($source) || preg_match('/^[a-zA-Z0-9_-]*$/u', $source) !== 1)) {

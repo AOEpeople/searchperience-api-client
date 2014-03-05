@@ -13,8 +13,8 @@
         <testsuite name="Domain">
             <directory suffix="TestCase.php" phpVersion="5.3.0" phpVersionOperator=">=">./tests/Searchperience/Tests/Api/Client/Domain/</directory>
         </testsuite>
-        <testsuite name="StorageBackend">
-            <directory suffix="TestCase.php" phpVersion="5.3.0" phpVersionOperator=">=">./tests/Searchperience/Tests/Api/Client/System/Storage/</directory>
+        <testsuite name="System">
+            <directory suffix="TestCase.php" phpVersion="5.3.0" phpVersionOperator=">=">./tests/Searchperience/Tests/Api/Client/System/</directory>
         </testsuite>
     </testsuites>
 

@@ -98,7 +98,7 @@ class Document {
 
 	/**
 	 * @param string $lastProcessing
-	 * @deprecated
+	 * @deprecated Please now use setLastProcessingDate
 	 */
 	public function setLastProcessing($lastProcessing) {
 		$this->lastProcessingDate  = \DateTime::createFromFormat('Y-m-d H:i:s',$lastProcessing,new \DateTimeZone('UTC'));
@@ -106,7 +106,7 @@ class Document {
 
 	/**
 	 * @return string
-	 * @deprecated
+	 * @deprecated Please now use getLastProcessingDate
 	 */
 	public function getLastProcessing() {
 		return ($this->lastProcessingDate instanceof \DateTime) ?  $this->lastProcessingDate->format('Y-m-d H:i:s') : '';
