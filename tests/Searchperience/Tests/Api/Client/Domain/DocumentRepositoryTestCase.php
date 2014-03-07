@@ -132,14 +132,14 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$storageBackend->expects($this->once())
 				->method('getAllByFilterCollection')
 				->with(1,11, $filterCollection)
-				->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document()));
+				->will($this->returnValue(new \Searchperience\Api\Client\Domain\DocumentCollection()));
 
 
 		$this->documentRepository->injectStorageBackend($storageBackend);
 		$this->documentRepository->injectFilterCollectionFactory(new FilterCollectionFactory());
-		$document = $this->documentRepository->getAll(1,11,'magento');
+		$documents = $this->documentRepository->getAll(1,11,'magento');
 
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\DocumentCollection', $documents);
 	}
 
 	/**

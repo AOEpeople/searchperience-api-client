@@ -138,6 +138,6 @@ There is a HTTP_DEBUG mode which can be easy enabled.
 
 
 
-.. |buildStatusIcon| image:: https://secure.travis-ci.org/AOEmedia/searchperience-api-client.png?branch=master
+.. |buildStatusIcon| image:: https://secure.travis-ci.org/aoepeople/searchperience-api-client.png?branch=master
    :alt: Build Status
-   :target: http://travis-ci.org/AOEmedia/searchperience-api-client
+   :target: http://travis-ci.org/aoepeople/searchperience-api-client
