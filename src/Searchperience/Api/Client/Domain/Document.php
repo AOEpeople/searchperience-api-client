@@ -97,6 +97,120 @@ class Document {
 	protected $temporaryPriority;
 
 	/**
+	 * @var integer
+	 */
+	protected $errorCount;
+
+	/**
+	 * @var string
+	 */
+	protected $lastErrorMessage;
+
+	/**
+	 * @var integer
+	 */
+	protected $isRedirectTo;
+
+	/**
+	 * @var integer
+	 */
+	protected $isDuplicateOf;
+
+	/**
+	 * @var string
+	 */
+	protected $recrawlTimeSpan;
+
+	/**
+	 * @var int
+	 */
+	protected $internalNoIndex;
+
+	/**
+	 * @param string $recrawlTimeSpan
+	 */
+	public function setRecrawlTimeSpan($recrawlTimeSpan) {
+		$this->recrawlTimeSpan = $recrawlTimeSpan;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRecrawlTimeSpan() {
+		return $this->recrawlTimeSpan;
+	}
+
+	/**
+	 * @param int $internalNoIndex
+	 */
+	public function setInternalNoIndex($internalNoIndex) {
+		$this->internalNoIndex = $internalNoIndex;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getInternalNoIndex() {
+		return $this->internalNoIndex;
+	}
+
+	/**
+	 * @param int $errorCount
+	 */
+	public function setErrorCount($errorCount) {
+		$this->errorCount = $errorCount;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getErrorCount() {
+		return $this->errorCount;
+	}
+
+	/**
+	 * @param int $isDuplicateOf
+	 */
+	public function setIsDuplicateOf($isDuplicateOf) {
+		$this->isDuplicateOf = $isDuplicateOf;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getIsDuplicateOf() {
+		return $this->isDuplicateOf;
+	}
+
+	/**
+	 * @param int $isRedirectTo
+	 */
+	public function setIsRedirectTo($isRedirectTo) {
+		$this->isRedirectTo = $isRedirectTo;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getIsRedirectTo() {
+		return $this->isRedirectTo;
+	}
+
+	/**
+	 * @param string $lastErrorMessage
+	 */
+	public function setLastErrorMessage($lastErrorMessage) {
+		$this->lastErrorMessage = $lastErrorMessage;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastErrorMessage() {
+		return $this->lastErrorMessage;
+	}
+
+	/**
 	 * @param string $lastProcessing
 	 * @deprecated Please now use setLastProcessingDate
 	 */

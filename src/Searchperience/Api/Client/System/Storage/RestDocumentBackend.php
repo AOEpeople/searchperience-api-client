@@ -258,6 +258,13 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			$documentObject ->setIsMarkedForProcessing((integer)$document->isMarkedForProcessing);
 			$documentObject ->setIsMarkedForDeletion((integer)$document->isMarkedForDeletion);
 			$documentObject ->setIsProminent((integer)$document->isProminent);
+			$documentObject	->setIsRedirectTo((integer)$document->isRedirectTo);
+			$documentObject	->setIsDuplicateOf((integer)$document->isDuplicateOf);
+			$documentObject ->setErrorCount((integer)$document->errorCount);
+			$documentObject ->setLastErrorMessage((string)$document->lastErrorMessage);
+			$documentObject ->setRecrawlTimeSpan((string)$document->recrawlTimeSpan);
+			$documentObject ->setInternalNoIndex((string)$document->internalNoIndex);
+
 
 			if(trim($document->lastProcessingTime) != '') {
 				//we assume that the restapi allways return y-m-d H:i:s in the utc format
