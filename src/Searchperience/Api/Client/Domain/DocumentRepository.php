@@ -93,7 +93,7 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
-		$document = $this->storageBackend->getByForeignId($foreignId);
+		$document = $this->decorateDocument($this->storageBackend->getByForeignId($foreignId));
 		return $document;
 	}
 
@@ -115,7 +115,7 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
 		}
 
-		$document = $this->storageBackend->getById($id);
+		$document = $this->decorateDocument($this->storageBackend->getById($id));
 		return $document;
 	}
 
@@ -137,7 +137,7 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
 		}
 
-		$document = $this->storageBackend->getByUrl($url);
+		$document = $this->decorateDocument($this->storageBackend->getByUrl($url));
 		return $document;
 	}
 
@@ -220,7 +220,7 @@ class DocumentRepository {
 		}
 
 		$documents = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection);
-		return $documents;
+		return $this->decorateDocuments($documents);
 	}
 
 	/**
@@ -284,7 +284,27 @@ class DocumentRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $source. Input was: ' . serialize($source));
 		}
 
-		$document = $this->storageBackend->deleteBySource($source);
+		return $this->storageBackend->deleteBySource($source);
+	}
+
+	/**
+	 * @param Document[] $documents
+	 * @return Document[]
+	 */
+	private function decorateDocuments(DocumentCollection $documents) {
+		$newCollection = new DocumentCollection();
+		foreach ($documents as $document) {
+			$newCollection->append($this->decorateDocument($document));
+		}
+		return $newCollection;
+	}
+	/**
+	 * Extend the class and override this method:
+	 * 	This method gives you the possibility to decorate the document object
+	 * @param Document $document
+	 * @return Document
+	 */
+	protected function decorateDocument(Document $document) {
 		return $document;
 	}
 }
