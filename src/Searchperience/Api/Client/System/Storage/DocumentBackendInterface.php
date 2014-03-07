@@ -56,6 +56,20 @@ interface DocumentBackendInterface {
 	public function getByForeignId($foreignId);
 
 	/**
+	 * @param string $id
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return \Searchperience\Api\Client\Domain\Document
+	 */
+	public function getById($id);
+
+	/**
 	 * @param string $url
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
@@ -82,6 +96,20 @@ interface DocumentBackendInterface {
 	 * @return mixed
 	 */
 	public function deleteByForeignId($foreignId);
+
+	/**
+	 * @param string $id
+	 *
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return mixed
+	 */
+	public function deleteById($id);
 
 	/**
 	 * @param string $source

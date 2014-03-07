@@ -86,6 +86,28 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getById($id) {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+					->get('/{customerKey}/documents/' . $id)
+					->setAuth($this->username, $this->password)
+					->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
+		}
+
+		return $this->buildDocumentFromXml($response->xml());
+	}
+
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getByUrl($url) {
 		try {
 			$url = urlencode($url);
@@ -148,6 +170,27 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 				->delete('/{customerKey}/documents?foreignId=' . $foreignId)
 				->setAuth($this->username, $this->password)
 				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
+		}
+
+		return $response->getStatusCode();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function deleteById($id) {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+					->delete('/{customerKey}/documents/' . $id)
+					->setAuth($this->username, $this->password)
+					->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
 			$this->transformStatusCodeToClientErrorResponseException($exception);
 		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {

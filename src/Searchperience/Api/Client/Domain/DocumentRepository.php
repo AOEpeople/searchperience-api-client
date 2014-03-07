@@ -98,6 +98,28 @@ class DocumentRepository {
 	}
 
 	/**
+	 * Get a Document by id
+	 *
+	 * The id is the internal technical id
+	 * 0-9:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
+	 *
+	 * @param string $foreignId
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return \Searchperience\Api\Client\Domain\Document $document
+	 */
+	public function getById($id) {
+		if (!is_numeric($id)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
+		}
+
+		$document = $this->storageBackend->getById($id);
+		return $document;
+	}
+
+	/**
 	 * Get a Document by url
 	 *
 	 * The url can be a string of:
@@ -220,6 +242,28 @@ class DocumentRepository {
 		}
 
 		$statusCode = $this->storageBackend->deleteByForeignId($foreignId);
+		return $statusCode;
+	}
+
+	/**
+	 * Delete a Document by id (internal technical id of a document)
+	 *
+	 * The id can be a integer of:
+	 * 0-9:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
+	 *
+	 * @param string $foreignId
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return integer HTTP status code
+	 */
+	public function deleteById($id) {
+		if (!is_numeric($id) ) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integers values as $id. Input was: ' . serialize($id));
+		}
+
+		$statusCode = $this->storageBackend->deleteById($id);
 		return $statusCode;
 	}
 
