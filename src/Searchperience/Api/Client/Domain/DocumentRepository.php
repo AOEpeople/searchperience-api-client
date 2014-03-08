@@ -293,6 +293,7 @@ class DocumentRepository {
 	 */
 	private function decorateDocuments(DocumentCollection $documents) {
 		$newCollection = new DocumentCollection();
+		$newCollection->setTotalCount($documents->getTotalCount());
 		foreach ($documents as $document) {
 			$newCollection->append($this->decorateDocument($document));
 		}

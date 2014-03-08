@@ -239,10 +239,11 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return \Searchperience\Api\Client\Domain\Document[]
 	 */
 	protected function buildDocumentsFromXml(\SimpleXMLElement $xml) {
-
-		$documents=$xml->xpath('document');
 		$documentArray = new DocumentCollection();
-
+		if ($xml->totalCount instanceof \SimpleXMLElement) {
+			$documentArray->setTotalCount((integer) $xml->totalCount->__toString());
+		}
+		$documents=$xml->xpath('document');
 		foreach($documents as $document) {
 			$documentAttributeArray = (array)$document->attributes();
 			$documentObject = new \Searchperience\Api\Client\Domain\Document();
