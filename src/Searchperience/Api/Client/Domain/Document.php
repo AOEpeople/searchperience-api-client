@@ -21,6 +21,11 @@ class Document {
 	protected $lastProcessingDate = null;
 
 	/**
+	 * @var \DateTime
+	 */
+	protected $lastCrawlingDateTime = null;
+
+	/**
 	 * @var int
 	 */
 	protected $boostFactor;
@@ -239,6 +244,21 @@ class Document {
 	 */
 	public function getLastProcessingDate() {
 		return $this->lastProcessingDate;
+	}
+
+	/**
+	 * @param \DateTime $dateTime
+	 * @return void
+	 */
+	public function setLastCrawlingDateTime(\DateTime $dateTime) {
+		return $this->lastCrawlingDateTime = $dateTime;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getLastCrawlingDateTime() {
+		return $this->lastCrawlingDateTime;
 	}
 
 	/**

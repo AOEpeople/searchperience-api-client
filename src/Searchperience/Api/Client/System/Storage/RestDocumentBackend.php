@@ -273,6 +273,12 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 				$documentObject ->setLastProcessingDate($lastProcessingDate);
 			}
 
+			if(trim($document->lastCrawlingTime) != '') {
+				//we assume that the restapi allways return y-m-d H:i:s in the utc format
+				$lastCrawlingDateTime = $this->dateTimeService->getDateTimeFromApiDateString($document->lastCrawlingTime);
+				$documentObject ->setLastCrawlingDateTime($lastCrawlingDateTime);
+			}
+
 			$documentObject ->setNoIndex((integer)$document->noIndex);
 			$documentArray[]=$documentObject;
 		}
