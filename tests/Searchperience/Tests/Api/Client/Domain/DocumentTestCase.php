@@ -20,7 +20,7 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @return void
 	 */
 	public function setUp() {
-
+		$this->document = new \Searchperience\Api\Client\Domain\Document();
 	}
 
 	/**
@@ -36,8 +36,6 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function verifyGetterAndSetter() {
-		$this->document = new \Searchperience\Api\Client\Domain\Document();
-
 		$this->document->setId(12);
 		$this->document->setForeignId(312);
 		$this->document->setMimeType('application/json');
@@ -65,5 +63,78 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals($this->document->getIsMarkedForProcessing(), 1);
 		$this->assertEquals($this->document->getIsMarkedForDeletion(), 1);
 		$this->assertEquals($this->document->getNoIndex(), 1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyDocumentStateIsDuplicateIsSet() {
+		$expectedNotifications = array(
+			\Searchperience\Api\Client\Domain\Document::IS_DUPLICATE
+		);
+		$this->document->setIsDuplicateOf(12);
+
+		$notifications = $this->document->getNotifications();
+
+		$this->assertInternalType('array', $notifications);
+		$this->assertEquals($notifications, $expectedNotifications);
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyDocumentStateIsErrorIsSet() {
+		$expectedNotifications = array(
+			\Searchperience\Api\Client\Domain\Document::IS_ERROR
+		);
+		$this->document->setErrorCount(12);
+
+		$notifications = $this->document->getNotifications();
+		$this->assertInternalType('array', $notifications);
+		$this->assertEquals($notifications, $expectedNotifications);
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyDocumentStateIsProcessingIsSet() {
+		$expectedNotifications = array(
+			\Searchperience\Api\Client\Domain\Document::IS_PROCESSING
+		);
+		$this->document->setIsMarkedForProcessing(1);
+
+		$notifications = $this->document->getNotifications();
+		$this->assertInternalType('array', $notifications);
+		$this->assertEquals($notifications, $expectedNotifications);
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyDocumentStateIsMarkedForDeletionIsSet() {
+		$expectedNotifications = array(
+			\Searchperience\Api\Client\Domain\Document::IS_DELETING
+		);
+		$this->document->setIsMarkedForDeletion(1);
+
+		$notifications = $this->document->getNotifications();
+		$this->assertInternalType('array', $notifications);
+		$this->assertEquals($notifications, $expectedNotifications);
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyDocumentStateIsErrorAndIsDuplicateAtTheSameTime() {
+		$expectedNotifications = array(
+			\Searchperience\Api\Client\Domain\Document::IS_ERROR,
+			\Searchperience\Api\Client\Domain\Document::IS_DUPLICATE
+		);
+		$this->document->setIsDuplicateOf(12);
+		$this->document->setErrorCount(1);
+
+		$notifications = $this->document->getNotifications();
+		$this->assertInternalType('array', $notifications);
+		$this->assertEquals($notifications, $expectedNotifications);
 	}
 }

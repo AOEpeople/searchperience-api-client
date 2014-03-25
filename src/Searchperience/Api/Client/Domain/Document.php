@@ -5,10 +5,38 @@ namespace Searchperience\Api\Client\Domain;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- *
  * @author Michael Klapper <michael.klapper@aoemedia.de>
  */
 class Document {
+
+	/**
+	 * Indicates that this document is marked for deletion.
+	 *
+	 * @var string
+	 */
+	const IS_DELETING = 'IS_DELETING';
+
+	/**
+	 * Indicates that this document is marked as duplicate of another document.
+	 *
+	 *
+	 * @var string
+	 */
+	const IS_DUPLICATE = 'IS_DUPLICATE';
+
+	/**
+	 * Indicates that this document has an error because it could not crawled (see "errorCount" property).
+	 *
+	 * @var string
+	 */
+	const IS_ERROR = 'IS_ERROR';
+
+	/**
+	 * Indicates that this document is marked as to be processed by one of the current indexer processes.
+	 *
+	 * @var string
+	 */
+	const IS_PROCESSING = 'IS_PROCESSING';
 
 	/**
 	 * @var integer
@@ -447,5 +475,36 @@ class Document {
 	 */
 	public function getUrl() {
 		return $this->url;
+	}
+
+	/**
+	 * Retrieve the state of a current document to easily indicate if a document:
+	 * - has an error
+	 * - is duplicate of
+	 * - is currently in processing
+	 * - is marked for deletion
+	 *
+	 * @return array
+	 */
+	public function getNotifications() {
+		$notifications = array();
+
+		if (!is_null($this->errorCount) && $this->errorCount > 0) {
+			$notifications[] = Document::IS_ERROR;
+		}
+
+		if (!is_null($this->isDuplicateOf) && $this->isDuplicateOf > 0) {
+			$notifications[] = Document::IS_DUPLICATE;
+		}
+
+		if (!is_null($this->isMarkedForProcessing) && $this->isMarkedForProcessing > 0) {
+			$notifications[] = Document::IS_PROCESSING;
+		}
+
+		if (!is_null($this->isMarkedForDeletion) && $this->isMarkedForDeletion > 0) {
+			$notifications[] = Document::IS_DELETING;
+		}
+
+		return array_unique($notifications);
 	}
 }
