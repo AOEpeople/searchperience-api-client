@@ -7,7 +7,7 @@ namespace Searchperience\Api\Client\System\Storage;
  * @package Searchperience\Api\Client\System\Storage
  * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
-interface UrlqueueBackendInterface {
+interface UrlQueueItemBackendInterface {
 
 	/**
 	 * @param string $username
@@ -28,18 +28,17 @@ interface UrlqueueBackendInterface {
 	public function setBaseUrl($baseUrl);
 
 	/**
-	 * @param \Searchperience\Api\Client\Domain\Document $document
+	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem $document
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function post(\Searchperience\Api\Client\Domain\Document $document);
+	public function post(\Searchperience\Api\Client\Domain\UrlQueueItem $urlqueue);
 
 	/**
 	 * @param string $documentId
@@ -47,11 +46,10 @@ interface UrlqueueBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\UrlQueueItem
 	 */
 	public function getByDocumentId($documentId);
 
@@ -61,60 +59,37 @@ interface UrlqueueBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\UrlQueueItem
 	 */
 	public function getByUrl($url);
 
 	/**
-	 * @param string $documentId
-	 *
+     * @param integer $documentId
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function deleteByDocumentId($documentId);
-
-	/**
-	 * @param string $url
-	 *
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function deleteByUrl($url);
-
-	/**
-	 * @param string $source
-	 * @throwsException \Searchperience\System\Exception\UnauthorizedRequestException
-	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
-	 * @return mixed
-	 */
-	public function deleteBySource($source);
-
-	/**
-     * @param $documentId
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
 	public function updateByDocumentId($documentId);
+
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return \Searchperience\Api\Client\Domain\UrlQueueItemCollection
+	 * @return mixed
+	 */
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
 }

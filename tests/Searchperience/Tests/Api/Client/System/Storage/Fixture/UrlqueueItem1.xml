@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<urlqueueitems>
+	<totalCount>1</totalCount>
+	<item id="2223232">
+		<url>http://google.com</url>
+		<processingThreadId>1</processingThreadId>
+		<processingStartTime>2012-11-20 12:05:07</processingStartTime>
+		<failCount>3</failCount>
+		<deleted>1</deleted>
+		<priority>4</priority>
+		<lastError>Whatever</lastError>
+	</item>
+</urlqueueitems>

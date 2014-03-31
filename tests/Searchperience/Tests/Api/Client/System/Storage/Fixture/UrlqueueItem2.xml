@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<urlqueueitems>
+	<totalCount>2</totalCount>
+	<item id="1111">
+		<url>http://google.com</url>
+		<processingThreadId>1</processingThreadId>
+		<processingStartTime>21321432323</processingStartTime>
+		<failCount>0</failCount>
+		<deleted>0</deleted>
+		<priority>3</priority>
+		<lastError></lastError>
+	</item>
+	<item id="222">
+		<url>http://aoe.com</url>
+		<processingThreadId>1</processingThreadId>
+		<processingStartTime>213214323231</processingStartTime>
+		<failCount>0</failCount>
+		<deleted>0</deleted>
+		<priority>3</priority>
+		<lastError></lastError>
+	</item>
+</urlqueueitems>

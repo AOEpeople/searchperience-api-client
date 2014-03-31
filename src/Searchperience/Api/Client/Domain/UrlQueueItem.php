@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package Searchperience\Api\Client\Domain
  * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
-class Urlqueue {
+class UrlQueueItem {
 
 	/**
 	 * Indicates that this url is marked as deleted.
@@ -209,20 +209,20 @@ class Urlqueue {
 		$notifications = array();
 
 		if ($this->deleted = 1) {
-			$notifications[] = Urlqueue::IS_ERROR;
+			$notifications[] = UrlQueueItem::IS_ERROR;
 		}
 
 		if ($this->processingThreadId = 0 && $this->deleted = 0) {
-			$notifications[] = Urlqueue::IS_WAITING;
+			$notifications[] = UrlQueueItem::IS_WAITING;
 		}
 
 		if ($this->processingThreadId != 0) {
-			$notifications[] = Urlqueue::IS_PROCESSING;
+			$notifications[] = UrlQueueItem::IS_PROCESSING;
 		}
 
-		/*if ($this->deleted = 1) {
-			$notifications[] = Urlqueue::IS_DELETED;
-		}*/
+		if ($this->deleted = 1) {
+			$notifications[] = UrlQueueItem::IS_DELETED;
+		}
 
 		return array_unique($notifications);
 	}
