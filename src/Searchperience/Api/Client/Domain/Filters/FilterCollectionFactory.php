@@ -7,6 +7,7 @@
 
 namespace Searchperience\Api\Client\Domain\Filters;
 
+use Searchperience\Api\Client\Domain\UrlQueueItem;
 use Symfony\Component\Validator\Validation;
 
 /**
@@ -33,17 +34,65 @@ class FilterCollectionFactory {
 	/**
 	 * @param array $filters
 	 * @throws \Searchperience\Common\Exception\UnexpectedValueException
+	 * @return FilterCollection
 	 */
 	public function createFromFilterArguments($filters){
 		$result = new FilterCollection();
 		foreach ($filters as $filterName => $filterValue) {
 			$filterName = ucfirst($filterName);
-			$filterClassName = __NAMESPACE__ . '\\' . $filterName.'Filter';
+			$filterClassName = $this->getFilterClassName($filterName);
 			if (class_exists($filterClassName)) {
 				$filter = $this->initFilter($filterClassName, $filterValue);
 				$result->addFilter($filter);
 			} else {
 				throw new \Searchperience\Common\Exception\UnexpectedValueException('Filter not exists: ' . $filterName);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Build
+	 *
+	 * @param array $states
+	 * @return FilterCollection
+	 */
+	public function createFromUrlQueueItemStates(array $states) {
+		$result = new FilterCollection();
+		foreach($states as $state) {
+			switch($state) {
+				case UrlQueueItem::IS_WAITING:
+					$filter = new ProcessingThreadIdFilter();
+					$filter->setProcessingThreadIdStart(0);
+					$filter->setProcessingThreadIdEnd(0);
+					$result->addFilter($filter);
+
+					$filter = new DeletedFilter();
+					$filter->setDeleted(false);
+					$result->addFilter($filter);
+					break;
+				case UrlQueueItem::IS_PROCESSING:
+					$filter = new ProcessingThreadIdFilter();
+					$filter->setProcessingThreadIdStart(1);
+					$filter->setProcessingThreadIdEnd(65536);
+					$result->addFilter($filter);
+
+					$filter = new DeletedFilter();
+					$filter->setDeleted(false);
+					$result->addFilter($filter);
+					break;
+				case UrlQueueItem::IS_DOCUMENT_DELETED:
+					$filter = new DeletedFilter();
+					$filter->setDeleted(true);
+					$result->addFilter($filter);
+					break;
+
+				case UrlQueueItem::IS_ERROR:
+					$filter = new ErrorFilter();
+					$filter->setError(true);
+					$result->addFilter($filter);
+					break;
 			}
 		}
 
@@ -106,5 +155,14 @@ class FilterCollectionFactory {
 		}
 
 		return $filter;
+	}
+
+	/**
+	 * @param $filterName
+	 * @return string
+	 */
+	protected function getFilterClassName($filterName) {
+		$filterClassName = __NAMESPACE__ . '\\' . $filterName . 'Filter';
+		return $filterClassName;
 	}
 }

@@ -60,13 +60,31 @@ class UrlQueueItemTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function verifyUrlQueueItemStateIsErrorAndWaitingIsSet() {
+		$expectedNotifications = array(
+			\Searchperience\Api\Client\Domain\UrlQueueItem::IS_ERROR,
+			\Searchperience\Api\Client\Domain\UrlQueueItem::IS_WAITING
+		);
+		$this->urlQueueItem->setLastError("Exception foobar");
+
+		$notifications = $this->urlQueueItem->getNotifications();
+
+		$this->assertInternalType('array', $notifications);
+		$this->assertEquals($notifications, $expectedNotifications);
+	}
+
+
+	/**
+	 * @test
+	 */
 	public function verifyUrlQueueItemStateIsErrorIsSet() {
 		$expectedNotifications = array(
-				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_ERROR,
-				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_DOCUMENT_DELETED
+			\Searchperience\Api\Client\Domain\UrlQueueItem::IS_ERROR,
+			\Searchperience\Api\Client\Domain\UrlQueueItem::IS_DOCUMENT_DELETED
 		);
-		$this->urlQueueItem->setDeleted(1);
 
+		$this->urlQueueItem->setLastError("Exception foobar");
+		$this->urlQueueItem->setDeleted(1);
 		$notifications = $this->urlQueueItem->getNotifications();
 
 		$this->assertInternalType('array', $notifications);
@@ -78,8 +96,7 @@ class UrlQueueItemTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyUrlQueueItemStateIsProcessingIsSet() {
 		$expectedNotifications = array(
-				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_PROCESSING,
-				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_DOCUMENT_DELETED
+				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_PROCESSING
 		);
 		$this->urlQueueItem->setProcessingThreadId(1);
 
@@ -94,16 +111,15 @@ class UrlQueueItemTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyUrlQueueItemStateIsWaitingIsSet() {
 		$expectedNotifications = array(
-				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_WAITING,
 				\Searchperience\Api\Client\Domain\UrlQueueItem::IS_DOCUMENT_DELETED
 		);
 		$this->urlQueueItem->setProcessingThreadId(0);
-		$this->urlQueueItem->setDeleted(0);
+		$this->urlQueueItem->setDeleted(1);
 
 		$notifications = $this->urlQueueItem->getNotifications();
 
 		$this->assertInternalType('array', $notifications);
 		$this->assertEquals($notifications, $expectedNotifications);
-		var_dump($notifications);
+
 	}
 }

@@ -208,7 +208,7 @@ class UrlQueueItem {
 	public function getNotifications() {
 		$notifications = array();
 
-		if ($this->deleted == 1) {
+		if (trim($this->lastError) !== "") {
 			$notifications[] = UrlQueueItem::IS_ERROR;
 		}
 
@@ -220,10 +220,10 @@ class UrlQueueItem {
 			$notifications[] = UrlQueueItem::IS_PROCESSING;
 		}
 
-		if (UrlQueueItem::IS_ERROR) {
+		if ($this->deleted == 1) {
 			$notifications[] = UrlQueueItem::IS_DOCUMENT_DELETED;
 		}
 
 		return array_unique($notifications);
 	}
-} 
+}

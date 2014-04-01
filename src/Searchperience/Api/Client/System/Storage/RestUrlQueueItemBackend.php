@@ -178,8 +178,6 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * @return \Searchperience\Api\Client\Domain\Document[]
 	 */
 	protected function buildUrlQueueItemsFromXml(\SimpleXMLElement $xml) {
-
-
 		$urlQueueArray = new UrlQueueItemCollection();
 		if ($xml->totalCount instanceof \SimpleXMLElement) {
 			$urlQueueArray->setTotalCount((integer) $xml->totalCount->__toString());

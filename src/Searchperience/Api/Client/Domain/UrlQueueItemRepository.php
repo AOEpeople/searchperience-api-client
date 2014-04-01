@@ -75,17 +75,18 @@ class UrlQueueItemRepository {
 	/**
 	 * Get url queue items by state
 	 *
-	 * @param int $state
+	 * @param array $states
 	 * @param int $start
 	 * @param int $limit
 	 * @return UrlQueueItemCollection
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
-	public function getAllByState($state = 0, $start = 0, $limit = 10) {
+	public function getAllByStates($states = array(), $start = 0, $limit = 10) {
+		$filterCollection = $this->filterCollectionFactory->createFromUrlQueueItemStates($states);
 
-		$filterCollection = new FilterCollection();
-		if (!is_integer($state)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $state. Input was: ' . serialize($state));
+
+		if (!is_array($states)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $state. Input was: ' . serialize($states));
 		}
 		if (!is_integer($start)) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
@@ -198,4 +199,4 @@ class UrlQueueItemRepository {
 	protected function decorateUrlQueueItem(UrlQueueItem $urlQueueItem) {
 		return $urlQueueItem;
 	}
-} 
+}
