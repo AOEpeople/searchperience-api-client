@@ -30,7 +30,7 @@ class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function canBuildUrlQueueItemFromSingleXMLResponse() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
-		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Urlqueueitem1.xml')));
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/UrlqueueItem1.xml')));
 		$restClient->addSubscriber($mock);
 
 		$this->urlQueueItemBackend->injectRestClient($restClient);
@@ -52,7 +52,7 @@ class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
-		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Urlqueueitem2.xml')));
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/UrlqueueItem2.xml')));
 		$restClient->addSubscriber($mock);
 
 		$this->urlQueueItemBackend->injectRestClient($restClient);
