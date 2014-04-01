@@ -12,34 +12,7 @@ use Searchperience\Api\Client\Domain\DocumentCollection;
  */
 class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\DocumentBackendInterface {
 
-	/**
-	 * @var \Guzzle\Http\Client
-	 */
-	protected $restClient;
 
-	/**
-	 * @var \Searchperience\Api\Client\System\DateTime\DateTimeService
-	 */
-	protected $dateTimeService;
-
-	/**
-	 * @param \Guzzle\Http\Client $restClient
-	 * @return void
-	 */
-	public function injectRestClient(\Guzzle\Http\Client $restClient) {
-		$this->restClient = $restClient->setDefaultHeaders(array(
-			'User-Agent' => 'Searchperience-API-Client version: ' . \Searchperience\Common\Version::Version,
-			'Accepts' => 'application/searchperienceproduct+xml,application/xml,text/xml',
-		));
-	}
-
-	/**
-	 * @param \Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService
-	 * @return void
-	 */
-	public function injectDateTimeService(\Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService) {
-		$this->dateTimeService = $dateTimeService;
-	}
 
 	/**
 	 * {@inheritdoc}

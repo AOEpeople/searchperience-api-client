@@ -27,6 +27,16 @@ abstract class AbstractRestBackend {
 	protected $baseUrl = 'http://api.searchperience.me/';
 
 	/**
+	 * @var \Guzzle\Http\Client
+	 */
+	protected $restClient;
+
+	/**
+	 * @var \Searchperience\Api\Client\System\DateTime\DateTimeService
+	 */
+	protected $dateTimeService;
+
+	/**
 	 * Set the username to access the api.
 	 *
 	 * @param string $username
@@ -126,5 +136,24 @@ abstract class AbstractRestBackend {
 			default:
 				throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($exception->getMessage(), 1353574979, $exception);
 		}
+	}
+
+	/**
+	 * @param \Guzzle\Http\Client $restClient
+	 * @return void
+	 */
+	public function injectRestClient(\Guzzle\Http\Client $restClient) {
+		$this->restClient = $restClient->setDefaultHeaders(array(
+				'User-Agent' => 'Searchperience-API-Client version: ' . \Searchperience\Common\Version::Version,
+				'Accepts' => 'application/searchperienceproduct+xml,application/xml,text/xml',
+		));
+	}
+
+	/**
+	 * @param \Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService
+	 * @return void
+	 */
+	public function injectDateTimeService(\Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService) {
+		$this->dateTimeService = $dateTimeService;
 	}
 }
