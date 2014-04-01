@@ -177,10 +177,10 @@ class UrlQueueItemRepository {
 
 	/**
 	 * @param UrlQueueItemCollection $urqueues
-	 * @return DocumentCollection
+	 * @return UrlQueueItemCollection
 	 */
 	private function decorateUrlQueueItems(UrlQueueItemCollection $urqueues) {
-		$newCollection = new DocumentCollection();
+		$newCollection = new UrlQueueItemCollection();
 		$newCollection->setTotalCount($urqueues->getTotalCount());
 		foreach ($urqueues as $urqueue) {
 			$newCollection->append($this->decorateUrlQueueItem($urqueue));
