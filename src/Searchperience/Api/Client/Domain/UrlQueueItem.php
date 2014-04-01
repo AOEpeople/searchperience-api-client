@@ -12,11 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UrlQueueItem {
 
 	/**
-	 * Indicates that this url is marked as deleted.
+	 * Indicates that document for this url was deleted.
 	 *
 	 * @var string
 	 */
-	const IS_DELETED = 'IS_DELETED';
+	const IS_DOCUMENT_DELETED = 'IS_DOCUMENT_DELETED';
 
 	/**
 	 * Indicates that this url is marked as waiting.
@@ -208,11 +208,11 @@ class UrlQueueItem {
 	public function getNotifications() {
 		$notifications = array();
 
-		if ($this->deleted = 1) {
+		if ($this->deleted == 1) {
 			$notifications[] = UrlQueueItem::IS_ERROR;
 		}
 
-		if ($this->processingThreadId = 0 && $this->deleted = 0) {
+		if ($this->processingThreadId == 0 && $this->deleted == 0) {
 			$notifications[] = UrlQueueItem::IS_WAITING;
 		}
 
@@ -220,11 +220,10 @@ class UrlQueueItem {
 			$notifications[] = UrlQueueItem::IS_PROCESSING;
 		}
 
-		if ($this->deleted = 1) {
-			$notifications[] = UrlQueueItem::IS_DELETED;
+		if (UrlQueueItem::IS_ERROR) {
+			$notifications[] = UrlQueueItem::IS_DOCUMENT_DELETED;
 		}
 
 		return array_unique($notifications);
 	}
-
 } 
