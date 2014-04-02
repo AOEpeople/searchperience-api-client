@@ -163,6 +163,48 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function deleteByDocumentId($documentId) {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->delete('/{customerKey}/urlqueueitems?documentId=' . $documentId)
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
+		}
+
+		return $response->getStatusCode();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function deleteByUrl($url) {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->delete('/{customerKey}/urlqueueitems?url=' . rawurlencode($url))
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
+		}
+
+		return $response->getStatusCode();
+	}
+
+	/**
 	 * @param \SimpleXMLElement $xml
 	 *
 	 * @return \Searchperience\Api\Client\Domain\Document\Document

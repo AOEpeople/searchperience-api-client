@@ -178,6 +178,46 @@ class UrlQueueItemRepository {
 	}
 
 	/**
+	 * Delete a UrlQueueItem by the related document id
+	 *
+	 * The id can be a integer of:
+	 * 0-9:
+	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
+	 *
+	 * @param string $documentId
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return integer HTTP status code
+	 */
+	public function deleteByDocumentId($documentId) {
+		if (!is_numeric($documentId) ) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integers values as $id. Input was: ' . serialize($documentId));
+		}
+
+		$statusCode = $this->storageBackend->deleteByDocumentId($documentId);
+		return $statusCode;
+	}
+
+	/**
+	 * Delete a UrlQueueItem by url
+	 *
+	 * @param string $url
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return integer HTTP status code
+	 */
+	public function deleteByUrl($url) {
+		if ( !is_string($url) ) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
+		}
+
+		$statusCode = $this->storageBackend->deleteByUrl($url);
+		return $statusCode;
+	}
+
+	/**
 	 * @param UrlQueueItemCollection $urqueues
 	 * @return UrlQueueItemCollection
 	 */

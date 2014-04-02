@@ -114,4 +114,55 @@ class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		return $urlQueueItem;
 	}
+
+	/**
+	 * @test
+	 */
+	public function canDeleteUrlQueueItemByDocumentId() {
+		$expectedUrl =  '/{customerKey}/urlqueueitems?documentId=4711';
+		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
+		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
+
+		$requestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$requestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($requestMock) {
+			return $requestMock;
+		}));
+		$requestMock->expects($this->once())->method('send')->will($this->returnCallback(function () use ($responseMock) {
+			return $responseMock;
+		}));
+
+		$restClient = $this->getMock('\Guzzle\Http\Client',array('delete','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient->expects($this->once())->method('delete')->with($expectedUrl)->will($this->returnCallback(function() use ($requestMock) {
+			return $requestMock;
+		}));
+
+		$this->urlQueueItemBackend->injectRestClient($restClient);
+		$this->assertEquals(200, $this->urlQueueItemBackend->deleteByDocumentId(4711));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canDeleteUrlQueueItemByUrl() {
+		$expectedUrl =  '/{customerKey}/urlqueueitems?url='.rawurlencode('http://www.google.de/');
+		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
+		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
+
+		$requestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$requestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($requestMock) {
+			return $requestMock;
+		}));
+		$requestMock->expects($this->once())->method('send')->will($this->returnCallback(function () use ($responseMock) {
+			return $responseMock;
+		}));
+
+		$restClient = $this->getMock('\Guzzle\Http\Client',array('delete','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient->expects($this->once())->method('delete')->with($expectedUrl)->will($this->returnCallback(function() use ($requestMock) {
+			return $requestMock;
+		}));
+
+		$this->urlQueueItemBackend->injectRestClient($restClient);
+		$this->assertEquals(200, $this->urlQueueItemBackend->deleteByUrl('http://www.google.de/'));
+	}
+
 }

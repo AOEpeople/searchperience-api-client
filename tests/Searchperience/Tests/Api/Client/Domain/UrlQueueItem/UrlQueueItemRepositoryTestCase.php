@@ -34,4 +34,30 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 		$this->urlQueueItemRepository->injectStorageBackend($storageBackendMock);
 		$this->urlQueueItemRepository->getByUrl('http://www.google.de/');
 	}
+
+	/**
+	 * @tests
+	 */
+	public function canDeleteByDocumentId() {
+		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
+		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('deleteByDocumentId'));
+		$storageBackendMock->expects($this->once())->method('deleteByDocumentId')->with(111)->will($this->returnValue(
+			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem()
+		));;
+		$this->urlQueueItemRepository->injectStorageBackend($storageBackendMock);
+		$this->urlQueueItemRepository->deleteByDocumentId(111);
+	}
+
+	/**
+	 * @tests
+	 */
+	public function canDeleteByUrl() {
+		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
+		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('deleteByUrl'));
+		$storageBackendMock->expects($this->once())->method('deleteByUrl')->with('http://www.customer.com/')->will($this->returnValue(
+			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem()
+		));;
+		$this->urlQueueItemRepository->injectStorageBackend($storageBackendMock);
+		$this->urlQueueItemRepository->deleteByUrl('http://www.customer.com/');
+	}
 }
