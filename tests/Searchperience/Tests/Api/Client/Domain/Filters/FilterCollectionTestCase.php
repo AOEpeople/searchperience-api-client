@@ -13,7 +13,7 @@ namespace Searchperience\Api\Client\Domain\Filters;
  */
 class FilterCollectionTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
-	 * @var \Searchperience\Api\Client\Domain\Filters\FilterCollection
+	 * @var \Searchperience\Api\Client\Domain\Document\Filters\FilterCollection
 	 */
 	protected $instance;
 
@@ -23,7 +23,7 @@ class FilterCollectionTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->instance = new \Searchperience\Api\Client\Domain\Filters\FilterCollection;
+		$this->instance = new \Searchperience\Api\Client\Domain\Filters\FilterCollection();
 	}
 
 	/**

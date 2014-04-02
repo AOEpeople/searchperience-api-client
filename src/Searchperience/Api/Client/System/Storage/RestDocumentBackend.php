@@ -3,7 +3,7 @@
 namespace Searchperience\Api\Client\System\Storage;
 
 use Guzzle\Http\Client;
-use Searchperience\Api\Client\Domain\DocumentCollection;
+use Searchperience\Api\Client\Domain\Document\DocumentCollection;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -17,7 +17,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
-	public function post(\Searchperience\Api\Client\Domain\Document $document) {
+	public function post(\Searchperience\Api\Client\Domain\Document\Document $document) {
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
@@ -105,7 +105,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @param int $start
 	 * @param int $limit
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
@@ -199,7 +199,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 */
 	protected function buildDocumentFromXml(\SimpleXMLElement $xml) {
 		$documents = $this->buildDocumentsFromXml($xml);
@@ -209,7 +209,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document[]
+	 * @return \Searchperience\Api\Client\Domain\Document\Document[]
 	 */
 	protected function buildDocumentsFromXml(\SimpleXMLElement $xml) {
 		$documentArray = new DocumentCollection();
@@ -219,7 +219,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$documents=$xml->xpath('document');
 		foreach($documents as $document) {
 			$documentAttributeArray = (array)$document->attributes();
-			$documentObject = new \Searchperience\Api\Client\Domain\Document();
+			$documentObject = new \Searchperience\Api\Client\Domain\Document\Document();
 			$documentObject ->setId((integer)$documentAttributeArray['@attributes']['id']);
 			$documentObject ->setUrl((string)$document->url);
 			$documentObject ->setForeignId((string)$document->foreignId);
@@ -262,10 +262,10 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * Create an array containing only the available document property values.
 	 *
-	 * @param \Searchperience\Api\Client\Domain\Document $document
+	 * @param \Searchperience\Api\Client\Domain\Document\Document $document
 	 * @return array
 	 */
-	protected function buildRequestArrayFromDocument(\Searchperience\Api\Client\Domain\Document $document) {
+	protected function buildRequestArrayFromDocument(\Searchperience\Api\Client\Domain\Document\Document $document) {
 		$valueArray = array();
 
 		if ($document->getLastProcessingDate() instanceof \DateTime) {

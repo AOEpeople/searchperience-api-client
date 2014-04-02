@@ -1,6 +1,6 @@
 <?php
 
-namespace Searchperience\Tests\Api\Client\System\DateTime;
+namespace Searchperience\Tests\Api\Client\Document\System\DateTime;
 
 use Searchperience\Api\Client\System\DateTime\DateTimeService;
 

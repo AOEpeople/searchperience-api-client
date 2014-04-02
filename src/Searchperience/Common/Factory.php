@@ -26,7 +26,7 @@ class Factory {
 	 *
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 * @internal param string $customerkey
-	 * @return \Searchperience\Api\Client\Domain\DocumentRepository
+	 * @return \Searchperience\Api\Client\Domain\Document\DocumentRepository
 	 */
 	public static function getDocumentRepository($baseUrl, $customerKey, $username, $password) {
 		// TODO resolve this "autoloading" in a right way
@@ -44,9 +44,9 @@ class Factory {
 		$documentStorage->setUsername($username);
 		$documentStorage->setPassword($password);
 
-		$documentRepository = new \Searchperience\Api\Client\Domain\DocumentRepository();
+		$documentRepository = new \Searchperience\Api\Client\Domain\Document\DocumentRepository();
 		$documentRepository->injectStorageBackend($documentStorage);
-		$documentRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory());
+		$documentRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Document\Filters\FilterCollectionFactory());
 		$documentRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $documentRepository;
@@ -57,7 +57,7 @@ class Factory {
 	 * @param string $customerKey
 	 * @param string $username
 	 * @param string $password
-	 * @return \Searchperience\Api\Client\Domain\UrlQueueItemRepository
+	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemRepository
 	 */
 	public static function getUrlQueueItemRepository($baseUrl, $customerKey, $username, $password) {
 		// TODO resolve this "autoloading" in a right way
@@ -75,9 +75,9 @@ class Factory {
 		$urlQueueItemStorage->setUsername($username);
 		$urlQueueItemStorage->setPassword($password);
 
-		$urlQueueItemRepository = new \Searchperience\Api\Client\Domain\UrlQueueItemRepository();
+		$urlQueueItemRepository = new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItemRepository();
 		$urlQueueItemRepository->injectStorageBackend($urlQueueItemStorage);
-		$urlQueueItemRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory());
+		$urlQueueItemRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\UrlQueueItem\Filters\FilterCollectionFactory());
 		$urlQueueItemRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $urlQueueItemRepository;

@@ -11,6 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class AbstractFilter
- * @package Searchperience\Api\Client\Domain\Filters
+ * @package Searchperience\Api\Client\Domain\Document\Filters
  */
 abstract class AbstractFilter {}

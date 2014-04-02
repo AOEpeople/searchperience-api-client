@@ -1,6 +1,6 @@
 <?php
 
-namespace Searchperience\Tests\Api\Client\System\Storage;
+namespace Searchperience\Tests\Api\Client\Document\System\Storage;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -37,10 +37,10 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * Get a dummy Document
 	 *
 	 * @param array $default
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 */
 	protected function getDocument($default = array()) {
-		$document = new \Searchperience\Api\Client\Domain\Document();
+		$document = new \Searchperience\Api\Client\Domain\Document\Document();
 
 		if (count($default) > 0) {
 			foreach ($default as $key => $value) {
@@ -89,7 +89,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$lastProcessingDate = $document->getLastProcessingDate();
 		$this->assertEquals($lastProcessingDate->format('Y'),'2012');
 
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\Document', $document);
 		$this->assertEquals($expectedDocument, $document);
 	}
 
@@ -121,7 +121,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'mimeType' => 'text/xml'
 		));
 
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $document);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\Document', $document);
 		$this->assertEquals($expectedDocument, $document);
 	}
 
@@ -155,8 +155,8 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'mimeType' => 'text/xml'
 		));
 
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\DocumentCollection', $documents);
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document', $documents[0]);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\DocumentCollection', $documents);
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\Document', $documents[0]);
 
 		$this->assertEquals($expectedDocument, $documents[0]);
 	}
@@ -269,7 +269,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$this->documentBackend->injectRestClient($restClient);
 
-		$filterCollectionFactory = new \Searchperience\Api\Client\Domain\Filters\FilterCollectionFactory();
+		$filterCollectionFactory = new \Searchperience\Api\Client\Domain\Document\Filters\FilterCollectionFactory();
 		$filterCollection = $filterCollectionFactory->createFromFilterArguments($filters);
 		$this->documentBackend->getAllByFilterCollection(0, 10, $filterCollection);
 	}

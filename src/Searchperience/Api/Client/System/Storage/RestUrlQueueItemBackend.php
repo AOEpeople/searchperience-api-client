@@ -3,7 +3,7 @@
 namespace Searchperience\Api\Client\System\Storage;
 
 use Guzzle\Http\Client;
-use Searchperience\Api\Client\Domain\UrlQueueItemCollection;
+use Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItemCollection;
 
 /**
  * Class RestUrlqueueBackend
@@ -14,7 +14,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * {@inheritdoc}
 	 */
-	public function post(\Searchperience\Api\Client\Domain\UrlQueueItem $urlQueue) {
+	public function post(\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue) {
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$arguments 	= $this->buildRequestArrayFromUrlQueue($urlQueue);
@@ -82,7 +82,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * {@inheritdoc}
 	 * @param int $documentId
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getByDocumentId($documentId) {
@@ -107,7 +107,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * {@inheritdoc}
 	 * @param string $url
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getByUrl($url) {
@@ -133,8 +133,8 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * {@inheritdoc}
 	 * @param int $start
 	 * @param int $limit
-	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
-	 * @return \Searchperience\Api\Client\Domain\UrlQueueItemCollection
+	 * @param \Searchperience\Api\Client\Domain\Document\FilterCollection $filtersCollection
+	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemCollection
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
@@ -165,7 +165,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 */
 	protected function buildUrlQueueItemFromXml(\SimpleXMLElement $xml) {
 		$urlQueues = $this->buildUrlQueueItemsFromXml($xml);
@@ -175,7 +175,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document[]
+	 * @return \Searchperience\Api\Client\Domain\Document\Document[]
 	 */
 	protected function buildUrlQueueItemsFromXml(\SimpleXMLElement $xml) {
 		$urlQueueArray = new UrlQueueItemCollection();
@@ -186,7 +186,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 		$urlQueues=$xml->xpath('item');
 		foreach($urlQueues as $urlQueue) {
 			$urlQueueAttributeArray = (array)$urlQueue->attributes();
-			$urlQueueObject = new \Searchperience\Api\Client\Domain\UrlQueueItem();
+			$urlQueueObject = new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem();
 			$urlQueueObject->setDocumentId((integer)$urlQueueAttributeArray['@attributes']['id']);
 			$urlQueueObject->setUrl((string)$urlQueue->url);
 			$urlQueueObject->setDeleted((bool)$urlQueue->deleted);
@@ -212,10 +212,10 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * Create an array containing only the available urlqueue property values.
 	 *
-	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem $urlQueue
+	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue
 	 * @return array
 	 */
-	protected function buildRequestArrayFromUrlQueue(\Searchperience\Api\Client\Domain\UrlQueueItem $urlQueue) {
+	protected function buildRequestArrayFromUrlQueue(\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue) {
 		$valueArray = array();
 
 		if (!is_null($urlQueue->getDeleted())) {

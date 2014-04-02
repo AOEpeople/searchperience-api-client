@@ -1,7 +1,7 @@
 <?php
 
-namespace Searchperience\Tests\Api\Client\System\Storage;
-use Searchperience\Api\Client\Domain\UrlQueueItem;
+namespace Searchperience\Tests\Api\Client\Document\System\Storage;
+use Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
@@ -34,7 +34,7 @@ class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$restClient->addSubscriber($mock);
 
 		$this->urlQueueItemBackend->injectRestClient($restClient);
-			/** @var $urlQueueItem \Searchperience\Api\Client\Domain\UrlQueueItem */
+			/** @var $urlQueueItem \Searchperience\Api\Client\Domain\Document\UrlQueueItem */
 		$urlQueueItem = $this->urlQueueItemBackend->getByDocumentId(2223232);
 		$this->assertEquals('http://google.com',$urlQueueItem->getUrl(),'Could not build url queue item with url from xml response');
 		$this->assertEquals(3,$urlQueueItem->getFailCount(),'Could not restore failcount from xml');

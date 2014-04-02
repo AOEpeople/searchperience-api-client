@@ -28,7 +28,7 @@ interface DocumentBackendInterface {
 	public function setBaseUrl($baseUrl);
 
 	/**
-	 * @param \Searchperience\Api\Client\Domain\Document $document
+	 * @param \Searchperience\Api\Client\Domain\Document\Document $document
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -39,7 +39,7 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function post(\Searchperience\Api\Client\Domain\Document $document);
+	public function post(\Searchperience\Api\Client\Domain\Document\Document $document);
 
 	/**
 	 * @param string $foreignId
@@ -51,7 +51,7 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 */
 	public function getByForeignId($foreignId);
 
@@ -65,7 +65,7 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 */
 	public function getById($id);
 
@@ -79,7 +79,7 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 */
 	public function getByUrl($url);
 
@@ -131,7 +131,7 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\DocumentCollection
+	 * @return \Searchperience\Api\Client\Domain\Document\DocumentCollection
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
 }

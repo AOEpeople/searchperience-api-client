@@ -1,6 +1,6 @@
 <?php
 
-namespace Searchperience\Tests\Api\Client\System\Storage;
+namespace Searchperience\Tests\Api\Client\Document\System\Storage;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
