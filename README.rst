@@ -59,7 +59,7 @@ Add or update documents
 
 ::
 
-	$document = new \Searchperience\Api\Client\Domain\Document();
+	$document = new \Searchperience\Api\Client\Domain\Document\Document();
 	$document->setContent('some content');
 	$document->setForeignId(12);
 	$document->setUrl('http://www.some.test/product/detail');
