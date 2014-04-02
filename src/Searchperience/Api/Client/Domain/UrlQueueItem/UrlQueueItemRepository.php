@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Validation;
 /**
  * Class UrlqueueRepository
  * @package Searchperience\Api\Client\Domain
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class UrlQueueItemRepository {
 	/**

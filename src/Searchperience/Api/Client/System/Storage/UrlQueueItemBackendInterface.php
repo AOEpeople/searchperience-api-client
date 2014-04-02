@@ -5,7 +5,7 @@ namespace Searchperience\Api\Client\System\Storage;
 /**
  * Interface UrlqueueBackendInterface
  * @package Searchperience\Api\Client\System\Storage
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 interface UrlQueueItemBackendInterface {
 

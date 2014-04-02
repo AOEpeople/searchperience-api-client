@@ -1,9 +1,4 @@
 <?php
-/**
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
- * @Date: 2/24/14
- * @Time: 6:19 PM
- */
 
 namespace Searchperience\Api\Client\Domain\Document\Filters;
 
@@ -14,6 +9,7 @@ use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
 /**
  * Class SourceFilter
  * @package Searchperience\Api\Client\Domain\Document\Filters
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class SourceFilter extends AbstractFilter {
 

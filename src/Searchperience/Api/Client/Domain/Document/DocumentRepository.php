@@ -6,9 +6,7 @@ use Searchperience\Api\Client\Domain\Document\Filters\FiltersCollection;
 use Symfony\Component\Validator\Validation;
 
 /**
- * @author Michael Klapper <michael.klapper@aoemedia.de>
- * @date 14.11.12
- * @time 15:13
+ * @author Michael Klapper <michael.klapper@aoe.com>
  */
 class DocumentRepository {
 

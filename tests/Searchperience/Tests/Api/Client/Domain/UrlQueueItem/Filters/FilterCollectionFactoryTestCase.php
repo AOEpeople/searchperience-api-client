@@ -39,6 +39,22 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 	}
 
 	/**
+	 * @test
+	 */
+	public function canBuildFilterCollectionFromArguments() {
+		$arguments = array(
+			'lastProcessed' => array(
+				'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
+				'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')
+			),
+			'query' => array('queryString' => 'test', 'queryFields' => 'url,lasterror'),
+		);
+
+		$filterCollection = $this->instance->createFromFilterArguments($arguments);
+		$this->assertEquals('&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00&query=test&queryFields=url%2Clasterror',$filterCollection->getFilterStringFromAll(),'Could not build filterCollection with expected filter string');
+	}
+
+	/**
 	 * This testcase is used to check it a filter collection can be created based on the document states.
 	 *
 	 * @test

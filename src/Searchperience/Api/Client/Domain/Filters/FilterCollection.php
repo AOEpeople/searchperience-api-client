@@ -3,15 +3,9 @@
 namespace Searchperience\Api\Client\Domain\Filters;
 
 /**
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
- * @Date: 2/24/14
- * @Time: 6:19 PM
- */
-
-
-/**
  * Class FiltersCollection
  * @package Searchperience\Api\Client\Domain\Filters
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class FilterCollection extends \ArrayObject {
 

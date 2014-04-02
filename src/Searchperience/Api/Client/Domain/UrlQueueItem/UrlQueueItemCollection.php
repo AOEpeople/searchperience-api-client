@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class UrlQueueItemCollection
  * @package Searchperience\Api\Client\Domain
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class UrlQueueItemCollection extends \ArrayObject {
 	/**

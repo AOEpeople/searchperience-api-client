@@ -1,19 +1,15 @@
 <?php
-/**
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
- * @Date: 2/24/14
- * @Time: 6:19 PM
- */
 
 namespace Searchperience\Api\Client\Domain\Document\Filters;
-
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
 
 /**
  * Class BoostFactorFilter
+ *
  * @package Searchperience\Api\Client\Domain\Document\Filters
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class BoostFactorFilter extends AbstractFilter {
 

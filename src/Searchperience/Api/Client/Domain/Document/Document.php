@@ -5,7 +5,7 @@ namespace Searchperience\Api\Client\Domain\Document;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @author Michael Klapper <michael.klapper@aoemedia.de>
+ * @author Michael Klapper <michael.klapper@aoe.com>
  */
 class Document {
 

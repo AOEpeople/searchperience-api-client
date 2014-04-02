@@ -1,9 +1,4 @@
 <?php
-/**
- * @Author: Timo Schmidt <timo.schmidt@aoe.com>
- * @Date: 2/24/14
- * @Time: 6:19 PM
- */
 
 namespace Searchperience\Api\Client\Domain\UrlQueueItem\Filters;
 
@@ -13,6 +8,7 @@ use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
 /**
  * Class QueryFilter
  * @package Searchperience\Api\Client\Domain\Filters
+ * @author: Timo Schmidt <timo.schmidt@aoe.com>
  */
 class ErrorFilter extends AbstractFilter {
 

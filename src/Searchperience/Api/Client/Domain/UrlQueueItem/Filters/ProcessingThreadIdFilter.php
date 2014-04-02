@@ -1,20 +1,14 @@
 <?php
-/**
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
- * @Date: 2/24/14
- * @Time: 6:19 PM
- */
 
 namespace Searchperience\Api\Client\Domain\UrlQueueItem\Filters;
-
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
 
-
 /**
  * Class ProcessingThreadId filter
  * @package Searchperience\Api\Client\Domain\Filters
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class ProcessingThreadIdFilter extends AbstractFilter {
 

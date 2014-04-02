@@ -1,9 +1,4 @@
 <?php
-/**
- * @author: Nikolay Diaur <timo.schmidt@aoe.com>
- * @Date: 03/04/14
- * @Time: 6:19 PM
- */
 
 namespace Searchperience\Api\Client\Domain\Filters;
 
@@ -13,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class AbstractDateFilter
  * @package Searchperience\Api\Client\Domain\Document\Filters
+ * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 abstract class AbstractDateFilter extends AbstractFilter{
 

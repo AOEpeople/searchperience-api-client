@@ -5,7 +5,7 @@ namespace Searchperience\Api\Client\Domain\Document;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @author Timo Schmidt <timo.schmidt@aoemedia.de>
+ * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class DocumentCollection extends \ArrayObject {
 	/**

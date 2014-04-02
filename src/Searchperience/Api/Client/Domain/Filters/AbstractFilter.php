@@ -1,6 +1,6 @@
 <?php
 /**
- * @Author: Nikolay Diaur <timo.schmidt@aoe.com>
+ * @author: Nikolay Diaur <timo.schmidt@aoe.com>
  * @Date: 03/04/14
  * @Time: 6:19 PM
  */

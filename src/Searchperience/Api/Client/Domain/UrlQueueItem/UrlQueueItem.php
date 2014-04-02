@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Urlqueue
  * @package Searchperience\Api\Client\Domain
- * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
+ * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class UrlQueueItem {
 
