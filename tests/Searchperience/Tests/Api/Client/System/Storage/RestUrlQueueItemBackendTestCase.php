@@ -119,7 +119,7 @@ class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canDeleteUrlQueueItemByDocumentId() {
-		$expectedUrl =  '/{customerKey}/urlqueueitems?documentId=4711';
+		$expectedUrl =  '/{customerKey}/urlqueueitems/4711';
 		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
 		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
 

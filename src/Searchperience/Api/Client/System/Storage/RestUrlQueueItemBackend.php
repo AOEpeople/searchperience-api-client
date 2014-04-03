@@ -169,7 +169,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->delete('/{customerKey}/urlqueueitems?documentId=' . $documentId)
+				->delete('/{customerKey}/urlqueueitems/' . $documentId)
 				->setAuth($this->username, $this->password)
 				->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {

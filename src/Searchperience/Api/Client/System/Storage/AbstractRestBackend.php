@@ -103,7 +103,7 @@ abstract class AbstractRestBackend {
 				break;
 
 			case 404:
-				throw new \Searchperience\Common\Http\Exception\DocumentNotFoundException($exception->getMessage(), 1353574919, $exception);
+				throw new \Searchperience\Common\Http\Exception\EntityNotFoundException($exception->getMessage(), 1353574919, $exception);
 				break;
 
 			case 405:
