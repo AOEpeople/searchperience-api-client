@@ -2,6 +2,7 @@
 
 namespace Searchperience\Tests\Api\Client\Document;
 
+use Searchperience\Api\Client\Domain\UrlQueueItem\Filters\FilterCollectionFactory;
 use Searchperience\Api\Client\System\Storage;
 use Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItemRepository;
 
@@ -36,7 +37,7 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	}
 
 	/**
-	 * @tests
+	 * @test
 	 */
 	public function canDeleteByDocumentId() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
@@ -49,7 +50,7 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	}
 
 	/**
-	 * @tests
+	 * @test
 	 */
 	public function canDeleteByUrl() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
@@ -59,5 +60,21 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 		));;
 		$this->urlQueueItemRepository->injectStorageBackend($storageBackendMock);
 		$this->urlQueueItemRepository->deleteByUrl('http://www.customer.com/');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllByStates() {
+		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
+		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('getAllByFilterCollection'));
+		$storageBackendMock->expects($this->once())->method('getAllByFilterCollection')->will($this->returnValue(
+			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItemCollection()
+		));;
+		$this->urlQueueItemRepository->injectStorageBackend($storageBackendMock);
+		$this->urlQueueItemRepository->injectFilterCollectionFactory(new FilterCollectionFactory());
+		$this->urlQueueItemRepository->getAllByStates(0,10,array(
+			\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem::IS_PROCESSING
+		));
 	}
 }

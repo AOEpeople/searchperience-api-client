@@ -76,15 +76,14 @@ class UrlQueueItemRepository {
 	/**
 	 * Get url queue items by state
 	 *
-	 * @param array $states
 	 * @param int $start
 	 * @param int $limit
+	 * @param array $states
 	 * @return UrlQueueItemCollection
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
-	public function getAllByStates($states = array(), $start = 0, $limit = 10) {
+	public function getAllByStates($start = 0, $limit = 10, $states = array()) {
 		$filterCollection = $this->filterCollectionFactory->createFromUrlQueueItemStates($states);
-
 
 		if (!is_array($states)) {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $state. Input was: ' . serialize($states));
@@ -96,7 +95,7 @@ class UrlQueueItemRepository {
 			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
 		}
 
-		return $this->getAllByFilters($start, $limit, $filterCollection);
+		return $this->getAllByFilterCollection($start, $limit, $filterCollection);
 	}
 
 	/**

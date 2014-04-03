@@ -1,6 +1,6 @@
 <?php
 
-namespace Searchperience\Api\Client\Domain\Document\Filters;
+namespace Searchperience\Api\Client\Domain\UrlQueueItem\Filters;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
@@ -10,7 +10,7 @@ use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
  * @package Searchperience\Api\Client\Domain\Document\Filters
  * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
-class PageRankFilter extends AbstractFilter {
+class PriorityFilter extends AbstractFilter {
 
 	/**
 	 * @var string
