@@ -4,7 +4,7 @@ namespace Searchperience\Tests\Api\Client\Document;
 
 use Searchperience\Api\Client\Domain\UrlQueueItem\Filters\FilterCollectionFactory;
 use Searchperience\Api\Client\System\Storage;
-use Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItemRepository;
+use Searchperience\Api\Client\Domain\UrlQueueItem\Filters\PriorityFilter;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
