@@ -64,7 +64,7 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 
 		$filterCollection 		= $this->instance->createFromUrlQueueItemStates($states);
 		$filterString 			= $filterCollection->getFilterStringFromAll();
-		$expectedFilterString 	= '&processingThreadIdStart=0&processingThreadIdEnd=0&deleted=0';
+		$expectedFilterString 	= '&processingThreadIdStart=0&processingThreadIdEnd=0&isDeleted=0';
 		$this->assertEquals($expectedFilterString, $filterString);
 	}
 
@@ -78,7 +78,7 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 		$states = array(UrlQueueItem::IS_PROCESSING);
 		$filterCollection 		= $this->instance->createFromUrlQueueItemStates($states);
 		$filterString 			= $filterCollection->getFilterStringFromAll();
-		$expectedFilterString 	= '&processingThreadIdStart=1&processingThreadIdEnd=65536&deleted=0';
+		$expectedFilterString 	= '&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0';
 		$this->assertEquals($expectedFilterString, $filterString);
 	}
 
@@ -89,7 +89,7 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 		$states = array(UrlQueueItem::IS_DOCUMENT_DELETED);
 		$filterCollection 		= $this->instance->createFromUrlQueueItemStates($states);
 		$filterString 			= $filterCollection->getFilterStringFromAll();
-		$expectedFilterString 	= '&deleted=1';
+		$expectedFilterString 	= '&isDeleted=1';
 		$this->assertEquals($expectedFilterString, $filterString);
 	}
 
