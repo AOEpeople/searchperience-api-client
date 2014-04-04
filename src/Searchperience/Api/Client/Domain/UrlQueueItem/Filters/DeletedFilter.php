@@ -38,7 +38,7 @@ class DeletedFilter extends AbstractFilter {
 	 */
 	public function getFilterString() {
 		if (isset($this->deleted)) {
-			$this->filterString = sprintf("&deleted=%s", rawurlencode((int)$this->deleted));
+			$this->filterString = sprintf("&isDeleted=%s", rawurlencode((int)$this->deleted));
 		}
 
 		return $this->filterString;
