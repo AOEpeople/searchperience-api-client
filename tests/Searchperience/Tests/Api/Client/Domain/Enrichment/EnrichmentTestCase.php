@@ -52,4 +52,11 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals(2, $this->enrichment->getMatchingRules()->getCount());
 	}
 
+	/**
+	 * @test
+	 * @expectedException InvalidArgumentException
+	 */
+	public function canNotSetInvalidMatchingRuleCombination() {
+		$this->enrichment->setMatchingRulesCombinationType('foo');
+	}
 }

@@ -29,11 +29,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Document\DocumentRepository
 	 */
 	public static function getDocumentRepository($baseUrl, $customerKey, $username, $password) {
-		// TODO resolve this "autoloading" in a right way
-		class_exists('\Symfony\Component\Validator\Constraints\Url');
-		class_exists('\Symfony\Component\Validator\Constraints\NotBlank');
-		class_exists('\Symfony\Component\Validator\Constraints\Length');
-
+		self::getDepedenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 
@@ -60,10 +56,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemRepository
 	 */
 	public static function getUrlQueueItemRepository($baseUrl, $customerKey, $username, $password) {
-		// TODO resolve this "autoloading" in a right way
-		class_exists('\Symfony\Component\Validator\Constraints\Url');
-		class_exists('\Symfony\Component\Validator\Constraints\NotBlank');
-		class_exists('\Symfony\Component\Validator\Constraints\Length');
+		self::getDepedenciesAutoloaded();
 
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
@@ -81,6 +74,34 @@ class Factory {
 		$urlQueueItemRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $urlQueueItemRepository;
+	}
+
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository
+	 */
+	public static function getEnrichmentRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+
+		$enrichmentStorage 	= new \Searchperience\Api\Client\System\Storage\RestEnrichmentBackend();
+		$enrichmentStorage->injectRestClient($guzzle);
+		$enrichmentStorage->injectDateTimeService($dateTimeService);
+		$enrichmentStorage->setBaseUrl($baseUrl);
+		$enrichmentStorage->setUsername($username);
+		$enrichmentStorage->setPassword($password);
+
+		$enrichmentRepository = new \Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository();
+		$enrichmentRepository->injectStorageBackend($enrichmentStorage);
+		$enrichmentRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Enrichment\Filters\FilterCollectionFactory());
+		$enrichmentRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $enrichmentRepository;
 	}
 
 	/**
@@ -104,5 +125,12 @@ class Factory {
 			}
 		}
 		return $guzzle;
+	}
+
+	protected static function getDepedenciesAutoloaded() {
+		// TODO resolve this "autoloading" in a right way
+		class_exists('\Symfony\Component\Validator\Constraints\Url');
+		class_exists('\Symfony\Component\Validator\Constraints\NotBlank');
+		class_exists('\Symfony\Component\Validator\Constraints\Length');
 	}
 }

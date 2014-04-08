@@ -22,7 +22,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	public function post(\Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment) {
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
-			$arguments 	= $this->buildRequestArrayFromUrlQueue($urlQueue);
+			$arguments 	= $this->buildRequestArrayFromEnrichment($enrichment);
 			$response 	= $this->executePostRequest($arguments);
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
 			$this->transformStatusCodeToClientErrorResponseException($exception);
@@ -187,7 +187,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 		}
 
 		if (!is_null($enrichment->getEnabled())) {
-			$valueArray['enabled'] = $enrichment->getEnabled();
+			$valueArray['status'] = $enrichment->getEnabled();
 		}
 
 		if (!is_null($enrichment->getTitle())) {
@@ -196,6 +196,14 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 
 		if (!is_null($enrichment->getAddBoost())) {
 			$valueArray['addBoost'] = $enrichment->getAddBoost();
+		}
+
+		if (!is_null($enrichment->getMatchingRulesCombinationType())) {
+			$valueArray['matchingRuleCombinationType'] = $enrichment->getMatchingRulesCombinationType();
+		}
+
+		if (!is_null($enrichment->getMatchingRulesExpectedResult())) {
+			$valueArray['matchingRuleExpectedResult'] = ($enrichment->getMatchingRulesExpectedResult()) ? 1 : 0;
 		}
 
 		foreach($enrichment->getFieldEnrichments() as $key => $fieldEnrichment) {
@@ -217,6 +225,8 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$data['fieldName'] 		= $matchingRule->getFieldName();
 			$data['operator']		= $matchingRule->getOperator();
 			$data['operatorValue']  = $matchingRule->getOperatorValue();
+
+			$valueArray['matchingRules'][$key] = $data;
 		}
 
 

@@ -49,10 +49,10 @@ class EnrichmentRepository {
 	/**
 	 * Injects the filter collection factory
 	 *
-	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem\Filters\FilterCollectionFactory $filterCollectionFactory
+	 * @param \Searchperience\Api\Client\Domain\Enrichment\Filters\FilterCollectionFactory $filterCollectionFactory
 	 * @return void
 	 */
-	public function injectFilterCollectionFactory(\Searchperience\Api\Client\Domain\UrlQueueItem\Filters\FilterCollectionFactory $filterCollectionFactory) {
+	public function injectFilterCollectionFactory(\Searchperience\Api\Client\Domain\Enrichment\Filters\FilterCollectionFactory $filterCollectionFactory) {
 		$this->filterCollectionFactory = $filterCollectionFactory;
 	}
 

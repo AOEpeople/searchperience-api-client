@@ -55,7 +55,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 	 *
 	 * @param $filters
 	 * @throws \Searchperience\Common\Exception\UnexpectedValueException
-	 * @return booleans
+	 * @return boolean
 	 */
 	protected function validateFilterArguments($filters) {
 		$filterNames = array_keys($filters);

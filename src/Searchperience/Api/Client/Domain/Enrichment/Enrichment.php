@@ -9,6 +9,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Enrichment {
 
+	const MATCH_ALL = 'all';
+	const MATCH_ATLEASTONE = 'one';
+	const MATCH_NONE = 'none';
+
 	/**
 	 * @var integer
 	 */
@@ -20,7 +24,7 @@ class Enrichment {
 	protected $title;
 
 	/**
-	 * @var float
+	 * @var string
 	 */
 	protected $addBoost;
 
@@ -45,6 +49,23 @@ class Enrichment {
 	protected $fieldEnrichments = null;
 
 	/**
+	 * @var string
+	 */
+	protected $matchingRulesCombinationType = self::MATCH_ALL;
+
+	/**
+	 * @var bool
+	 */
+	protected $matchingRulesExpectedResult = TRUE;
+
+	/**
+	 * @var array
+	 */
+	protected static $allowedMatchingRulesCombinationTypes = array(
+		Enrichment::MATCH_ALL, Enrichment::MATCH_ATLEASTONE, Enrichment::MATCH_NONE
+	);
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -53,14 +74,18 @@ class Enrichment {
 	}
 
 	/**
-	 * @param float $addBoost
+	 * Should be a float with %
+	 *
+	 * eg: 90.00%
+	 *
+	 * @param string $addBoost
 	 */
 	public function setAddBoost($addBoost) {
 		$this->addBoost = $addBoost;
 	}
 
 	/**
-	 * @return float
+	 * @return string
 	 */
 	public function getAddBoost() {
 		return $this->addBoost;
@@ -154,5 +179,46 @@ class Enrichment {
 	 */
 	public function getMatchingRules() {
 		return $this->matchingRules;
+	}
+
+	/**
+	 * @param string $matchingRulesCombinationType
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function setMatchingRulesCombinationType($matchingRulesCombinationType) {
+		if(!self::isAllowedMatchingRuleCombinationType($matchingRulesCombinationType)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException("Invalid matchingRulesCombinationType: ".htmlspecialchars($matchingRulesCombinationType));
+		}
+
+		$this->matchingRulesCombinationType = $matchingRulesCombinationType;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMatchingRulesCombinationType() {
+		return $this->matchingRulesCombinationType;
+	}
+
+	/**
+	 * @param string $matchingRulesCombinationType
+	 * @return bool
+	 */
+	public static function isAllowedMatchingRuleCombinationType($matchingRulesCombinationType) {
+		return in_array($matchingRulesCombinationType, self::$allowedMatchingRulesCombinationTypes);
+	}
+
+	/**
+	 * @param boolean $matchingRulesExpectedResult
+	 */
+	public function setMatchingRulesExpectedResult($matchingRulesExpectedResult) {
+		$this->matchingRulesExpectedResult = $matchingRulesExpectedResult;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getMatchingRulesExpectedResult() {
+		return $this->matchingRulesExpectedResult;
 	}
 }

@@ -1,14 +1,14 @@
 <?php
+
 /**
  * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  * @Date: 2/24/14
  * @Time: 6:19 PM
  */
 
-namespace Searchperience\Api\Client\Domain\Document\Filters;
+namespace Searchperience\Api\Client\Domain\Enrichment\Filters;
 
-use Searchperience\Api\Client\Domain\Document\Filters;
-use Searchperience\Api\Client\Domain\Document\UrlQueueItem;
+use Searchperience\Api\Client\Domain\Enrichment\Filters;
 use Searchperience\Api\Client\Domain\Filters\AbstractFilterCollectionFactory;
 use Symfony\Component\Validator\Validation;
 
@@ -22,9 +22,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 	/**
 	 * @var array
 	 */
-	protected $allowedFilters = array(
-		'boostFactor','crawl','lastProcessed','notifications','pageRank','query','source'
-	);
+	protected $allowedFilters = array();
 
 	/**
 	 * @param $filterName

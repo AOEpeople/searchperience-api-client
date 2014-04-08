@@ -34,7 +34,7 @@ class MatchingRule {
 	/**
 	 * @var array
 	 */
-	protected $allowedOperators = array(
+	protected static $allowedOperators = array(
 		self::OPERATOR_EQUALS, self::OPERATOR_CONTAINS,
 		self::OPERATOR_CONTAINSNOT, self::OPERATOR_EQUALSNOT,
 		self::OPERATOR_GREATER, self::OPERATOR_LOWER
@@ -45,7 +45,7 @@ class MatchingRule {
 	 * @return bool
 	 */
 	public static function isOperatorAllowed($operator) {
-		return in_array($operator, self::allowedOperators);
+		return in_array($operator, self::$allowedOperators);
 	}
 
 	/**
@@ -64,8 +64,12 @@ class MatchingRule {
 
 	/**
 	 * @param string $operator
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function setOperator($operator) {
+		if(!$this->isOperatorAllowed($operator)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException("Invalid operator: ".htmlspecialchars($operatorValue));
+		}
 		$this->operator = $operator;
 	}
 
@@ -73,6 +77,7 @@ class MatchingRule {
 	 * @return string
 	 */
 	public function getOperator() {
+
 		return $this->operator;
 	}
 

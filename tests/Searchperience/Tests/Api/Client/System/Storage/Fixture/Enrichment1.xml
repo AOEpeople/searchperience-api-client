@@ -4,6 +4,8 @@
 	<enrichment id="1" >
 		<title>my enrichment</title>
 		<addBoost>2315.22</addBoost>
+		<matchingRulesExpectedResult>1</matchingRulesExpectedResult>
+		<matchingRulesCombinationType>all</matchingRulesCombinationType>
 		<matchingrules>
 			<matchingrule>
 				<fieldName>content</fieldName>
