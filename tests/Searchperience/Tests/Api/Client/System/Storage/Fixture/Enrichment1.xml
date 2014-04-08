@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<enrichments>
+	<totalCount>1</totalCount>
+	<enrichment id="1" >
+		<title>my enrichment</title>
+		<addBoost>2315.22</addBoost>
+		<matchingrules>
+			<matchingrule>
+				<fieldName>content</fieldName>
+				<operator>equals</operator>
+				<operatorValue>10</operatorValue>
+			</matchingrule>
+		</matchingrules>
+		<fieldenrichments>
+			<fieldenrichment>
+				<fieldName>lowboostwords</fieldName>
+				<content>eins</content>
+			</fieldenrichment>
+			<fieldenrichment>
+				<fieldName>highboostwords</fieldName>
+				<content>zwei</content>
+			</fieldenrichment>
+		</fieldenrichments>
+	</enrichment>
+</enrichments>

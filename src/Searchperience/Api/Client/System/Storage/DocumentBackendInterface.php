@@ -120,18 +120,10 @@ interface DocumentBackendInterface {
 	public function deleteBySource($source);
 
 	/**
-	 * @param int $start
-	 * @param int $limit
-	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
-	 *
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document\DocumentCollection
+	 * @param $start
+	 * @param $limit
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection
+	 * @return mixed
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
 }

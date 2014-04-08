@@ -30,31 +30,6 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 		return $response->getStatusCode();
 	}
 
-
-	/**
-	 * {@inheritdoc}
-	 * @param int $documentId
-	 * @return mixed
-	 * @throws \Searchperience\Common\Exception\RuntimeException
-	 */
-	public function updateByDocumentId($documentId) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->put('/{customerKey}/urlqueueitems/' . $documentId)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
-		return $response->getStatusCode();
-	}
-
 	/**
 	 * {@inheritdoc}
 	 * @param int $documentId

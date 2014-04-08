@@ -209,7 +209,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document\Document[]
+	 * @return \Searchperience\Api\Client\Domain\Document\DocumentCollection
 	 */
 	protected function buildDocumentsFromXml(\SimpleXMLElement $xml) {
 		$documentArray = new DocumentCollection();

@@ -5,9 +5,9 @@ namespace Searchperience\Api\Client\System\Storage;
 /**
  * Interface UrlqueueBackendInterface
  * @package Searchperience\Api\Client\System\Storage
- * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
+ * @author: Timo Schmidt <timo.schmidt@aoe.com>
  */
-interface UrlQueueItemBackendInterface {
+interface EnrichmentBackendInterface {
 
 	/**
 	 * @param string $username
@@ -28,7 +28,7 @@ interface UrlQueueItemBackendInterface {
 	public function setBaseUrl($baseUrl);
 
 	/**
-	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $document
+	 * @param \Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -38,10 +38,10 @@ interface UrlQueueItemBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function post(\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlqueue);
+	public function post(\Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment);
 
 	/**
-	 * @param string $documentId
+	 * @param string $id
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -49,22 +49,9 @@ interface UrlQueueItemBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItem
+	 * @return \Searchperience\Api\Client\Domain\Document\Enrichment
 	 */
-	public function getByDocumentId($documentId);
-
-	/**
-	 * @param string $url
-	 *
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItem
-	 */
-	public function getByUrl($url);
+	public function getById($id);
 
 	/**
 	 * @param int $start
@@ -76,7 +63,7 @@ interface UrlQueueItemBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemCollection
+	 * @return \Searchperience\Api\Client\Domain\Document\EnrichmentCollection
 	 * @return mixed
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
