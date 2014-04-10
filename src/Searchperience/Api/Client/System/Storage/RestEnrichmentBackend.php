@@ -187,7 +187,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 		}
 
 		if (!is_null($enrichment->getEnabled())) {
-			$valueArray['status'] = $enrichment->getEnabled();
+			$valueArray['status'] = ($enrichment->getEnabled()) ? 1 : 0;
 		}
 
 		if (!is_null($enrichment->getTitle())) {
