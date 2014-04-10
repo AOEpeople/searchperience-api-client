@@ -235,30 +235,30 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	protected function buildRequestArrayFromUrlQueue(\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue) {
 		$valueArray = array();
 
-		if (!is_null($urlQueue->getDeleted())) {
-			$valueArray['deleted'] = $urlQueue->getDeleted();
+		if (!is_null($urlQueue->getDeleted()) && !$urlQueue->getDeleted() ) {
+			$valueArray['deleted'] = 0;
 		}
 		if (!is_null($urlQueue->getDocumentId())) {
 			$valueArray['documentId'] = $urlQueue->getDocumentId();
 		}
-		if (!is_null($urlQueue->getFailCount())) {
+
+			//only reset allowed
+		if (!is_null($urlQueue->getFailCount()) && $urlQueue->getFailCount() == 0) {
 			$valueArray['failCount'] = $urlQueue->getFailCount();
 		}
-		if (!is_null($urlQueue->getLastError())) {
-			$valueArray['lastError'] = $urlQueue->getLastError();
-		}
+
 		if (!is_null($urlQueue->getPriority())) {
 			$valueArray['priority'] = $urlQueue->getPriority();
 		}
-		if (!is_null($urlQueue->getProcessingStartTime())) {
-			$valueArray['processingStartTime'] = $this->dateTimeService->getDateStringFromDateTime($urlQueue->getProcessingStartTime());
-		}
-		if (!is_null($urlQueue->getProcessingThreadId())) {
-			$valueArray['processingThreadId'] = $urlQueue->getProcessingThreadId();
-		}
+
 		if (!is_null($urlQueue->getUrl())) {
 			$valueArray['url'] = $urlQueue->getUrl();
 		}
+
+		// documentId is readonly and will not be persistet
+		// lastError is readonly and will not be persistet
+		// processingStartTime is readonly and will not be persistet
+		// processingThreadId is readonly and will not be persistet
 
 		return $valueArray;
 	}

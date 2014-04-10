@@ -81,11 +81,7 @@ class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$expectsArgumentsArray = Array(
 				'deleted' => 0,
 				'documentId' => '111',
-				'failCount' => 1,
-				'lastError' => 'last error',
 				'priority' => 3,
-				'processingStartTime' => '2012-11-15 00:05:07',
-				'processingThreadId' => 1,
 				'url' => 'http://aoe.com'
 		);
 		$this->urlQueueItemBackend->expects($this->once())->method('executePostRequest')->with($expectsArgumentsArray)->will(
