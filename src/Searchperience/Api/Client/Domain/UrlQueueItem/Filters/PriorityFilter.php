@@ -19,13 +19,13 @@ class PriorityFilter extends AbstractFilter {
 
 	/**
 	 * @var string $pageRankStart
-	 * @Assert\Type(type="numeric", message="The value {{ value }} is not a valid {{ type }}.")
+	 * @Assert\Type(type="integer", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
 	protected $priorityStart;
 
 	/**
 	 * @var string $pageRankEnd
-	 * @Assert\Type(type="numeric", message="The value {{ value }} is not a valid {{ type }}.")
+	 * @Assert\Type(type="integer", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
 	protected $priorityEnd;
 
