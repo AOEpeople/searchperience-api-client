@@ -47,6 +47,21 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function testCanGetCollectionWithTotalCount() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Enrichment2.xml')));
+		$restClient->addSubscriber($mock);
+
+		$this->enrichmentBackend->injectRestClient($restClient);
+		$enrichments = $this->enrichmentBackend->getAllByFilterCollection(1,10);
+		$this->assertEquals($enrichments->getTotalCount(), 99, 'Could not reconstitude enrichment collection');
+
+	}
+
+	/**
+	 * @test
+	 */
 	public function canPostEnrichment() {
 		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
 		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<enrichments>
+	<totalCount>99</totalCount>
+	<enrichment id="1" >
+		<title>my enrichment</title>
+		<addBoost>2315.22</addBoost>
+		<matchingRulesExpectedResult>1</matchingRulesExpectedResult>
+		<matchingRulesCombinationType>all</matchingRulesCombinationType>
+		<matchingrules>
+			<matchingrule>
+				<fieldName>content</fieldName>
+				<operator>equals</operator>
+				<operatorValue>10</operatorValue>
+			</matchingrule>
+		</matchingrules>
+		<fieldenrichments>
+			<fieldenrichment>
+				<fieldName>lowboostwords</fieldName>
+				<content>eins</content>
+			</fieldenrichment>
+			<fieldenrichment>
+				<fieldName>highboostwords</fieldName>
+				<content>zwei</content>
+			</fieldenrichment>
+		</fieldenrichments>
+	</enrichment>
+    <enrichment id="2" >
+        <title>my enrichment</title>
+        <addBoost>2315.22</addBoost>
+        <matchingRulesExpectedResult>1</matchingRulesExpectedResult>
+        <matchingRulesCombinationType>all</matchingRulesCombinationType>
+        <matchingrules>
+            <matchingrule>
+                <fieldName>content</fieldName>
+                <operator>equals</operator>
+                <operatorValue>10</operatorValue>
+            </matchingrule>
+        </matchingrules>
+        <fieldenrichments>
+            <fieldenrichment>
+                <fieldName>lowboostwords</fieldName>
+                <content>eins</content>
+            </fieldenrichment>
+            <fieldenrichment>
+                <fieldName>highboostwords</fieldName>
+                <content>zwei</content>
+            </fieldenrichment>
+        </fieldenrichments>
+    </enrichment>
+</enrichments>
