@@ -38,6 +38,23 @@ class Document {
 	 */
 	const IS_PROCESSING = 'IS_PROCESSING';
 
+
+	/**
+	 * @var integer
+	 */
+	const INDEX_PRIORITY_NORMAL 	= 0;
+
+	/**
+	 * @var integer
+	 */
+
+	const INDEX_PRIORITY_HIGH 		= 1;
+
+	/**
+	 * @var integer
+	 */
+	const INDEX_PRIORITY_IMMEDIATE 	= 2;
+
 	/**
 	 * @var integer
 	 */

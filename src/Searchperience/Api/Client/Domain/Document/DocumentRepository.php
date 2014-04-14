@@ -102,7 +102,7 @@ class DocumentRepository {
 	 * 0-9:
 	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
 	 *
-	 * @param string $foreignId
+	 * @param string $id
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
@@ -205,7 +205,7 @@ class DocumentRepository {
 	/**
 	 * @param int $start
 	 * @param int $limit
-	 * @param Filters\FilterCollection $filtersCollection
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
 	 * @return DocumentCollection
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
@@ -250,7 +250,7 @@ class DocumentRepository {
 	 * 0-9:
 	 * Is valid if it is an alphanumeric string, which is defined as [[:alnum:]]
 	 *
-	 * @param string $foreignId
+	 * @param string $id
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
@@ -286,8 +286,8 @@ class DocumentRepository {
 	}
 
 	/**
-	 * @param Document[] $documents
-	 * @return Document[]
+	 * @param DocumentCollection $documents
+	 * @return DocumentCollection
 	 */
 	private function decorateDocuments(DocumentCollection $documents) {
 		$newCollection = new DocumentCollection();

@@ -49,6 +49,23 @@ class Factory {
 	}
 
 	/**
+	 * Create the document service that encapsulates a few document operations.
+	 *
+	 * @param $baseUrl
+	 * @param $customerKey
+	 * @param $username
+	 * @param $password
+	 * @return \Searchperience\Api\Client\Domain\Document\DocumentService
+	 */
+	public static function getDocumentService($baseUrl, $customerKey, $username, $password) {
+		$documentRepository = self::getDocumentRepository($baseUrl, $customerKey, $username, $password);
+		$documentService 	= new \Searchperience\Api\Client\Domain\Document\DocumentService();
+		$documentService->injectDocumentRepository($documentRepository);
+
+		return $documentService;
+	}
+
+	/**
 	 * @param string $baseUrl
 	 * @param string $customerKey
 	 * @param string $username
