@@ -238,6 +238,8 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			$documentObject ->setLastErrorMessage((string)$document->lastErrorMessage);
 			$documentObject ->setRecrawlTimeSpan((string)$document->recrawlTimeSpan);
 			$documentObject ->setInternalNoIndex((string)$document->internalNoIndex);
+			$documentObject ->setPageRank((int)$document->pageRank);
+			$documentObject ->setSolrCoreHints((string)$document->solrCoreHints);
 
 
 			if(trim($document->lastProcessingTime) != '') {
@@ -306,6 +308,12 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		}
 		if (!is_null($document->getTemporaryPriority())) {
 			$valueArray['temporaryPriority'] = $document->getTemporaryPriority();
+		}
+		if (!is_null($document->getPageRank())) {
+			$valueArray['pageRank'] = $document->getPageRank();
+		}
+		if (!is_null($document->getSolrCoreHints())) {
+			$valueArray['solrCoreHints'] = $document->getSolrCoreHints();
 		}
 
 		return $valueArray;

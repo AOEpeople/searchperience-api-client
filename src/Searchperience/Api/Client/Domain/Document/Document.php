@@ -176,6 +176,45 @@ class Document {
 	 */
 	protected $internalNoIndex;
 
+
+	/**
+	 * @var int
+	 */
+	protected $pageRank;
+
+	/**
+	 * @var string
+	 */
+	protected $solrCoreHints;
+
+	/**
+	 * @param float $pageRank
+	 */
+	public function setPageRank($pageRank) {
+		$this->pageRank = $pageRank;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPageRank() {
+		return $this->pageRank;
+	}
+
+	/**
+	 * @param string $solrCoreHints
+	 */
+	public function setSolrCoreHints($solrCoreHints) {
+		$this->solrCoreHints = $solrCoreHints;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSolrCoreHints() {
+		return $this->solrCoreHints;
+	}
+
 	/**
 	 * @param string $recrawlTimeSpan
 	 */
@@ -278,7 +317,7 @@ class Document {
 
 	/**
 	 * @param \DateTime $lastProcessingDate
-	 * @return void
+	 * @return \DateTime
 	 */
 	public function setLastProcessingDate(\DateTime $lastProcessingDate) {
 		return $this->lastProcessingDate = $lastProcessingDate;
@@ -293,7 +332,7 @@ class Document {
 
 	/**
 	 * @param \DateTime $dateTime
-	 * @return void
+	 * @return \DateTime
 	 */
 	public function setLastCrawlingDateTime(\DateTime $dateTime) {
 		return $this->lastCrawlingDateTime = $dateTime;
