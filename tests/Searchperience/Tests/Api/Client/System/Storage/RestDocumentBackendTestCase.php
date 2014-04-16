@@ -160,6 +160,41 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function canGetDocumentByDyUrlAnReconstitudePageRank() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12_withPageRank.xml')));
+		$restClient->addSubscriber($mock);
+
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getByUrl('http://www.dummy.tld/some/product');
+
+		$expectedDocument = $this->getDocument(array(
+			'id' => 12,
+			'foreignId' => '13211',
+			'source' => 'magento',
+			'content' => '<xml>some value</xml>',
+			'url' => 'http://www.dummy.tld/some/product',
+			'generalPriority' => 0,
+			'temporaryPriority' => 2,
+			'lastProcessing' => '2012-11-14 17:35:03',
+			'boostFactor' => 1,
+			'noIndex' => 1,
+			'isProminent' => 1,
+			'isMarkedForProcessing' => 0,
+			'mimeType' => 'text/xml',
+			'pageRank' => 5.55,
+			'solrCoreHints' => ''
+		));
+
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\Document', $document);
+		$this->assertEquals(5.55, $document->getPageRank(),'Page rank was not reconstituted as expected');
+		$this->assertEquals($expectedDocument, $document);
+	}
+
+	/**
+	 * @test
+	 */
 	public function canGetAllDocuments() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();

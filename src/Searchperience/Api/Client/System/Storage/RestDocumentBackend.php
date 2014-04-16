@@ -238,7 +238,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			$documentObject ->setLastErrorMessage((string)$document->lastErrorMessage);
 			$documentObject ->setRecrawlTimeSpan((string)$document->recrawlTimeSpan);
 			$documentObject ->setInternalNoIndex((string)$document->internalNoIndex);
-			$documentObject ->setPageRank((int)$document->pageRank);
+			$documentObject ->setPageRank((float)$document->pageRank);
 			$documentObject ->setSolrCoreHints((string)$document->solrCoreHints);
 
 

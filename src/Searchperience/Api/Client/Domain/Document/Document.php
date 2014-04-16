@@ -178,7 +178,7 @@ class Document {
 
 
 	/**
-	 * @var int
+	 * @var float
 	 */
 	protected $pageRank;
 
@@ -195,7 +195,7 @@ class Document {
 	}
 
 	/**
-	 * @return int
+	 * @return float
 	 */
 	public function getPageRank() {
 		return $this->pageRank;
