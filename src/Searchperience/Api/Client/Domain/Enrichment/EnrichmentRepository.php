@@ -122,7 +122,7 @@ class EnrichmentRepository {
 		}
 
 		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
-		$enrichments = $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingType, $sortingField);
+		$enrichments = $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
 
 		return $enrichments;
 	}
