@@ -51,7 +51,7 @@ class DateTimeService {
 	 * @return \DateTime
 	 */
 	public function getDateTimeFromApiDateString($dateString) {
-		return \DateTime::createFromFormat($this->targetSystemDateFormat, $dateString, new \DateTimeZone($this->targetSystemTimeZone));
+		return $this->getDateTimeFromFormat($this->targetSystemDateFormat, $dateString, $this->targetSystemTimeZone);
 	}
 
 	/**
@@ -65,5 +65,16 @@ class DateTimeService {
 		$dateTime->setTimezone($savedTimeZone);
 
 		return $restApiDateString;
+	}
+
+	/**
+	 * @param string $timeFormat
+	 * @param string $dateString
+	 * @param int $timeZoneConstant
+	 * @return \DateTime
+	 */
+	protected function getDateTimeFromFormat($timeFormat, $dateString, $timeZoneConstant) {
+		$timeZone = new \DateTimeZone($timeZoneConstant);
+		return \DateTime::createFromFormat($timeFormat, $dateString, $timeZone);
 	}
 }

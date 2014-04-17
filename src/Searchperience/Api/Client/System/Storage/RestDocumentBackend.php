@@ -104,20 +104,20 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 * @param int $start
 	 * @param int $limit
+	 * @param string $sortingField = ''
+	 * @param string $sortingType = desc
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
 	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
-	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
-		$filterUrlString = '';
-		if($filtersCollection != null) {
-			$filterUrlString = $filtersCollection->getFilterStringFromAll();
-		}
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
+		$filterUrlString 	= $this->getFilterQueryString($filtersCollection);
+		$sortingUrlString 	= $this->getSortingQueryString($sortingField, $sortingType);
 
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/documents?start=' . $start . '&limit=' . $limit . $filterUrlString)
+					->get('/{customerKey}/documents?start=' . $start . '&limit=' . $limit . $filterUrlString.$sortingUrlString)
 					->setAuth($this->username, $this->password)
 					->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {

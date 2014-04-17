@@ -65,19 +65,19 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 * @param int $start
 	 * @param int $limit
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 * @param string $sortingField = ''
+	 * @param string $sortingType = desc
 	 * @return \Searchperience\Api\Client\Domain\Enrichment\EnrichmentCollection
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
-	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
-		$filterUrlString = '';
-		if ($filtersCollection != null) {
-			$filterUrlString = $filtersCollection->getFilterStringFromAll();
-		}
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
+		$filterUrlString 	= $this->getFilterQueryString($filtersCollection);
+		$sortingUrlString 	= $this->getSortingQueryString($sortingField, $sortingType);
 
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/enrichments?start=' . $start . '&limit=' . $limit . $filterUrlString)
+					->get('/{customerKey}/enrichments?start=' . $start . '&limit=' . $limit . $filterUrlString.$sortingUrlString)
 					->setAuth($this->username, $this->password)
 					->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {

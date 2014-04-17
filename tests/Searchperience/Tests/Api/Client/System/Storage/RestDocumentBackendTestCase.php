@@ -1,6 +1,7 @@
 <?php
 
 namespace Searchperience\Tests\Api\Client\Document\System\Storage;
+use Searchperience\Api\Client\Domain\Filters\FilterCollection;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -312,7 +313,6 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 						'lasterror=1&'.
 						'processingthreadid=1';
 
-		//$this->markTestSkipped('The test is not valid anymore.');
 		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array('xml'), array(), '', false);
 		$responsetMock->expects($this->once())->method('xml')->will($this->returnValue(new \SimpleXMLElement('<?xml version="1.0"?><documents></documents>')));
 
@@ -339,5 +339,43 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$filterCollectionFactory = new \Searchperience\Api\Client\Domain\Document\Filters\FilterCollectionFactory();
 		$filterCollection = $filterCollectionFactory->createFromFilterArguments($filters);
 		$this->documentBackend->getAllByFilterCollection(0, 10, $filterCollection);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sortingIsPassedToRestBackend() {
+		$expectedUrl = '/{customerKey}/documents?start=0&limit=10&sortingField=foo&sortingType=DESC';
+		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array('xml'), array(), '', false);
+		$responsetMock->expects($this->once())->method('xml')->will($this->returnValue(new \SimpleXMLElement('<?xml version="1.0"?><documents></documents>')));
+
+		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
+			return $resquestMock;
+		}));
+		$resquestMock->expects($this->once())->method('send')->will($this->returnCallback(function () use ($responsetMock) {
+			return $responsetMock;
+		}));
+
+		$restClient = $this->getMock('\Guzzle\Http\Client',array('get','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient->expects($this->once())->method('get')->with($expectedUrl)->will($this->returnCallback(function() use ($resquestMock) {
+			return $resquestMock;
+		}));
+
+
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Qvc_foreignId_12.xml')));
+		$restClient->addSubscriber($mock);
+
+		$this->documentBackend->injectRestClient($restClient);
+		$this->documentBackend->getAllByFilterCollection(0, 10, new FilterCollection(),'foo','DESC');
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function invalidSortingThrowsException() {
+		$this->documentBackend->getAllByFilterCollection(0, 10, new FilterCollection(),'foo','Foo');
 	}
 }

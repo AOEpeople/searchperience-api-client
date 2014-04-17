@@ -3,6 +3,8 @@
 namespace Searchperience\Api\Client\Domain\Enrichment;
 
 use Searchperience\Api\Client\Domain\Enrichment\EnrichmentCollection;
+use Searchperience\Api\Client\System\Storage\AbstractRestBackend;
+use Searchperience\Common\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Validation;
 
 /**
@@ -83,7 +85,7 @@ class EnrichmentRepository {
 	 */
 	public function getById($id) {
 		if (!is_numeric($id)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
 		}
 
 		$enrichment = $this->decorateEnrichment($this->storageBackend->getById($id));
@@ -96,23 +98,31 @@ class EnrichmentRepository {
 	 * @param int $start
 	 * @param int $limit
 	 * @param array $filterArguments
+	 * @param string $sortingField
+	 * @param string $sortingType
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @return \Searchperience\Api\Client\Domain\Document\EnrichmentCollection
 	 */
-	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array()) {
+	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array(), $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
 		if (!is_integer($start)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
 		if (!is_integer($limit)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
 		}
 		if (!is_array($filterArguments)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
 		}
 
 		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
-		$enrichments = $this->getAllByFilterCollection($start, $limit, $filterCollection);
+		$enrichments = $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingType, $sortingField);
 
 		return $enrichments;
 	}
@@ -122,18 +132,26 @@ class EnrichmentRepository {
 	 * @param $start
 	 * @param $limit
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 * @param $sortingField
+	 * @param $sortingType
 	 * @return EnrichmentCollection
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
-	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
 		if (!is_integer($start)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
 		if (!is_integer($limit)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
 		}
 
-		$enrichments = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection);
+		$enrichments = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
 		return $this->decorateEnrichments($enrichments);
 	}
 
@@ -152,7 +170,7 @@ class EnrichmentRepository {
 	 */
 	public function deleteById($id) {
 		if (!is_numeric($id) ) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integers values as $id. Input was: ' . serialize($id));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integers values as $id. Input was: ' . serialize($id));
 		}
 
 		$statusCode = $this->storageBackend->deleteById($id);

@@ -33,30 +33,6 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * {@inheritdoc}
 	 * @param int $documentId
-	 * @return mixed
-	 * @throws \Searchperience\Common\Exception\RuntimeException
-	 */
-	public function addUrlToQueue($documentId, $url) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->put('/{customerKey}/urlqueueitems?documentId=' . $documentId . '&url=' . $url)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
-		return $response->getStatusCode();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @param int $documentId
 	 * @return \Searchperience\Api\Client\Domain\Document\Document
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
@@ -109,19 +85,19 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * @param int $start
 	 * @param int $limit
 	 * @param \Searchperience\Api\Client\Domain\Document\FilterCollection $filtersCollection
+	 * @param string $sortingField = ''
+	 * @param string $sortingType = desc
 	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemCollection
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
-	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null) {
-		$filterUrlString = '';
-		if ($filtersCollection != null) {
-			$filterUrlString = $filtersCollection->getFilterStringFromAll();
-		}
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC ) {
+		$filterUrlString 	= $this->getFilterQueryString($filtersCollection);
+		$sortingUrlString 	= $this->getSortingQueryString($sortingField, $sortingType);
 
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/urlqueueitems?start=' . $start . '&limit=' . $limit . $filterUrlString)
+					->get('/{customerKey}/urlqueueitems?start=' . $start . '&limit=' . $limit . $filterUrlString.$sortingUrlString)
 					->setAuth($this->username, $this->password)
 					->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
@@ -274,4 +250,5 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 				->send();
 		return $response;
 	}
+
 }

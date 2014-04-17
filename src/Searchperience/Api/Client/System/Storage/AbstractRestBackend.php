@@ -9,6 +9,12 @@ namespace Searchperience\Api\Client\System\Storage;
  */
 abstract class AbstractRestBackend {
 
+
+
+	const SORTING_ASC = 'ASC';
+
+	const SORTING_DESC = 'DESC';
+
 	/**
 	 * @var string
 	 */
@@ -35,6 +41,11 @@ abstract class AbstractRestBackend {
 	 * @var \Searchperience\Api\Client\System\DateTime\DateTimeService
 	 */
 	protected $dateTimeService;
+
+	/**
+	 * @var array
+	 */
+	protected static $allowedSortings = array(self::SORTING_ASC, self::SORTING_DESC);
 
 	/**
 	 * Set the username to access the api.
@@ -155,5 +166,46 @@ abstract class AbstractRestBackend {
 	 */
 	public function injectDateTimeService(\Searchperience\Api\Client\System\DateTime\DateTimeService $dateTimeService) {
 		$this->dateTimeService = $dateTimeService;
+	}
+
+	/**
+	 * @param string $sorting
+	 * @return boolean
+	 */
+	public static function getIsAllowedSorting($sorting) {
+		return in_array($sorting, self::$allowedSortings);
+	}
+
+	/**
+	 * @param string $sortingField
+	 * @param string $sortingType
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @return string
+	 */
+	protected function getSortingQueryString($sortingField  = '', $sortingType = self::SORTING_DESC) {
+		if(trim($sortingField) == '') {
+			return '';
+		}
+
+		if(!$this->getIsAllowedSorting($sortingType)) {
+			throw new \Searchperience\Common\Exception\InvalidArgumentException('Invalid sorting passed');
+		}
+
+		return '&sortingField='.$sortingField.'&sortingType='.$sortingType;
+	}
+
+
+	/**
+	 * @param $filtersCollection
+	 * @return string
+	 */
+	protected function getFilterQueryString($filtersCollection) {
+		$filterUrlString = '';
+
+		if ($filtersCollection != null) {
+			$filterUrlString = $filtersCollection->getFilterStringFromAll();
+			return $filterUrlString;
+		}
+		return $filterUrlString;
 	}
 }

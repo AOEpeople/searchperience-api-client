@@ -64,4 +64,16 @@ class DateTimeServiceTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function canConvertToDateTimeObject($stringDateTime, $dateTime) {
 		$this->assertEquals($dateTime, $this->dateTimeService->getDateTimeFromApiDateString($stringDateTime));
 	}
+
+	/**
+	 * @test
+	 */
+	public function canTakeTargetSystemTimeZoneAndDateFormatIntoAccount() {
+			/** @var $dateTimeService DateTimeService */
+		$dateTimeService = $this->getMock('Searchperience\Api\Client\System\DateTime\DateTimeService',array('getDateTimeFromFormat'),array(),'', false);
+		$dateTimeService->setTargetSystemDateFormat('Y');
+		$dateTimeService->setTargetSystemTimeZone(\DateTimeZone::AFRICA);
+		$dateTimeService->expects($this->once())->method('getDateTimeFromFormat')->with('Y','2012-12-31 23:00:00',\DateTimeZone::AFRICA);
+		$dateTimeService->getDateTimeFromApiDateString('2012-12-31 23:00:00');
+	}
 }

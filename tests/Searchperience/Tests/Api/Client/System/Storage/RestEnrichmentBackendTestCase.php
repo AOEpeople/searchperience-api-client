@@ -5,6 +5,7 @@ namespace Searchperience\Tests\Api\Client\Document\System\Storage;
 use Searchperience\Api\Client\Domain\Enrichment\Enrichment;
 use Searchperience\Api\Client\Domain\Enrichment\FieldEnrichment;
 use Searchperience\Api\Client\Domain\Enrichment\MatchingRule;
+use Searchperience\Api\Client\Domain\Filters\FilterCollection;
 
 use Searchperience\Api\Client\System\Storage\RestEnrichmentBackend;
 
@@ -118,5 +119,13 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$this->enrichmentBackend->injectRestClient($restClient);
 		$this->enrichmentBackend->post($enrichment);
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function invalidSortingThrowsException() {
+		$this->enrichmentBackend->getAllByFilterCollection(0, 10, new FilterCollection(),'foo','Foo');
 	}
 }

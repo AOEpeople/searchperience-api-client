@@ -3,6 +3,8 @@
 namespace Searchperience\Api\Client\Domain\Document;
 
 use Searchperience\Api\Client\Domain\Document\Filters\FiltersCollection;
+use Searchperience\Api\Client\System\Storage\AbstractRestBackend;
+use Searchperience\Common\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Validation;
 
 /**
@@ -66,7 +68,7 @@ class DocumentRepository {
 		$violations = $this->documentValidator->validate($document);
 
 		if ($violations->count() > 0) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Given object of type "' . get_class($document) . '" is not valid: ' . PHP_EOL . $violations);
+			throw new InvalidArgumentException('Given object of type "' . get_class($document) . '" is not valid: ' . PHP_EOL . $violations);
 		}
 
 		$status = $this->storageBackend->post($document);
@@ -88,7 +90,7 @@ class DocumentRepository {
 	 */
 	public function getByForeignId($foreignId) {
 		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[a-zA-Z0-9_-]*$/u', $foreignId) !== 1) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
 		$document = $this->decorateDocument($this->storageBackend->getByForeignId($foreignId));
@@ -110,7 +112,7 @@ class DocumentRepository {
 	 */
 	public function getById($id) {
 		if (!is_numeric($id)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
 		}
 
 		$document = $this->decorateDocument($this->storageBackend->getById($id));
@@ -132,7 +134,7 @@ class DocumentRepository {
 	 */
 	public function getByUrl($url) {
 		if (!is_string($url) ) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
 		}
 
 		$document = $this->decorateDocument($this->storageBackend->getByUrl($url));
@@ -149,28 +151,36 @@ class DocumentRepository {
 	 * @param int $start
 	 * @param int $limit
 	 * @param string $source
+	 * @param string $sortingField
+	 * @param string $sortingType
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document\DocumentCollection
 	 * @deprecated Please now use getAllByFilters with a filter arguments array or getAllByFilterCollection with a proper FilterCollection
 	 */
-	public function getAll($start = 0, $limit = 10, $source = '') {
+	public function getAll($start = 0, $limit = 10, $source = '', $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
 		if (isset($source) && (!is_string($source) && !is_integer($source) || preg_match('/^[a-zA-Z0-9_-]*$/u', $source) !== 1)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($source));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($source));
 		}
 		if ( !is_integer($start) ) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
 		if (!is_integer($limit)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
 		}
 
 		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments(
 				array('source' => array('source' => $source))
 		);
 
-		return $this->getAllByFilterCollection($start, $limit, $filterCollection);
+		return $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
 	}
 
 
@@ -180,24 +190,32 @@ class DocumentRepository {
 	 * @param int $start
 	 * @param int $limit
 	 * @param array $filterArguments
+	 * @param string $sortingField
+	 * @param string $sortingType
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return \Searchperience\Api\Client\Domain\Document\DocumentCollection
 	 */
-	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array()){
+	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array(), $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC){
 		if ( !is_integer($start) ) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
 		if (!is_integer($limit)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
 		}
 		if (!is_array($filterArguments)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
 		}
 
 		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
-		$documents = $this->getAllByFilterCollection($start, $limit, $filterCollection);
+		$documents = $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
 
 		return $documents;
 	}
@@ -206,18 +224,26 @@ class DocumentRepository {
 	 * @param int $start
 	 * @param int $limit
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 * @param string $sortingField
+	 * @param string $sortingType
 	 * @return DocumentCollection
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
-	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection= null) {
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection= null, $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
 		if (!is_integer($start)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
 		}
 		if (!is_integer($limit)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
 		}
 
-		$documents = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection);
+		$documents = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
 		return $this->decorateDocuments($documents);
 	}
 
@@ -236,7 +262,7 @@ class DocumentRepository {
 	 */
 	public function deleteByForeignId($foreignId) {
 		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[a-zA-Z0-9_-]*$/u', $foreignId) !== 1) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
 		$statusCode = $this->storageBackend->deleteByForeignId($foreignId);
@@ -258,7 +284,7 @@ class DocumentRepository {
 	 */
 	public function deleteById($id) {
 		if (!is_numeric($id) ) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integers values as $id. Input was: ' . serialize($id));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integers values as $id. Input was: ' . serialize($id));
 		}
 
 		$statusCode = $this->storageBackend->deleteById($id);
@@ -279,7 +305,7 @@ class DocumentRepository {
 	 */
 	public function deleteBySource($source) {
 		if (!is_string($source)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $source. Input was: ' . serialize($source));
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $source. Input was: ' . serialize($source));
 		}
 
 		return $this->storageBackend->deleteBySource($source);
