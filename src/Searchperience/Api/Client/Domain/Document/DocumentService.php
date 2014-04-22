@@ -92,7 +92,7 @@ class DocumentService {
 	 * @return bool
 	 */
 	public function markDocumentForNoIndexByUrl($url, $priority = Document::INDEX_PRIORITY_HIGH) {
-		$document = $this->documentRepository->getByForeignId($url);
+		$document = $this->documentRepository->getByUrl($url);
 		return $this->markDocumentForNoIndex($document, $priority);
 	}
 
