@@ -143,7 +143,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$enrichmentObject->setTitle((string)$enrichment->title);
 			$enrichmentObject->setAddBoost((float) $enrichment->addBoost);
 			$enrichmentObject->setDescription($enrichment->description);
-			$enrichmentObject->setEnabled((bool) $enrichment->status);
+			$enrichmentObject->setEnabled((bool)(int)$enrichment->status);
 
 			if(isset( $enrichment->matchingrules->matchingrule )) {
 				foreach($enrichment->matchingrules->matchingrule as $matchingrule) {
