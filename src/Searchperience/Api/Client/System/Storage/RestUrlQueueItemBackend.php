@@ -182,7 +182,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 			$urlQueueObject = new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem();
 			$urlQueueObject->setDocumentId((integer)$urlQueueAttributeArray['@attributes']['id']);
 			$urlQueueObject->setUrl((string)$urlQueue->url);
-			$urlQueueObject->setDeleted((bool)$urlQueue->deleted);
+			$urlQueueObject->setDeleted((bool)(int)$urlQueue->deleted);
 			$urlQueueObject->setFailCount((integer)$urlQueue->failCount);
 			$urlQueueObject->setProcessingThreadId((integer)$urlQueue->processingThreadId);
 
