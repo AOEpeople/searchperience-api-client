@@ -227,8 +227,7 @@ abstract class AbstractRestBackend {
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 */
-	public function getListResponseFromEndpoint($endpoint, $start, $limit,$filtersCollection, $sortingField, $sortingType)
-	{
+	protected function getListResponseFromEndpoint($endpoint, $start, $limit,$filtersCollection, $sortingField, $sortingType) {
 		$filterUrlString = $this->getFilterQueryString($filtersCollection);
 		$sortingUrlString = $this->getSortingQueryString($sortingField, $sortingType);
 

@@ -3,12 +3,10 @@
 namespace Searchperience\Api\Client\System\Storage;
 
 use Guzzle\Http\Client;
-use Searchperience\Api\Client\Domain\Enrichment\Enrichment;
 use Searchperience\Api\Client\Domain\Enrichment\EnrichmentCollection;
 use Searchperience\Api\Client\Domain\Enrichment\FieldEnrichment;
 use Searchperience\Api\Client\Domain\Enrichment\MatchingRule;
-use Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository;
-
+use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
 /**
  * Class RestUrlqueueBackend
@@ -71,8 +69,12 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
-		$response   = $this->getListResponseFromEndpoint('enrichments',$start, $limit, $filtersCollection, $sortingField, $sortingType);
-		$xmlElement = $response->xml();
+		try {
+			$response   = $this->getListResponseFromEndpoint('enrichments',$start, $limit, $filtersCollection, $sortingField, $sortingType);
+			$xmlElement = $response->xml();
+		} catch (EntityNotFoundException $e) {
+			return new EnrichmentCollection();
+		}
 
 		return $this->buildEnrichmentsFromXml($xmlElement);
 	}

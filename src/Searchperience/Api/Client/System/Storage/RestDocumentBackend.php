@@ -4,6 +4,7 @@ namespace Searchperience\Api\Client\System\Storage;
 
 use Guzzle\Http\Client;
 use Searchperience\Api\Client\Domain\Document\DocumentCollection;
+use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -106,12 +107,16 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @param string $sortingField = ''
 	 * @param string $sortingType = desc
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
-	 * @return \Searchperience\Api\Client\Domain\Document\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\DocumentCollection
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
-		$response   = $this->getListResponseFromEndpoint('documents',$start, $limit, $filtersCollection, $sortingField, $sortingType);
-		$xmlElement = $response->xml();
+		try {
+			$response   = $this->getListResponseFromEndpoint('documents',$start, $limit, $filtersCollection, $sortingField, $sortingType);
+			$xmlElement = $response->xml();
+		} catch (EntityNotFoundException $e) {
+			return new DocumentCollection();
+		}
 
 		return $this->buildDocumentsFromXml($xmlElement);
 	}

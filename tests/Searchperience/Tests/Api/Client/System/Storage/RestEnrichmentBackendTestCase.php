@@ -8,6 +8,7 @@ use Searchperience\Api\Client\Domain\Enrichment\MatchingRule;
 use Searchperience\Api\Client\Domain\Filters\FilterCollection;
 
 use Searchperience\Api\Client\System\Storage\RestEnrichmentBackend;
+use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
 /**
  * @author Timo Schmidt
@@ -127,5 +128,21 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function invalidSortingThrowsException() {
 		$this->enrichmentBackend->getAllByFilterCollection(0, 10, new FilterCollection(),'foo','Foo');
+	}
+
+	/**
+	 * @test
+	 */
+	public function restBackendReturnsEmptyCollectionForEmptyListResponse() {
+			/** @var  $restBackend RestEnrichmentBackend */
+		$restBackend = $this->getMock('Searchperience\Api\Client\System\Storage\RestEnrichmentBackend',array('getListResponseFromEndpoint'));
+		$restBackend->expects($this->once())->method('getListResponseFromEndpoint')->will($this->returnCallback(
+			function(){
+				throw new EntityNotFoundException();
+			}
+		));
+
+		$result = $restBackend->getAllByFilterCollection(0,10);
+		$this->assertInstanceOf('Searchperience\Api\Client\Domain\Enrichment\EnrichmentCollection',$result);
 	}
 }
