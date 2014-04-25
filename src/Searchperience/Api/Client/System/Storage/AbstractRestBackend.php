@@ -208,4 +208,47 @@ abstract class AbstractRestBackend {
 		}
 		return $filterUrlString;
 	}
+
+	/**
+	 * @param $start
+	 * @param $limit
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection|null $filtersCollection
+	 * @param $sortingField
+	 * @param $sortingType
+	 * @return \Guzzle\http\Message\Response
+	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 */
+	public function getListResponseFromEndpoint($endpoint, $start, $limit,$filtersCollection, $sortingField, $sortingType)
+	{
+		$filterUrlString = $this->getFilterQueryString($filtersCollection);
+		$sortingUrlString = $this->getSortingQueryString($sortingField, $sortingType);
+
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->get('/{customerKey}/'.$endpoint.'?start=' . $start . '&limit=' . $limit . $filterUrlString . $sortingUrlString)
+				->setAuth($this->username, $this->password)
+				->send();
+			return $response;
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+			return $response;
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+			return $response;
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
+		}
+
+		return $response;
+	}
 }

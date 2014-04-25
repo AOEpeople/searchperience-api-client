@@ -13,7 +13,6 @@ use Searchperience\Api\Client\Domain\Document\DocumentCollection;
 class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\DocumentBackendInterface {
 
 
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -111,23 +110,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
-		$filterUrlString 	= $this->getFilterQueryString($filtersCollection);
-		$sortingUrlString 	= $this->getSortingQueryString($sortingField, $sortingType);
-
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/documents?start=' . $start . '&limit=' . $limit . $filterUrlString.$sortingUrlString)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response   = $this->getListResponseFromEndpoint('documents',$start, $limit, $filtersCollection, $sortingField, $sortingType);
 		$xmlElement = $response->xml();
 
 		return $this->buildDocumentsFromXml($xmlElement);
@@ -318,5 +301,4 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 
 		return $valueArray;
 	}
-
 }
