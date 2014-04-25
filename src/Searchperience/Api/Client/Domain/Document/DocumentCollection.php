@@ -29,4 +29,11 @@ class DocumentCollection extends \ArrayObject {
 	public function getTotalCount() {
 		return $this->totalCount;
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getCount() {
+		return $this->count();
+	}
 }
