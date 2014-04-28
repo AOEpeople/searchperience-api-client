@@ -239,5 +239,4 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 				->send();
 		return $response;
 	}
-
 }

@@ -7,7 +7,8 @@ use Searchperience\Api\Client\System\Storage\AbstractRestBackend;
 use Searchperience\Common\Exception\InvalidArgumentException;
 
 /**
- * Class UrlqueueRepository
+ * Class UrlQueueItemRepository
+ *
  * @package Searchperience\Api\Client\Domain
  * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */

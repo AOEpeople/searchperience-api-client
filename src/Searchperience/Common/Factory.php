@@ -98,6 +98,31 @@ class Factory {
 	 * @param string $customerKey
 	 * @param string $username
 	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemRepository
+	 */
+	public static function getUrlQueueStatusRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+
+		$urlQueueStatusStorage 	= new \Searchperience\Api\Client\System\Storage\RestUrlQueueStatusBackend();
+		$urlQueueStatusStorage->injectRestClient($guzzle);
+		$urlQueueStatusStorage->setBaseUrl($baseUrl);
+		$urlQueueStatusStorage->setUsername($username);
+		$urlQueueStatusStorage->setPassword($password);
+
+		$urlQueueStatusRepository = new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueStatusRepository();
+		$urlQueueStatusRepository->injectStorageBackend($urlQueueStatusStorage);
+
+		return $urlQueueStatusRepository;
+	}
+
+
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
 	 * @return \Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository
 	 */
 	public static function getEnrichmentRepository($baseUrl, $customerKey, $username, $password) {

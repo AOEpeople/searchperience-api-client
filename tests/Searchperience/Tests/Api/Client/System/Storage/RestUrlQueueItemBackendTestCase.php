@@ -7,7 +7,7 @@ use Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem;
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  * @author Nikolay Diaur <nikolay.diaur@aoe.com>
  */
-class RestUrlqueueBackendTestCase extends \Searchperience\Tests\BaseTestCase {
+class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 	/**
 	 * @var \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend
