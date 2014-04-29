@@ -54,6 +54,44 @@ You can find out more on how to install Composer, configure autoloading, and oth
 Searchperience API Client basics
 ========================
 
+
+Overview
+-----------
+
+The PHPApi client can be used to read and write entities from and to searchperience.
+The single entrypoint in your code is in the idea case the Factory class, that is able to create all repositories with all dependencies:
+
+You can use them in a static context:
+
+\Searchperience\Common\Factory::get<Service>
+
+will retrieve an instance of the repository that you want.
+
+By now the following entities can be handles:
+
+* DocumentRepository (Documents):
+
+The most important entity that represents every crawled or imported documents.
+
+* DocumentService:
+
+Used to execute service operations on documents, like mark them for ReCrawling or ReIndexing
+
+* EnrichmentRepository (Enrichments):
+
+RuleSets that can be used to "attach" data or boosting to documents based on matching rules.
+You can used them for example to attach searchterms to documents that do not contain them in there original data source.
+
+* UrlQueueItemRepository (UrlQueueItems)
+
+Queue of the crawler that contains urls that should be crawled next or can not be crawled because they throw errors
+or are bloecked for some other reason.
+
+* UrlQueueStatusRepository (UrlQueueStatus):
+
+Status information about the urlqueue.
+
+
 Add or update documents
 -----------
 
@@ -127,6 +165,60 @@ Delete document from indexer
 
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$documentRepository->deleteByForeignId(12);
+
+
+UrlQueueItems
+-----------
+
+	$urlQueueItemRepository = \Searchperience\Common\Factory::getUrlQueueItemRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$firstTen = $urlQueueItemRepository->getAllByFilters(0,10);
+
+
+
+UrlQueueStatus
+------------
+
+::
+
+    $urlQueueStatusRepository = \Searchperience\Common\Factory::getUrlQueueStatusRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    $status = $urlQueueStatusRepository->get();
+
+    echo $status->getErrorCount();
+
+
+The example above shows all documents that have an error.
+
+Enrichments
+------------
+
+
+::
+
+    $enrichmentRepository = \Searchperience\Common\Factory::getEnrichmentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    $enrichment = new Enrichment();
+    $enrichment->setTitle("test enrichment");
+
+    $matchingRule = new MatchingRule();
+    $matchingRule->setFieldname("brand_s");
+    $matchingRule->setOperator(MatchingRule::OPERATOR_CONTAINS);
+    $matchingRule->setOperatorValue("aoe");
+
+    $enrichment->addMatchingRule($matchingRule);
+
+    $fieldEnrichment = new FieldEnrichment();
+    $fieldEnrichment->setFieldName('highboost_words_sm');
+    $fieldEnrichment->setContent('php');
+
+    $enrichment->addFieldEnrichment($fieldEnrichment);
+    $enrichment->setEnabled(true);
+
+    $enrichmentRepository->add($enrichment);
+
+The example above shows the creation of an enrichment for a document that contains "aoe" in the brand and adds "php"
+as a word to the field "highboost_words_sm" that is configured as highly relevant for the search.
+
 
 Trouble shooting
 ----------------
