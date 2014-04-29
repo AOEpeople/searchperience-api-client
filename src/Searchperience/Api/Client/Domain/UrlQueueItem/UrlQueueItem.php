@@ -41,6 +41,16 @@ class UrlQueueItem {
 	const IS_PROCESSING = 'IS_PROCESSING';
 
 	/**
+	 * @var array
+	 */
+	protected static $validNotifications = array(
+		self::IS_DOCUMENT_DELETED,
+		self::IS_WAITING,
+		self::IS_ERROR,
+		self::IS_PROCESSING
+	);
+
+	/**
 	 * @var integer
 	 */
 	protected $documentId;
@@ -82,6 +92,13 @@ class UrlQueueItem {
 	 * @var integer
 	 */
 	protected $priority = null;
+
+	/**
+	 * @return array
+	 */
+	public static function getValidNotifications() {
+		return self::$validNotifications;
+	}
 
 	/**
 	 * @param boolean $deleted

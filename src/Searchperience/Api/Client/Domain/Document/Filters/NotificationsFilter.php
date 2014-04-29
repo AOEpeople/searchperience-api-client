@@ -3,7 +3,17 @@
 namespace Searchperience\Api\Client\Domain\Document\Filters;
 
 use Symfony\Component\Validator\Constraints as Assert;
+
 use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
+use Searchperience\Api\Client\Domain\Filters\FilterCollection;
+use Searchperience\Api\Client\Domain\Document\Filters\IsDuplicateFilter;
+use Searchperience\Api\Client\Domain\Document\Filters\ProcessingThreadIdFilter;
+use Searchperience\Api\Client\Domain\Document\Filters\IsDeletedFilter;
+use Searchperience\Api\Client\Domain\Document\Filters\HasErrorFilter;
+use Searchperience\Api\Client\Domain\Document\Filters\IsWaitingFilter;
+
+
+use Searchperience\Api\Client\Domain\Document\Document;
 
 /**
  * Class NotificationsFilter
@@ -13,83 +23,77 @@ use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
 class NotificationsFilter extends AbstractFilter {
 
 	/**
-	 * @var string
+	 * @var array $state
+	 * @Assert\Type(type="array", message="The value {{ value }} is not a valid {{ type }}.")
 	 */
-	protected $filterString;
+	protected $notifications;
 
 	/**
-	 * @var string $isduplicateof
-	 * @Assert\Type(type="bool", message="The value {{ value }} is not a valid {{ type }}.")
+	 * @param array $states
 	 */
-	protected $isduplicateof;
-
-	/**
-	 * @var string $lasterror
-	 * @Assert\Type(type="bool", message="The value {{ value }} is not a valid {{ type }}.")
-	 */
-	protected $lasterror;
-
-	/**
-	 * @var string $processingthreadid
-	 * @Assert\Type(type="bool", message="The value {{ value }} is not a valid {{ type }}.")
-	 */
-	protected $processingthreadid;
-
-	/**
-	 * @param string $isduplicateof
-	 */
-	public function setIsduplicateof($isduplicateof) {
-		$this->isduplicateof = $isduplicateof;
+	public function setNotifications($states) {
+		$this->notifications = $states;
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
-	public function getIsduplicateof() {
-		return $this->isduplicateof;
-	}
-
-	/**
-	 * @param string $lasterror
-	 */
-	public function setLasterror($lasterror) {
-		$this->lasterror = $lasterror;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLasterror() {
-		return $this->lasterror;
-	}
-
-	/**
-	 * @param string $processingthreadid
-	 */
-	public function setProcessingthreadid($processingthreadid) {
-		$this->processingthreadid = $processingthreadid;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getProcessingthreadid() {
-		return $this->processingthreadid;
+	public function getNotifications() {
+		return $this->notifications;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getFilterString() {
-		if (!empty($this->isduplicateof)) {
-			$this->filterString = sprintf("&isduplicateof=%d", rawurlencode($this->getIsduplicateof()));
+		if(!is_array($this->notifications)) {
+			return '';
 		}
-		if (!empty($this->lasterror)) {
-			$this->filterString .= sprintf("&lasterror=%d", rawurlencode($this->getLasterror()));
+
+		$result = new FilterCollection();
+		foreach($this->notifications as $state) {
+			switch($state) {
+				case Document::IS_PROCESSING:
+					$filter = new ProcessingThreadIdFilter();
+					$filter->setProcessingThreadIdStart(1);
+					$filter->setProcessingThreadIdEnd(65536);
+					$result->addFilter($filter);
+
+					$filter = new IsDeletedFilter();
+					$filter->setDeleted(false);
+					$result->addFilter($filter);
+					break;
+				case Document::IS_DELETING:
+					$filter = new IsDeletedFilter();
+					$filter->setDeleted(true);
+					$result->addFilter($filter);
+					break;
+
+				case Document::IS_ERROR:
+					$filter = new HasErrorFilter();
+					$filter->setError(true);
+					$result->addFilter($filter);
+					break;
+				case Document::IS_DUPLICATE:
+					$filter = new IsDuplicateFilter();
+					$filter->setIsDuplicate(true);
+					$result->addFilter($filter);
+					break;
+				case Document::IS_WAITING:
+					$filter = new IsWaitingFilter();
+					$filter->setIsWaiting(true);
+					$result->addFilter($filter);
+					break;
+				case Document::IS_REDIRECT:
+					$filter = new IsRedirectFilter();
+					$filter->setIsRedirect(true);
+					$result->addFilter($filter);
+					break;
+
+
+			}
 		}
-		if (!empty($this->processingthreadid)) {
-			$this->filterString .= sprintf("&processingthreadid=%d", rawurlencode($this->getProcessingthreadid()));
-		}
-		return $this->filterString;
+
+		return $result->getFilterStringFromAll();
 	}
 }

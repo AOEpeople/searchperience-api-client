@@ -1,7 +1,9 @@
 <?php
 
 namespace Searchperience\Tests\Api\Client\Document\System\Storage;
+
 use Searchperience\Api\Client\Domain\Filters\FilterCollection;
+use Searchperience\Api\Client\Domain\Document\Document;
 
 /**
  * @author Michael Klapper <michael.klapper@aoemedia.de>
@@ -298,7 +300,9 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 							'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
 							'processEnd' => $this->getUTCDateTimeObject('2014-01-03 10:00:00')
 						),
-						'notifications' => array('isduplicateof' => false, 'lasterror' => true, 'processingthreadid' => true),
+						'notifications' => array(
+							'notifications' => array(Document::IS_DUPLICATE,Document::IS_ERROR,Document::IS_PROCESSING)
+						),
 		);
 
 		$expectedUrl = '/{customerKey}/documents?start=0&limit=10&'.
@@ -310,8 +314,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 						'pageRankEnd=123&'.
 						'processStart=2014-01-01%2010%3A00%3A00&'.
 						'processEnd=2014-01-03%2010%3A00%3A00&'.
-						'lasterror=1&'.
-						'processingthreadid=1';
+						'isDuplicate=1&hasError=1&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0';
 
 		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array('xml'), array(), '', false);
 		$responsetMock->expects($this->once())->method('xml')->will($this->returnValue(new \SimpleXMLElement('<?xml version="1.0"?><documents></documents>')));

@@ -2,6 +2,8 @@
 
 namespace Searchperience\Api\Client\Domain\Document\Filters;
 
+use Searchperience\Api\Client\Domain\Document\Document;
+
 /**
  * @Author: Nikolay Diaur <nikolay.diaur@aoe.com>
  * @Date: 2/25/14
@@ -54,11 +56,18 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 									'processStart' => $this->getUTCDateTimeObject('2014-01-01 10:00:00'),
 									'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')
 								),
-								'notifications' => array('isduplicateof' => true, 'lasterror' => true, 'processingthreadid' => true),
+								'notifications' => array(
+									'notifications' => array(Document::IS_DUPLICATE,Document::IS_ERROR,Document::IS_PROCESSING)
+								),
 								'pageRank' => array('pageRankStart' => 0.0, 'pageRankEnd' => 123.05),
 								'query' => array('queryString' => 'test', 'queryFields' => 'id,url'),
 								'source' => array('source' => 'magento')),
-								'expectedResult' => '&boostFactorStart=0&boostFactorEnd=123.05&crawlStart=2014-01-01%2010%3A00%3A00&crawlEnd=2014-01-01%2010%3A00%3A00&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00&isduplicateof=1&lasterror=1&processingthreadid=1&pageRankEnd=123.05&query=test&queryFields=id%2Curl&source=magento'
+								'expectedResult' =>
+									'&boostFactorStart=0&boostFactorEnd=123.05'.
+									'&crawlStart=2014-01-01%2010%3A00%3A00&crawlEnd=2014-01-01%2010%3A00%3A00'.
+									'&processStart=2014-01-01%2010%3A00%3A00&processEnd=2014-01-01%2010%3A00%3A00'.
+									'&isDuplicate=1&hasError=1&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0'.
+									'&pageRankEnd=123.05&query=test&queryFields=id%2Curl&source=magento'
 				),
 		);
 	}
@@ -117,7 +126,6 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 				array('data' => array('boostFactor' => array('boostFactorStart' => 'wrong', 'boostFactorEnd' => 123.05))),
 				array('data' => array('crawl' => array('crawlStart' => 'wrong', 'crawlEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')))),
 				array('data' => array('lastProcessed' => array('processStart' => 'wrong', 'processEnd' => $this->getUTCDateTimeObject('2014-01-01 10:00:00')))),
-				array('data' => array('notifications' => array('isduplicateof' => 132, 'lasterror' => true, 'processingthreadid' => true))),
 				array('data' => array('pageRank' => array('pageRankStart' => 'wrong', 'pageRankEnd' => 123.00,))),
 				array('data' => array('query' => array('query' => 'test case', 'queryFields' => 132))),
 				array('data' => array('source' => array('source' => 1321))),

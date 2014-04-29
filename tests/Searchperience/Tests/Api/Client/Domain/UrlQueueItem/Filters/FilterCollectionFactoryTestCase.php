@@ -100,7 +100,7 @@ class FilterCollectionFactoryTestCase extends \Searchperience\Tests\BaseTestCase
 		$states = array(UrlQueueItem::IS_ERROR);
 		$filterCollection 		= $this->instance->createFromUrlQueueItemStates($states);
 		$filterString 			= $filterCollection->getFilterStringFromAll();
-		$expectedFilterString 	= '&error=1';
+		$expectedFilterString 	= '&hasError=1';
 		$this->assertEquals($expectedFilterString, $filterString);
 	}
 }

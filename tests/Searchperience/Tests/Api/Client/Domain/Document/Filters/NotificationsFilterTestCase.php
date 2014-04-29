@@ -7,37 +7,64 @@
 
 namespace Searchperience\Api\Client\Domain\Document\Filters;
 
+use Searchperience\Api\Client\Domain\Document\Document;
+
 /**
  * Class NotificationsFilterTestCase
  * @package Searchperience\Api\Client\Domain\Filters
  */
-class NotificationsFilterTestCase extends \Searchperience\Tests\BaseTestCase {
+class NotificationsFilterTestCase extends \Searchperience\Tests\BaseTestCase
+{
 
 	/**
 	 * @return array
 	 */
 	public function filterParamsProvider() {
 		return array(
-				array('isduplicateof' => true, 'lasterror' => true, 'processingthreadid' => true, 'expectedResult' => '&isduplicateof=1&lasterror=1&processingthreadid=1'),
-				array('isduplicateof' => false, 'lasterror' => true, 'processingthreadid' => true, 'expectedResult' => '&lasterror=1&processingthreadid=1'),
-				array('isduplicateof' => false, 'lasterror' => false, 'processingthreadid' => true, 'expectedResult' => '&processingthreadid=1'),
-				array('isduplicateof' => false, 'lasterror' => false, 'processingthreadid' => false, 'expectedResult' => '')
+			array(
+				'notifications' => array(Document::IS_DUPLICATE,Document::IS_ERROR,Document::IS_PROCESSING),
+				'expectedResult' => '&isDuplicate=1&hasError=1&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0'),
+			array(
+				'notifications' => array(Document::IS_ERROR,Document::IS_PROCESSING),
+				'expectedResult' => '&hasError=1&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0'
+			),
+			array(
+				'notifications' => array(Document::IS_PROCESSING),
+				'expectedResult' => '&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0'),
+			array(
+				'notifications' => array(),
+				'expectedResult' => ''
+			),
+			array(
+				'notifications' => array(Document::IS_DELETING),
+				'expectedResult' => '&isDeleted=1'
+			),
+			array(
+				'notifications' => array(Document::IS_WAITING),
+				'expectedResult' => '&isWaiting=1'
+			),
+			array(
+				'notifications' => array(Document::IS_REDIRECT),
+				'expectedResult' => '&isRedirect=1'
+			),
+			array(
+				'notifications' => array(Document::IS_REDIRECT,Document::IS_ERROR),
+				'expectedResult' => '&isRedirect=1&hasError=1'
+
+			)
 		);
 	}
 
 	/**
-	 * @params string $isduplicateof
-	 * @params string $lasterror
-	 * @params string $processingthreadid
+	 * @param array $notifications
 	 * @params string $expectedResult
 	 * @test
 	 * @dataProvider filterParamsProvider
 	 */
-	public function canSetFilterParams($isduplicateof, $lasterror, $processingthreadid, $expectedResult) {
+	public function canSetFilterParams($notifications, $expectedResult) {
+
 		$instance = new \Searchperience\Api\Client\Domain\Document\Filters\NotificationsFilter;
-		$instance->setIsduplicateof($isduplicateof);
-		$instance->setLasterror($lasterror);
-		$instance->setProcessingthreadid($processingthreadid);
+		$instance->setNotifications($notifications);
 
 		$this->assertEquals($expectedResult, $instance->getFilterString());
 	}

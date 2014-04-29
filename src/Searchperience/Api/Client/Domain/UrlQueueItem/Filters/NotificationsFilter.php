@@ -51,7 +51,7 @@ class NotificationsFilter extends AbstractFilter {
 					$filter->setProcessingThreadIdEnd(0);
 					$result->addFilter($filter);
 
-					$filter = new DeletedFilter();
+					$filter = new IsDeletedFilter();
 					$filter->setDeleted(false);
 					$result->addFilter($filter);
 					break;
@@ -61,18 +61,18 @@ class NotificationsFilter extends AbstractFilter {
 					$filter->setProcessingThreadIdEnd(65536);
 					$result->addFilter($filter);
 
-					$filter = new DeletedFilter();
+					$filter = new IsDeletedFilter();
 					$filter->setDeleted(false);
 					$result->addFilter($filter);
 					break;
 				case UrlQueueItem::IS_DOCUMENT_DELETED:
-					$filter = new DeletedFilter();
+					$filter = new IsDeletedFilter();
 					$filter->setDeleted(true);
 					$result->addFilter($filter);
 					break;
 
 				case UrlQueueItem::IS_ERROR:
-					$filter = new ErrorFilter();
+					$filter = new HasErrorFilter();
 					$filter->setError(true);
 					$result->addFilter($filter);
 					break;

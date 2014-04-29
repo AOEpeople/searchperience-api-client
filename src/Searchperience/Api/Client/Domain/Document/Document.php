@@ -38,6 +38,31 @@ class Document {
 	 */
 	const IS_PROCESSING = 'IS_PROCESSING';
 
+	/**
+	 * Indicates that the document is marked as a redirect.
+	 *
+	 * @var string
+	 */
+	const IS_REDIRECT = 'IS_REDIRECT';
+
+	/**
+	 * Indicates that the document is waiting to be processed.
+	 *
+	 * @var string
+	 */
+	const IS_WAITING = 'IS_WAITING';
+
+	/**
+	 * @var array
+	 */
+	protected static $validNotifications = array(
+		self::IS_DELETING,
+		self::IS_DUPLICATE,
+		self::IS_ERROR,
+		self::IS_PROCESSING,
+		self::IS_REDIRECT,
+		self::IS_WAITING
+	);
 
 	/**
 	 * @var integer
@@ -186,6 +211,14 @@ class Document {
 	 * @var string
 	 */
 	protected $solrCoreHints;
+
+	/**
+	 * @return array
+	 */
+	public static function getValidNotifications() {
+		return self::$validNotifications;
+	}
+
 
 	/**
 	 * @param float $pageRank

@@ -1,6 +1,6 @@
 <?php
 
-namespace Searchperience\Api\Client\Domain\UrlQueueItem\Filters;
+namespace Searchperience\Api\Client\Domain\Filters;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
@@ -10,9 +10,9 @@ use Searchperience\Api\Client\Domain\Filters\AbstractFilter;
  * @package Searchperience\Api\Client\Domain\Filters
  * @author: Timo Schmidt <timo.schmidt@aoe.com>
  */
-class ErrorFilter extends AbstractFilter {
+abstract class AbstractIsDeletedFilter extends AbstractFilter {
 
-	protected $error = true;
+	protected $deleted = true;
 
 	/**
 	 * @var string
@@ -20,26 +20,25 @@ class ErrorFilter extends AbstractFilter {
 	protected $filterString;
 
 	/**
-	 * @param boolean $error
+	 * @param boolean $deleted
 	 */
-	public function setError($error) {
-		$this->error = $error;
+	public function setDeleted($deleted) {
+		$this->deleted = $deleted;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function getError() {
-		return $this->error;
+	public function getDeleted() {
+		return $this->deleted;
 	}
-
 
 	/**
 	 * @return string
 	 */
 	public function getFilterString() {
-		if (isset($this->error)) {
-			$this->filterString = sprintf("&error=%s", rawurlencode((int)$this->error));
+		if (isset($this->deleted)) {
+			$this->filterString = sprintf("&isDeleted=%s", rawurlencode((int)$this->deleted));
 		}
 
 		return $this->filterString;

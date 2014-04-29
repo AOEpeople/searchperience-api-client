@@ -68,7 +68,7 @@ abstract class AbstractFilterCollectionFactory {
 						$filter->$method($value);
 						$this->validateFilter($filter);
 					} else {
-						throw new \Searchperience\Common\Exception\InvalidArgumentException('Invalid '. $filterClassName.' value ' . $key);
+						throw new \Searchperience\Common\Exception\InvalidArgumentException('Invalid '. $filterClassName.' value ' . $key . 'value' . serialize($value));
 					}
 				}
 			}
