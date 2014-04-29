@@ -89,8 +89,6 @@ class NotificationsFilter extends AbstractFilter {
 					$filter->setIsRedirect(true);
 					$result->addFilter($filter);
 					break;
-
-
 			}
 		}
 
