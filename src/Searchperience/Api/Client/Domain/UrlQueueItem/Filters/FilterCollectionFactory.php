@@ -20,7 +20,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 	 * @var array
 	 */
 	protected $allowedFilters = array(
-		'deleted', 'error', 'lastProcessed', 'priority', 'processingThreadId', 'query','notifications'
+		'isDeleted', 'hasError', 'lastProcessed', 'priority', 'processingThreadId', 'query','notifications'
 	);
 
 	/**
