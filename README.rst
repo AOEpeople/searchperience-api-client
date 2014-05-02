@@ -165,15 +165,30 @@ Delete document from indexer
 
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$documentRepository->deleteByForeignId(12);
+::
+
+Get the status of the document repository from searchperience.
+------------
+
+You can retrieve a status object with the searchperience api to get the amount of all documents, deleted, processed, processing and
+document that have an error.
+
+::
+
+    $documentStatusRepository = \Searchperience\Common\Factory::getDocumentStatusRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$status = $documentStatusRepository->get();
+    echo $status->getErrorCount();
+::
 
 
 UrlQueueItems
 -----------
 
+::
+
 	$urlQueueItemRepository = \Searchperience\Common\Factory::getUrlQueueItemRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$firstTen = $urlQueueItemRepository->getAllByFilters(0,10);
-
-
+::
 
 UrlQueueStatus
 ------------
@@ -185,7 +200,7 @@ UrlQueueStatus
     $status = $urlQueueStatusRepository->get();
 
     echo $status->getErrorCount();
-
+::
 
 The example above shows all documents that have an error.
 
@@ -215,6 +230,7 @@ Enrichments
     $enrichment->setEnabled(true);
 
     $enrichmentRepository->add($enrichment);
+::
 
 The example above shows the creation of an enrichment for a document that contains "aoe" in the brand and adds "php"
 as a word to the field "highboost_words_sm" that is configured as highly relevant for the search.
