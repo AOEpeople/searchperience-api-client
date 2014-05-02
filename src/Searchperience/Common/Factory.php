@@ -49,6 +49,36 @@ class Factory {
 	}
 
 	/**
+	 * Create a new instance of DocumentStatusRepository
+	 *
+	 * @param string $baseUrl Example: http://api.searchperience.com/
+	 * @param string $customerKey Example: qvc
+	 * @param string $username
+	 * @param string $password
+	 *
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @internal param string $customerkey
+	 * @return \Searchperience\Api\Client\Domain\Document\DocumentStatusRepository
+	 */
+	public static function getDocumentStatusRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+
+		$documentStorage 	= new \Searchperience\Api\Client\System\Storage\RestDocumentStatusBackend();
+		$documentStorage->injectRestClient($guzzle);
+		$documentStorage->injectDateTimeService($dateTimeService);
+		$documentStorage->setBaseUrl($baseUrl);
+		$documentStorage->setUsername($username);
+		$documentStorage->setPassword($password);
+
+		$documentStatusRepository = new \Searchperience\Api\Client\Domain\Document\DocumentStatusRepository();
+		$documentStatusRepository->injectStorageBackend($documentStorage);
+
+		return $documentStatusRepository;
+	}
+
+	/**
 	 * Create the document service that encapsulates a few document operations.
 	 *
 	 * @param $baseUrl
