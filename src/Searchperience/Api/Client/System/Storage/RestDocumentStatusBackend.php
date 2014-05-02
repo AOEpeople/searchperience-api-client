@@ -16,7 +16,7 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 	/**
 	 * @var string
 	 */
-	protected $endpoint = 'status/documentsstatus';
+	protected $endpoint = 'status/document';
 
 	/**
 	 * {@inheritdoc}
