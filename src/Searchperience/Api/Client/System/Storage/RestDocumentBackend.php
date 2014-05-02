@@ -4,6 +4,7 @@ namespace Searchperience\Api\Client\System\Storage;
 
 use Guzzle\Http\Client;
 use Searchperience\Api\Client\Domain\Document\DocumentCollection;
+use Searchperience\Common\Exception\InvalidArgumentException;
 use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
 /**
@@ -13,46 +14,23 @@ use Searchperience\Common\Http\Exception\EntityNotFoundException;
  */
 class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\DocumentBackendInterface {
 
+	/**
+	 * @var string
+	 */
+	protected $endpoint = 'documents';
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document\Document $document) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->post('/{customerKey}/documents', NULL, $this->buildRequestArrayFromDocument($document))
-				->setAuth($this->username, $this->password)
-				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
-		}
-
-		return $response->getStatusCode();
+		return $this->getPostResponseFromEndpoint($document);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getByForeignId($foreignId) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->get('/{customerKey}/documents?foreignId=' . $foreignId)
-				->setAuth($this->username, $this->password)
-				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response = $this->getGetResponseFromEndpoint('?foreignId=' . $foreignId);
 		return $this->buildDocumentFromXml($response->xml());
 	}
 
@@ -60,43 +38,15 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function getById($id) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/documents/' . $id)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response = $this->getGetResponseFromEndpoint('/'.$id);
 		return $this->buildDocumentFromXml($response->xml());
 	}
-
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getByUrl($url) {
-		try {
-			$url = urlencode($url);
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/documents?url=' . $url)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response = $this->getGetResponseFromEndpoint('?url=' . $url);
 		return $this->buildDocumentFromXml($response->xml());
 	}
 
@@ -112,7 +62,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
 		try {
-			$response   = $this->getListResponseFromEndpoint('documents',$start, $limit, $filtersCollection, $sortingField, $sortingType);
+			$response   = $this->getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType);
 			$xmlElement = $response->xml();
 		} catch (EntityNotFoundException $e) {
 			return new DocumentCollection();
@@ -125,20 +75,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function deleteByForeignId($foreignId) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->delete('/{customerKey}/documents?foreignId=' . $foreignId)
-				->setAuth($this->username, $this->password)
-				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
+		$response = $this->getDeleteResponseFromEndpoint('?foreignId=' . $foreignId);
 		return $response->getStatusCode();
 	}
 
@@ -146,20 +83,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function deleteById($id) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->delete('/{customerKey}/documents/' . $id)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
+		$response = $this->getDeleteResponseFromEndpoint('/' . $id);
 		return $response->getStatusCode();
 	}
 
@@ -167,20 +91,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function deleteBySource($source) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->delete('/{customerKey}/documents?source=' . $source)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1386845400, $exception);
-		}
-
+		$response = $this->getDeleteResponseFromEndpoint('?source=' . $source);
 		return $response->getStatusCode();
 	}
 
@@ -255,7 +166,11 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @param \Searchperience\Api\Client\Domain\Document\Document $document
 	 * @return array
 	 */
-	protected function buildRequestArrayFromDocument(\Searchperience\Api\Client\Domain\Document\Document $document) {
+	protected function buildRequestArray($document) {
+		if(!$document instanceof \Searchperience\Api\Client\Domain\Document\Document) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Wrong object passed to buildRequestArray method',1386845432);
+		}
+
 		$valueArray = array();
 
 		if ($document->getLastProcessingDate() instanceof \DateTime) {

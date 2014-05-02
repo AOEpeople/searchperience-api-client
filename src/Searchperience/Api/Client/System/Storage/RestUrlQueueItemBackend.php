@@ -13,22 +13,15 @@ use Searchperience\Common\Http\Exception\EntityNotFoundException;
 class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\UrlQueueItemBackendInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $endpoint = 'urlqueueitems';
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$arguments 	= $this->buildRequestArrayFromUrlQueue($urlQueue);
-			$response 	= $this->executePostRequest($arguments);
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
-		}
-
-		return $response->getStatusCode();
+		return $this->getPostResponseFromEndpoint($urlQueue);
 	}
 
 	/**
@@ -38,23 +31,9 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getByDocumentId($documentId) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/urlqueueitems/' . $documentId)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response = $this->getGetResponseFromEndpoint('/'.$documentId);
 		return $this->buildUrlQueueItemFromXml($response->xml());
 	}
-
 
 	/**
 	 * {@inheritdoc}
@@ -63,21 +42,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getByUrl($url) {
-		try {
-			$url = urlencode($url);
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/urlqueueitems?url=' . $url)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response = $this->getGetResponseFromEndpoint('?url=' . $url);
 		return $this->buildUrlQueueItemFromXml($response->xml());
 	}
 
@@ -93,7 +58,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC ) {
 		try {
-			$response   = $this->getListResponseFromEndpoint('urlqueueitems',$start, $limit, $filtersCollection, $sortingField, $sortingType);
+			$response   = $this->getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType);
 			$xmlElement = $response->xml();
 		} catch (EntityNotFoundException $e) {
 			return new UrlQueueItemCollection();
@@ -106,20 +71,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * {@inheritdoc}
 	 */
 	public function deleteByDocumentId($documentId) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->delete('/{customerKey}/urlqueueitems/' . $documentId)
-				->setAuth($this->username, $this->password)
-				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
+		$response = $this->getDeleteResponseFromEndpoint('/' . $documentId);
 		return $response->getStatusCode();
 	}
 
@@ -127,20 +79,7 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * {@inheritdoc}
 	 */
 	public function deleteByUrl($url) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->delete('/{customerKey}/urlqueueitems?url=' . rawurlencode($url))
-				->setAuth($this->username, $this->password)
-				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
+		$response = $this->getDeleteResponseFromEndpoint('?url=' . rawurlencode($url));
 		return $response->getStatusCode();
 	}
 
@@ -197,7 +136,11 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue
 	 * @return array
 	 */
-	protected function buildRequestArrayFromUrlQueue(\Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue) {
+	protected function buildRequestArray($urlQueue) {
+		if(!$urlQueue instanceof \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem  ) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Wrong object passed to buildRequestArray method',1386845451);
+		}
+
 		$valueArray = array();
 
 		if (!is_null($urlQueue->getDeleted()) && !$urlQueue->getDeleted() ) {
@@ -226,17 +169,5 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 		// processingThreadId is readonly and will not be persistet
 
 		return $valueArray;
-	}
-
-	/**
-	 * @param array $arguments
-	 * @return \Guzzle\Http\Message\Response
-	 */
-	protected function executePostRequest(array $arguments) {
-		$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->post('/{customerKey}/urlqueueitems', NULL, $arguments)
-				->setAuth($this->username, $this->password)
-				->send();
-		return $response;
 	}
 }

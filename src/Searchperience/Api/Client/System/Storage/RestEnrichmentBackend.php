@@ -15,24 +15,16 @@ use Searchperience\Common\Http\Exception\EntityNotFoundException;
 class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend implements \Searchperience\Api\Client\System\Storage\EnrichmentBackendInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $endpoint = 'enrichments';
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$arguments 	= $this->buildRequestArrayFromEnrichment($enrichment);
-			$response 	= $this->executePostRequest($arguments);
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
-		}
-
-		return $response->getStatusCode();
+		return $this->getPostResponseFromEndpoint($enrichment);
 	}
-
 
 	/**
 	 * {@inheritdoc}
@@ -41,20 +33,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getById($id) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-					->get('/{customerKey}/enrichments/' . $id)
-					->setAuth($this->username, $this->password)
-					->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
-		}
-
+		$response = $this->getGetResponseFromEndpoint('/'.$id);
 		return $this->buildEnrichmentFromXml($response->xml());
 	}
 
@@ -70,7 +49,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 */
 	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC) {
 		try {
-			$response   = $this->getListResponseFromEndpoint('enrichments',$start, $limit, $filtersCollection, $sortingField, $sortingType);
+			$response   = $this->getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType);
 			$xmlElement = $response->xml();
 		} catch (EntityNotFoundException $e) {
 			return new EnrichmentCollection();
@@ -83,20 +62,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 * {@inheritdoc}
 	 */
 	public function deleteById($id) {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->delete('/{customerKey}/enrichments/' . $id)
-				->setAuth($this->username, $this->password)
-				->send();
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
-		}
-
+		$response = $this->getDeleteResponseFromEndpoint('/'.$id);
 		return $response->getStatusCode();
 	}
 
@@ -161,7 +127,11 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 * @param \Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment
 	 * @return array
 	 */
-	protected function buildRequestArrayFromEnrichment(\Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment) {
+	protected function buildRequestArray($enrichment) {
+		if(!$enrichment instanceof \Searchperience\Api\Client\Domain\Enrichment\Enrichment ) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Wrong object passed to buildRequestArray method',1386845448);
+		}
+
 		$valueArray = array();
 
 		if (!is_null($enrichment->getId())) {
@@ -215,20 +185,6 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$valueArray['matchingRules'][$key] = $data;
 		}
 
-
 		return $valueArray;
 	}
-
-	/**
-	 * @param array $arguments
-	 * @return \Guzzle\Http\Message\Response
-	 */
-	protected function executePostRequest(array $arguments) {
-		$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->post('/{customerKey}/enrichments', NULL, $arguments)
-				->setAuth($this->username, $this->password)
-				->send();
-		return $response;
-	}
-
 }

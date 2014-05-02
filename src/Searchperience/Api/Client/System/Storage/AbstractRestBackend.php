@@ -9,8 +9,6 @@ namespace Searchperience\Api\Client\System\Storage;
  */
 abstract class AbstractRestBackend {
 
-
-
 	const SORTING_ASC = 'ASC';
 
 	const SORTING_DESC = 'DESC';
@@ -46,6 +44,11 @@ abstract class AbstractRestBackend {
 	 * @var array
 	 */
 	protected static $allowedSortings = array(self::SORTING_ASC, self::SORTING_DESC);
+
+	/**
+	 * @var string
+	 */
+	protected $endpoint = '';
 
 	/**
 	 * Set the username to access the api.
@@ -215,7 +218,6 @@ abstract class AbstractRestBackend {
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection|null $filtersCollection
 	 * @param $sortingField
 	 * @param $sortingType
-	 * @return \Guzzle\http\Message\Response
 	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -226,15 +228,16 @@ abstract class AbstractRestBackend {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return \Guzzle\http\Message\Response
 	 */
-	protected function getListResponseFromEndpoint($endpoint, $start, $limit,$filtersCollection, $sortingField, $sortingType) {
+	protected function getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType) {
 		$filterUrlString = $this->getFilterQueryString($filtersCollection);
 		$sortingUrlString = $this->getSortingQueryString($sortingField, $sortingType);
 
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->get('/{customerKey}/'.$endpoint.'?start=' . $start . '&limit=' . $limit . $filterUrlString . $sortingUrlString)
+				->get('/{customerKey}/'.$this->endpoint.'?start=' . $start . '&limit=' . $limit . $filterUrlString . $sortingUrlString)
 				->setAuth($this->username, $this->password)
 				->send();
 			return $response;
@@ -246,6 +249,122 @@ abstract class AbstractRestBackend {
 			return $response;
 		} catch (\Exception $exception) {
 			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * @param object $entity
+	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @internal param string $endpoint
+	 * @return int
+	 */
+	protected function getPostResponseFromEndpoint($entity) {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$postArray  = $this->buildRequestArray($entity);
+			$response = $this->executePostRequest($postArray);
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
+		}
+
+		return $response->getStatusCode();
+	}
+
+	/**
+	 * @param $postArray
+	 * @throws \Guzzle\Common\Exception\InvalidArgumentException
+	 * @internal param $endpoint
+	 * @return \Guzzle\Http\Message\Response
+	 */
+	protected function executePostRequest($postArray) {
+		$response = $this->restClient->setBaseUrl($this->baseUrl)
+			->post('/{customerKey}/' . $this->endpoint, NULL, $postArray)
+			->setAuth($this->username, $this->password)
+			->send();
+		return $response;
+	}
+
+	/**
+	 * Should be implemented by the document backend to get an post array from a domain object.
+	 *
+	 * @param $object
+	 * @return array
+	 */
+	protected function buildRequestArray($object) {
+		return array();
+	}
+
+	/**
+	 * @param string $queryString
+	 * @return \Guzzle\http\Message\Response
+	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 */
+	protected function getGetResponseFromEndpoint($queryString = '') {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->get('/{customerKey}/'.$this->endpoint.$queryString)
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * @param string $queryString
+	 * @return \Guzzle\http\Message\Response
+	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 */
+	protected function getDeleteResponseFromEndpoint($queryString = '') {
+		try {
+			/** @var $response \Guzzle\http\Message\Response */
+			$response = $this->restClient->setBaseUrl($this->baseUrl)
+				->delete('/{customerKey}/'.$this->endpoint.$queryString)
+				->setAuth($this->username, $this->password)
+				->send();
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+			$this->transformStatusCodeToClientErrorResponseException($exception);
+		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+			$this->transformStatusCodeToServerErrorResponseException($exception);
+		} catch (\Exception $exception) {
+			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579284, $exception);
 		}
 
 		return $response;
