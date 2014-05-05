@@ -222,4 +222,93 @@ class Enrichment extends AbstractEntity{
 	public function getMatchingRulesExpectedResult() {
 		return $this->matchingRulesExpectedResult;
 	}
+
+	/**
+	 * Keywords seperated by whitespace.
+	 *
+	 * @param string
+	 */
+	public function setLowBoostedKeywords($value) {
+		$this->setBoostWordsByFieldName('lowboostw', $value);
+	}
+
+	/**
+	 * Get low boosted keywords for enrichment.
+	 *
+	 * @return string
+	 */
+	public function getLowBoostedKeywords() {
+		return $this->getBoostWordsByFieldName('lowboostw');
+	}
+
+	/**
+	 * Keywords seperated by whitespace.
+	 *
+	 * @param string
+	 */
+	public function setNormalBoostedKeywords($value) {
+		$this->setBoostWordsByFieldName('normalboostw', $value);
+	}
+
+	/**
+	 * Get normal boosted keywords for enrichment.
+	 *
+	 * @return string
+	 */
+	public function getNormalBoostedKeywords() {
+		return $this->getBoostWordsByFieldName('normalboostw');
+	}
+
+	/**
+	 * Keywords seperated by whitespace.
+	 *
+	 * @param string
+	 */
+	public function setHighBoostedKeywords($value) {
+		$this->setBoostWordsByFieldName('highboostw', $value);
+	}
+
+	/**
+	 * Get high boosted keywords for enrichment.
+	 *
+	 * @return string
+	 */
+	public function getHighBoostedKeywords() {
+		return $this->getBoostWordsByFieldName('highboostw');
+	}
+
+	/**
+	 * Get field enrichment by field name.
+	 *
+	 * @param string $fieldName
+	 * @return string
+	 */
+	protected function getBoostWordsByFieldName($fieldName) {
+		$boostWords = '';
+		$fieldEnrichmentCollection = $this->getFieldEnrichments();
+
+		foreach ($fieldEnrichmentCollection as $fieldEnrichment) {
+			/** @var $fieldEnrichment FieldEnrichment */
+			if ($fieldEnrichment->getFieldName() === $fieldName) {
+				$boostWords = $fieldEnrichment->getContent();
+				break;
+			}
+		}
+
+		return $boostWords;
+	}
+
+	/**
+	 * Set field enrichment by field name
+	 *
+	 * @param string $fieldName
+	 * @param $value
+	 */
+	protected function setBoostWordsByFieldName($fieldName, $value) {
+		$fieldEnrichment = new FieldEnrichment();
+		$fieldEnrichment->setFieldName($fieldName);
+		$fieldEnrichment->setContent($value);
+
+		$this->addFieldEnrichment($fieldEnrichment);
+	}
 }

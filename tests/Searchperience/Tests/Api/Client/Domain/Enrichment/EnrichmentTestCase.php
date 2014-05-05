@@ -59,4 +59,42 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function canNotSetInvalidMatchingRuleCombination() {
 		$this->enrichment->setMatchingRulesCombinationType('foo');
 	}
+
+	/**
+	 * @test
+	 */
+	public function verifyKeywordsGetsSetWithFieldEnrichments() {
+		$fixtureEnrichment = new Enrichment();
+		$fieldEnrichmentLow = new FieldEnrichment();
+		$fieldEnrichmentLow->setFieldName('lowboostw');
+		$fieldEnrichmentLow->setContent('low low low');
+		$fixtureEnrichment->addFieldEnrichment($fieldEnrichmentLow);
+		$fieldEnrichmentNormal = new FieldEnrichment();
+		$fieldEnrichmentNormal->setFieldName('normalboostw');
+		$fieldEnrichmentNormal->setContent('normal normal normal');
+		$fixtureEnrichment->addFieldEnrichment($fieldEnrichmentNormal);
+		$fieldEnrichmentHigh = new FieldEnrichment();
+		$fieldEnrichmentHigh->setFieldName('highboostw');
+		$fieldEnrichmentHigh->setContent('high high high');
+		$fixtureEnrichment->addFieldEnrichment($fieldEnrichmentHigh);
+
+		$this->enrichment->setLowBoostedKeywords('low low low');
+		$this->enrichment->setNormalBoostedKeywords('normal normal normal');
+		$this->enrichment->setHighBoostedKeywords('high high high');
+
+		$this->assertEquals($this->enrichment, $fixtureEnrichment);
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyKeywordsCanBeRetrievedFromEnrichment() {
+		$this->enrichment->setLowBoostedKeywords("low");
+		$this->enrichment->setNormalBoostedKeywords("normal");
+		$this->enrichment->setHighBoostedKeywords("high");
+
+		$this->assertEquals("low", $this->enrichment->getLowBoostedKeywords());
+		$this->assertEquals("normal", $this->enrichment->getNormalBoostedKeywords());
+		$this->assertEquals("high", $this->enrichment->getHighBoostedKeywords());
+	}
 }
