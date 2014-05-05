@@ -49,12 +49,12 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 			return $documentStatus;
 		}
 
-		$documentStatus->setWaitingCount((int) $xml->waitingCount);
-		$documentStatus->setProcessingCount((int) $xml->processingCount);
-		$documentStatus->setDeletedCount((int) $xml->deletedCount);
-		$documentStatus->setErrorCount((int) $xml->errorCount);
-		$documentStatus->setAllCount((int) $xml->allCount);
-		$documentStatus->setProcessedCount((int) $xml->processedCount);
+		$documentStatus->__setProperty('waitingCount', (int) $xml->waitingCount);
+		$documentStatus->__setProperty('processingCount', (int) $xml->processingCount);
+		$documentStatus->__setProperty('deletedCount', (int) $xml->deletedCount);
+		$documentStatus->__setProperty('errorCount', (int) $xml->errorCount);
+		$documentStatus->__setProperty('allCount', (int) $xml->allCount);
+		$documentStatus->__setProperty('processedCount', (int) $xml->processedCount);
 
 		return $documentStatus;
 	}

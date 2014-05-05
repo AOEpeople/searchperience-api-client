@@ -3,11 +3,12 @@
 namespace Searchperience\Api\Client\Domain\Enrichment;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Searchperience\Api\Client\Domain\AbstractEntity;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class Enrichment {
+class Enrichment extends AbstractEntity{
 
 	const MATCH_ALL = 'all';
 	const MATCH_ATLEASTONE = 'one';

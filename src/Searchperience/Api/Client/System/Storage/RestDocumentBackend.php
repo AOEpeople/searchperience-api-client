@@ -119,41 +119,40 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		foreach($documents as $document) {
 			$documentAttributeArray = (array)$document->attributes();
 			$documentObject = new \Searchperience\Api\Client\Domain\Document\Document();
-			$documentObject ->setId((integer)$documentAttributeArray['@attributes']['id']);
-			$documentObject ->setUrl((string)$document->url);
-			$documentObject ->setForeignId((string)$document->foreignId);
-			$documentObject ->setSource((string)$document->source);
-			$documentObject ->setBoostFactor((integer)$document->boostFactor);
-			$documentObject ->setContent((string)$document->content);
-			$documentObject ->setGeneralPriority((integer)$document->generalPriority);
-			$documentObject ->setTemporaryPriority((integer)$document->temporaryPriority);
-			$documentObject ->setMimeType((string)$document->mimeType);
-			$documentObject ->setIsMarkedForProcessing((integer)$document->isMarkedForProcessing);
-			$documentObject ->setIsMarkedForDeletion((integer)$document->isMarkedForDeletion);
-			$documentObject ->setIsProminent((integer)$document->isProminent);
-			$documentObject	->setIsRedirectTo((integer)$document->isRedirectTo);
-			$documentObject	->setIsDuplicateOf((integer)$document->isDuplicateOf);
-			$documentObject ->setErrorCount((integer)$document->errorCount);
-			$documentObject ->setLastErrorMessage((string)$document->lastErrorMessage);
-			$documentObject ->setRecrawlTimeSpan((string)$document->recrawlTimeSpan);
-			$documentObject ->setInternalNoIndex((string)$document->internalNoIndex);
-			$documentObject ->setPageRank((float)$document->pageRank);
-			$documentObject ->setSolrCoreHints((string)$document->solrCoreHints);
-
+			$documentObject ->__setProperty('id',(integer)$documentAttributeArray['@attributes']['id']);
+			$documentObject ->__setProperty('url',(string)$document->url);
+			$documentObject ->__setProperty('foreignId',(string)$document->foreignId);
+			$documentObject ->__setProperty('source',(string)$document->source);
+			$documentObject ->__setProperty('boostFactor',(integer)$document->boostFactor);
+			$documentObject ->__setProperty('content',(string)$document->content);
+			$documentObject ->__setProperty('generalPriority',(integer)$document->generalPriority);
+			$documentObject ->__setProperty('temporaryPriority',(integer)$document->temporaryPriority);
+			$documentObject ->__setProperty('mimeType',(string)$document->mimeType);
+			$documentObject ->__setProperty('isMarkedForProcessing',(integer)$document->isMarkedForProcessing);
+			$documentObject ->__setProperty('isMarkedForDeletion',(integer)$document->isMarkedForDeletion);
+			$documentObject ->__setProperty('isProminent',(integer)$document->isProminent);
+			$documentObject	->__setProperty('isRedirectTo',(integer)$document->isRedirectTo);
+			$documentObject	->__setProperty('isDuplicateOf',(integer)$document->isDuplicateOf);
+			$documentObject ->__setProperty('errorCount',(integer)$document->errorCount);
+			$documentObject ->__setProperty('lastErrorMessage',(string)$document->lastErrorMessage);
+			$documentObject ->__setProperty('recrawlTimeSpan',(string)$document->recrawlTimeSpan);
+			$documentObject ->__setProperty('internalNoIndex',(string)$document->internalNoIndex);
+			$documentObject ->__setProperty('pageRank',(float)$document->pageRank);
+			$documentObject ->__setProperty('solrCoreHints',(string)$document->solrCoreHints);
 
 			if(trim($document->lastProcessingTime) != '') {
 				//we assume that the restapi allways return y-m-d H:i:s in the utc format
 				$lastProcessingDate = $this->dateTimeService->getDateTimeFromApiDateString($document->lastProcessingTime);
-				$documentObject ->setLastProcessingDate($lastProcessingDate);
+				$documentObject ->__setProperty('lastProcessingDate',$lastProcessingDate);
 			}
 
 			if(trim($document->lastCrawlingTime) != '') {
 				//we assume that the restapi allways return y-m-d H:i:s in the utc format
 				$lastCrawlingDateTime = $this->dateTimeService->getDateTimeFromApiDateString($document->lastCrawlingTime);
-				$documentObject ->setLastCrawlingDateTime($lastCrawlingDateTime);
+				$documentObject ->__setProperty('lastCrawlingDateTime',$lastCrawlingDateTime);
 			}
 
-			$documentObject ->setNoIndex((integer)$document->noIndex);
+			$documentObject ->__setProperty('noIndex',(integer)$document->noIndex);
 			$documentArray[]=$documentObject;
 		}
 

@@ -3,11 +3,12 @@
 namespace Searchperience\Api\Client\Domain\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Searchperience\Api\Client\Domain\AbstractEntity;
 
 /**
  * @author Michael Klapper <michael.klapper@aoe.com>
  */
-class Document {
+class Document extends AbstractEntity {
 
 	/**
 	 * Indicates that this document is marked for deletion.

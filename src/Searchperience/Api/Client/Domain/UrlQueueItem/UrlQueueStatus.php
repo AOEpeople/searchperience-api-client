@@ -2,13 +2,15 @@
 
 namespace Searchperience\Api\Client\Domain\UrlQueueItem;
 
+use Searchperience\Api\Client\Domain\AbstractEntity;
+
 /**
  * Describes the status of the UrlQueue
  *
  * @package Searchperience\Api\Client\Domain
  * @author: Timo Schmidt <timo.schmidt@aoe.com>
  */
-class UrlQueueStatus {
+class UrlQueueStatus extends AbstractEntity {
 
 	/**
 	 * @var int

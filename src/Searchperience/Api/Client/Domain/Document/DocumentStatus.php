@@ -3,11 +3,12 @@
 namespace Searchperience\Api\Client\Domain\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Searchperience\Api\Client\Domain\AbstractEntity;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class DocumentStatus {
+class DocumentStatus extends AbstractEntity{
 
 	/**
 	 * @var integer

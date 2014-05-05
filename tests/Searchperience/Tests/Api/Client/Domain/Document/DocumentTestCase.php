@@ -137,4 +137,13 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertInternalType('array', $notifications);
 		$this->assertEquals($notifications, $expectedNotifications);
 	}
+
+	/**
+	 * @test
+	 */
+	public function canSetProperty() {
+		$this->document->__setProperty('content','foo');
+		$this->assertEquals('foo',$this->document->getContent());
+	}
+
 }

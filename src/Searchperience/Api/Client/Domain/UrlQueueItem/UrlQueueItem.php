@@ -3,13 +3,14 @@
 namespace Searchperience\Api\Client\Domain\UrlQueueItem;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Searchperience\Api\Client\Domain\AbstractEntity;
 
 /**
  * Class Urlqueue
  * @package Searchperience\Api\Client\Domain
  * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
-class UrlQueueItem {
+class UrlQueueItem extends AbstractEntity {
 
 	/**
 	 * Indicates that document for this url was deleted.

@@ -108,22 +108,22 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 		foreach($urlQueues as $urlQueue) {
 			$urlQueueAttributeArray = (array)$urlQueue->attributes();
 			$urlQueueObject = new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem();
-			$urlQueueObject->setDocumentId((integer)$urlQueueAttributeArray['@attributes']['id']);
-			$urlQueueObject->setUrl((string)$urlQueue->url);
-			$urlQueueObject->setDeleted((bool)(int)$urlQueue->deleted);
-			$urlQueueObject->setFailCount((integer)$urlQueue->failCount);
-			$urlQueueObject->setProcessingThreadId((integer)$urlQueue->processingThreadId);
+			$urlQueueObject->__setProperty('documentId',(integer)$urlQueueAttributeArray['@attributes']['id']);
+			$urlQueueObject->__setProperty('url',(string)$urlQueue->url);
+			$urlQueueObject->__setProperty('deleted',(bool)(int)$urlQueue->deleted);
+			$urlQueueObject->__setProperty('failCount',(integer)$urlQueue->failCount);
+			$urlQueueObject->__setProperty('processingThreadId',(integer)$urlQueue->processingThreadId);
 
 			if (trim($urlQueue->processingStartTime) != '') {
 				//we assume that the restapi always return y-m-d H:i:s in the utc format
 				$processingStartTime = $this->dateTimeService->getDateTimeFromApiDateString($urlQueue->processingStartTime);
 				if($processingStartTime instanceof  \DateTime) {
-					$urlQueueObject->setProcessingStartTime($processingStartTime);
+					$urlQueueObject->__setProperty('processingStartTime',$processingStartTime);
 				}
 			}
 
-			$urlQueueObject->setLastError((string)$urlQueue->lastError);
-			$urlQueueObject->setPriority((integer)$urlQueue->priority);
+			$urlQueueObject->__setProperty('lastError',(string)$urlQueue->lastError);
+			$urlQueueObject->__setProperty('priority',(integer)$urlQueue->priority);
 
 			$urlQueueArray->append($urlQueueObject);
 		}

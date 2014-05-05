@@ -91,28 +91,35 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 		foreach($enrichments as $enrichment) {
 			$enrichmentAttributeArray = (array)$enrichment->attributes();
 			$enrichmentObject = new \Searchperience\Api\Client\Domain\Enrichment\Enrichment();
-			$enrichmentObject->setId((integer) $enrichmentAttributeArray['@attributes']['id']);
-			$enrichmentObject->setTitle((string)$enrichment->title);
-			$enrichmentObject->setAddBoost((float) $enrichment->addBoost);
-			$enrichmentObject->setDescription($enrichment->description);
-			$enrichmentObject->setEnabled((bool)(int)$enrichment->status);
+			$enrichmentObject->__setProperty('id', (integer) $enrichmentAttributeArray['@attributes']['id']);
+			$enrichmentObject->__setProperty('title', (string)$enrichment->title);
+			$enrichmentObject->__setProperty('addBoost', (float) $enrichment->addBoost);
+			$enrichmentObject->__setProperty('description', $enrichment->description);
+			$enrichmentObject->__setProperty('enabled', (bool)(int)$enrichment->status);
 
 			if(isset( $enrichment->matchingrules->matchingrule )) {
 				foreach($enrichment->matchingrules->matchingrule as $matchingrule) {
-					$matchingruleObject = new \Searchperience\Api\Client\Domain\Enrichment\MatchingRule();
-					$matchingruleObject->setOperator($matchingrule->operator);
-					$matchingruleObject->setFieldName($matchingrule->fieldName);
-					$matchingruleObject->setOperatorValue($matchingrule->operatorValue);
-					$enrichmentObject->addMatchingRule($matchingruleObject);
+					$matchingRuleObject = new \Searchperience\Api\Client\Domain\Enrichment\MatchingRule();
+					$matchingRuleObject->__setProperty('operator', $matchingrule->operator);
+					$matchingRuleObject->__setProperty('fieldName',$matchingrule->fieldName);
+					$matchingRuleObject->__setProperty('operatorValue',$matchingrule->operatorValue);
+
+					$matchingRules = $enrichmentObject->getMatchingRules();
+					$matchingRules->append($matchingRuleObject);
+					$enrichmentObject->__setProperty('matchingRules',$matchingRules);
 				}
 			}
 
 			if(isset( $enrichment->fieldenrichments->fieldenrichment )) {
 				foreach($enrichment->fieldenrichments->fieldenrichment as $fieldenrichment ) {
 					$fieldEnrichmentObject = new \Searchperience\Api\Client\Domain\Enrichment\FieldEnrichment();
-					$fieldEnrichmentObject->setFieldName((string) $fieldenrichment->fieldname);
-					$fieldEnrichmentObject->setContent((string) $fieldenrichment->content);
-					$enrichmentObject->addFieldEnrichment($fieldEnrichmentObject);
+					$fieldEnrichmentObject->__setProperty('fieldName',(string) $fieldenrichment->fieldname);
+					$fieldEnrichmentObject->__setProperty('content',(string) $fieldenrichment->content);
+
+					$fieldEnrichments = $enrichmentObject->getFieldEnrichments();
+					$fieldEnrichments->append($fieldEnrichmentObject);
+
+					$enrichmentObject->__setProperty('fieldEnrichments',$fieldEnrichments);
 				}
 			}
 

@@ -3,11 +3,12 @@
 namespace Searchperience\Api\Client\Domain\Enrichment;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Searchperience\Api\Client\Domain\AbstractEntity;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class FieldEnrichment {
+class FieldEnrichment extends AbstractEntity{
 
 	/**
 	 * @var string
