@@ -51,7 +51,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
-	public function post(\Searchperience\Api\Client\Domain\Document\Document $document) {
+	public function post(\Searchperience\Api\Client\Domain\Document\AbstractDocument $document) {
 		return $this->getPostResponseFromEndpoint($document);
 	}
 
@@ -127,7 +127,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * @param \SimpleXMLElement $xml
 	 *
-	 * @return \Searchperience\Api\Client\Domain\Document\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\AbstractDocument
 	 */
 	protected function buildDocumentFromXml(\SimpleXMLElement $xml) {
 		$documents = $this->buildDocumentsFromXml($xml);

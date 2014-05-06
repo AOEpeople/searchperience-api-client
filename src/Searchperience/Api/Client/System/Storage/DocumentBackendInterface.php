@@ -28,7 +28,7 @@ interface DocumentBackendInterface {
 	public function setBaseUrl($baseUrl);
 
 	/**
-	 * @param \Searchperience\Api\Client\Domain\Document\Document $document
+	 * @param \Searchperience\Api\Client\Domain\Document\AbstractDocument $document
 	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -39,7 +39,7 @@ interface DocumentBackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function post(\Searchperience\Api\Client\Domain\Document\Document $document);
+	public function post(\Searchperience\Api\Client\Domain\Document\AbstractDocument $document);
 
 	/**
 	 * @param string $foreignId

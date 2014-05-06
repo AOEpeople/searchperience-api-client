@@ -60,11 +60,11 @@ class DocumentRepository {
 	/**
 	 * Add a new Document to the index
 	 *
-	 * @param \Searchperience\Api\Client\Domain\Document\Document $document
+	 * @param \Searchperience\Api\Client\Domain\Document\AbstractDocument $document
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @return integer HTTP Status code
 	 */
-	public function add(\Searchperience\Api\Client\Domain\Document\Document $document) {
+	public function add(\Searchperience\Api\Client\Domain\Document\AbstractDocument $document) {
 		$violations = $this->documentValidator->validate($document);
 
 		if ($violations->count() > 0) {
@@ -86,7 +86,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document\Document $document
+	 * @return \Searchperience\Api\Client\Domain\Document\AbstractDocument $document
 	 */
 	public function getByForeignId($foreignId) {
 		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[a-zA-Z0-9_-]*$/u', $foreignId) !== 1) {
@@ -108,7 +108,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document\Document $document
+	 * @return \Searchperience\Api\Client\Domain\Document\AbstractDocument $document
 	 */
 	public function getById($id) {
 		if (!is_numeric($id)) {
@@ -130,7 +130,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document\Document $document
+	 * @return \Searchperience\Api\Client\Domain\Document\AbstractDocument $document
 	 */
 	public function getByUrl($url) {
 		if (!is_string($url) ) {
@@ -301,7 +301,6 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Exception\DocumentNotFoundException
-	 * @return \Searchperience\Api\Client\Domain\Document\Document $document
 	 */
 	public function deleteBySource($source) {
 		if (!is_string($source)) {
@@ -326,10 +325,10 @@ class DocumentRepository {
 	/**
 	 * Extend the class and override this method:
 	 * 	This method gives you the possibility to decorate the document object
-	 * @param Document $document
-	 * @return Document
+	 * @param AbstractDocument $document
+	 * @return AbstractDocument
 	 */
-	protected function decorateDocument(Document $document) {
+	protected function decorateDocument(AbstractDocument $document) {
 		return $document;
 	}
 }
