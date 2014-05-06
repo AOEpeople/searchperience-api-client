@@ -32,4 +32,9 @@ abstract class AbstractEntity {
 		$this->$propertyName = $propertyValue;
 	}
 
+	/**
+	 * @return void
+	 */
+	public function afterReconstitution() {}
+
 }

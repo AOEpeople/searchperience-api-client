@@ -301,10 +301,10 @@ abstract class AbstractRestBackend {
 	/**
 	 * Should be implemented by the document backend to get an post array from a domain object.
 	 *
-	 * @param $object
+	 * @param \Searchperience\Api\Client\Domain\AbstractEntity $object
 	 * @return array
 	 */
-	protected function buildRequestArray($object) {
+	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $object) {
 		return array();
 	}
 

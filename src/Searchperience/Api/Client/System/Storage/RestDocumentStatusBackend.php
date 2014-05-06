@@ -56,6 +56,8 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 		$documentStatus->__setProperty('allCount', (int) $xml->allCount);
 		$documentStatus->__setProperty('processedCount', (int) $xml->processedCount);
 
+		$documentStatus->afterReconstitution();
+
 		return $documentStatus;
 	}
 }

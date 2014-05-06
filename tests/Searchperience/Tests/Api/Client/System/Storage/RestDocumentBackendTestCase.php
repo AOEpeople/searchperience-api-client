@@ -198,6 +198,40 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function canReconstitutePromotionFromXmlResponse() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$promotionXml = $this->getFixtureContent('Api/Client/System/Storage/Fixture/Promotion.xml');
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $promotionXml));
+		$restClient->addSubscriber($mock);
+
+		$this->documentBackend->injectRestClient($restClient);
+			/** @var $promotion \Searchperience\Api\Client\Domain\Document\Promotion */
+		$promotion = $this->documentBackend->getByUrl('http://www.dummy.tld/some/product');
+
+		$dom = new \DOMDocument();
+		$dom->loadXML($promotionXml);
+
+		$xpath = new \DOMXPath($dom);
+		$node = $xpath->query('//document/content');
+		$inputPromotionXml = '<?xml version="1.0" encoding="UTF-8"?>'.(string) $node->item(0)->textContent;
+
+		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\Promotion',$promotion);
+		$this->assertEquals('backend',$promotion->getSource());
+		$this->assertEquals('http://www.foobar.de/test.gif',$promotion->getImageUrl());
+		$this->assertEquals('organic',$promotion->getPromotionType());
+		$this->assertEquals($this->cleanSpaces($inputPromotionXml),$this->cleanSpaces($promotion->getContent()),'Could not initialize and persist from promotion');
+
+		//can we create a DOMDocument from the promotion content
+		$dom = new \DOMDocument();
+		$dom->loadXML($promotion->getPromotionContent());
+		$xpath = new \DOMXPath($dom);
+		$this->assertEquals('test test',(string)$xpath->query('//body')->item(0)->textContent,'could not get expected body content from promotion html');
+	}
+
+	/**
+	 * @test
+	 */
 	public function canGetAllDocuments() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
@@ -380,5 +414,28 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function invalidSortingThrowsException() {
 		$this->documentBackend->getAllByFilterCollection(0, 10, new FilterCollection(),'foo','Foo');
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetClassNameForPromotionMimeType() {
+		$className = $this->documentBackend->getClassNameForMimeType('text/searchperiencepromotion+xml');
+		$this->assertEquals('\Searchperience\Api\Client\Domain\Document\Promotion',$className,'Retrieve unexpected classname for promotion');
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetDefaultClassName() {
+		$className = $this->documentBackend->getClassNameForMimeType('foobar');
+		$this->assertEquals('\Searchperience\Api\Client\Domain\Document\Document',$className,'Can not retrieve default classname');
+	}
+
+	/**
+	 * @test
+	 */
+	public function canReconstitutePromotion() {
+
 	}
 }

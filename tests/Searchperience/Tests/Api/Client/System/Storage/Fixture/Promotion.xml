@@ -1,13 +1,35 @@
-<promotion>
-<title></title>
-<!-- ORGANIC / PROMOTION -->
-<type></type>
-<image></image>
-<searchterms>
-    <searchterm></searchterm>
-</searchterms>
-<solrfieldvalues>
-    <solrfieldvalue fieldname=""></solrfieldvalue>
-</solrfieldvalues>
-<content></content>
-</promotion>
+<?xml version="1.0"?>
+<documents>
+    <document id="12">
+        <url>http://www.dummy.tld/mypromotion</url>
+        <source>backend</source>
+        <mimeType>text/searchperiencepromotion+xml</mimeType>
+        <generalPriority>0</generalPriority>
+        <temporaryPriority>2</temporaryPriority>
+        <content><![CDATA[
+            <promotion>
+                <title>test</title>
+                <type>organic</type>
+                <image>http://www.foobar.de/test.gif</image>
+                <searchterms>
+                    <searchterm>one</searchterm>
+                    <searchterm>two</searchterm>
+               </searchterms>
+                <solrfieldvalues>
+                    <solrfieldvalue fieldname="test">Fooobar</solrfieldvalue>
+                </solrfieldvalues>
+                <content><![CDATA[
+				    <html>
+					    <head></head>
+					    <body>test <![CDATA[test]]]]]]><![CDATA[><![CDATA[></body>
+				    </html>
+                ]]]]><![CDATA[></content>
+            </promotion>
+         ]]></content>
+        <lastProcessingTime>2012-11-14 17:35:03</lastProcessingTime>
+        <boostFactor>1</boostFactor>
+        <noindex>0</noindex>
+        <isProminent>1</isProminent>
+        <isMarkedForProcessing>0</isMarkedForProcessing>
+    </document>
+</documents>

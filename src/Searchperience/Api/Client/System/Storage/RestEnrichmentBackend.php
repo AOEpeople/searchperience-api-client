@@ -106,6 +106,9 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 
 					$matchingRules = $enrichmentObject->getMatchingRules();
 					$matchingRules->append($matchingRuleObject);
+
+					$matchingRuleObject->afterReconstitution();
+
 					$enrichmentObject->__setProperty('matchingRules',$matchingRules);
 				}
 			}
@@ -119,10 +122,13 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 					$fieldEnrichments = $enrichmentObject->getFieldEnrichments();
 					$fieldEnrichments->append($fieldEnrichmentObject);
 
+					$fieldEnrichmentObject->afterReconstitution();
+
 					$enrichmentObject->__setProperty('fieldEnrichments',$fieldEnrichments);
 				}
 			}
 
+			$enrichmentObject->afterReconstitution();
 			$enrichmentCollection->append($enrichmentObject);
 		}
 		return $enrichmentCollection ;
@@ -134,11 +140,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	 * @param \Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment
 	 * @return array
 	 */
-	protected function buildRequestArray($enrichment) {
-		if(!$enrichment instanceof \Searchperience\Api\Client\Domain\Enrichment\Enrichment ) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Wrong object passed to buildRequestArray method',1386845448);
-		}
-
+	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity  $enrichment) {
 		$valueArray = array();
 
 		if (!is_null($enrichment->getId())) {

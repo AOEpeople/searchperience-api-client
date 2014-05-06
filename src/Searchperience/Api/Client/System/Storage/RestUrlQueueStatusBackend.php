@@ -44,6 +44,8 @@ class RestUrlQueueStatusBackend extends \Searchperience\Api\Client\System\Storag
 		$urlQueueStatus->__setProperty('errorCount', (int) $xml->errorCount);
 		$urlQueueStatus->__setProperty('allCount', (int) $xml->allCount);
 
+		$urlQueueStatus->afterReconstitution();
+
 		return $urlQueueStatus;
 	}
 }

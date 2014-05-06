@@ -152,4 +152,14 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 	protected function getUTCDateTimeObject($UTCDateString) {
 		return \DateTime::createFromFormat('Y-m-d H:i:s', $UTCDateString,new \DateTimeZone('UTC'));
 	}
+
+	/**
+	 * Retrieves the content with cleaned spaces.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function cleanSpaces($content) {
+		return mb_ereg_replace('[[:space:]]+','', $content);
+	}
 }

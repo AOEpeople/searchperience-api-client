@@ -20,6 +20,35 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	protected $endpoint = 'documents';
 
 	/**
+	 * @var string
+	 */
+	protected static $defaultClass = '\Searchperience\Api\Client\Domain\Document\Document';
+
+	/**
+	 * @var array
+	 */
+	protected static $classMap = array(
+		'\Searchperience\Api\Client\Domain\Document\Promotion' => array('text/searchperiencepromotion+xml')
+	);
+
+	/**
+	 * Returns the name of the class that is able to handle the content of a
+	 * specific mimeType.
+	 *
+	 * @param string $mimeType
+	 * @return string
+	 */
+	public static function getClassNameForMimeType($mimeType) {
+		foreach(self::$classMap as $className => $classMapEntry) {
+			if(in_array($mimeType,$classMapEntry)) {
+				return $className;
+			}
+		}
+
+		return self::$defaultClass;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Document\Document $document) {
@@ -118,7 +147,10 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		$documents=$xml->xpath('document');
 		foreach($documents as $document) {
 			$documentAttributeArray = (array)$document->attributes();
-			$documentObject = new \Searchperience\Api\Client\Domain\Document\Document();
+
+			$mimeType       = (string)$document->mimeType;
+			$className      = $this->getClassNameForMimeType($mimeType);
+			$documentObject = new $className();
 			$documentObject ->__setProperty('id',(integer)$documentAttributeArray['@attributes']['id']);
 			$documentObject ->__setProperty('url',(string)$document->url);
 			$documentObject ->__setProperty('foreignId',(string)$document->foreignId);
@@ -154,6 +186,8 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 
 			$documentObject ->__setProperty('noIndex',(integer)$document->noIndex);
 			$documentArray[]=$documentObject;
+
+			$documentObject->afterReconstitution();
 		}
 
 		return $documentArray ;
@@ -165,11 +199,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @param \Searchperience\Api\Client\Domain\Document\Document $document
 	 * @return array
 	 */
-	protected function buildRequestArray($document) {
-		if(!$document instanceof \Searchperience\Api\Client\Domain\Document\Document) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Wrong object passed to buildRequestArray method',1386845432);
-		}
-
+	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $document) {
 		$valueArray = array();
 
 		if ($document->getLastProcessingDate() instanceof \DateTime) {

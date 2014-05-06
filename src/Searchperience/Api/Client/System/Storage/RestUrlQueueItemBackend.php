@@ -125,6 +125,8 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 			$urlQueueObject->__setProperty('lastError',(string)$urlQueue->lastError);
 			$urlQueueObject->__setProperty('priority',(integer)$urlQueue->priority);
 
+			$urlQueueObject->afterReconstitution();
+
 			$urlQueueArray->append($urlQueueObject);
 		}
 		return $urlQueueArray ;
@@ -136,16 +138,13 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	 * @param \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem $urlQueue
 	 * @return array
 	 */
-	protected function buildRequestArray($urlQueue) {
-		if(!$urlQueue instanceof \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem  ) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Wrong object passed to buildRequestArray method',1386845451);
-		}
-
+	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $urlQueue) {
 		$valueArray = array();
 
 		if (!is_null($urlQueue->getDeleted()) && !$urlQueue->getDeleted() ) {
 			$valueArray['deleted'] = 0;
 		}
+
 		if (!is_null($urlQueue->getDocumentId())) {
 			$valueArray['documentId'] = $urlQueue->getDocumentId();
 		}
