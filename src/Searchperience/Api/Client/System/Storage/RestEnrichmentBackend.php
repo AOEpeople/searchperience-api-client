@@ -116,7 +116,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			if(isset( $enrichment->fieldenrichments->fieldenrichment )) {
 				foreach($enrichment->fieldenrichments->fieldenrichment as $fieldenrichment ) {
 					$fieldEnrichmentObject = new \Searchperience\Api\Client\Domain\Enrichment\FieldEnrichment();
-					$fieldEnrichmentObject->__setProperty('fieldName',(string) $fieldenrichment->fieldname);
+					$fieldEnrichmentObject->__setProperty('fieldName',(string) $fieldenrichment->fieldName);
 					$fieldEnrichmentObject->__setProperty('content',(string) $fieldenrichment->content);
 
 					$fieldEnrichments = $enrichmentObject->getFieldEnrichments();
