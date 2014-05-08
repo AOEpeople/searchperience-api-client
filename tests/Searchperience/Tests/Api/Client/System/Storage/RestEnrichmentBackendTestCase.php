@@ -44,6 +44,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals($enrichment->getMatchingRules()->getCount(),1,'Could not reconstitude matching rules');
 		$this->assertEquals($enrichment->getAddBoost(),2315.22,'Could not reconstitude add boost');
 		$this->assertEquals($enrichment->getTitle(),'my enrichment','Could not reconstitude title');
+		$this->assertEquals($enrichment->getDescription(), 'some text');
 	}
 
 	/**

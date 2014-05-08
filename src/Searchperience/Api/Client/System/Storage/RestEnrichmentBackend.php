@@ -94,7 +94,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$enrichmentObject->__setProperty('id', (integer) $enrichmentAttributeArray['@attributes']['id']);
 			$enrichmentObject->__setProperty('title', (string)$enrichment->title);
 			$enrichmentObject->__setProperty('addBoost', (float) $enrichment->addBoost);
-			$enrichmentObject->__setProperty('description', $enrichment->description);
+			$enrichmentObject->__setProperty('description', (string)$enrichment->description);
 			$enrichmentObject->__setProperty('enabled', (bool)(int)$enrichment->status);
 
 			if(isset( $enrichment->matchingrules->matchingrule )) {
