@@ -40,11 +40,18 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$this->enrichmentBackend->injectRestClient($restClient);
 		$enrichment = $this->enrichmentBackend->getById(1);
-		$this->assertEquals($enrichment->getFieldEnrichments()->getCount(),2,'Could not reconstitude field enrichments');
-		$this->assertEquals($enrichment->getMatchingRules()->getCount(),1,'Could not reconstitude matching rules');
-		$this->assertEquals($enrichment->getAddBoost(),2315.22,'Could not reconstitude add boost');
-		$this->assertEquals($enrichment->getTitle(),'my enrichment','Could not reconstitude title');
-		$this->assertEquals($enrichment->getDescription(), 'some text');
+		$this->assertSame($enrichment->getFieldEnrichments()->getCount(),2,'Could not reconstitude field enrichments');
+		$this->assertSame($enrichment->getMatchingRules()->getCount(),1,'Could not reconstitude matching rules');
+		$this->assertSame($enrichment->getAddBoost(),2315.22,'Could not reconstitude add boost');
+		$this->assertSame($enrichment->getTitle(),'my enrichment','Could not reconstitude title');
+		$this->assertSame($enrichment->getDescription(), 'some text');
+
+		$matchingRulesCollection = $enrichment->getMatchingRules();
+		$this->assertCount(1, $matchingRulesCollection);
+		$matchingRule = $matchingRulesCollection->getIterator()->offsetGet(0);
+		$this->assertSame($matchingRule->getFieldName(), 'content');
+		$this->assertSame($matchingRule->getOperator(), 'equals');
+		$this->assertSame($matchingRule->getOperatorValue(), "10");
 	}
 
 	/**
@@ -59,7 +66,6 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->enrichmentBackend->injectRestClient($restClient);
 		$enrichments = $this->enrichmentBackend->getAllByFilterCollection(1,10);
 		$this->assertEquals($enrichments->getTotalCount(), 99, 'Could not reconstitude enrichment collection');
-
 	}
 
 	/**

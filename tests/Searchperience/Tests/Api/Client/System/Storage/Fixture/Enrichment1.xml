@@ -11,7 +11,7 @@
 			<matchingrule>
 				<fieldName>content</fieldName>
 				<operator>equals</operator>
-				<operatorValue>10</operatorValue>
+				<operandValue>10</operandValue>
 			</matchingrule>
 		</matchingrules>
 		<fieldenrichments>
