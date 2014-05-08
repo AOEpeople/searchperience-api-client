@@ -42,7 +42,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$enrichment = $this->enrichmentBackend->getById(1);
 		$this->assertSame($enrichment->getFieldEnrichments()->getCount(),2,'Could not reconstitude field enrichments');
 		$this->assertSame($enrichment->getMatchingRules()->getCount(),1,'Could not reconstitude matching rules');
-		$this->assertSame($enrichment->getAddBoost(),2315.22,'Could not reconstitude add boost');
+		$this->assertSame($enrichment->getAddBoost(),'2315.22','Could not reconstitude add boost');
 		$this->assertSame($enrichment->getTitle(),'my enrichment','Could not reconstitude title');
 		$this->assertSame($enrichment->getDescription(), 'some text');
 
