@@ -235,6 +235,39 @@ Enrichments
 The example above shows the creation of an enrichment for a document that contains "aoe" in the brand and adds "php"
 as a word to the field "highboost_words_sm" that is configured as highly relevant for the search.
 
+Option requests
+---------------
+API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
+
+::
+    OPTIONS api.searchperience.me/###yourinstancename###
+::
+
+::
+    OPTIONS http://demo:demo@api.searchperience.me/###yourinstancename###/documents
+
+    <?xml version="1.0"?>
+    <api>
+        <add>
+            <link href="documents?mimeType=_mime_&amp;amp;content=_content_&amp;amp;foreignId=_foreignId_&amp;amp;generalPriority=_generalPriority_&amp;amp;temporaryPriority=_temporaryPriority_&amp;amp;source=_source_&amp;amp;url=_url_&amp;amp;noIndex=_noIndex_&amp;amp;isProminent=_isProminent_&amp;amp;boostFactor=_boostFactor_" title="Adds a document"/>
+        </add>
+        <get>
+            <link href="documents" title="Get all documents. Also here can be used additional filters like: 'query', 'crawlStart', 'crawlEnd', 'boostFactorStart', 'boostFactorEnd', 'pageRankStart', 'pageRankEnd', 'processStart', 'processEnd', 'isduplicateof', 'lasterror', 'processingthreadid', 'queryFields'"/>
+            <link href="documents?foreignId=xyz" title="Get document by foreignId. Usually max 1 document should be in result collection"/>
+            <link href="documents?url=http://www.url.de/" title="Get document by Url. Usually max 1 document should be in result collection"/>
+         </get>
+         <delete>
+            <link href="documents?source=foo" title="deletes a document by source"/>
+         </delete>
+    </api>
+::
+
+Currently OPTIONS request supported by following routes:
+- /###yourinstancename###/documents
+- /###yourinstancename###/urlqueueitems
+- /###yourinstancename###/enrichments
+- /###yourinstancename###/status/urlqueue
+- /###yourinstancename###/status/document
 
 Trouble shooting
 ----------------
@@ -249,3 +282,4 @@ There is a HTTP_DEBUG mode which can be easy enabled.
 .. |buildStatusIcon| image:: https://secure.travis-ci.org/AOEpeople/searchperience-api-client.png?branch=master
    :alt: Build Status
    :target: http://travis-ci.org/AOEpeople/searchperience-api-client
+
