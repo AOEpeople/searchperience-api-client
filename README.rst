@@ -218,7 +218,7 @@ Enrichments
     $matchingRule = new MatchingRule();
     $matchingRule->setFieldname("brand_s");
     $matchingRule->setOperator(MatchingRule::OPERATOR_CONTAINS);
-    $matchingRule->setOperatorValue("aoe");
+    $matchingRule->setOperandValue("aoe");
 
     $enrichment->addMatchingRule($matchingRule);
 

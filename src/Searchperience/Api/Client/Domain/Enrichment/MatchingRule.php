@@ -23,7 +23,7 @@ class MatchingRule extends AbstractEntity {
 	/**
 	 * @var string
 	 */
-	protected $operatorValue = '';
+	protected $operandValue = '';
 
 	const OPERATOR_EQUALS = 'equals';
 	const OPERATOR_CONTAINS = 'contains';
@@ -69,7 +69,7 @@ class MatchingRule extends AbstractEntity {
 	 */
 	public function setOperator($operator) {
 		if(!$this->isOperatorAllowed($operator)) {
-			throw new \Searchperience\Common\Exception\InvalidArgumentException("Invalid operator: ".htmlspecialchars($operatorValue));
+			throw new \Searchperience\Common\Exception\InvalidArgumentException("Invalid operator: ".htmlspecialchars($operator));
 		}
 		$this->operator = $operator;
 	}
@@ -83,16 +83,16 @@ class MatchingRule extends AbstractEntity {
 	}
 
 	/**
-	 * @param string $operatorValue
+	 * @param string $operandValue
 	 */
-	public function setOperatorValue($operatorValue) {
-		$this->operatorValue = $operatorValue;
+	public function setOperandValue($operandValue) {
+		$this->operandValue = $operandValue;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getOperatorValue() {
-		return $this->operatorValue;
+	public function getOperandValue() {
+		return $this->operandValue;
 	}
 }
