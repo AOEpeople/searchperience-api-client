@@ -48,10 +48,11 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$matchingRulesCollection = $enrichment->getMatchingRules();
 		$this->assertCount(1, $matchingRulesCollection);
+		/** @var $matchingRule MatchingRule */
 		$matchingRule = $matchingRulesCollection->getIterator()->offsetGet(0);
 		$this->assertSame($matchingRule->getFieldName(), 'content');
 		$this->assertSame($matchingRule->getOperator(), 'equals');
-		$this->assertSame($matchingRule->getOperatorValue(), "10");
+		$this->assertSame($matchingRule->getOperandValue(), "10");
 	}
 
 	/**
@@ -91,7 +92,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 				array(
 					'fieldName' => 'title',
 					'operator' => 'contains_not',
-					'operatorValue' => 'nasa'
+					'operandValue' => 'nasa'
 				)
 			),
 			'fieldEnrichments' => array(
@@ -117,7 +118,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$matchingRule = new MatchingRule();
 		$matchingRule->setFieldName('title');
 		$matchingRule->setOperator(MatchingRule::OPERATOR_CONTAINSNOT);
-		$matchingRule->setOperatorValue('nasa');
+		$matchingRule->setOperandValue('nasa');
 		$enrichment->addMatchingRule($matchingRule);
 
 		$fieldEnrichment = new FieldEnrichment();

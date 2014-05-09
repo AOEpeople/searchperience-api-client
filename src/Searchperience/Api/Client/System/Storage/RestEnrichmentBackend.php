@@ -102,7 +102,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 					$matchingRuleObject = new \Searchperience\Api\Client\Domain\Enrichment\MatchingRule();
 					$matchingRuleObject->__setProperty('operator', (string)$matchingrule->operator);
 					$matchingRuleObject->__setProperty('fieldName', (string)$matchingrule->fieldName);
-					$matchingRuleObject->__setProperty('operatorValue',(string)$matchingrule->operandValue);
+					$matchingRuleObject->__setProperty('operandValue',(string)$matchingrule->operandValue);
 
 					$matchingRules = $enrichmentObject->getMatchingRules();
 					$matchingRules->append($matchingRuleObject);
@@ -189,7 +189,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$data = array();
 			$data['fieldName'] 		= $matchingRule->getFieldName();
 			$data['operator']		= $matchingRule->getOperator();
-			$data['operatorValue']  = $matchingRule->getOperatorValue();
+			$data['operandValue']  = $matchingRule->getOperandValue();
 
 			$valueArray['matchingRules'][$key] = $data;
 		}

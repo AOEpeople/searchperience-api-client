@@ -35,12 +35,12 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$matchingRuleA = new MatchingRule();
 		$matchingRuleA->setFieldName('brand');
 		$matchingRuleA->setOperator(MatchingRule::OPERATOR_EQUALS);
-		$matchingRuleA->setOperatorValue('aoe');
+		$matchingRuleA->setOperandValue('aoe');
 
 		$matchingRuleB = new MatchingRule();
 		$matchingRuleB->setFieldName('brand');
 		$matchingRuleB->setOperator(MatchingRule::OPERATOR_CONTAINSNOT);
-		$matchingRuleB->setOperatorValue('nasa');
+		$matchingRuleB->setOperandValue('nasa');
 
 		$fieldEnrichment = new FieldEnrichment();
 		$fieldEnrichment->setFieldName('boostwords');
