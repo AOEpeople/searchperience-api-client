@@ -235,15 +235,20 @@ Enrichments
 The example above shows the creation of an enrichment for a document that contains "aoe" in the brand and adds "php"
 as a word to the field "highboost_words_sm" that is configured as highly relevant for the search.
 
+
 Option requests
 ---------------
 API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
 
 ::
+
     OPTIONS api.searchperience.me/###yourinstancename###
-::
+
+
+Example:
 
 ::
+
     OPTIONS http://demo:demo@api.searchperience.me/###yourinstancename###/documents
 
     <?xml version="1.0"?>
@@ -255,14 +260,15 @@ API provides self-descriptive interface by sending OPTIONS requests for any spec
             <link href="documents" title="Get all documents. Also here can be used additional filters like: 'query', 'crawlStart', 'crawlEnd', 'boostFactorStart', 'boostFactorEnd', 'pageRankStart', 'pageRankEnd', 'processStart', 'processEnd', 'isduplicateof', 'lasterror', 'processingthreadid', 'queryFields'"/>
             <link href="documents?foreignId=xyz" title="Get document by foreignId. Usually max 1 document should be in result collection"/>
             <link href="documents?url=http://www.url.de/" title="Get document by Url. Usually max 1 document should be in result collection"/>
-         </get>
-         <delete>
+        </get>
+        <delete>
             <link href="documents?source=foo" title="deletes a document by source"/>
-         </delete>
+        </delete>
     </api>
-::
+
 
 Currently OPTIONS request supported by following routes:
+
 - /###yourinstancename###/documents
 - /###yourinstancename###/urlqueueitems
 - /###yourinstancename###/enrichments
