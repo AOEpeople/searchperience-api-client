@@ -88,6 +88,49 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function setNormalBoostedKeywordsIsCreatingOnlyOneFieldEnrichment() {
+		$this->assertSame(0, $this->enrichment->getFieldEnrichments()->count(),'Unexpected amount of field enrichments');
+
+		$this->enrichment->setNormalBoostedKeywords('foo, bar');
+		$this->enrichment->setNormalBoostedKeywords('one, two');
+
+		$this->assertSame(1, $this->enrichment->getFieldEnrichments()->getCount(),'setNormalBoostedKeywords creates unexpected amoount of fieldEnrichments');
+		$this->assertSame('one, two', $this->enrichment->getNormalBoostedKeywords());
+	}
+
+	/**
+	 * @test
+	 */
+	public function canResetKeyWordFieldsWithEmptyContent() {
+		$this->assertSame(0, $this->enrichment->getFieldEnrichments()->count(),'Unexpected amount of field enrichments');
+
+		$this->enrichment->setLowBoostedKeywords('bla, bla');
+		$this->enrichment->setNormalBoostedKeywords('foo, bar');
+		$this->enrichment->setHighBoostedKeywords('blub');
+
+		$this->assertSame(3, $this->enrichment->getFieldEnrichments()->count(),'Unexpected amount of field enrichments');
+
+		$this->assertEquals('bla, bla', $this->enrichment->getLowBoostedKeywords());
+		$this->assertEquals('foo, bar', $this->enrichment->getNormalBoostedKeywords());
+		$this->assertEquals('blub', $this->enrichment->getHighBoostedKeywords());
+
+		$this->assertSame(3, $this->enrichment->getFieldEnrichments()->count(),'Unexpected amount of field enrichments');
+
+		$this->enrichment->setLowBoostedKeywords('');
+		$this->enrichment->setNormalBoostedKeywords('');
+		$this->enrichment->setHighBoostedKeywords('');
+
+			//now we should have no field enrichments left because we resetted them with an empty string
+		$this->assertSame(0, $this->enrichment->getFieldEnrichments()->count(),'Unexpected amount of field enrichments');
+
+		$this->assertEquals('', $this->enrichment->getLowBoostedKeywords());
+		$this->assertEquals('', $this->enrichment->getNormalBoostedKeywords());
+		$this->assertEquals('', $this->enrichment->getHighBoostedKeywords());
+	}
+
+	/**
+	 * @test
+	 */
 	public function verifyKeywordsCanBeRetrievedFromEnrichment() {
 		$this->enrichment->setLowBoostedKeywords("low");
 		$this->enrichment->setNormalBoostedKeywords("normal");

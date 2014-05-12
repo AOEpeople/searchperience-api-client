@@ -40,12 +40,12 @@ class Enrichment extends AbstractEntity{
 	protected $description;
 
 	/**
-	 * @var array
+	 * @var MatchingRuleCollection
 	 */
 	protected $matchingRules = null;
 
 	/**
-	 * @var array
+	 * @var FieldEnrichmentCollection
 	 */
 	protected $fieldEnrichments = null;
 
@@ -156,6 +156,47 @@ class Enrichment extends AbstractEntity{
 		$this->fieldEnrichments[] = $fieldEnrichment;
 
 		return $this;
+	}
+
+
+	/**
+	 * @param string $fieldName
+	 * @return bool
+	 */
+	public function hasFieldEnrichmentForFieldName($fieldName) {
+		$result = false;
+
+		if(! $this->fieldEnrichments instanceof FieldEnrichmentCollection) {
+			return $result;
+		}
+
+		foreach($this->fieldEnrichments as $key => $fieldEnrichment) {
+				/** @var $fieldEnrichment FieldEnrichment */
+			if($fieldEnrichment->getFieldName() === $fieldName) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $fieldName
+	 * @return void
+	 */
+	public function removeFieldEnrichmentsForFieldName($fieldName) {
+		$keysToRemove = array();
+		$iterator = $this->fieldEnrichments->getIterator();
+		foreach($iterator as $key => $fieldEnrichment) {
+			/** @var $fieldEnrichment FieldEnrichment */
+			if($fieldEnrichment->getFieldName() === $fieldName) {
+				$keysToRemove[] = $key;
+			}
+		}
+
+		foreach($keysToRemove as $keyToRemove) {
+			$iterator->offsetUnset($keyToRemove);
+		}
 	}
 
 	/**
@@ -305,6 +346,18 @@ class Enrichment extends AbstractEntity{
 	 * @param $value
 	 */
 	protected function setBoostWordsByFieldName($fieldName, $value) {
+		//if we have allready enrichments for this fieldName we remove them
+		//and create a new fieldEnrichment right away
+		if($this->hasFieldEnrichmentForFieldName($fieldName)) {
+			$this->removeFieldEnrichmentsForFieldName($fieldName);
+		}
+
+		//when we set the boostword fieldValue to an empty value, we semantically remove the field enrichment
+		$wasFieldReset = trim($value) == '';
+		if($wasFieldReset) {
+			return;
+		}
+
 		$fieldEnrichment = new FieldEnrichment();
 		$fieldEnrichment->setFieldName($fieldName);
 		$fieldEnrichment->setContent($value);
