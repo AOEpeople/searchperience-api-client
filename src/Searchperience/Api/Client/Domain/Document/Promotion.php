@@ -164,7 +164,7 @@ class Promotion extends AbstractDocument {
 	public function getContentDOM() {
 		if(!$this->contentDOM instanceof \DOMDocument) {
 			$this->contentDOM = new \DOMDocument('1.0','UTF-8');
-			$this->contentDOM->loadXML($this->content);
+			$this->contentDOM->loadXML($this->getContent());
 		}
 
 		return $this->contentDOM;
