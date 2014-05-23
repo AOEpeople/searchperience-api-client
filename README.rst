@@ -236,6 +236,45 @@ The example above shows the creation of an enrichment for a document that contai
 as a word to the field "highboost_words_sm" that is configured as highly relevant for the search.
 
 
+Synonyms
+--------------
+
+Sometimes it is usefull to replace searchterms with synonyms on index or searchtime.
+In searchperience we provide an api to maintain these synonyms.
+
+Depending on the project there can be multiple "instances" of synonym collections, to be able
+to handle multiple usecases. Each of thes "instances" or "synonym collections" are represented by a tag.
+
+To figure out which synonym instances exist you can use the SynonymTagRepository to get them:
+
+::
+
+    $synonymTagRepository = \Searchperience\Common\Factory::getSynonymTagRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    $allTags = $synonymTagRepository->getAll();
+
+    foreach($allTags as $tag) {
+
+        var_dump($tag->getTagName());
+    }
+::
+
+When you push new Synonyms or Update existing once, you can instanciate a synonym object, with
+mainWord, tag and words with the same meaning and push the,:
+
+::
+
+    $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    $synonym = new \Searchperience\Api\Client\Domain\Synonym\Synonym();
+    $synonym->setMainWord("bike");
+    $synonym->setTagName("en");
+    $synonym->addWordWithSameMeaning("bicycle");
+
+    $synonymRepository->add($synonym);
+::
+
+
 Option requests
 ---------------
 API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
