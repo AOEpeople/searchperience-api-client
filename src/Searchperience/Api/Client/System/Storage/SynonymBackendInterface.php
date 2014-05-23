@@ -62,6 +62,17 @@ interface SynonymBackendInterface extends BackendInterface {
 	public function post($tagName, Synonym $synonym);
 
 	/**
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return mixed
+	 */
+	public function deleteAll();
+
+	/**
 	 * @param string $tagName
 	 * @param Synonym $synonym
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException

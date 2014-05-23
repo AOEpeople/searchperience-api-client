@@ -93,6 +93,20 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 	}
 
 	/**
+	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @return mixed
+	 */
+	public function deleteAll() {
+		$response = $this->getDeleteResponseFromEndpoint();
+		return $response->getStatusCode();
+	}
+
+	/**
 	 * @param $tagName
 	 * @param Synonym $synonym
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException

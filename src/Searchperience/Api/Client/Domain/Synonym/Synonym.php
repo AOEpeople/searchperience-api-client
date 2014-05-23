@@ -3,6 +3,7 @@
 namespace Searchperience\Api\Client\Domain\Synonym;
 
 use Searchperience\Api\Client\Domain\AbstractEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Synonym

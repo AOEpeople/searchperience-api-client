@@ -93,6 +93,13 @@ class SynonymRepository {
 	}
 
 	/**
+	 * Deletes all synonyms for all tags
+	 */
+	public function deleteAll() {
+		return $this->storageBackend->deleteAll();
+	}
+
+	/**
 	 * Delete a synonym from the api.
 	 *
 	 * @param Synonym $synonym
