@@ -40,6 +40,11 @@ class Promotion extends AbstractDocument {
 	protected $contentDOM = null;
 
 	/**
+	 * @var \DOMDocument
+	 */
+	protected $promotionContentDOM = null;
+
+	/**
 	 * @var string
 	 */
 	protected $promotionType = self::TYPE_PROMOTION;
@@ -162,12 +167,27 @@ class Promotion extends AbstractDocument {
 	 * @return \DOMDocument
 	 */
 	public function getContentDOM() {
-		if(!$this->contentDOM instanceof \DOMDocument) {
-			$this->contentDOM = new \DOMDocument('1.0','UTF-8');
-			$this->contentDOM->loadXML($this->content);
-		}
+		$this->contentDOM = new \DOMDocument('1.0','UTF-8');
+		$this->contentDOM->loadXML($this->content);
 
 		return $this->contentDOM;
+	}
+
+	/**
+	 * This method is used to ret
+	 *
+	 * @return \DOMDocument
+	 */
+	public function getPromotionContentDOM() {
+		$contentDOM = $this->getContentDOM();
+		$xpath = new \DOMXPath($contentDOM);
+
+		$list = $xpath->query("//promotion/content");
+
+		$this->promotionContentDOM = new \DOMDocument('1.0','UTF-8');
+		$this->promotionContentDOM->loadXML($list->item(0)->textContent);
+
+		return $this->promotionContentDOM;
 	}
 
 	/**
