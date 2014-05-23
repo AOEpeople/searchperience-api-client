@@ -177,6 +177,32 @@ class Factory {
 	}
 
 	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymRepository
+	 */
+	public static function getSynonymRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+		$synonymStorage 	= new \Searchperience\Api\Client\System\Storage\RestSynonymBackend();
+		$synonymStorage->injectRestClient($guzzle);
+		$synonymStorage->injectDateTimeService($dateTimeService);
+		$synonymStorage->setBaseUrl($baseUrl);
+		$synonymStorage->setUsername($username);
+		$synonymStorage->setPassword($password);
+
+		$synonymRepository = new \Searchperience\Api\Client\Domain\Synonym\SynonymRepository();
+		$synonymRepository->injectStorageBackend($synonymStorage);
+		$synonymRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $synonymRepository;
+	}
+
+
+	/**
 	 * @param $customerKey
 	 * @return \Guzzle\Http\Client
 	 * @throws Exception\RuntimeException
