@@ -1,0 +1,10 @@
+<synonyms>
+    <totalCount>2</totalCount>
+    <synonym mainWord="mobile" tag="en">
+        <wordWithSameMeaning>phone</wordWithSameMeaning>
+        <wordWithSameMeaning>mobilephone</wordWithSameMeaning>
+    </synonym>
+    <synonym mainWord="bike" tag="en">
+        <wordWithSameMeaning>bicycle</wordWithSameMeaning>
+    </synonym>
+</synonyms>

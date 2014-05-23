@@ -7,25 +7,7 @@ namespace Searchperience\Api\Client\System\Storage;
  * @date 14.11.12
  * @time 15:17
  */
-interface DocumentBackendInterface {
-
-	/**
-	 * @param string $username
-	 * @return void
-	 */
-	public function setUsername($username);
-
-	/**
-	 * @param string $password
-	 * @return void
-	 */
-	public function setPassword($password);
-
-	/**
-	 * @param string $baseUrl http://api.searchperience.me/
-	 * @return mixed
-	 */
-	public function setBaseUrl($baseUrl);
+interface DocumentBackendInterface extends BackendInterface {
 
 	/**
 	 * @param \Searchperience\Api\Client\Domain\Document\AbstractDocument $document

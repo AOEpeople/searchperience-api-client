@@ -256,6 +256,7 @@ abstract class AbstractRestBackend {
 
 	/**
 	 * @param object $entity
+	 * @param string $queryString
 	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -268,11 +269,11 @@ abstract class AbstractRestBackend {
 	 * @internal param string $endpoint
 	 * @return int
 	 */
-	protected function getPostResponseFromEndpoint($entity) {
+	protected function getPostResponseFromEndpoint($entity, $queryString = '') {
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$postArray  = $this->buildRequestArray($entity);
-			$response = $this->executePostRequest($postArray);
+			$response = $this->executePostRequest($postArray, $queryString);
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
 			$this->transformStatusCodeToClientErrorResponseException($exception);
 		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
@@ -286,13 +287,14 @@ abstract class AbstractRestBackend {
 
 	/**
 	 * @param $postArray
+	 * @param string $queryString
 	 * @throws \Guzzle\Common\Exception\InvalidArgumentException
 	 * @internal param $endpoint
 	 * @return \Guzzle\Http\Message\Response
 	 */
-	protected function executePostRequest($postArray) {
+	protected function executePostRequest($postArray, $queryString = '') {
 		$response = $this->restClient->setBaseUrl($this->baseUrl)
-			->post('/{customerKey}/' . $this->endpoint, NULL, $postArray)
+			->post('/{customerKey}/' . $this->endpoint . $queryString, NULL, $postArray)
 			->setAuth($this->username, $this->password)
 			->send();
 		return $response;
