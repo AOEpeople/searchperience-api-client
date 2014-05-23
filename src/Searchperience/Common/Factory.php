@@ -201,6 +201,30 @@ class Factory {
 		return $synonymRepository;
 	}
 
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymTagRepository
+	 */
+	public static function getSynonymTagRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+		$synonymStorage 	= new \Searchperience\Api\Client\System\Storage\RestSynonymTagBackend();
+		$synonymStorage->injectRestClient($guzzle);
+		$synonymStorage->injectDateTimeService($dateTimeService);
+		$synonymStorage->setBaseUrl($baseUrl);
+		$synonymStorage->setUsername($username);
+		$synonymStorage->setPassword($password);
+
+		$synonymRepository = new \Searchperience\Api\Client\Domain\Synonym\SynonymTagRepository();
+		$synonymRepository->injectStorageBackend($synonymStorage);
+
+		return $synonymRepository;
+	}
+
 
 	/**
 	 * @param $customerKey

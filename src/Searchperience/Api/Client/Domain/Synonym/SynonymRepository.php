@@ -20,10 +20,10 @@ class SynonymRepository {
 	/**
 	 * Injects the storage backend.
 	 *
-	 * @param \Searchperience\Api\Client\System\Storage\EnrichmentBackendInterface $storageBackend
+	 * @param \Searchperience\Api\Client\System\Storage\SynonymBackendInterface $storageBackend
 	 * @return void
 	 */
-	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\EnrichmentBackendInterface $storageBackend) {
+	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\SynonymBackendInterface $storageBackend) {
 		$this->storageBackend = $storageBackend;
 	}
 

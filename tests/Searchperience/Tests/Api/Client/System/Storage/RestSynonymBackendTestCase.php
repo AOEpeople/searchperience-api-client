@@ -25,7 +25,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function test() {
+	public function canGetSynonyms() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
 		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/Synonyms.xml')));
