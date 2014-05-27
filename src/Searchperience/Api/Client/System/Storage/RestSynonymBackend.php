@@ -6,6 +6,10 @@ use Searchperience\Api\Client\Domain\Synonym\Synonym;
 use Searchperience\Api\Client\Domain\Synonym\SynonymCollection;
 use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
+/**
+ * Class RestSynonymBackend
+ * @package Searchperience\Api\Client\System\Storage
+ */
 class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendInterface {
 
 	/**
@@ -107,7 +111,7 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 	}
 
 	/**
-	 * @param $tagName
+	 * @param string $tagName
 	 * @param Synonym $synonym
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -122,8 +126,8 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 	}
 
 	/**
-	 * @param $tagName
-	 * @param $mainWord
+	 * @param string $tagName
+	 * @param string $mainWord
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
@@ -139,7 +143,6 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
 	/**
 	 * @param \SimpleXMLElement $xml
-	 *
 	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
 	 */
 	protected function buildSynonymFromXml(\SimpleXMLElement $xml) {
@@ -149,7 +152,6 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
 	/**
 	 * @param \SimpleXMLElement $xml
-	 *
 	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymCollection
 	 */
 	protected function buildSynonymsFromXml(\SimpleXMLElement $xml) {
@@ -175,14 +177,13 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 			$synonymObject->__setProperty('wordsWithSameMeaning',$wordsWithSameMeaning);
 			$synonymCollection->append($synonymObject);
 		}
-
 		return $synonymCollection;
 	}
 
 	/**
 	 * Creates an data array the is send by postRequest for a synonym
 	 *
-	 * @param \Searchperience\Api\Client\Domain\Synonym\Synonym $synonym
+	 * @param \Searchperience\Api\Client\Domain\AbstractEntity $synonym
 	 * @return array
 	 */
 	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity  $synonym) {
@@ -192,6 +193,10 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
 		if (!is_null($synonym->getMainWord())) {
 			$valueArray['mainWord'] = $synonym->getMainWord();
+		}
+
+		if (!is_null($synonym->getTagName())) {
+			$valueArray['tagName'] = $synonym->getTagName();
 		}
 
 		$wordsWithSameMeaning = $synonym->getWordsWithSameMeaning();

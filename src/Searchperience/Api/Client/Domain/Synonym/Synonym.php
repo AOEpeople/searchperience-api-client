@@ -8,19 +8,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Synonym
  * @package Searchperience\Api\Client\Domain\Synonym
+ * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class Synonym extends AbstractEntity {
 
 	/**
 	 * @var string
-	 * @Assert\Length(min = 3, max = 40)
+	 * @Assert\Length(min = 2, max = 40)
 	 * @Assert\NotBlank
 	 */
 	protected $mainWord = '';
 
 	/**
 	 * @var string
-	 * @Assert\Length(min = 3, max = 40)
+	 * @Assert\Length(min = 2, max = 40)
 	 * @Assert\NotBlank
 	 */
 	protected $tagName = '';

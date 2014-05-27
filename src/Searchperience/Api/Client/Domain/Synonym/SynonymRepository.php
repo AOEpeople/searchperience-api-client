@@ -42,12 +42,13 @@ class SynonymRepository {
 	 *
 	 * @param Synonym $synonym
 	 * @return integer HTTP Status code
+	 * @throws \InvalidArgumentException
 	 */
 	public function add(Synonym $synonym) {
 		$violations = $this->synonymValidator->validate($synonym);
 
 		if ($violations->count() > 0) {
-			throw new InvalidArgumentException('Given object of type "' . get_class($synonym) . '" is not valid: ' . PHP_EOL . $violations);
+			throw new \InvalidArgumentException('Given object of type "' . get_class($synonym) . '" is not valid: ' . PHP_EOL . $violations);
 		}
 
 		$status = $this->storageBackend->post($synonym->getTagName(), $synonym);
@@ -59,7 +60,7 @@ class SynonymRepository {
 	 * @param string $mainWord
 	 * @param string $tagName
 	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function getByMainWord($mainWord, $tagName) {
 		if (!is_string($mainWord)) {
@@ -82,11 +83,12 @@ class SynonymRepository {
 
 	/**
 	 * @param string $tagName
-	 * @return SynonymCollection
+	 * @return mixed
+	 * @throws \InvalidArgumentException
 	 */
 	public function getAllByTagName($tagName) {
 		if (!is_string($tagName)) {
-			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
 		return $this->storageBackend->getAllByTag($tagName);
@@ -101,8 +103,8 @@ class SynonymRepository {
 
 	/**
 	 * Delete a synonym from the api.
-	 *
 	 * @param Synonym $synonym
+	 * @return mixed
 	 */
 	public function delete(Synonym $synonym) {
 		return $this->deleteByMainWord($synonym->getMainWord(), $synonym->getTagName());
@@ -113,14 +115,16 @@ class SynonymRepository {
 	 *
 	 * @param string $mainWord
 	 * @param string $tagName
+	 * @return mixed
+	 * @throws \InvalidArgumentException
 	 */
 	public function deleteByMainWord($mainWord, $tagName) {
 		if (!is_string($mainWord)) {
-			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $mainWord. Input was: ' . serialize($mainWord));
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $mainWord. Input was: ' . serialize($mainWord));
 		}
 
 		if (!is_string($tagName)) {
-			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
 		return $this->storageBackend->deleteByMainWord($tagName, $mainWord);

@@ -3,6 +3,9 @@
 namespace Searchperience\Api\Client\System\Storage;
 
 /**
+ * Class AbstractRestBackend
+ * @package Searchperience\Api\Client\System\Storage
+ *
  * User: Michael Klapper
  * Date: 16.11.12
  * Time: 21:19
@@ -94,7 +97,6 @@ abstract class AbstractRestBackend {
 
 	/**
 	 * @param \Guzzle\Http\Exception\ClientErrorResponseException $exception
-	 *
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
@@ -213,11 +215,11 @@ abstract class AbstractRestBackend {
 	}
 
 	/**
-	 * @param $start
-	 * @param $limit
+	 * @param string $start
+	 * @param int $limit
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection|null $filtersCollection
-	 * @param $sortingField
-	 * @param $sortingType
+	 * @param string $sortingField
+	 * @param string $sortingType
 	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -286,7 +288,7 @@ abstract class AbstractRestBackend {
 	}
 
 	/**
-	 * @param $postArray
+	 * @param string $postArray
 	 * @param string $queryString
 	 * @throws \Guzzle\Common\Exception\InvalidArgumentException
 	 * @internal param $endpoint
@@ -297,6 +299,7 @@ abstract class AbstractRestBackend {
 			->post('/{customerKey}/' . $this->endpoint . $queryString, NULL, $postArray)
 			->setAuth($this->username, $this->password)
 			->send();
+
 		return $response;
 	}
 
