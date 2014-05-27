@@ -248,6 +248,7 @@ to handle multiple use cases. Each of this "instances" or "synonym collections" 
 To figure out which synonym instances exist you can use the SynonymTagRepository to get them:
 
 ::
+
     $synonymTagRepository = \Searchperience\Common\Factory::getSynonymTagRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 
     $allTags = $synonymTagRepository->getAll();
@@ -255,6 +256,7 @@ To figure out which synonym instances exist you can use the SynonymTagRepository
     foreach($allTags as $tag) {
         var_dump($tag->getTagName());
     }
+
 ::
 
 Get synonyms:
