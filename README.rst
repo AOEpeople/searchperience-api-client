@@ -260,17 +260,19 @@ To figure out which synonym instances exist you can use the SynonymTagRepository
 Get synonyms:
 
 ::
-	// initialization of synonym repository
+
+    /* initialization of synonym repository */
     $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 
-    // get all, return synonyms collection for all existing tags
+    /* get all, return synonyms collection for all existing tags */
     $synonymRepository->getAll();
 
-    // get all by tag name, return synonyms collection for defined tag name
+    /* get all by tag name, return synonyms collection for defined tag name */
     $synonymRepository->getAllByTagName("en");
 
-    // get by main word, return synonym collection
+    /* get by main word, return synonym collection */
     $synonymRepository->getByMainWord("bike", "en");
+
 ::
 
 When you push new Synonyms or Update existing once, you can instantiate a synonym object, with
@@ -291,20 +293,22 @@ mainWord, tag and words with the same meaning and push the,:
 How to delete synonyms:
 
 ::
-	// initialization of synonym repository
+
+    /* initialization of synonym repository */
     $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 
-    // delete all
+    /* delete all
     $synonymRepository->deleteAll();
 
-    // delete with synonym object
+    /* delete with synonym object */
     $synonym = new \Searchperience\Api\Client\Domain\Synonym\Synonym();
     $synonym->setMainWord("bike");
     $synonym->setTagName("en");
     $synonymRepository->delete($synonym);
 
-    // delete with main word
+    /* delete with main word */
     $synonymRepository->deleteByMainWord("bike", "en");
+
 ::
 
 
