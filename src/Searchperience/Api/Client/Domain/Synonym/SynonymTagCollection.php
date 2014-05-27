@@ -5,6 +5,8 @@ namespace Searchperience\Api\Client\Domain\Synonym;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class SynonymTagCollection
+ * @package Searchperience\Api\Client\Domain\Synonym
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class SynonymTagCollection extends \ArrayObject {

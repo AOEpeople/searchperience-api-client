@@ -6,6 +6,10 @@ use Searchperience\Api\Client\Domain\Synonym\SynonymTag;
 use Searchperience\Api\Client\Domain\Synonym\SynonymTagCollection;
 use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
+/**
+ * Class RestSynonymTagBackend
+ * @package Searchperience\Api\Client\System\Storage
+ */
 class RestSynonymTagBackend extends AbstractRestBackend implements SynonymTagBackendInterface {
 
 	/**

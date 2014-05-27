@@ -6,7 +6,9 @@ use Searchperience\Api\Client\Domain\Synonym\Synonym;
 use Searchperience\Api\Client\System\Storage\RestSynonymBackend;
 
 /**
- * @author Timo Schmidt
+ * Class RestSynonymBackendTestCase
+ * @package Searchperience\Tests\Api\Client\Document\System\Storage
+ * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
@@ -47,7 +49,8 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function canPost() {
+	public function canPostSynonym() {
+		//$this->markTestIncomplete('Process error');
 		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('executePostRequest'));
 		$this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
@@ -61,8 +64,10 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'mainWord' => 'foo',
 			'wordsWithSameMeaning' => array(
 				'bla','bar'
-			)
+			),
+			'tagName' => 'one'
 		);
+
 		$this->synonymBackend->expects($this->once())->method('executePostRequest')->with($expectsArgumentsArray,'/one')->will(
 			$this->returnValue($this->getMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
 		);
@@ -71,7 +76,33 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$synonym->setMainWord('foo');
 		$synonym->addWordWithSameMeaning('bla');
 		$synonym->addWordWithSameMeaning('bar');
+		$synonym->setTagName('one');
 
 		$this->synonymBackend->post('one',$synonym);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canDeleteSynonym() {
+		//$this->markTestIncomplete('Process error');
+		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('deleteByMainWord'));
+		$this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
+
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201));
+		$restClient->addSubscriber($mock);
+		$this->synonymBackend->injectRestClient($restClient);
+
+		$this->synonymBackend->expects($this->once())->method('deleteByMainWord')->with('one', 'foo')->will(
+				$this->returnValue($this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
+		);
+
+		$synonym = new Synonym();
+		$synonym->setMainWord('foo');
+		$synonym->setTagName('one');
+
+		$this->synonymBackend->delete('one',$synonym);
 	}
 }

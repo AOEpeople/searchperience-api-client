@@ -7,6 +7,7 @@ use Searchperience\Api\Client\Domain\AbstractEntity;
 /**
  * Class Synonym
  * @package Searchperience\Api\Client\Domain\Synonym
+ * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class SynonymTag extends AbstractEntity {
 
