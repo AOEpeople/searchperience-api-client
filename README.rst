@@ -239,27 +239,41 @@ as a word to the field "highboost_words_sm" that is configured as highly relevan
 Synonyms
 --------------
 
-Sometimes it is usefull to replace searchterms with synonyms on index or searchtime.
+Sometimes it is useful to replace search terms with synonyms on index or search time.
 In searchperience we provide an api to maintain these synonyms.
 
 Depending on the project there can be multiple "instances" of synonym collections, to be able
-to handle multiple usecases. Each of thes "instances" or "synonym collections" are represented by a tag.
+to handle multiple use cases. Each of this "instances" or "synonym collections" are represented by a tag.
 
 To figure out which synonym instances exist you can use the SynonymTagRepository to get them:
 
 ::
-
     $synonymTagRepository = \Searchperience\Common\Factory::getSynonymTagRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 
     $allTags = $synonymTagRepository->getAll();
 
     foreach($allTags as $tag) {
-
         var_dump($tag->getTagName());
     }
 ::
 
-When you push new Synonyms or Update existing once, you can instanciate a synonym object, with
+Get synonyms:
+
+::
+	// initialization of synonym repository
+    $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    // get all, return synonyms collection for all existing tags
+    $synonymRepository->getAll();
+
+    // get all by tag name, return synonyms collection for defined tag name
+    $synonymRepository->getAllByTagName("en");
+
+    // get by main word, return synonym collection
+    $synonymRepository->getByMainWord("bike", "en");
+::
+
+When you push new Synonyms or Update existing once, you can instantiate a synonym object, with
 mainWord, tag and words with the same meaning and push the,:
 
 ::
@@ -272,6 +286,25 @@ mainWord, tag and words with the same meaning and push the,:
     $synonym->addWordWithSameMeaning("bicycle");
 
     $synonymRepository->add($synonym);
+::
+
+How to delete synonyms:
+
+::
+	// initialization of synonym repository
+    $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    // delete all
+    $synonymRepository->deleteAll();
+
+    // delete with synonym object
+    $synonym = new \Searchperience\Api\Client\Domain\Synonym\Synonym();
+    $synonym->setMainWord("bike");
+    $synonym->setTagName("en");
+    $synonymRepository->delete($synonym);
+
+    // delete with main word
+    $synonymRepository->deleteByMainWord("bike", "en");
 ::
 
 
