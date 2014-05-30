@@ -225,6 +225,54 @@ class Factory {
 		return $synonymRepository;
 	}
 
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Stopword\StopwordRepository
+	 */
+	public static function getStopwordRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle = self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+		$stopwordStorage = new \Searchperience\Api\Client\System\Storage\RestStopwordBackend();
+		$stopwordStorage->injectRestClient($guzzle);
+		$stopwordStorage->injectDateTimeService($dateTimeService);
+		$stopwordStorage->setBaseUrl($baseUrl);
+		$stopwordStorage->setUsername($username);
+		$stopwordStorage->setPassword($password);
+
+		$stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordRepository();
+		$stopwordRepository->injectStorageBackend($stopwordStorage);
+		$stopwordRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $stopwordRepository;
+	}
+
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Stopword\StopwordTagRepository
+	 */
+	public static function getStopwordTagRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle = self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+		$stopwordStorage = new \Searchperience\Api\Client\System\Storage\RestStopwordTagBackend();
+		$stopwordStorage->injectRestClient($guzzle);
+		$stopwordStorage->injectDateTimeService($dateTimeService);
+		$stopwordStorage->setBaseUrl($baseUrl);
+		$stopwordStorage->setUsername($username);
+		$stopwordStorage->setPassword($password);
+
+		$stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordTagRepository();
+		$stopwordRepository->injectStorageBackend($stopwordStorage);
+
+		return $stopwordRepository;
+	}
 
 	/**
 	 * @param $customerKey
