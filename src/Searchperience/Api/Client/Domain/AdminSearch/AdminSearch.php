@@ -27,6 +27,13 @@ class AdminSearch {
 	protected $description;
 
 	/**
+	 * Admin search instance url
+	 *
+	 * @var string
+	 */
+	protected $url;
+
+	/**
 	 * @param string $description
 	 */
 	public function setDescription($description) {
@@ -67,11 +74,4 @@ class AdminSearch {
 	public function getUrl() {
 		return $this->url;
 	}
-
-	/**
-	 * Admin search instance url
-	 *
-	 * @var string
-	 */
-	protected $url;
 }

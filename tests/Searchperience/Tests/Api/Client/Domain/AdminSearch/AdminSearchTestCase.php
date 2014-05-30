@@ -16,7 +16,7 @@ use Searchperience\Tests\BaseTestCase;
  * @package Searchperience\Api\Client\Domain\AdminSearch
  * @author Michael Klapper <michael.klappper@aoe.com>
  */
-class AdminSearchTest extends BaseTestCase {
+class AdminSearchTestCase extends BaseTestCase {
 
 	/**
 	 * @var AdminSearch

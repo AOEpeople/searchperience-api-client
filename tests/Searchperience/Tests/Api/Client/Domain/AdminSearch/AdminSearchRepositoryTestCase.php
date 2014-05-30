@@ -58,7 +58,7 @@ class AdminSearchRepositoryTestCase extends BaseTestCase {
 			$adminSearchCollection->offsetGet(1));
 		$this->assertEquals('German', $adminSearchCollection->offsetGet(0)->getTitle());
 		$this->assertEquals('German search instance', $adminSearchCollection->offsetGet(0)->getDescription());
-		$this->assertEquals('http://bluestar.deploy.saascluster.aoe-works.de/index.php?id=1351',
+		$this->assertEquals('//bluestar.deploy.saascluster.aoe-works.de/index.php?id=1351',
 			$adminSearchCollection->offsetGet(0)->getUrl());
 	}
 }

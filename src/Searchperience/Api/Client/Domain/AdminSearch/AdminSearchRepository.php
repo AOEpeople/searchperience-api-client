@@ -21,11 +21,11 @@ class AdminSearchRepository {
 		$adminSearchGerman = new AdminSearch();
 		$adminSearchGerman->setTitle('German');
 		$adminSearchGerman->setDescription('German search instance');
-		$adminSearchGerman->setUrl('http://bluestar.deploy.saascluster.aoe-works.de/index.php?id=1351');
+		$adminSearchGerman->setUrl('//bluestar.deploy.saascluster.aoe-works.de/index.php?id=1351');
 		$adminSearchEnglish = new AdminSearch();
 		$adminSearchEnglish->setTitle('English');
 		$adminSearchEnglish->setDescription('English search instance');
-		$adminSearchEnglish->setUrl('http://bluestar.deploy.saascluster.aoe-works.de/index.php?id=1281');
+		$adminSearchEnglish->setUrl('//bluestar.deploy.saascluster.aoe-works.de/index.php?id=1281');
 
 		$adminSearchCollection = new AdminSearchCollection();
 		$adminSearchCollection->append($adminSearchGerman);
