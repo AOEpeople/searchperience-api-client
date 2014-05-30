@@ -72,7 +72,7 @@ class StopwordRepository {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->storageBackend->getWord($tagName, $word);
+		return $this->storageBackend->getByWord($tagName, $word);
 	}
 
 	/**
