@@ -249,10 +249,9 @@ To figure out which synonym instances exist you can use the SynonymTagRepository
 
 ::
 
+    /* Return SynonymTagRepository, all tags related to synonyms */
     $synonymTagRepository = \Searchperience\Common\Factory::getSynonymTagRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
-
     $allTags = $synonymTagRepository->getAll();
-
     foreach($allTags as $tag) {
         var_dump($tag->getTagName());
     }
@@ -299,7 +298,7 @@ How to delete synonyms:
     /* initialization of synonym repository */
     $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 
-    /* delete all
+    /* delete all */
     $synonymRepository->deleteAll();
 
     /* delete with synonym object */
@@ -310,6 +309,80 @@ How to delete synonyms:
 
     /* delete with main word */
     $synonymRepository->deleteByMainWord("bike", "en");
+
+::
+
+
+Stopwords
+--------------
+
+In searchperience we provide an api to maintain stopwords .
+
+Depending on the project there can be multiple "instances" of stopwords collections, to be able
+to handle multiple use cases. Each of this "instances" or "stopwords collections" are represented by a tag .
+
+To figure out which stopword instances exist you can use the StopwordTagRepository to get them:
+
+::
+
+    /* Return StopwordTagRepository, all tags related to stopwords */
+    $stopwordTagRepository = \Searchperience\Common\Factory::getStopwordTagRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+    $allTags = $stopwordTagRepository->getAll();
+    foreach ($allTags as $tag) {
+		var_dump($tag->getTagName());
+	}
+
+::
+
+Get stopwords:
+
+::
+
+    /* initialization of stopword repository */
+    $stopwordRepository = \Searchperience\Common\Factory::getStopwordRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    /* get all, return stopwords collection for all existing tags */
+    $stopwordRepository->getAll();
+
+    /* get all by tag name, return stopwords collection for defined tag name */
+    $stopwordRepository->getAllByTagName("en");
+
+    /* get by main word, return stopword collection */
+    $stopwordRepository->getByWord("apple", "en");
+
+::
+
+When you push new Stopword or Update existing once, you can instantiate a stopword object, with
+word and tag, and push them:
+
+::
+
+    $stopwordRepository = \Searchperience\Common\Factory::getStopwordRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    $stopword = new \Searchperience\Api\Client\Domain\Stopword\Stopword();
+    $stopword->setWord("apple");
+    $stopword->setTagName("en");
+    $stopwordRepository->add($stopword);
+::
+
+How to delete stopwords:
+
+::
+
+    /* initialization of stopword repository */
+    $stopwordRepository = \Searchperience\Common\Factory::getStopwordRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+
+    /* delete all */
+    $stopwordRepository->deleteAll();
+
+    /* delete with stopword object */
+    $stopword = new \Searchperience\Api\Client\Domain\Stopword\Stopword();
+    $stopword->setWord("apple");
+    $stopword->setTagName("en");
+    $stopwordRepository->delete($stopword);
+
+    /* delete with word */
+    $stopwordRepository->deleteByWord("apple", "en");
 
 ::
 

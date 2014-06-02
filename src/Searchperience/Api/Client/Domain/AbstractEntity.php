@@ -15,6 +15,8 @@ abstract class AbstractEntity {
 	 *
 	 * @param $propertyName
 	 * @param $propertyValue
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function __setProperty($propertyName, $propertyValue) {
 		$callers=debug_backtrace();
