@@ -1,6 +1,7 @@
 <?php
 
 namespace Searchperience\Tests\Api\Client\Document;
+
 use Searchperience\Api\Client\Domain\Filters\FilterCollection;
 use Searchperience\Api\Client\Domain\Document\Filters\FilterCollectionFactory;
 use Searchperience\Api\Client\Domain\Document\Filters\SourceFilter;

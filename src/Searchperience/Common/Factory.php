@@ -225,6 +225,28 @@ class Factory {
 		return $synonymRepository;
 	}
 
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Command\CommandExecutionService
+	 */
+	public static function getCommandExecutionService($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$commandBackend 	= new \Searchperience\Api\Client\System\Storage\RestCommandBackend();
+		$commandBackend->injectRestClient($guzzle);
+		$commandBackend->setBaseUrl($baseUrl);
+		$commandBackend->setUsername($username);
+		$commandBackend->setPassword($password);
+
+		$commandExecutionService = new \Searchperience\Api\Client\Domain\Command\CommandExecutionService();
+		$commandExecutionService->injectExecutionBackend($commandBackend);
+
+		return $commandExecutionService;
+	}
+
 
 	/**
 	 * @param $customerKey
