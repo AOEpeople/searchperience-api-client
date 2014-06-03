@@ -387,6 +387,61 @@ How to delete stopwords:
 ::
 
 
+Bulk operation
+--------------
+
+In searchperience API we added support of bulk operations over REST API.
+For example UrlQueueItems now support re-crawl/remove operations for multiple items at once:
+
+Re-crawl multiple items:
+
+::
+
+		use Searchperience\Common\Factory;
+		use Searchperience\Api\Client\Domain\Command\AddToUrlQueueCommand;
+
+		$this->commandExecutionService = Factory::getCommandExecutionService(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+
+		$command = new AddToUrlQueueCommand();
+		$command->addDocumentId(1111);
+		$command->addDocumentId(2222);
+		$command->addDocumentId(3333);
+
+		$this->commandExecutionService->execute($command);
+
+::
+
+Delete multiple UrlQueueItems:
+
+::
+
+		use Searchperience\Common\Factory;
+        use Searchperience\Api\Client\Domain\Command\RemoveFromCrawlerQueueCommand;
+
+		$this->commandExecutionService = Factory::getCommandExecutionService(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+
+		$command = new RemoveFromCrawlerQueueCommand();
+		$command->addDocumentId(1);
+		$command->addDocumentId(2);
+		$command->addDocumentId(3);
+
+		$this->commandExecutionService->execute($command);
+
+::
+
+
 Option requests
 ---------------
 API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
