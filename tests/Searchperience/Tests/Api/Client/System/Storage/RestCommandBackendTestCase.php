@@ -1,7 +1,7 @@
 <?php
 
 namespace Searchperience\Tests\Api\Client\Document\System\Storage;
-use Searchperience\Api\Client\Domain\Command\ReCrawlCommand;
+use Searchperience\Api\Client\Domain\Command\AddToUrlQueueCommand;
 use Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem;
 
 /**
@@ -37,7 +37,7 @@ class RestCommandBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		}));
 
 		$expectedArguments = array(
-			'name' => 'ReCrawl',
+			'name' => 'AddToCrawlerQueue',
 			'arguments' => array(
 				'documentIds' => array(
 					100,
@@ -52,7 +52,7 @@ class RestCommandBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			return $resquestMock;
 		}));
 
-		$command = new ReCrawlCommand();
+		$command = new AddToUrlQueueCommand();
 		$command->addDocumentId(100);
 		$command->addDocumentId(101);
 

@@ -5,16 +5,16 @@ namespace Searchperience\Api\Client\Domain\Command;
 use Searchperience\Api\Client\Domain\Document\Document;
 
 /**
- * Class ReCrawlCommand
+ * Class AddToUrlQueueCommand
  * @package Searchperience\Api\Client\Domain\Command
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class ReCrawlCommand extends AbstractCommand {
+class AddToUrlQueueCommand extends AbstractCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $name = 'ReCrawl';
+	protected $name = 'AddToCrawlerQueue';
 
 	/**
 	 * @param integer $documentId

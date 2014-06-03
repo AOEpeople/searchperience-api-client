@@ -5,16 +5,16 @@ namespace Searchperience\Api\Client\Domain\Command;
 use Searchperience\Api\Client\Domain\Document\Document;
 
 /**
- * Class ReIndexCommand
+ * Class RemoveFromCrawlerQueueCommand
  * @package Searchperience\Api\Client\Domain\Command
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class ReIndexCommand extends AbstractCommand {
+class RemoveFromCrawlerQueueCommand extends AbstractCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $name = 'ReIndex';
+	protected $name = 'RemoveFromCrawlerQueue';
 
 	/**
 	 * @param integer $documentId
