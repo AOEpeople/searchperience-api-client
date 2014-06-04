@@ -128,17 +128,17 @@ class ProductAttribute {
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
-	public function getValue() {
-		return $this->value;
+	public function getValues() {
+		return $this->values;
 	}
 
 	/**
 	 * @param string $value
 	 */
-	public function setValue($value) {
-		$this->value = $value;
+	public function addValue($value) {
+		$this->values[] = $value;
 	}
 
 	/**

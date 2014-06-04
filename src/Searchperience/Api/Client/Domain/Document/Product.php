@@ -195,7 +195,41 @@ class Product extends AbstractDocument {
 	 * @return string
 	 */
 	public function getContent() {
+		$dom      = new \DOMDocument('1.0','UTF-8');
+		$product  = $dom->createElement('product');
 
+		foreach($this->attributes as $productAttribute) {
+				/** @var $productAttribute ProductAttribute */
+			$attributeNode = $dom->createElement('attribute');
+			$attributeNode->setAttribute("name",$productAttribute->getName());
+			$attributeNode->setAttribute("type",$productAttribute->getType());
+
+			if($productAttribute->getForFaceting()) {
+				$attributeNode->setAttribute("forfaceting",1);
+			}
+
+			if($productAttribute->getForSearching()) {
+				$attributeNode->setAttribute("forearching",1);
+			}
+
+			if($productAttribute->getForSorting()) {
+				$attributeNode->setAttribute("forsotring",1);
+			}
+
+			$values = $productAttribute->getValues();
+
+			foreach($values as $value) {
+				$valueNode      = $dom->createElement('value');
+				$valueTextNode  = $dom->createTextNode($value);
+				$valueNode->appendChild($valueTextNode);
+			}
+
+			$attributeNode->appendChild($valueNode);
+			$product->appendChild($attributeNode);
+		}
+
+		$dom->appendChild($product);
+		return $dom->saveXML();
 	}
 
 	/**
