@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+    <id>118948</id>
+    <storeid>1</storeid>
+    <language>de_DE</language>
+    <availability>1</availability>
+    <sku>103115</sku>
+    <title>Foo</title>
+    <description>long description</description>
+    <short_description>short description</short_description>
+    <price>42.36</price>
+    <special_price>100</special_price>
+    <group_price>101</group_price>
+    <category_path>Moda &amp; Accessori</category_path>
+    <category_id>7</category_id>
+    <category_path>Moda &amp; Accessori/Abbigliamento</category_path>
+    <category_id>36</category_id>
+    <category_path>Moda &amp; Accessori/Abbigliamento/Abiti</category_path>
+    <category_id>128</category_id>
+    <category_path>Marchi</category_path>
+    <category_id>145</category_id>
+    <category_path>Marchi/Moda &amp; Accessori</category_path>
+    <category_id>147</category_id>
+    <category_path>Moda &amp; Accessori/Abbigliamento/Vestiti</category_path>
+    <category_id>175</category_id>
+    <category_path>Marchi/Moda &amp; Accessori/Sottomarino</category_path>
+    <category_id>368</category_id>
+    <category_path>Home Page/Gran Gala della Moda</category_path>
+    <category_id>616</category_id>
+    <category_path>Home Page/Gran Gala della Moda/Look Camelia</category_path>
+    <category_id>620</category_id>
+    <image_link>http://www.heise.de/</image_link>
+    <attribute name="color" type="text" forsearching="1" forsorting="1" forfaceting="1">
+        <value>red</value>
+    </attribute>
+    <attribute name="defaults" type="text" >
+        <value>i like searchperience</value>
+        <value>foobar</value>
+    </attribute>
+    <attribute name="sortingOnly" type="text" forsorting="1">
+        <value>i like searchperience</value>
+        <value>foobar</value>
+    </attribute>
+    <attribute name="searchingOnly" type="text" forsearching="1">
+        <value>i like searchperience</value>
+        <value>foobar</value>
+    </attribute>
+    <attribute name="facetingOnly" type="text" forfaceting="1">
+        <value>i like searchperience</value>
+        <value>foobar</value>
+    </attribute>
+</product>
