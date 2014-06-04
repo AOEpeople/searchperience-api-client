@@ -181,6 +181,30 @@ document that have an error.
 ::
 
 
+Promotions
+--------------
+
+In Searchperience you are able to add special document types. One of them is the "Promotion" document.
+Depending on the setup of your instance the promotion is rendered in a special way in the frontend.
+
+To create a promotion you can just instanciate am "Promotion" object instead of ad "Document" object
+and add/update/delete it with the document repository.
+
+The promotion object has some promotion specific methods and creates the xml document that is send
+to searcperience in the conventional way.
+
+::
+
+    $promotion = new Promotion();
+    $promotion->setPromotionTitle("Special discount");
+    $promotion->setPromotionContent("<hr/> This is our special offer");
+
+	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+    $documentRepository->add($promotion);
+
+::
+
+
 UrlQueueItems
 -----------
 
@@ -234,7 +258,6 @@ Enrichments
 
 The example above shows the creation of an enrichment for a document that contains "aoe" in the brand and adds "php"
 as a word to the field "highboost_words_sm" that is configured as highly relevant for the search.
-
 
 Synonyms
 --------------
@@ -440,6 +463,31 @@ Delete multiple UrlQueueItems:
 		$this->commandExecutionService->execute($command);
 
 ::
+
+ReIndex multiple Documents:
+
+::
+
+		use Searchperience\Common\Factory;
+        use Searchperience\Api\Client\Domain\Command\ReIndexCommand;
+
+		$this->commandExecutionService = Factory::getCommandExecutionService(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+
+		$command = new ReIndexCommand();
+		$command->addDocumentId(1);
+		$command->addDocumentId(2);
+		$command->addDocumentId(3);
+
+		$this->commandExecutionService->execute($command);
+
+::
+
 
 
 Option requests
