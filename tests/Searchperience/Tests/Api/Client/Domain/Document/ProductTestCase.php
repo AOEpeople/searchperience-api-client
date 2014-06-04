@@ -74,4 +74,56 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 			'Did not find attribute snipped in xml'
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function canGetContentAsXmlContainsDescription() {
+		$this->product->setDescription("hello");
+		$expectedNode = '<description>hello</description>';
+		$this->assertContains(
+			$this->cleanSpaces($expectedNode),
+			$this->cleanSpaces($this->product->getContent()),
+			'Did not find description snipped in xml'
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetContentAsXmlContainsAvailability() {
+		$this->product->setAvailability(true);
+		$expectedNode = '<availability>1</availability>';
+		$this->assertContains(
+			$this->cleanSpaces($expectedNode),
+			$this->cleanSpaces($this->product->getContent()),
+			'Did not find availability snipped in xml'
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetContentAsXmlContainsPrice() {
+		$this->product->setPrice(1.10);
+		$expectedNode = '<price>1.10</price>';
+		$this->assertContains(
+			$this->cleanSpaces($expectedNode),
+			$this->cleanSpaces($this->product->getContent()),
+			'Did not find availability snipped in xml'
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetContentAsXmlContainsLanguage() {
+		$this->product->setLanguage("de_DE");
+		$expectedNode = '<language>de_DE</language>';
+		$this->assertContains(
+			$this->cleanSpaces($expectedNode),
+			$this->cleanSpaces($this->product->getContent()),
+			'Did not find language snipped in xml'
+		);
+	}
 }

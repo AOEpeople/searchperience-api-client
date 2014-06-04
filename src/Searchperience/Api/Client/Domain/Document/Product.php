@@ -66,6 +66,11 @@ class Product extends AbstractDocument {
 	protected $availability = true;
 
 	/**
+	 * @var string
+	 */
+	protected $language = '';
+
+	/**
 	 * @return float
 	 */
 	public function getGroupPrice() {
@@ -180,7 +185,7 @@ class Product extends AbstractDocument {
 	/**
 	 * @return boolean
 	 */
-	public function isAvailability() {
+	public function getAvailability() {
 		return $this->availability;
 	}
 
@@ -194,42 +199,65 @@ class Product extends AbstractDocument {
 	/**
 	 * @return string
 	 */
+	public function getLanguage() {
+		return $this->language;
+	}
+
+	/**
+	 * @param string $language
+	 */
+	public function setLanguage($language) {
+		$this->language = $language;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getContent() {
 		$dom      = new \DOMDocument('1.0','UTF-8');
 		$product  = $dom->createElement('product');
 
-		foreach($this->attributes as $productAttribute) {
-				/** @var $productAttribute ProductAttribute */
+		$this->addCommonNodes($dom, $product);
+		$this->addAttributeNodesToContentDom($dom, $product);
+
+		$dom->appendChild($product);
+		return $dom->saveXML();
+	}
+
+	/**
+	 * @param $dom
+	 * @param $product
+	 */
+	protected function addAttributeNodesToContentDom($dom, $product) {
+		foreach ($this->attributes as $productAttribute) {
+			/** @var $productAttribute ProductAttribute */
 			$attributeNode = $dom->createElement('attribute');
-			$attributeNode->setAttribute("name",$productAttribute->getName());
-			$attributeNode->setAttribute("type",$productAttribute->getType());
+			$attributeNode->setAttribute("name", $productAttribute->getName());
+			$attributeNode->setAttribute("type", $productAttribute->getType());
 
-			if($productAttribute->getForFaceting()) {
-				$attributeNode->setAttribute("forfaceting",1);
+			if ($productAttribute->getForFaceting()) {
+				$attributeNode->setAttribute("forfaceting", 1);
 			}
 
-			if($productAttribute->getForSearching()) {
-				$attributeNode->setAttribute("forearching",1);
+			if ($productAttribute->getForSearching()) {
+				$attributeNode->setAttribute("forearching", 1);
 			}
 
-			if($productAttribute->getForSorting()) {
-				$attributeNode->setAttribute("forsotring",1);
+			if ($productAttribute->getForSorting()) {
+				$attributeNode->setAttribute("forsotring", 1);
 			}
 
 			$values = $productAttribute->getValues();
 
-			foreach($values as $value) {
-				$valueNode      = $dom->createElement('value');
-				$valueTextNode  = $dom->createTextNode($value);
+			foreach ($values as $value) {
+				$valueNode = $dom->createElement('value');
+				$valueTextNode = $dom->createTextNode($value);
 				$valueNode->appendChild($valueTextNode);
 			}
 
 			$attributeNode->appendChild($valueNode);
 			$product->appendChild($attributeNode);
 		}
-
-		$dom->appendChild($product);
-		return $dom->saveXML();
 	}
 
 	/**
@@ -244,5 +272,29 @@ class Product extends AbstractDocument {
 	 */
 	public function getAttributeCount() {
 		return count($this->attributes);
+	}
+
+	/**
+	 * @param $dom
+	 * @param $product
+	 */
+	protected function addCommonNodes($dom, $product) {
+		$descriptionNode = $dom->createElement("description", $this->getDescription());
+		$product->appendChild($descriptionNode);
+
+		$productIdNode = $dom->createElement("id", $this->getProductId());
+		$product->appendChild($productIdNode);
+
+		$availabilityNode = $dom->createElement("availability", $this->getAvailability() ? 1 : 0);
+		$product->appendChild($availabilityNode);
+
+		$skuNode = $dom->createElement("sku", $this->getSku());
+		$product->appendChild($skuNode);
+
+		$priceNode = $dom->createElement("price", number_format($this->getPrice(), 2));
+		$product->appendChild($priceNode);
+
+		$languageNode = $dom->createElement("language", $this->getLanguage());
+		$product->appendChild($languageNode);
 	}
 }
