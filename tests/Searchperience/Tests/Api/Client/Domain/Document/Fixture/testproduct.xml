@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+    <id>118948</id>
+    <storeid>1</storeid>
+    <language>de_DE</language>
+    <availability>1</availability>
+    <sku>103115</sku>
+    <title>Foo</title>
+    <description>long description</description>
+    <short_description>short description</short_description>
+    <price>42.36</price>
+    <special_price>100.00</special_price>
+    <group_price>101.00</group_price>
+    <image_link>http://www.searchperience.de/test.gif</image_link>
+    <category_path>Moda &amp; Accessori</category_path>
+    <category_id>7</category_id>
+    <category_path>Moda &amp; Accessori/Abbigliamento</category_path>
+    <category_id>36</category_id>
+    <attribute name="color" type="text" forsearching="1" forsorting="1" forfaceting="1">
+        <value>red</value>
+    </attribute>
+    <attribute name="defaults" type="string" >
+        <value>i like searchperience</value>
+        <value>foobar</value>
+    </attribute>
+</product>

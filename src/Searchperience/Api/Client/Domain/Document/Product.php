@@ -3,6 +3,7 @@
 namespace Searchperience\Api\Client\Domain\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Searchperience\Api\Client\System\XMLContentMapper\ProductMapper;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
@@ -84,6 +85,18 @@ class Product extends AbstractDocument {
 	 * @var array
 	 */
 	protected $categoryPaths = array();
+
+	/**
+	 * @var ProductMapper
+	 */
+	protected $xmlMapper = null;
+
+	/**
+	 *
+	 */
+	public function __construct() {
+		$this->xmlMapper = new ProductMapper();
+	}
 
 	/**
 	 * @return float
@@ -257,114 +270,21 @@ class Product extends AbstractDocument {
 	 * @return string
 	 */
 	public function getContent() {
-		$dom      = new \DOMDocument('1.0','UTF-8');
-		$product  = $dom->createElement('product');
-
-		$this->addCommonNodesToContentDom($dom, $product);
-		$this->addAttributeNodesToContentDom($dom, $product);
-		$this->addCategoryPathNodesToContentDom($dom, $product);
-
-		$dom->appendChild($product);
-		return $dom->saveXML();
-	}
-
-	/**
-	 * @param $dom
-	 * @param $product
-	 */
-	protected function addAttributeNodesToContentDom($dom, $product) {
-		foreach ($this->attributes as $productAttribute) {
-			/** @var $productAttribute ProductAttribute */
-			$attributeNode = $dom->createElement('attribute');
-			$attributeNode->setAttribute("name", $productAttribute->getName());
-			$attributeNode->setAttribute("type", $productAttribute->getType());
-
-			if ($productAttribute->getForFaceting()) {
-				$attributeNode->setAttribute("forfaceting", 1);
-			}
-
-			if ($productAttribute->getForSearching()) {
-				$attributeNode->setAttribute("forearching", 1);
-			}
-
-			if ($productAttribute->getForSorting()) {
-				$attributeNode->setAttribute("forsotring", 1);
-			}
-
-			$values = $productAttribute->getValues();
-
-			foreach ($values as $value) {
-				$valueNode = $dom->createElement('value');
-				$valueTextNode = $dom->createTextNode($value);
-				$valueNode->appendChild($valueTextNode);
-			}
-
-			$attributeNode->appendChild($valueNode);
-			$product->appendChild($attributeNode);
-		}
-	}
-
-	/**
-	 * @param $dom
-	 * @param $product
-	 */
-	protected function addCommonNodesToContentDom($dom, $product) {
-		$descriptionNode = $dom->createElement("description", $this->getDescription());
-		$product->appendChild($descriptionNode);
-
-		$productIdNode = $dom->createElement("id", $this->getProductId());
-		$product->appendChild($productIdNode);
-
-		$availabilityNode = $dom->createElement("availability", $this->getAvailability() ? 1 : 0);
-		$product->appendChild($availabilityNode);
-
-		$skuNode = $dom->createElement("sku", $this->getSku());
-		$product->appendChild($skuNode);
-
-		$priceNode = $dom->createElement("price", number_format($this->getPrice(), 2));
-		$product->appendChild($priceNode);
-
-		$specialPriceNode = $dom->createElement("special_price", number_format($this->getSpecialPrice(), 2));
-		$product->appendChild($specialPriceNode);
-
-		$groupPriceNode = $dom->createElement("group_price", number_format($this->getGroupPrice(), 2));
-		$product->appendChild($groupPriceNode);
-
-		$languageNode = $dom->createElement("language", $this->getLanguage());
-		$product->appendChild($languageNode);
-
-		$storeIdNode = $dom->createElement("storeId", $this->getStoreId());
-		$product->appendChild($storeIdNode);
-
-		$titleNode = $dom->createElement("title", $this->getTitle());
-		$product->appendChild($titleNode);
-
-		$imageLink = $dom->createElement("image_link", $this->getImageLink());
-		$product->appendChild($imageLink);
-	}
-
-	/**
-	 * @param $dom
-	 * @param $product
-	 */
-	protected function addCategoryPathNodesToContentDom($dom, $product) {
-		foreach($this->categoryPaths as $categoryPath) {
-			/** @var $categoryPath \Searchperience\Api\Client\Domain\Document\ProductCategoryPath */
-
-			$categoryPathNode = $dom->createElement("category_path", $categoryPath->getCategoryPath());
-			$product->appendChild($categoryPathNode);
-
-			$categoryIdNode = $dom->createElement("category_id", $categoryPath->getCategoryId());
-			$product->appendChild($categoryIdNode);
-
-		}
+		return $this->xmlMapper->toXML($this);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function afterReconstitution() {
+		return $this->xmlMapper->fromXML($this, $this->content);
+	}
 
+	/**
+	 * @return array
+	 */
+	public function getAttributes() {
+		return $this->attributes;
 	}
 
 	/**
@@ -395,6 +315,13 @@ class Product extends AbstractDocument {
 	 */
 	public function getAttributeCount() {
 		return count($this->attributes);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCategoryPaths() {
+		return $this->categoryPaths;
 	}
 
 	/**

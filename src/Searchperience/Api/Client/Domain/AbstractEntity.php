@@ -23,7 +23,7 @@ abstract class AbstractEntity {
 		$callerClassName = $callers[1]['class'];
 
 
-		if(strpos($callerClassName,'Test') === false && strpos($callerClassName,'Backend') === false) {
+		if(strpos($callerClassName,'Test') === false && strpos($callerClassName,'Backend') === false && strpos($callerClassName,'Mapper') === false ) {
 			throw new \Searchperience\Common\Exception\RuntimeException('Only backend classes and tests are allowed to call __setProperty', 1386845453);
 		}
 

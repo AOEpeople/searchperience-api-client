@@ -214,6 +214,11 @@ abstract class AbstractDocument extends AbstractEntity {
 	protected $solrCoreHints;
 
 	/**
+	 * @var \DOMDocument
+	 */
+	protected $contentDOM = null;
+
+	/**
 	 * @return array
 	 */
 	public static function getValidNotifications() {
@@ -580,5 +585,29 @@ abstract class AbstractDocument extends AbstractEntity {
 		}
 
 		return array_unique($notifications);
+	}
+
+	/**
+	 * @param $xpath
+	 * @param $query
+	 * @return string
+	 */
+	protected function getFirstNodeContent($xpath, $query) {
+		$nodes = $xpath->query($query);
+		if (!$nodes->length == 1) {
+			return "";
+		}
+
+		return (string)$nodes->item(0)->textContent;
+	}
+
+	/**
+	 * @return \DOMDocument
+	 */
+	public function getContentDOM() {
+		$this->contentDOM = new \DOMDocument('1.0','UTF-8');
+		$this->contentDOM->loadXML($this->content);
+
+		return $this->contentDOM;
 	}
 }

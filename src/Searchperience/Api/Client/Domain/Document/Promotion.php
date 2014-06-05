@@ -2,6 +2,7 @@
 
 namespace Searchperience\Api\Client\Domain\Document;
 
+use Searchperience\Api\Client\System\XMLContentMapper\PromotionMapper;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -37,11 +38,6 @@ class Promotion extends AbstractDocument {
 	/**
 	 * @var \DOMDocument
 	 */
-	protected $contentDOM = null;
-
-	/**
-	 * @var \DOMDocument
-	 */
 	protected $promotionContentDOM = null;
 
 	/**
@@ -63,6 +59,18 @@ class Promotion extends AbstractDocument {
 	 * @var array
 	 */
 	protected $fieldValues = array();
+
+	/**
+	 * @var PromotionMapper
+	 */
+	protected $xmlMapper = null;
+
+	/**
+	 *
+	 */
+	public function __construct() {
+		$this->xmlMapper = new PromotionMapper();
+	}
 
 	/**
 	 * @return string
@@ -164,16 +172,6 @@ class Promotion extends AbstractDocument {
 	}
 
 	/**
-	 * @return \DOMDocument
-	 */
-	public function getContentDOM() {
-		$this->contentDOM = new \DOMDocument('1.0','UTF-8');
-		$this->contentDOM->loadXML($this->content);
-
-		return $this->contentDOM;
-	}
-
-	/**
 	 * This method is used to ret
 	 *
 	 * @return \DOMDocument
@@ -191,85 +189,16 @@ class Promotion extends AbstractDocument {
 	}
 
 	/**
-	 * @return string|void
+	 * @return string
 	 */
 	public function getContent() {
-		$dom        = new \DOMDocument('1.0','UTF-8');
-		$promotion  = $dom->createElement('promotion');
-
-		$title = $dom->createElement('title',$this->getPromotionTitle());
-		$promotion->appendChild($title);
-
-		$type = $dom->createElement('type',$this->getPromotionType());
-		$promotion->appendChild($type);
-
-		$image = $dom->createElement('image',$this->getImageUrl());
-		$promotion->appendChild($image);
-
-		$searchTerms = $dom->createElement('searchterms');
-		foreach($this->getKeywords() as $keyWord) {
-			$keyWordNode = $dom->createElement('searchterm',$keyWord);
-			$searchTerms->appendChild($keyWordNode);
-		}
-		$promotion->appendChild($searchTerms);
-
-		$solrFieldValues = $dom->createElement('solrfieldvalues');
-		foreach($this->getFieldValues() as $fieldName => $fieldValue) {
-			$solrFieldValue = $dom->createElement('solrfieldvalue', $fieldValue);
-			$fieldNameAttribute = $dom->createAttribute('fieldname');
-			$attributeValue = $dom->createTextNode($fieldName);
-			$fieldNameAttribute->appendChild($attributeValue);
-
-			$solrFieldValue->appendChild($fieldNameAttribute);
-			$solrFieldValues->appendChild($solrFieldValue);
-		}
-
-		$promotion->appendChild($solrFieldValues);
-		$content = $dom->createElement('content');
-		$cdata = $dom->createCDATASection($this->getPromotionContent());
-		$content->appendChild($cdata);
-		$promotion->appendChild($content);
-		$dom->appendChild($promotion);
-		return $dom->saveXML();
+		return $this->xmlMapper->toXML($this);
 	}
 
 	/**
-	 * This method is used to set the properties back from the xml body to the domain object
-	 *
 	 * @return void
 	 */
 	public function afterReconstitution() {
-		$xpath = new \DOMXPath($this->getContentDOM());
-		$this->promotionTitle = $this->getFirstNodeContent($xpath,'//title');
-		$this->promotionType = $this->getFirstNodeContent($xpath,'//type');
-		$this->imageUrl = $this->getFirstNodeContent($xpath,'//image');
-
-		$searchTerms = $xpath->query("//searchterm");
-		foreach($searchTerms as $searchTerm) {
-			$this->keywords[] = $searchTerm->textContent;
-		}
-
-		$solrFieldValues = $xpath->query("//solrfieldvalue");
-		foreach($solrFieldValues as $solrFieldValue) {
-				/** @var $solrFieldValue \DOMElement */
-			$fieldName = $solrFieldValue->getAttribute("fieldname");
-			$this->fieldValues[$fieldName] = $solrFieldValue->textContent;
-		}
-
-		$this->promotionContent = $this->getFirstNodeContent($xpath,'//content');
-	}
-
-	/**
-	 * @param $xpath
-	 * @param $query
-	 * @return string
-	 */
-	protected function getFirstNodeContent($xpath, $query) {
-		$titleNodes = $xpath->query($query);
-		if (!$titleNodes->length == 1) {
-			return "";
-		}
-
-		return (string)$titleNodes->item(0)->textContent;
+		return $this->xmlMapper->fromXML($this, $this->content);
 	}
 }
