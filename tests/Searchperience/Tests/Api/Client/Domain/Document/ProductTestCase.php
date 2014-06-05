@@ -3,6 +3,7 @@
 namespace Searchperience\Tests\Api\Client\Document;
 use Searchperience\Api\Client\Domain\Document\Product;
 use Searchperience\Api\Client\Domain\Document\ProductAttribute;
+use Searchperience\Api\Client\Domain\Document\ProductCategoryPath;
 
 /**
  * Class ProductTestCase
@@ -68,11 +69,7 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 		<value>foo</value>
 		</attribute>';
 
-		$this->assertContains(
-			$this->cleanSpaces($expectedNode),
-			$this->cleanSpaces($this->product->getContent()),
-			'Did not find attribute snipped in xml'
-		);
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
 	}
 
 	/**
@@ -81,11 +78,7 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function canGetContentAsXmlContainsDescription() {
 		$this->product->setDescription("hello");
 		$expectedNode = '<description>hello</description>';
-		$this->assertContains(
-			$this->cleanSpaces($expectedNode),
-			$this->cleanSpaces($this->product->getContent()),
-			'Did not find description snipped in xml'
-		);
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
 	}
 
 	/**
@@ -94,36 +87,62 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function canGetContentAsXmlContainsAvailability() {
 		$this->product->setAvailability(true);
 		$expectedNode = '<availability>1</availability>';
-		$this->assertContains(
-			$this->cleanSpaces($expectedNode),
-			$this->cleanSpaces($this->product->getContent()),
-			'Did not find availability snipped in xml'
-		);
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
 	}
 
 	/**
 	 * @test
 	 */
-	public function canGetContentAsXmlContainsPrice() {
-		$this->product->setPrice(1.10);
-		$expectedNode = '<price>1.10</price>';
-		$this->assertContains(
-			$this->cleanSpaces($expectedNode),
-			$this->cleanSpaces($this->product->getContent()),
-			'Did not find availability snipped in xml'
-		);
+	public function canGetContentAsXmlContainsSpecialPrice() {
+		$this->product->setSpecialPrice(22.20);
+		$expectedNode = '<special_price>22.20</special_price>';
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
 	}
 
 	/**
 	 * @test
 	 */
-	public function canGetContentAsXmlContainsLanguage() {
-		$this->product->setLanguage("de_DE");
-		$expectedNode = '<language>de_DE</language>';
-		$this->assertContains(
-			$this->cleanSpaces($expectedNode),
-			$this->cleanSpaces($this->product->getContent()),
-			'Did not find language snipped in xml'
-		);
+	public function canGetContentAsXmlContainsStoredId() {
+		$this->product->setStoreId(100);
+		$expectedNode = '<storeId>100</storeId>';
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetContentAsXmlContainsTitle() {
+		$this->product->setTitle("foobar");
+		$expectedNode = '<title>foobar</title>';
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetContentAsXmlContainsImageLink() {
+		$this->product->setImageLink('http://www.searchperience.com/test.gif');
+		$expectedNode = '<image_link>http://www.searchperience.com/test.gif</image_link>';
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
+	}
+
+	/**
+	 * @test‚
+	 */
+	public function canGetContentContainsCategoryPath() {
+
+		$productCategoryPath = new ProductCategoryPath();
+		$productCategoryPath->setCategoryId(620);
+		$productCategoryPath->setCategoryPathFromArray(array(
+			'Home Page','Gran Gala della Moda','Look Camelia',
+		));
+
+		$this->product->addCategoryPath($productCategoryPath);
+
+		$expectedNode = "<category_path>Home Page/Gran Gala della Moda/Look Camelia</category_path>".
+						"<category_id>620</category_id>";
+
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
+
 	}
 }

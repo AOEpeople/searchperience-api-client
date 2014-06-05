@@ -28,7 +28,8 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @var array
 	 */
 	protected static $classMap = array(
-		'\Searchperience\Api\Client\Domain\Document\Promotion' => array('text/searchperiencepromotion+xml')
+		'\Searchperience\Api\Client\Domain\Document\Promotion' => array('text/searchperiencepromotion+xml'),
+		'\Searchperience\Api\Client\Domain\Document\Product' => array('application/searchperience+xml')
 	);
 
 	/**

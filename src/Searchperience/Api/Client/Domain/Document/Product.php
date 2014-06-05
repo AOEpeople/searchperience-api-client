@@ -15,6 +15,11 @@ class Product extends AbstractDocument {
 	protected $mimeType = 'application/searchperience+xml';
 
 	/**
+	 * @var int
+	 */
+	protected $storeId = 0;
+
+	/**
 	 * @var string
 	 */
 	protected $description = '';
@@ -69,6 +74,16 @@ class Product extends AbstractDocument {
 	 * @var string
 	 */
 	protected $language = '';
+
+	/**
+	 * @var string
+	 */
+	protected $imageLink = '';
+
+	/**
+	 * @var array
+	 */
+	protected $categoryPaths = array();
 
 	/**
 	 * @return float
@@ -211,14 +226,43 @@ class Product extends AbstractDocument {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getStoreId() {
+		return $this->storeId;
+	}
+
+	/**
+	 * @param int $storeId
+	 */
+	public function setStoreId($storeId) {
+		$this->storeId = $storeId;
+	}
+
+	/**
+    * @return string
+    */
+	public function getImageLink() {
+		return $this->imageLink;
+	}
+
+	/**
+	 * @param string $imageLink
+	 */
+	public function setImageLink($imageLink) {
+		$this->imageLink = $imageLink;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getContent() {
 		$dom      = new \DOMDocument('1.0','UTF-8');
 		$product  = $dom->createElement('product');
 
-		$this->addCommonNodes($dom, $product);
+		$this->addCommonNodesToContentDom($dom, $product);
 		$this->addAttributeNodesToContentDom($dom, $product);
+		$this->addCategoryPathNodesToContentDom($dom, $product);
 
 		$dom->appendChild($product);
 		return $dom->saveXML();
@@ -261,24 +305,10 @@ class Product extends AbstractDocument {
 	}
 
 	/**
-	 * @param ProductAttribute $attribute
-	 */
-	public function addAttribute(ProductAttribute $attribute) {
-		$this->attributes[$attribute->getName()] = $attribute;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getAttributeCount() {
-		return count($this->attributes);
-	}
-
-	/**
 	 * @param $dom
 	 * @param $product
 	 */
-	protected function addCommonNodes($dom, $product) {
+	protected function addCommonNodesToContentDom($dom, $product) {
 		$descriptionNode = $dom->createElement("description", $this->getDescription());
 		$product->appendChild($descriptionNode);
 
@@ -294,7 +324,99 @@ class Product extends AbstractDocument {
 		$priceNode = $dom->createElement("price", number_format($this->getPrice(), 2));
 		$product->appendChild($priceNode);
 
+		$specialPriceNode = $dom->createElement("special_price", number_format($this->getSpecialPrice(), 2));
+		$product->appendChild($specialPriceNode);
+
+		$groupPriceNode = $dom->createElement("group_price", number_format($this->getGroupPrice(), 2));
+		$product->appendChild($groupPriceNode);
+
 		$languageNode = $dom->createElement("language", $this->getLanguage());
 		$product->appendChild($languageNode);
+
+		$storeIdNode = $dom->createElement("storeId", $this->getStoreId());
+		$product->appendChild($storeIdNode);
+
+		$titleNode = $dom->createElement("title", $this->getTitle());
+		$product->appendChild($titleNode);
+
+		$imageLink = $dom->createElement("image_link", $this->getImageLink());
+		$product->appendChild($imageLink);
+	}
+
+	/**
+	 * @param $dom
+	 * @param $product
+	 */
+	protected function addCategoryPathNodesToContentDom($dom, $product) {
+		foreach($this->categoryPaths as $categoryPath) {
+			/** @var $categoryPath \Searchperience\Api\Client\Domain\Document\ProductCategoryPath */
+
+			$categoryPathNode = $dom->createElement("category_path", $categoryPath->getCategoryPath());
+			$product->appendChild($categoryPathNode);
+
+			$categoryIdNode = $dom->createElement("category_id", $categoryPath->getCategoryId());
+			$product->appendChild($categoryIdNode);
+
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function afterReconstitution() {
+
+	}
+
+	/**
+	 * @param ProductAttribute $attribute
+	 */
+	public function addAttribute(ProductAttribute $attribute) {
+		$this->attributes[$attribute->getName()] = $attribute;
+	}
+
+	/**
+	 * @param ProductAttribute $attribute
+	 */
+	public function removeAttribute(ProductAttribute $attribute) {
+		return $this->removeAttributeByName($attribute->getName());
+	}
+
+	/**
+	 * @param $attributeName
+	 */
+	public function removeAttributeByName($attributeName) {
+		if(array_key_exists($attributeName,$this->attributes)) {
+			unset($this->attributes[$attributeName]);
+		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAttributeCount() {
+		return count($this->attributes);
+	}
+
+	/**
+	 * @param ProductCategoryPath $categoryPath
+	 */
+	public function addCategoryPath(ProductCategoryPath $categoryPath) {
+		$this->categoryPaths[$categoryPath->getCategoryId()] = $categoryPath;
+	}
+
+	/**
+	 * @param ProductCategoryPath $categoryPath
+	 */
+	public function removeCategoryPath(ProductCategoryPath $categoryPath) {
+		return $this->removeCategoryPathById($categoryPath->getCategoryId());
+	}
+
+	/**
+	 * @param $id
+	 */
+	public function removeCategoryPathById($id) {
+		if(array_key_exists($id,$this->categoryPaths)) {
+			unset($this->categoryPaths[$id]);
+		}
 	}
 }

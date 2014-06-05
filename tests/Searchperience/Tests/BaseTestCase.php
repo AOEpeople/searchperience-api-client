@@ -162,4 +162,15 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 	protected function cleanSpaces($content) {
 		return mb_ereg_replace('[[:space:]]+','', $content);
 	}
+
+	/**
+	 * @param $expectedNode
+	 */
+	protected function assertContainsXmlSnipped($needle, $hayStack) {
+		$this->assertContains(
+			$this->cleanSpaces($needle),
+			$this->cleanSpaces($hayStack),
+			'Did not find '.$needle.' snipped in snipped '.$hayStack
+		);
+	}
 }

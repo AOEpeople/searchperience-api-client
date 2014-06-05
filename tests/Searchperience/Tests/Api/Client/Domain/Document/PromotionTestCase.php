@@ -129,6 +129,5 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 		$xpath = new \DOMXPath($this->promotion->getPromotionContentDOM());
 		$typePath = $xpath->query("//body");
 		$this->assertEquals(trim((string) $typePath->item(0)->textContent),"test","Could not get body content from promotion content");
-
 	}
 }
