@@ -14,5 +14,5 @@ class Version {
 	 *
 	 * @var string
 	 */
-	const Version = '2.3.1';
+	const Version = 'dev-master';
 }
