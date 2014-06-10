@@ -8,14 +8,16 @@ use Searchperience\Api\Client\Domain\Document\ProductCategoryPath;
 use Searchperience\Api\Client\Domain\Document\ProductAttribute;
 
 
-
 /**
+ * Class ProductMapper
+ * @package Searchperience\Api\Client\System\XMLContentMapper
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class ProductMapper extends AbstractMapper {
 
 	/**
 	 * @param Product $product
+	 * @return string
 	 */
 	public function toXML(Product $product) {
 		$dom      = new \DOMDocument('1.0','UTF-8');
@@ -30,8 +32,8 @@ class ProductMapper extends AbstractMapper {
 	}
 
 	/**
-	 * @param $dom
-	 * @param $productNode
+	 * @param \DOMDocument $dom
+	 * @param \DOMElement $productNode
 	 * @param Product $product
 	 */
 	protected function addAttributeNodesToContentDom($dom, \DOMElement $productNode, Product $product) {
@@ -61,14 +63,13 @@ class ProductMapper extends AbstractMapper {
 				$valueNode->appendChild($valueTextNode);
 				$attributeNode->appendChild($valueNode);
 			}
-
 			$productNode->appendChild($attributeNode);
 		}
 	}
 
 	/**
-	 * @param $dom
-	 * @param $productNode
+	 * @param \DOMDocument $dom
+	 * @param \DOMElement $productNode
 	 * @param Product $product
 	 */
 	protected function addCommonNodesToContentDom($dom, \DOMElement $productNode, Product  $product) {
@@ -87,14 +88,20 @@ class ProductMapper extends AbstractMapper {
 		$skuNode = $dom->createElement("sku", $product->getSku());
 		$productNode->appendChild($skuNode);
 
-		$titleNode = $dom->createElement("title", $product->getTitle());
+		$titleNode = $dom->createElement("title");
+		$titleValueTextNode = $dom->createTextNode($product->getTitle());
+		$titleNode->appendChild($titleValueTextNode);
 		$productNode->appendChild($titleNode);
 
-		$descriptionNode = $dom->createElement("description", $product->getDescription());
+		$descriptionNode = $dom->createElement("description");
+		$descriptionValueTextNode = $dom->createTextNode($product->getDescription());
+		$descriptionNode->appendChild($descriptionValueTextNode);
 		$productNode->appendChild($descriptionNode);
 
-		$descriptionNode = $dom->createElement("short_description", $product->getShortDescription());
-		$productNode->appendChild($descriptionNode);
+		$shortDescriptionNode = $dom->createElement("short_description");
+		$shortDescriptionValueTextNode = $dom->createTextNode($product->getShortDescription());
+		$shortDescriptionNode->appendChild($shortDescriptionValueTextNode);
+		$productNode->appendChild($shortDescriptionNode);
 
 		$priceNode = $dom->createElement("price", number_format($product->getPrice(), 2));
 		$productNode->appendChild($priceNode);
@@ -110,8 +117,8 @@ class ProductMapper extends AbstractMapper {
 	}
 
 	/**
-	 * @param $dom
-	 * @param $productNode
+	 * @param \DOMDocument $dom
+	 * @param \DOMElement $productNode
 	 * @param Product $product
 	 */
 	protected function addCategoryPathNodesToContentDom($dom, \DOMElement $productNode,  Product $product) {
@@ -128,7 +135,7 @@ class ProductMapper extends AbstractMapper {
 
 	/**
 	 * @param Product $product
-	 * @param $contentXML
+	 * @param string $contentXML
 	 */
 	public function fromXML(Product $product, $contentXML) {
 		$contentDOM = new \DOMDocument('1.0','UTF-8');
@@ -141,7 +148,7 @@ class ProductMapper extends AbstractMapper {
 	}
 
 	/**
-	 * @param $xpath
+	 * @param \DOMXPath $xpath
 	 * @param Product $product
 	 */
 	protected function restoreCommonPropertiesFromDOMContent($xpath, Product $product) {
@@ -204,7 +211,7 @@ class ProductMapper extends AbstractMapper {
 	}
 
 	/**
-	 * @param $xpath
+	 * @param \DOMXPath $xpath
 	 * @param Product $product
 	 */
 	protected function restoreCategoryPathsFromDOMContent($xpath, Product $product) {
@@ -234,7 +241,7 @@ class ProductMapper extends AbstractMapper {
 	}
 
 	/**
-	 * @param $xpath
+	 * @param \DOMXPath $xpath
 	 * @param Product $product
 	 */
 	protected function restoreAttributesFromDOMContent($xpath, Product $product) {
@@ -245,26 +252,24 @@ class ProductMapper extends AbstractMapper {
 			/** @var $attributeNode \DOMElement */
 			$name = $attributeNode->getAttribute("name");
 			$type = $attributeNode->getAttribute("type");
-			$forsearching = $attributeNode->getAttribute("forsearching") == "1";
-			$forfaceting = $attributeNode->getAttribute("forfaceting") == "1";
-			$forsorting = $attributeNode->getAttribute("forsorting") == "1";
+			$forSearching = $attributeNode->getAttribute("forsearching") == "1";
+			$forFaceting = $attributeNode->getAttribute("forfaceting") == "1";
+			$forSorting = $attributeNode->getAttribute("forsorting") == "1";
 
 			$attribute = new ProductAttribute();
 			$attribute->setName($name);
 			$attribute->setType($type);
-			$attribute->setForSearching($forsearching);
-			$attribute->setForFaceting($forfaceting);
-			$attribute->setForSorting($forsorting);
+			$attribute->setForSearching($forSearching);
+			$attribute->setForFaceting($forFaceting);
+			$attribute->setForSorting($forSorting);
 
 			$values = $xpath->query("//value", $attributeNode);
 			foreach ($values as $value) {
 				/** @var $value \DOMElement */
 				$attribute->addValue($value->textContent);
 			}
-
 			$attributes[$attribute->getName()] = $attribute;
 		}
-
 		$product->__setProperty('attributes', $attributes);
 	}
 }
