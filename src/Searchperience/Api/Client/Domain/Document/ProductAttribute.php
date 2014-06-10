@@ -3,6 +3,7 @@
 
 namespace Searchperience\Api\Client\Domain\Document;
 
+use Searchperience\Common\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -135,9 +136,13 @@ class ProductAttribute {
 	}
 
 	/**
-	 * @param string $value
+	 * @param $value
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function addValue($value) {
+		if(!is_integer($value) && !is_float($value) && !is_string($value)) {
+			throw new InvalidArgumentException("Value needs to be a float, integer or string provided: ".serialize($value));
+		}
 		$this->values[] = $value;
 	}
 
