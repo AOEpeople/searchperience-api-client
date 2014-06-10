@@ -295,6 +295,14 @@ class Product extends AbstractDocument {
 	}
 
 	/**
+	 * @param $name
+	 * @return mixed
+	 */
+	public function getAttributeByName($name) {
+		return $this->attributes[$name];
+	}
+
+	/**
 	 * @param ProductAttribute $attribute
 	 */
 	public function removeAttribute(ProductAttribute $attribute) {

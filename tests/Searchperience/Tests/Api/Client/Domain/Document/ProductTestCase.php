@@ -147,6 +147,17 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function canUseSpecialCharactersInTitle() {
+		$testTitle = "Foobar™ is registered in the U.S. Patent and Trademark Office.";
+		$this->product->setTitle($testTitle);
+		$expectedNode = "<title>Foobar™ is registered in the U.S. Patent and Trademark Office.</title>";
+
+		$this->assertContainsXmlSnipped($expectedNode, $this->product->getContent());
+	}
+
+	/**
+	 * @test
+	 */
 	public function canGetSameDocumentAsFromFixture() {
 		$expectedXml  = $this->getFixtureContent('Api/Client/Domain/Document/Fixture/testproduct.xml');
 
@@ -191,6 +202,29 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$generatedXml = $this->product->getContent();
 		$this->assertXmlStringEqualsXmlString($expectedXml,$generatedXml,'Method getContent on product did not produce expected result');
+	}
+
+	/**
+	 * @test
+	 */
+	public function canGetAttributeByName() {
+		$attribute1 = new ProductAttribute();
+		$attribute1->setName('color');
+		$attribute1->setType(ProductAttribute::TYPE_TEXT);
+		$attribute1->setForFaceting(true);
+		$attribute1->setForSorting(true);
+		$attribute1->setForSearching(true);
+		$attribute1->addValue("red");
+		$this->product->addAttribute($attribute1);
+
+		$attribute2 = new ProductAttribute();
+		$attribute2->setName('defaults');
+		$attribute2->setType(ProductAttribute::TYPE_STRING);
+		$attribute2->addValue("i like searchperience");
+		$attribute2->addValue("foobar");
+		$this->product->addAttribute($attribute2);
+
+		$this->assertEquals($attribute2, $this->product->getAttributeByName("defaults"));
 	}
 
 	/**
