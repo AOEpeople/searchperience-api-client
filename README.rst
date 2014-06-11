@@ -413,7 +413,7 @@ How to delete stopwords:
 Bulk operation
 --------------
 
-In searchperience API we added support of bulk operations over REST API.
+In Searchperience API we added support of bulk operations over REST API.
 For example UrlQueueItems now support re-crawl/remove operations for multiple items at once:
 
 Re-crawl multiple items:
