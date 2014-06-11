@@ -60,7 +60,9 @@ class ProductMapper extends AbstractMapper {
 			foreach ($values as $value) {
 				$valueNode = $dom->createElement('value');
 				$valueTextNode = $dom->createTextNode($value);
-				$valueNode->appendChild($valueTextNode);
+				if($valueTextNode instanceof \DOMNode) {
+					$valueNode->appendChild($valueTextNode);
+				}
 				$attributeNode->appendChild($valueNode);
 			}
 			$productNode->appendChild($attributeNode);

@@ -111,27 +111,39 @@ abstract class AbstractRestBackend {
 		switch ($exception->getResponse()->getStatusCode()) {
 			case 401:
 
-				throw new \Searchperience\Common\Http\Exception\UnauthorizedException($exception->getMessage(), 1353574907, $exception);
+				$e = new \Searchperience\Common\Http\Exception\UnauthorizedException($exception->getMessage(), 1353574907, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 				break;
 
 			case 403:
-				throw new \Searchperience\Common\Http\Exception\ForbiddenException($exception->getMessage(), 1353574915, $exception);
+				$e = new \Searchperience\Common\Http\Exception\ForbiddenException($exception->getMessage(), 1353574915, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 				break;
 
 			case 404:
-				throw new \Searchperience\Common\Http\Exception\EntityNotFoundException($exception->getMessage(), 1353574919, $exception);
+				$e = new \Searchperience\Common\Http\Exception\EntityNotFoundException($exception->getMessage(), 1353574919, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 				break;
 
 			case 405:
-				throw new \Searchperience\Common\Http\Exception\MethodNotAllowedException($exception->getMessage(), 1353574923, $exception);
+				$e = new \Searchperience\Common\Http\Exception\MethodNotAllowedException($exception->getMessage(), 1353574923, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 				break;
 
 			case 413:
-				throw new \Searchperience\Common\Http\Exception\RequestEntityTooLargeException($exception->getMessage(), 1353574956, $exception);
+				$e = new \Searchperience\Common\Http\Exception\RequestEntityTooLargeException($exception->getMessage(), 1353574956, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 				break;
 
 			default:
-				throw new \Searchperience\Common\Http\Exception\ClientErrorResponseException($exception->getMessage(), 1353574962, $exception);
+				$e = new \Searchperience\Common\Http\Exception\ClientErrorResponseException($exception->getMessage(), 1353574962, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 		}
 	}
 
@@ -146,11 +158,16 @@ abstract class AbstractRestBackend {
 
 		switch ($exception->getResponse()->getStatusCode()) {
 			case 500:
-				throw new \Searchperience\Common\Http\Exception\InternalServerErrorException($exception->getMessage(), 1353574974, $exception);
+				$e = new \Searchperience\Common\Http\Exception\InternalServerErrorException($exception->getMessage(), 1353574974, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
 				break;
 
 			default:
-				throw new \Searchperience\Common\Http\Exception\ServerErrorResponseException($exception->getMessage(), 1353574979, $exception);
+				$e = new \Searchperience\Common\Http\Exception\ServerErrorResponseException($exception->getMessage(), 1353574979, $exception);
+				$e->setResponse($exception->getResponse());
+				throw $e;
+
 		}
 	}
 

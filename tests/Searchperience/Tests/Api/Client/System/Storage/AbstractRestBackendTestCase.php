@@ -123,7 +123,7 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			->method('getStatusCode')
 			->will($this->returnValue($statusCode));
 		$clientException = $this->getMock('\Guzzle\Http\Exception\ClientErrorResponseException', array('getResponse'));
-		$clientException->expects($this->once())
+		$clientException->expects($this->exactly(2))
 			->method('getResponse')
 			->will($this->returnValue($response));
 		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
@@ -157,7 +157,7 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			->method('getStatusCode')
 			->will($this->returnValue($statusCode));
 		$serverException = $this->getMock('\Guzzle\Http\Exception\ServerErrorResponseException', array('getResponse'));
-		$serverException->expects($this->once())
+		$serverException->expects($this->exactly(2))
 			->method('getResponse')
 			->will($this->returnValue($response));
 		$restBackend = $this->getAccessibleMockForAbstractClass('\Searchperience\Api\Client\System\Storage\AbstractRestBackend');
