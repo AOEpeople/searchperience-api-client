@@ -31,8 +31,9 @@ class CommandExecutionService {
 
 	/**
 	 * @param AbstractCommand $command
+	 * @return integer
 	 */
 	public function execute(AbstractCommand $command) {
-		$this->executionBackend->post($command);
+		return $this->executionBackend->post($command);
 	}
 }
