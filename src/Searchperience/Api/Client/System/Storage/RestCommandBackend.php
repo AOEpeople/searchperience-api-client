@@ -23,7 +23,7 @@ class RestCommandBackend extends \Searchperience\Api\Client\System\Storage\Abstr
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
+	 * @return integer
 	 */
 	public function post(\Searchperience\Api\Client\Domain\Command\AbstractCommand $command) {
 		return $this->getPostResponseFromEndpoint($command);
