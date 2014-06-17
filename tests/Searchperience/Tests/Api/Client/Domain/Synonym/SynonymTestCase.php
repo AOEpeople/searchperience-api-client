@@ -2,6 +2,7 @@
 
 namespace Searchperience\Tests\Api\Client\Document;
 use Searchperience\Api\Client\Domain\Document\Promotion;
+use Searchperience\Api\Client\Domain\Synonym\Synonym;
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
@@ -51,4 +52,21 @@ class SynonymTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->synonym->removeWordWithSameMeaning("foo");
 		$this->assertSame(1, count($this->synonym->getWordsWithSameMeaning()),'Could not remove words with same meaning to the synonyms');
 	}
+
+	/**
+	 * @test
+	 */
+	public function canSetType() {
+		$this->synonym->setType(Synonym::TYPE_GROUPING);
+		$this->assertEquals(Synonym::TYPE_GROUPING, $this->synonym->getType());
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function canNotSetInvalidMatchingType() {
+		$this->synonym->setType('Nothing');
+	}
+
 }

@@ -3,6 +3,7 @@
 namespace Searchperience\Api\Client\Domain\Synonym;
 
 use Searchperience\Api\Client\Domain\AbstractEntity;
+use Searchperience\Common\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,6 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
 class Synonym extends AbstractEntity {
+
+	const TYPE_MAPPING = 'mapping';
+
+	const TYPE_GROUPING = 'grouping';
+
 
 	/**
 	 * @var string
@@ -30,6 +36,44 @@ class Synonym extends AbstractEntity {
 	 * @var array
 	 */
 	protected $wordsWithSameMeaning = array();
+
+	/**
+	 * @var string
+	 */
+	protected $type = self::TYPE_GROUPING;
+
+	/**
+	 * @var array
+	 */
+	protected static $allowedTypes = array(
+		self::TYPE_MAPPING,
+		self::TYPE_GROUPING
+	);
+
+	/**
+	 * @param string $matchingType
+	 * @return bool
+	 */
+	public static function isAllowedType($matchingType) {
+		return in_array($matchingType,self::$allowedTypes);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param string $type
+	 */
+	public function setType($type) {
+		if(!$this->isAllowedType($type)) {
+			throw new InvalidArgumentException("Type ".htmlspecialchars($type)." is not supported!");
+		}
+		$this->type = $type;
+	}
 
 	/**
 	 * @return string

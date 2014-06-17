@@ -65,7 +65,8 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'wordsWithSameMeaning' => array(
 				'bla','bar'
 			),
-			'tagName' => 'one'
+			'tagName' => 'one',
+			'type' => 'grouping'
 		);
 
 		$this->synonymBackend->expects($this->once())->method('executePostRequest')->with($expectsArgumentsArray,'/one')->will(

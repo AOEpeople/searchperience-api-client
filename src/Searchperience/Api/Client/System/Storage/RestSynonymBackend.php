@@ -199,6 +199,11 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 			$valueArray['tagName'] = $synonym->getTagName();
 		}
 
+		if (!is_null($synonym->getType())) {
+			$valueArray['type'] = $synonym->getType();
+		}
+
+
 		$wordsWithSameMeaning = $synonym->getWordsWithSameMeaning();
 		$valueArray['wordsWithSameMeaning'] = is_array($wordsWithSameMeaning) ? array_values($wordsWithSameMeaning) : array();
 
