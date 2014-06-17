@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\Document\Product;
 use Searchperience\Api\Client\Domain\Document\ProductCategoryPath;
 use Searchperience\Api\Client\Domain\Document\ProductAttribute;
+use Searchperience\Common\Exception\InvalidArgumentException;
 
 
 /**
@@ -138,11 +139,19 @@ class ProductMapper extends AbstractMapper {
 	/**
 	 * @param Product $product
 	 * @param string $contentXML
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function fromXML(Product $product, $contentXML) {
 		$contentDOM = new \DOMDocument('1.0','UTF-8');
-		$contentDOM->loadXML($contentXML);
+		$result 	= @$contentDOM->loadXML($contentXML);
+
+		if($result === false) {
+			throw new InvalidArgumentException("No xml content: ".$contentXML);
+		}
+
 		$xpath = new \DOMXPath($contentDOM);
+
+
 
 		$this->restoreCommonPropertiesFromDOMContent($xpath, $product);
 		$this->restoreCategoryPathsFromDOMContent($xpath, $product);

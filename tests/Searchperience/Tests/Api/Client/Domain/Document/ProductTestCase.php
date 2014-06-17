@@ -250,4 +250,11 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertSame(2, count($this->product->getAttributes()),'Could not restore attributes');
 
 	}
+
+	/**
+	 * @test
+	 */
+	public function afterReconstitutionIsNotThrowingErrorWithEmptyContent() {
+		$this->product->afterReconstitution();
+	}
 }

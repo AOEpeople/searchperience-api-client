@@ -4,6 +4,8 @@ namespace Searchperience\Api\Client\Domain\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\System\XMLContentMapper\ProductMapper;
+use Searchperience\Common\Exception\InvalidArgumentException;
+
 
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
@@ -274,10 +276,15 @@ class Product extends AbstractDocument {
 	}
 
 	/**
-	 * @return void
+	 * @return boolean
 	 */
 	public function afterReconstitution() {
-		return $this->xmlMapper->fromXML($this, $this->content);
+		try {
+			$this->xmlMapper->fromXML($this, $this->content);
+			return true;
+		} catch(InvalidArgumentException $e) {
+			return false;
+		}
 	}
 
 	/**

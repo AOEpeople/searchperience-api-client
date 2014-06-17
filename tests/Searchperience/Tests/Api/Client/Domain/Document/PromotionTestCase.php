@@ -130,4 +130,11 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 		$typePath = $xpath->query("//body");
 		$this->assertEquals(trim((string) $typePath->item(0)->textContent),"test","Could not get body content from promotion content");
 	}
+
+	/**
+	 * @test
+	 */
+	public function afterReconstitutionIsNotThrowingErrorWithEmptyContent() {
+		$this->promotion->afterReconstitution();
+	}
 }

@@ -2,6 +2,7 @@
 
 namespace Searchperience\Api\Client\System\XMLContentMapper;
 
+use Searchperience\Common\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\Document\Promotion;
 
@@ -58,11 +59,16 @@ class PromotionMapper extends AbstractMapper {
 
 	/**
 	 * @param Promotion $promotion
-	 * @param $contentXMLs
+	 * @param string $contentXML
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException;
 	 */
 	public function fromXML(Promotion $promotion, $contentXML) {
 		$contentDOM = new \DOMDocument('1.0', 'UTF-8');
-		$contentDOM->loadXML($contentXML);
+		$result 	= @$contentDOM->loadXML($contentXML);
+
+		if($result === false) {
+			throw new InvalidArgumentException("No xml content: ".$contentXML);
+		}
 
 		$xpath = new \DOMXPath($contentDOM);
 		$promotion->__setProperty('promotionTitle', $this->getFirstNodeContent($xpath,'//title'));
