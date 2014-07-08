@@ -410,6 +410,45 @@ How to delete stopwords:
 ::
 
 
+Insights
+--------------
+
+Searchperience Insights provide overview information about various statistical data inside the system.
+Currently only TopsellerArtifact type is supported.
+
+Usage example:
+
+::
+
+		use Searchperience\Common\Factory;
+
+		$this->artifactTypeRepository = Factory::getArtifactTypeRepository(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+		//get all artifact types
+		$artifactTypeCollection = $this->artifactTypeRepository->getAll();
+		$firstArtifactType = $artifactTypeCollection[0];
+
+		$this->artifactRepository = Factory::getArtifactRepository(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+		//colllection of all artifact by given type
+		$artifactCollection = $this->artifactRepository->getAllByType($firstArtifactType);
+		//get first artifact
+		$firstArtifact = $artifactCollection[0];
+		$artifact = $this->artifactRepository->getOne($firstArtifact);
+
+::
+
+
 Bulk operation
 --------------
 
