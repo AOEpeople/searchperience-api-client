@@ -297,6 +297,56 @@ class Factory {
 	}
 
 	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Insight\ArtifactTypeRepository
+	 */
+	public static function getArtifactTypeRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+		$storageBackend 	= new \Searchperience\Api\Client\System\Storage\RestArtifactTypeBackend();
+		$storageBackend->injectRestClient($guzzle);
+		$storageBackend->injectDateTimeService($dateTimeService);
+		$storageBackend->setBaseUrl($baseUrl);
+		$storageBackend->setUsername($username);
+		$storageBackend->setPassword($password);
+
+		$artifactTypeRepository = new \Searchperience\Api\Client\Domain\Insight\ArtifactTypeRepository();
+		$artifactTypeRepository->injectStorageBackend($storageBackend);
+		$artifactTypeRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $artifactTypeRepository;
+	}
+
+	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\Insight\ArtifactTypeRepository
+	 */
+	public static function getArtifactRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+		$storageBackend 	= new \Searchperience\Api\Client\System\Storage\RestArtifactTypeBackend();
+		$storageBackend->injectRestClient($guzzle);
+		$storageBackend->injectDateTimeService($dateTimeService);
+		$storageBackend->setBaseUrl($baseUrl);
+		$storageBackend->setUsername($username);
+		$storageBackend->setPassword($password);
+
+		$artifactRepository = new \Searchperience\Api\Client\Domain\Insight\ArtifactRepository();
+		$artifactRepository->injectStorageBackend($storageBackend);
+		$artifactRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $artifactRepository;
+	}
+
+	/**
 	 * @param $customerKey
 	 * @return \Guzzle\Http\Client
 	 * @throws Exception\RuntimeException
@@ -319,6 +369,9 @@ class Factory {
 		return $guzzle;
 	}
 
+	/**
+	 * load some dependencies
+	 */
 	protected static function getDepedenciesAutoloaded() {
 		// TODO resolve this "autoloading" in a right way
 		class_exists('\Symfony\Component\Validator\Constraints\Url');
