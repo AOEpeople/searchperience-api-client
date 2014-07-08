@@ -19,10 +19,6 @@ use Searchperience\Api\Client\Domain\Insight\GenericArtifact;
  * @package Searchperience\Api\Client\System\Storage
  */
 class RestArtifactBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend {
-	/**
-	 * @var string
-	 */
-	protected $endpoint = 'insights';
 
 	/**
 	 * @param ArtifactType $artifactType

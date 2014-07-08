@@ -20,11 +20,6 @@ use Searchperience\Api\Client\Domain\Insight\ArtifactTypeCollection;
 class RestArtifactTypeBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend {
 
 	/**
-	 * @var string
-	 */
-	protected $endpoint = 'insights';
-
-	/**
 	 * @return mixed
 	 */
 	public function getAll() {
