@@ -67,7 +67,7 @@ class ArtifactRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function canGetOne() {
+	public function canGetOneByTypeAndId() {
 		$artifactTypeName = 'topseller';
 		$artifactId = '1';
 
@@ -76,15 +76,15 @@ class ArtifactRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$artifact->setTypeName($artifactTypeName);
 
 		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestArtifactBackend', array('getOne'));
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestArtifactBackend', array('getOneByTypeAndId'));
 		$storageBackend->expects($this->once())
-			->method('getOne')
-			->with($artifact)
+			->method('getOneByTypeAndId')
+			->with($artifactTypeName, $artifactId)
 			->will($this->returnValue(new ArtifactCollection()));
 
 		$this->repository->injectStorageBackend($storageBackend);
 		$this->repository->injectValidator($validator);
 
-		$this->repository->getOne($artifact);
+		$this->repository->getOneByTypeAndId($artifactTypeName, $artifactId);
 	}
 }

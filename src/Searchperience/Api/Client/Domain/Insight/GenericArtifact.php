@@ -9,6 +9,7 @@
 
 namespace Searchperience\Api\Client\Domain\Insight;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Searchperience\Api\Client\Domain\AbstractEntity;
 
 

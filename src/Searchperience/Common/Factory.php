@@ -332,7 +332,7 @@ class Factory {
 		self::getDepedenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
-		$storageBackend 	= new \Searchperience\Api\Client\System\Storage\RestArtifactTypeBackend();
+		$storageBackend 	= new \Searchperience\Api\Client\System\Storage\RestArtifactBackend();
 		$storageBackend->injectRestClient($guzzle);
 		$storageBackend->injectDateTimeService($dateTimeService);
 		$storageBackend->setBaseUrl($baseUrl);

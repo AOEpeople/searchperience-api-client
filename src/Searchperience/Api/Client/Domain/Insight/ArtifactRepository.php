@@ -38,7 +38,16 @@ class ArtifactRepository extends AbstractRepository {
 	public function getOne(GenericArtifact $genericArtifact) {
 		$violations = $this->validator->validate($genericArtifact);
 
-		$artifactCollection = $this->storageBackend->getOne($genericArtifact);
+		return $this->getOneByTypeAndId($genericArtifact->getTypeName(), $genericArtifact->getId());
+	}
+
+	/**
+	 * @param string $artifactTypeName
+	 * @param string $artifactId
+	 * @return \Searchperience\Api\Client\Domain\AbstractEntityCollection
+	 */
+	public function getOneByTypeAndId($artifactTypeName, $artifactId) {
+		$artifactCollection = $this->storageBackend->getOneByTypeAndId($artifactTypeName, $artifactId);
 		return $this->decorateAll($artifactCollection, 'Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
 	}
 }

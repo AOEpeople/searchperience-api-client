@@ -19,6 +19,10 @@ use Searchperience\Api\Client\Domain\Insight\GenericArtifact;
  * @package Searchperience\Api\Client\System\Storage
  */
 class RestArtifactBackend extends \Searchperience\Api\Client\System\Storage\AbstractRestBackend {
+	/**
+	 * @var string
+	 */
+	protected $endpoint = 'insights';
 
 	/**
 	 * @param ArtifactType $artifactType
@@ -35,7 +39,16 @@ class RestArtifactBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return array|ArtifactCollection
 	 */
 	public function getOne(GenericArtifact $genericArtifact) {
-		$response = $this->getGetResponseFromEndpoint('/' . $genericArtifact->getTypeName() . '/' . $genericArtifact->getId());
+		return $this->getOneByTypeAndId($genericArtifact->getTypeName(), $genericArtifact->getId());
+	}
+
+	/**
+	 * @param string $artifactType
+	 * @param string $artifactId
+	 * @return array|ArtifactCollection
+	 */
+	public function getOneByTypeAndId($artifactType, $artifactId) {
+		$response = $this->getGetResponseFromEndpoint('/' . $artifactType . '/' . $artifactId);
 		return $this->buildArtifactListFromJson($response->json());
 	}
 
