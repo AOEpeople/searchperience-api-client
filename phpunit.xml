@@ -7,7 +7,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader">
+         testSuiteLoaderFile="vendors/phpunit/phpunit/src/Runner/StandardTestSuiteLoader.php">
 
     <testsuites>
         <testsuite name="Domain">
