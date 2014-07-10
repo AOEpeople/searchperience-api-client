@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<adminsearches xmlns:atom="http://www.w3.org/2005/Atom">
+	<totalCount>2</totalCount>
+	<adminsearch id="1">
+		<title>some endpoint</title>
+		<description>some endpoint</description>
+		<url>http://www.dummy.url/api/</url>
+	</adminsearch>
+	<adminsearch id="2">
+		<title>some endpoint 2</title>
+		<description>some endpoint 2</description>
+		<url>http://www.dummy.url/api/v2</url>
+	</adminsearch>
+</adminsearches>

@@ -2,6 +2,8 @@
 
 namespace Searchperience\Api\Client\Domain\AdminSearch;
 
+use Searchperience\Api\Client\Domain\AbstractEntity;
+
 /**
  * Business object that holds the search page information
  *
@@ -10,7 +12,12 @@ namespace Searchperience\Api\Client\Domain\AdminSearch;
  * @package Searchperience\Api\Client\Domain\AdminSearch
  * @author Michael Klapper <michael.klappper@aoe.com>
  */
-class AdminSearch {
+class AdminSearch extends AbstractEntity {
+
+	/**
+	 * @var string
+	 */
+	protected $id;
 
 	/**
 	 * Title assigned to the admin search instance
@@ -32,6 +39,22 @@ class AdminSearch {
 	 * @var string
 	 */
 	protected $url;
+
+	/**
+	 * @param string $id
+	 * @return $this
+	 */
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
 	/**
 	 * @param string $description

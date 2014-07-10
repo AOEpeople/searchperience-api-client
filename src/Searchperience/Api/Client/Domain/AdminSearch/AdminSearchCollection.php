@@ -8,6 +8,8 @@
 
 namespace Searchperience\Api\Client\Domain\AdminSearch;
 
+use Searchperience\Api\Client\Domain\AbstractEntityCollection;
+
 /**
  * Collection of AdminSearch business objects
  *
@@ -16,6 +18,6 @@ namespace Searchperience\Api\Client\Domain\AdminSearch;
  * @package Searchperience\Api\Client\Domain\AdminSearch
  * @author Michael Klapper <michael.klappper@aoe.com>
  */
-class AdminSearchCollection extends \ArrayObject {
+class AdminSearchCollection extends AbstractEntityCollection {
 
 }

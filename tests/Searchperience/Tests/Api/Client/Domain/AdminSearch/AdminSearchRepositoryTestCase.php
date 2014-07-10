@@ -10,6 +10,7 @@ namespace Searchperience\Api\Client\Domain\AdminSearch;
 
 
 use Searchperience\Tests\BaseTestCase;
+use Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection;
 
 /**
  * Verify that the AdminSearchRepository returns AdminSearch objects
@@ -49,16 +50,13 @@ class AdminSearchRepositoryTestCase extends BaseTestCase {
 	 * @group admin
 	 */
 	public function verifyRepositoryRetrievesAdminSearchCollection() {
-		$adminSearchCollection = $this->adminSearchRepository->getAll();
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestAdminSearchBackend', array('getAll'));
+		$storageBackend->expects($this->once())
+			->method('getAll')
+			->will($this->returnValue(new AdminSearchCollection()));
 
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection',
-			$adminSearchCollection);
-		$this->assertCount(2, $adminSearchCollection);
-		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\AdminSearch\AdminSearch',
-			$adminSearchCollection->offsetGet(1));
-		$this->assertEquals('German', $adminSearchCollection->offsetGet(0)->getTitle());
-		$this->assertEquals('German search instance', $adminSearchCollection->offsetGet(0)->getDescription());
-		$this->assertEquals('//bluestar.deploy.saascluster.aoe-works.de/index.php?id=1351',
-			$adminSearchCollection->offsetGet(0)->getUrl());
+		$this->adminSearchRepository->injectStorageBackend($storageBackend);
+
+		$this->adminSearchRepository->getAll();
 	}
 }
