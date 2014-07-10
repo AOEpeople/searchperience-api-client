@@ -62,7 +62,7 @@ class RestArtifactBackend extends \Searchperience\Api\Client\System\Storage\Abst
 
 		if(isset($jsonData["type"])) {
 			$type = $jsonData["type"];
-			$artifactClassName = 'Searchperience\Api\Client\Domain\Insight\\' . strtoupper($type) . 'Artifact' ;
+			$artifactClassName = 'Searchperience\Api\Client\Domain\Insight\\' . ucfirst($type) . 'Artifact' ;
 			if(! class_exists($artifactClassName)) {
 				throw new UnexpectedValueException('Returned type does not have appropriate class to resolve dependency');
 			}
