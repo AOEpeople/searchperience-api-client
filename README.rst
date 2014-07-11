@@ -549,6 +549,9 @@ You can use it in the following way:
 
 ::
 
+
+Each adminSearch object provides an url, title and description.
+
 Option requests
 ---------------
 API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
