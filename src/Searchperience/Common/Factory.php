@@ -347,6 +347,37 @@ class Factory {
 	}
 
 	/**
+	 * Create a new instance of AdminSearchRepository
+	 *
+	 * @param string $baseUrl Example: http://api.searchperience.com/
+	 * @param string $customerKey Example: qvc
+	 * @param string $username
+	 * @param string $password
+	 *
+	 * @throws \Searchperience\Common\Exception\RuntimeException
+	 * @internal param string $customerkey
+	 * @return \Searchperience\Api\Client\Domain\AdminSearch\AdminSearchRepository
+	 */
+	public static function getAdminSearchRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+
+		$adminSearchStorage	= new \Searchperience\Api\Client\System\Storage\RestAdminSearchBackend();
+		$adminSearchStorage->injectRestClient($guzzle);
+		$adminSearchStorage->injectDateTimeService($dateTimeService);
+		$adminSearchStorage->setBaseUrl($baseUrl);
+		$adminSearchStorage->setUsername($username);
+		$adminSearchStorage->setPassword($password);
+
+		$adminSearchRepository = new \Searchperience\Api\Client\Domain\AdminSearch\AdminSearchRepository();
+		$adminSearchRepository->injectStorageBackend($adminSearchStorage);
+		$adminSearchRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $adminSearchRepository;
+	}
+
+	/**
 	 * @param $customerKey
 	 * @return \Guzzle\Http\Client
 	 * @throws Exception\RuntimeException

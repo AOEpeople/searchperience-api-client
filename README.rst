@@ -8,7 +8,6 @@ Searchperience Api Client
 :Homepage: http://www.searchperience.com
 :Build status: |buildStatusIcon|
 
-
 Installing via Composer
 ========================
 
@@ -527,7 +526,28 @@ ReIndex multiple Documents:
 
 ::
 
+AdminSearches
+--------------
 
+To maintain you search you can use the admin search. This endpoint will return you all admin search instances with
+a title, description and url.
+
+You can use it in the following way:
+
+::
+
+		use Searchperience\Common\Factory;
+
+		$adminSearchRepository = Factory::getAdminSearchRepository(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+		$adminSearches = $adminSearchRepository->getAll();
+
+::
 
 Option requests
 ---------------
