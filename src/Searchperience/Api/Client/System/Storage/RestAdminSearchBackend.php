@@ -47,10 +47,10 @@ class RestAdminSearchBackend extends \Searchperience\Api\Client\System\Storage\A
 			$adminsearchAttributeArray = (array)$adminsearch->attributes();
 
 			$adminSearchObject = new AdminSearch();
-			$adminSearchObject->setId((string)$adminsearchAttributeArray['@attributes']['id']);
-			$adminSearchObject->setTitle((string)$adminsearch->title);
-			$adminSearchObject->setDescription((string)$adminsearch->description);
-			$adminSearchObject->setUrl((string)$adminsearch->url);
+			$adminSearchObject->__setProperty('id',(string)$adminsearchAttributeArray['@attributes']['id']);
+			$adminSearchObject->__setProperty('title',(string)$adminsearch->title);
+			$adminSearchObject->__setProperty('description',(string)$adminsearch->description);
+			$adminSearchObject->__setProperty('url',(string)$adminsearch->url);
 
 			$adminSearchCollection[] = $adminSearchObject;
 

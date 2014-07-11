@@ -41,26 +41,10 @@ class AdminSearch extends AbstractEntity {
 	protected $url;
 
 	/**
-	 * @param string $id
-	 * @return $this
-	 */
-	public function setId($id) {
-		$this->id = $id;
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getId() {
 		return $this->id;
-	}
-
-	/**
-	 * @param string $description
-	 */
-	public function setDescription($description) {
-		$this->description = $description;
 	}
 
 	/**
@@ -71,24 +55,10 @@ class AdminSearch extends AbstractEntity {
 	}
 
 	/**
-	 * @param string $title
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getTitle() {
 		return $this->title;
-	}
-
-	/**
-	 * @param string $url
-	 */
-	public function setUrl($url) {
-		$this->url = $url;
 	}
 
 	/**

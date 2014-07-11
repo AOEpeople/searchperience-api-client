@@ -57,18 +57,18 @@ class RestAdminSearchBackendTestCase extends \Searchperience\Tests\BaseTestCase 
 		$expectedAdminSearchCollection = new AdminSearchCollection();
 
 		$expectedAdminSearch1 = new AdminSearch();
-		$expectedAdminSearch1->setId("1");
-		$expectedAdminSearch1->setTitle("some endpoint");
-		$expectedAdminSearch1->setDescription("some endpoint");
-		$expectedAdminSearch1->setUrl("http://www.dummy.url/api/");
+		$expectedAdminSearch1->__setProperty("id","1");
+		$expectedAdminSearch1->__setProperty("title","some endpoint");
+		$expectedAdminSearch1->__setProperty("description","some endpoint");
+		$expectedAdminSearch1->__setProperty("url","http://www.dummy.url/api/");
 
 		$expectedAdminSearchCollection->append($expectedAdminSearch1);
 
 		$expectedAdminSearch2 = new AdminSearch();
-		$expectedAdminSearch2->setId("2");
-		$expectedAdminSearch2->setTitle("some endpoint 2");
-		$expectedAdminSearch2->setDescription("some endpoint 2");
-		$expectedAdminSearch2->setUrl("http://www.dummy.url/api/v2");
+		$expectedAdminSearch2->__setProperty("id","2");
+		$expectedAdminSearch2->__setProperty("title","some endpoint 2");
+		$expectedAdminSearch2->__setProperty("description","some endpoint 2");
+		$expectedAdminSearch2->__setProperty("url","http://www.dummy.url/api/v2");
 
 		$expectedAdminSearchCollection->append($expectedAdminSearch2);
 

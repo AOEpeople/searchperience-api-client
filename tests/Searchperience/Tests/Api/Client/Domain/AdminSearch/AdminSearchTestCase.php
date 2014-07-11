@@ -42,9 +42,9 @@ class AdminSearchTestCase extends BaseTestCase {
 	 * @group admin
 	 */
 	public function verifyAdminSearchHasProperties() {
-		$this->adminSearch->setTitle("test title");
-		$this->adminSearch->setDescription("test description");
-		$this->adminSearch->setUrl("http://www.your.domain");
+		$this->adminSearch->__setProperty("title","test title");
+		$this->adminSearch->__setProperty("description","test description");
+		$this->adminSearch->__setProperty("url","http://www.your.domain");
 
 		$this->assertEquals($this->adminSearch->getTitle(), "test title");
 		$this->assertEquals($this->adminSearch->getDescription(), "test description");
