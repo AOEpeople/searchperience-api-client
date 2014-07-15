@@ -184,11 +184,11 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 			return $resquestMock;
 		}));
 
-		$self = $this; 
+		$self = $this;
 		$resquestMock->expects($this->once())->method('send')->will($this->returnCallback(function () use ($self) {
 			/** @var $responsetMock \Guzzle\Http\Message\Response */
-			$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
-			$responseMock->expects($this->once())->method('getStatusCode')->will($self->returnValue(404));
+			$responseMock = $self->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
+			$responseMock->expects($self->once())->method('getStatusCode')->will($self->returnValue(404));
 
 			$exception = new \Guzzle\Http\Exception\ClientErrorResponseException();
 			$exception->setResponse($responseMock);
