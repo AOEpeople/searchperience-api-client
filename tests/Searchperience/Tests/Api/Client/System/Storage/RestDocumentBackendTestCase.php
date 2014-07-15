@@ -435,7 +435,32 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function canReconstitutePromotion() {
-
+	public function getByIdsReturnsNullForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getById('32');
+		$this->assertNull($document,'Get by id did not return null for unexisting entity');
 	}
+
+	/**
+	 * @test
+	 */
+	public function getByForeignIdsReturnsNullForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getByForeignId('32');
+		$this->assertNull($document,'Get by foreignId did not return null for unexisting entity');
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function getByUrlReturnsNullForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->documentBackend->injectRestClient($restClient);
+		$document = $this->documentBackend->getByUrl('http://foo');
+		$this->assertNull($document,'Get by url did not return null for unexisting entity');
+	}
+
 }

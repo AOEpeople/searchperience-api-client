@@ -173,4 +173,32 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 			'Did not find '.$needle.' snipped in snipped '.$hayStack
 		);
 	}
+
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getMockedRestClientWith404Response() {
+		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
+			return $resquestMock;
+		}));
+		$resquestMock->expects($this->once())->method('send')->will($this->returnCallback(function () {
+			/** @var $responsetMock \Guzzle\Http\Message\Response */
+			$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
+			$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(404));
+
+			$exception = new \Guzzle\Http\Exception\ClientErrorResponseException();
+			$exception->setResponse($responseMock);
+
+			throw $exception;
+		}));
+
+		$restClient = $this->getMock('\Guzzle\Http\Client',array(),array(),'',false);
+		$restClient->expects($this->once())->method('setDefaultHeaders')->will($this->returnValue($restClient));
+		$restClient->expects($this->once())->method('setBaseUrl')->will($this->returnValue($restClient));
+		$restClient->expects($this->once())->method('get')->will($this->returnValue($resquestMock));
+
+		return $restClient;
+	}
 }

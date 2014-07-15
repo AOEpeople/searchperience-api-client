@@ -49,6 +49,35 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function getByMainWord() {
+		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/SynonymsByMainWord.xml')));
+		$restClient->addSubscriber($mock);
+
+		$this->synonymBackend->injectRestClient($restClient);
+		$synonym = $this->synonymBackend->getByMainWord('en','bike');
+
+		$this->assertSame("en",$synonym->getTagName(),'Could not reconstitude tagName from xml response');
+		$this->assertSame(1, count($synonym->getWordsWithSameMeaning()),'Could not reconstitude words with same meaning');
+
+		$firstWordsWithSameMeaning  = array_values($synonym->getWordsWithSameMeaning());
+		$this->assertSame("bicycle", $firstWordsWithSameMeaning[0],'Could not reconstitude words with same meaning');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getByMainWordReturnsNothingForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->synonymBackend->injectRestClient($restClient);
+		$synonym = $this->synonymBackend->getByMainWord('en','bike');
+		$this->assertNull($synonym,'Get by mainword did not return null for unexisting entity');
+	}
+
+	/**
+	 * @test
+	 */
 	public function canPostSynonym() {
 		//$this->markTestIncomplete('Process error');
 		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('executePostRequest'));
@@ -106,4 +135,5 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$this->synonymBackend->delete('one',$synonym);
 	}
+
 }

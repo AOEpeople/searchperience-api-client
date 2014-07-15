@@ -29,12 +29,16 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 	/**
 	 * {@inheritdoc}
 	 * @param int $id
-	 * @return \Searchperience\Api\Client\Domain\Enrichment\Enrichment
+	 * @return \Searchperience\Api\Client\Domain\Enrichment\Enrichment|null
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getById($id) {
-		$response = $this->getGetResponseFromEndpoint('/'.$id);
-		return $this->buildEnrichmentFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint('/'.$id);
+			return $this->buildEnrichmentFromXml($response->xml());
+		} catch(EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**

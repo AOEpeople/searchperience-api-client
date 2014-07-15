@@ -67,14 +67,14 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Stopword\Stopword
+	 * @return \Searchperience\Api\Client\Domain\Stopword\Stopword|null
 	 */
 	public function getByWord($tagName, $word) {
 		try {
 			$response   = $this->getGetResponseFromEndpoint('/'.$tagName.'/'. $word);
 			$xmlElement = $response->xml();
 		} catch (EntityNotFoundException $e) {
-			return new StopwordCollection();
+			return null;
 		}
 
 		return $this->buildStopwordFromXml($xmlElement);

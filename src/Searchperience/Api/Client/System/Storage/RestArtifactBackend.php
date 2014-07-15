@@ -12,6 +12,7 @@ namespace Searchperience\Api\Client\System\Storage;
 use Searchperience\Api\Client\Domain\Insight\ArtifactType;
 use Searchperience\Api\Client\Domain\Insight\ArtifactCollection;
 use Searchperience\Api\Client\Domain\Insight\GenericArtifact;
+use Searchperience\Common\Http\Exception\EntityNotFoundException;
 
 
 /**
@@ -29,8 +30,12 @@ class RestArtifactBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return array|ArtifactCollection
 	 */
 	public function getAllByType(ArtifactType $artifactType) {
-		$response = $this->getGetResponseFromEndpoint('/'.$artifactType->getName());
-		return $this->buildArtifactListFromJson($response->json());
+		try {
+			$response = $this->getGetResponseFromEndpoint('/'.$artifactType->getName());
+			return $this->buildArtifactListFromJson($response->json());
+		} catch (EntityNotFoundException $e) {
+			return new ArtifactCollection();
+		}
 	}
 
 
@@ -48,8 +53,12 @@ class RestArtifactBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * @return array|ArtifactCollection
 	 */
 	public function getOneByTypeAndId($artifactType, $artifactId) {
-		$response = $this->getGetResponseFromEndpoint('/' . $artifactType . '/' . $artifactId);
-		return $this->buildArtifactListFromJson($response->json());
+		try {
+			$response = $this->getGetResponseFromEndpoint('/' . $artifactType . '/' . $artifactId);
+			return $this->buildArtifactListFromJson($response->json());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**

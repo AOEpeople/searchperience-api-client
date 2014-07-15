@@ -11,6 +11,8 @@ namespace Searchperience\Api\Client\System\Storage;
 
 use Searchperience\Api\Client\Domain\AdminSearch\AdminSearch;
 use Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection;
+use Searchperience\Common\Http\Exception\EntityNotFoundException;
+use SebastianBergmann\Exporter\Exception;
 
 
 /**
@@ -27,8 +29,12 @@ class RestAdminSearchBackend extends \Searchperience\Api\Client\System\Storage\A
 	 * @return array|AdminSearchCollection
 	 */
 	public function getAll() {
-		$response = $this->getGetResponseFromEndpoint();
-		return $this->buildFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint();
+			return $this->buildFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return new AdminSearchCollection();
+		}
 	}
 
 	/**

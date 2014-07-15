@@ -101,7 +101,16 @@ class RestArtifactBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$genericArtifact->setTypeName("topseller");
 
 		$actualArtifactCollection = $this->artifactBackend->getOne($genericArtifact);
-
 		$this->assertEquals($expectedArtifactCollection, $actualArtifactCollection);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getByUrlReturnsNullForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->artifactBackend->injectRestClient($restClient);
+		$artifact = $this->artifactBackend->getOneByTypeAndId('topseller',1);
+		$this->assertNull($artifact,'Get one by type and did not return null for unexisting entity');
 	}
 }

@@ -24,8 +24,12 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function get() {
-		$xml = $this->getStatusXmlFromEndpoint();
-		return $this->buildUrlQueueStatusFromXml($xml);
+		try {
+			$xml = $this->getStatusXmlFromEndpoint();
+			return $this->buildUrlQueueStatusFromXml($xml);
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**

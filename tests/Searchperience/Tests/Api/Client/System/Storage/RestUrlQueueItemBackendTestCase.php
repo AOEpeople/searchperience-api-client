@@ -161,4 +161,24 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 		$this->assertEquals(200, $this->urlQueueItemBackend->deleteByUrl('http://www.google.de/'));
 	}
 
+
+	/**
+	 * @test
+	 */
+	public function getByUrlReturnsNullForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->urlQueueItemBackend->injectRestClient($restClient);
+		$urlQueueItem = $this->urlQueueItemBackend->getByUrl('http://foo');
+		$this->assertNull($urlQueueItem,'Get by url did not return null for unexisting entity');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getByDocumentIdNothingForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->urlQueueItemBackend->injectRestClient($restClient);
+		$urlQueueItem = $this->urlQueueItemBackend->getByDocumentId(1234);
+		$this->assertNull($urlQueueItem,'Get by documentId did not return null for unexisting entity');
+	}
 }

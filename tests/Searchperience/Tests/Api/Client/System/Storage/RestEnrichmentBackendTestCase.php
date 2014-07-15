@@ -153,4 +153,14 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$result = $restBackend->getAllByFilterCollection(0,10);
 		$this->assertInstanceOf('Searchperience\Api\Client\Domain\Enrichment\EnrichmentCollection',$result);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getByDocumentIdNothingForEmptyResponse() {
+		$restClient = $this->getMockedRestClientWith404Response();
+		$this->enrichmentBackend->injectRestClient($restClient);
+		$enrichment = $this->enrichmentBackend->getById(1234);
+		$this->assertNull($enrichment,'Get by documentId did not return null for unexisting entity');
+	}
 }

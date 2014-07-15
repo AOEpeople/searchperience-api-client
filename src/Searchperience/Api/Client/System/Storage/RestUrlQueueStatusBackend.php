@@ -24,8 +24,12 @@ class RestUrlQueueStatusBackend extends \Searchperience\Api\Client\System\Storag
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function get() {
-		$response = $this->getGetResponseFromEndpoint();
-		return $this->buildUrlQueueStatusFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint();
+			return $this->buildUrlQueueStatusFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**

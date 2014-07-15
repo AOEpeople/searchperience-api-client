@@ -27,12 +27,8 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymCollection
 	 */
 	public function getAll() {
-		try {
-			$response   = $this->getGetResponseFromEndpoint();
-			$xmlElement = $response->xml();
-		} catch (EntityNotFoundException $e) {
-			return new SynonymCollection();
-		}
+		$response   = $this->getGetResponseFromEndpoint();
+		$xmlElement = $response->xml();
 
 		return $this->buildSynonymsFromXml($xmlElement);
 	}
@@ -67,14 +63,14 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
+	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym|null
 	 */
 	public function getByMainWord($tagName, $mainWord) {
 		try {
 			$response   = $this->getGetResponseFromEndpoint('/'.$tagName.'/'.$mainWord);
 			$xmlElement = $response->xml();
 		} catch (EntityNotFoundException $e) {
-			return new SynonymCollection();
+			return null;
 		}
 
 		return $this->buildSynonymFromXml($xmlElement);

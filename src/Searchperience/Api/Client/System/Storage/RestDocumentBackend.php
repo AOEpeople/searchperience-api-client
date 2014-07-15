@@ -60,24 +60,36 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	 * {@inheritdoc}
 	 */
 	public function getByForeignId($foreignId) {
-		$response = $this->getGetResponseFromEndpoint('?foreignId=' . $foreignId);
-		return $this->buildDocumentFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint('?foreignId=' . $foreignId);
+			return $this->buildDocumentFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getById($id) {
-		$response = $this->getGetResponseFromEndpoint('/'.$id);
-		return $this->buildDocumentFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint('/'.$id);
+			return $this->buildDocumentFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getByUrl($url) {
-		$response = $this->getGetResponseFromEndpoint('?url=' . $url);
-		return $this->buildDocumentFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint('?url=' . $url);
+			return $this->buildDocumentFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**

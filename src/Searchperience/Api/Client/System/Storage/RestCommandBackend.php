@@ -33,7 +33,7 @@ class RestCommandBackend extends \Searchperience\Api\Client\System\Storage\Abstr
 	/**
 	 * Create an array containing only the available command property values.
 	 *
-	 * @param \Searchperience\Api\Client\Domain\Command\AbstractCommand $command
+	 * @param \Searchperience\Api\Client\Domain\AbstractEntity  $command
 	 * @return array
 	 */
 	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $command) {

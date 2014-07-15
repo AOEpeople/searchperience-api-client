@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<error>
+	<errorcode>2000</errorcode>
+	<throwcode>131131313131313</throwcode>
+	<trace></trace>
+	<message>Client error response
+		[status code] 404
+		[reason phrase] Not Found
+		[url] http://localhost:8080/solr/schema/analysis/synonyms/en/bike</message>
+	<class>Domain_Exception_Exception</class>
+</error>

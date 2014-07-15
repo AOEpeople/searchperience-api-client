@@ -27,23 +27,31 @@ class RestUrlQueueItemBackend extends \Searchperience\Api\Client\System\Storage\
 	/**
 	 * {@inheritdoc}
 	 * @param int $documentId
-	 * @return \Searchperience\Api\Client\Domain\Document\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document|null
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getByDocumentId($documentId) {
-		$response = $this->getGetResponseFromEndpoint('/'.$documentId);
-		return $this->buildUrlQueueItemFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint('/'.$documentId);
+			return $this->buildUrlQueueItemFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 * @param string $url
-	 * @return \Searchperience\Api\Client\Domain\Document\Document
+	 * @return \Searchperience\Api\Client\Domain\Document\Document|null
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getByUrl($url) {
-		$response = $this->getGetResponseFromEndpoint('?url=' . $url);
-		return $this->buildUrlQueueItemFromXml($response->xml());
+		try {
+			$response = $this->getGetResponseFromEndpoint('?url=' . $url);
+			return $this->buildUrlQueueItemFromXml($response->xml());
+		} catch (EntityNotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**
