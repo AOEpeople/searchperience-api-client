@@ -164,7 +164,8 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @param $expectedNode
+	 * @param $needle
+	 * @param $hayStack
 	 */
 	protected function assertContainsXmlSnipped($needle, $hayStack) {
 		$this->assertContains(
