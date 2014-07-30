@@ -53,24 +53,10 @@ class CommandLog extends AbstractEntity {
     protected $binary = null;
 
     /**
-     * @param string $commandName
-     */
-    public function setCommandName($commandName) {
-        $this->commandName = $commandName;
-    }
-
-    /**
      * @return string
      */
     public function getCommandName() {
         return $this->commandName;
-    }
-
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration) {
-        $this->duration = $duration;
     }
 
     /**
@@ -81,13 +67,6 @@ class CommandLog extends AbstractEntity {
     }
 
     /**
-     * @param string $logMessage
-     */
-    public function setLogMessage($logMessage) {
-        $this->logMessage = $logMessage;
-    }
-
-    /**
      * @return string
      */
     public function getLogMessage() {
@@ -95,26 +74,10 @@ class CommandLog extends AbstractEntity {
     }
 
     /**
-     * @param int $processId
-     */
-    public function setProcessId($processId) {
-        $this->processId = $processId;
-    }
-
-    /**
      * @return int
      */
     public function getProcessId() {
         return $this->processId;
-    }
-
-
-
-    /**
-     * @param \DateTime $startTime
-     */
-    public function setStartTime($startTime) {
-        $this->startTime = $startTime;
     }
 
     /**
@@ -125,13 +88,6 @@ class CommandLog extends AbstractEntity {
     }
 
     /**
-     * @param \DateTime $endTime
-     */
-    public function setEndTime($endTime) {
-        $this->endTime = $endTime;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getEndTime() {
@@ -139,24 +95,10 @@ class CommandLog extends AbstractEntity {
     }
 
     /**
-     * @param string $status
-     */
-    public function setStatus($status) {
-        $this->status = $status;
-    }
-
-    /**
      * @return string
      */
     public function getStatus() {
         return $this->status;
-    }
-
-    /**
-     * @param string $binary
-     */
-    public function setBinary($binary) {
-        $this->binary = $binary;
     }
 
     /**

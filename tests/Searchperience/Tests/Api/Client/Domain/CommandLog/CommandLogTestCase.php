@@ -26,15 +26,15 @@ class CommandLogTestCase extends \Searchperience\Tests\BaseTestCase {
      * @test
      */
     public function setGet() {
-        $this->commandLog->setCommandName('test');
-        $this->commandLog->setBinary('test.php');
-        $this->commandLog->setDuration(0);
-        $this->commandLog->setLogMessage('error test message');
-        $this->commandLog->setStartTime("2014-01-01 10:10:00");
-        $this->commandLog->setEndTime("2014-01-01 10:10:10");
-        $this->commandLog->setProcessId(999);
-        $this->commandLog->setStatus('finished');
 
+        $this->commandLog->__setProperty('commandName', 'test');
+        $this->commandLog->__setProperty('binary', 'test.php');
+        $this->commandLog->__setProperty('duration', 0);
+        $this->commandLog->__setProperty('logMessage', 'error test message');
+        $this->commandLog->__setProperty('startTime', "2014-01-01 10:10:00");
+        $this->commandLog->__setProperty('endTime', "2014-01-01 10:10:10");
+        $this->commandLog->__setProperty('processId', 999);
+        $this->commandLog->__setProperty('status', 'finished');
 
         $this->assertEquals('test', $this->commandLog->getCommandName());
         $this->assertEquals('test.php', $this->commandLog->getBinary());
