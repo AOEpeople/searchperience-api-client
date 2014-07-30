@@ -552,6 +552,31 @@ You can use it in the following way:
 
 Each adminSearch object provides an url, title and description.
 
+Command Logs
+--------------
+
+Command logs provide you information about all indexer commands runs from logs table
+
+You can use it in the following way:
+
+::
+
+		use Searchperience\Common\Factory;
+
+		$commandLogRepository = Factory::getCommandLogRepository(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+		$commandLogs = $commandLogRepository->getAllByFilters(0,10);
+
+::
+
+
+Each $commandLogs object provides an command name, log message, binary, start and end time, execution time and status.
+
 Option requests
 ---------------
 API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
