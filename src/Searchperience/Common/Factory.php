@@ -377,6 +377,34 @@ class Factory {
 		return $adminSearchRepository;
 	}
 
+    /**
+     * @param string $baseUrl
+     * @param string $customerKey
+     * @param string $username
+     * @param string $password
+     * @return \Searchperience\Api\Client\Domain\CommandLog\CommandLogRepository
+     */
+    public static function getCommandLogRepository($baseUrl, $customerKey, $username, $password) {
+        self::getDepedenciesAutoloaded();
+
+        $guzzle = self::getPreparedGuzzleClient($customerKey);
+        $dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+
+        $commandLogStorage = new \Searchperience\Api\Client\System\Storage\RestCommandLogBackend();
+        $commandLogStorage->injectRestClient($guzzle);
+        $commandLogStorage->injectDateTimeService($dateTimeService);
+        $commandLogStorage->setBaseUrl($baseUrl);
+        $commandLogStorage->setUsername($username);
+        $commandLogStorage->setPassword($password);
+
+        $commandLogRepository = new \Searchperience\Api\Client\Domain\CommandLog\CommandLogRepository();
+        $commandLogRepository->injectStorageBackend($commandLogStorage);
+        $commandLogRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\CommandLog\Filters\FilterCollectionFactory());
+        $commandLogRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        return $commandLogRepository;
+    }
+
 	/**
 	 * @param $customerKey
 	 * @return \Guzzle\Http\Client
