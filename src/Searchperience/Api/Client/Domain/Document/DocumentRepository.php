@@ -301,6 +301,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @return integer HTTP status code
 	 */
 	public function deleteBySource($source) {
 		if (!is_string($source)) {
@@ -308,6 +309,28 @@ class DocumentRepository {
 		}
 
 		return $this->storageBackend->deleteBySource($source);
+	}
+
+	/**
+	 * Delete Document by url
+	 *
+	 * The url can be a string:
+	 *
+	 * http://www.searchperience.com/
+	 *
+	 * @param string $url
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @return integer HTTP status code
+	 *
+	 */
+	public function deleteByUrl($url) {
+		if(!is_string($url)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
+		}
+
+		return $this->storageBackend->deleteByUrl($url);
 	}
 
 	/**

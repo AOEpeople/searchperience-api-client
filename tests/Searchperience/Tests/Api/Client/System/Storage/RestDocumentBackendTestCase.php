@@ -281,6 +281,31 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
+	public function canDeleteByUrl() {
+		$expectedUrl =  '/{customerKey}/documents?url='.urlencode('http://www.google.de/');
+		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
+		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
+
+		$requestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$requestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($requestMock) {
+			return $requestMock;
+		}));
+		$requestMock->expects($this->once())->method('send')->will($this->returnCallback(function () use ($responseMock) {
+			return $responseMock;
+		}));
+
+		$restClient = $this->getMock('\Guzzle\Http\Client',array('delete','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient->expects($this->once())->method('delete')->with($expectedUrl)->will($this->returnCallback(function() use ($requestMock) {
+			return $requestMock;
+		}));
+
+		$this->documentBackend->injectRestClient($restClient);
+		$this->assertEquals(200, $this->documentBackend->deleteByUrl('http://www.google.de/'));
+	}
+
+	/**
+	 * @test
+	 */
 	public function canDeleteDocumentBySource() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();

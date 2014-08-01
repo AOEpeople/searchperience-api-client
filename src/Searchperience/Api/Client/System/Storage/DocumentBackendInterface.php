@@ -102,6 +102,14 @@ interface DocumentBackendInterface extends BackendInterface {
 	public function deleteBySource($source);
 
 	/**
+	 * @param string $url
+	 * @throwsException \Searchperience\System\Exception\UnauthorizedRequestException
+	 * @throwsException \Searchperience\Domain\Exception\DocumentNotFoundException
+	 * @return mixed
+	 */
+	public function deleteByUrl($url);
+
+	/**
 	 * @param $start
 	 * @param $limit
 	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection
