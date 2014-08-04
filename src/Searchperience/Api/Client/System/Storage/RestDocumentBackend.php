@@ -124,6 +124,14 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
+	public function deleteByUrl($url) {
+		$response = $this->getDeleteResponseFromEndpoint('?url=' . urlencode($url));
+		return $response->getStatusCode();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function deleteById($id) {
 		$response = $this->getDeleteResponseFromEndpoint('/' . $id);
 		return $response->getStatusCode();
