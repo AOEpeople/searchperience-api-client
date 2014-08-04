@@ -301,6 +301,7 @@ class DocumentRepository {
 	 *
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 * @throws \Searchperience\Common\Exception\DocumentNotFoundException
+	 * @return void
 	 */
 	public function deleteBySource($source) {
 		if (!is_string($source)) {

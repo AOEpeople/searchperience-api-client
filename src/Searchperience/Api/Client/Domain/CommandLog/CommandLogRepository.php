@@ -24,7 +24,7 @@ class CommandLogRepository {
 	protected $commandLogValidator;
 
 	/**
-	 * @var \Searchperience\Api\Client\Domain\Filters\FilterCollection
+	 * @var \Searchperience\Api\Client\Domain\CommandLog\Filters\FilterCollectionFactory
 	 */
 	protected $filterCollectionFactory;
 
@@ -73,6 +73,42 @@ class CommandLogRepository {
         $commandLog = $this->decorateIndexerCommandLog($this->storageBackend->getByProcessId($processId));
         return $commandLog;
     }
+
+	/**
+	 * Method to retrieve all command logs entities by filters
+	 *
+	 * @param int $start
+	 * @param int $limit
+	 * @param array $filterArguments
+	 * @param string $sortingField
+	 * @param string $sortingType
+	 *
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
+	 * @return \Searchperience\Api\Client\Domain\CommandLog\CommandLogCollection
+	 */
+	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array(), $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
+		if (!is_integer($start)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+		}
+		if (!is_integer($limit)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_array($filterArguments)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
+		}
+
+		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
+		$documents = $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
+
+		return $documents;
+	}
 
 	/**
 	 * @param int $start

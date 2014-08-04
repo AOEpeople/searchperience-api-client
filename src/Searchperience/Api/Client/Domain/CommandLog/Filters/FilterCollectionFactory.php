@@ -2,16 +2,15 @@
 
 namespace Searchperience\Api\Client\Domain\CommandLog\Filters;
 
-use Searchperience\Api\Client\Domain\Document\Filters;
+use Searchperience\Api\Client\Domain\CommandLog\Filters;
 use Searchperience\Api\Client\Domain\Filters\FilterCollection;
-use Searchperience\Api\Client\Domain\CommandLog\CommandLog;
 use Searchperience\Api\Client\Domain\Filters\AbstractFilterCollectionFactory;
 
 use Symfony\Component\Validator\Validation;
 
 /**
  * Class FilterRepository
- * @package Searchperience\Api\Client\Domain\Document\Filters
+ * @package Searchperience\Api\Client\Domain\CommandLog\Filters
  * @author: Nikolay Diaur <nikolay.diaur@aoe.com>
  */
 class FilterCollectionFactory extends AbstractFilterCollectionFactory {
@@ -20,7 +19,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 	 * @var array
 	 */
 	protected $allowedFilters = array(
-		'commandName', 'processId', 'status', 'startTime', 'duration', 'logMessage'
+		'status', 'time', 'duration', 'query'
 	);
 
 	/**

@@ -50,7 +50,6 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 		} catch (EntityNotFoundException $e) {
 			return new CommandLogCollection();
 		}
-
 		return $this->buildCommandLogsFromXml($xmlElement);
 	}
 
@@ -75,6 +74,7 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 		}
 
 		$commandLogs=$xml->xpath('commandlog');
+
 		foreach($commandLogs as $commandLog) {
 			$commandLogObject = new \Searchperience\Api\Client\Domain\CommandLog\CommandLog();
             $commandLogObject->__setProperty('processId', (integer)$commandLog->processid);
@@ -82,7 +82,7 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
             $commandLogObject->__setProperty('logMessage', (string)$commandLog->log);
             $commandLogObject->__setProperty('commandName', (string)$commandLog->command);
 
-			if (trim($commandLog->startTime) != '') {
+			if (trim($commandLog->starttime) != '') {
 				//we assume that the restapi always return y-m-d H:i:s in the utc format
 				$startTime = $this->dateTimeService->getDateTimeFromApiDateString($commandLog->starttime);
 				if($startTime instanceof  \DateTime) {
@@ -90,7 +90,7 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 				}
 			}
 
-            if (trim($commandLog->endTime) != '') {
+            if (trim($commandLog->endtime) != '') {
                 //we assume that the restapi always return y-m-d H:i:s in the utc format
                 $endTime = $this->dateTimeService->getDateTimeFromApiDateString($commandLog->endtime);
                 if ($endTime instanceof \DateTime) {
@@ -98,10 +98,8 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
                 }
             }
 
-
             $commandLogObject->__setProperty('duration', (integer)$commandLog->duration);
             $commandLogObject->__setProperty('binary', (string)$commandLog->binary);
-
             $commandLogObject->afterReconstitution();
 
             $commandLogArray->append($commandLogObject);
@@ -109,13 +107,13 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 		return $commandLogArray ;
 	}
 
-    /**
-     * Create an array containing only the available indexer command log property values.
-     *
-     * @param \Searchperience\Api\Client\Domain\CommandLog\CommandLog $commandLog
-     * @return array
-     */
-    protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $commandLog) {
+	/**
+	 * Create an array containing only the available indexer command log property values.
+	 *
+	 * @param \Searchperience\Api\Client\Domain\AbstractEntity $commandLog
+	 * @return array
+	 */
+	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $commandLog) {
 		$valueArray = array();
 
 		if (!is_null($commandLog->getCommandName())) {
@@ -141,7 +139,6 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
         if (!is_null($commandLog->getLogMessage())) {
             $valueArray['logMessage'] = $commandLog->getLogMessage();
         }
-
 		return $valueArray;
 	}
 }
