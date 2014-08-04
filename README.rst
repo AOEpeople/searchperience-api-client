@@ -574,6 +574,36 @@ You can use it in the following way:
 
 ::
 
+Get command logs by query and filters
+
+::
+
+	$commandLogRepository = \Searchperience\Common\Factory::getCommandLogRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$commandLogs = $commandLogRepository->getAllByFilters(
+		0,
+		10,
+		array(
+			'time' => array(
+				'startTime' => new DateTime(),
+				'endTime'   => new DateTime()
+			),
+			'duration' =>  array(
+				'duration'     => 80, // in seconds, filter equal
+				'durationFrom' => 60,
+				'durationTo'   => 120,
+			),
+			'query' => array(
+				'queryString' => 'crawler',
+				'queryFields' => 'processid,log,binary,command'
+			),
+			'status' => array(
+				'status' => "finished"
+			),
+		)
+	);
+
+
+::
 
 Each $commandLogs object provides an command name, log message, binary, start and end time, execution time and status.
 
