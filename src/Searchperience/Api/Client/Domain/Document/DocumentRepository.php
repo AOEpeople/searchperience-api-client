@@ -93,7 +93,7 @@ class DocumentRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
-		$document = $this->decorateDocument($this->storageBackend->getByForeignId($foreignId));
+		$document = $this->checkTypeAndDecorate($this->storageBackend->getByForeignId($foreignId));
 		return $document;
 	}
 
@@ -115,7 +115,7 @@ class DocumentRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
 		}
 
-		$document = $this->decorateDocument($this->storageBackend->getById($id));
+		$document = $this->checkTypeAndDecorate($this->storageBackend->getById($id));
 		return $document;
 	}
 
@@ -137,7 +137,7 @@ class DocumentRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
 		}
 
-		$document = $this->decorateDocument($this->storageBackend->getByUrl($url));
+		$document = $this->checkTypeAndDecorate($this->storageBackend->getByUrl($url));
 		return $document;
 	}
 
@@ -319,13 +319,30 @@ class DocumentRepository {
 		$newCollection = new DocumentCollection();
 		$newCollection->setTotalCount($documents->getTotalCount());
 		foreach ($documents as $document) {
-			$newCollection->append($this->decorateDocument($document));
+			$newCollection->append($this->checkTypeAndDecorate($document));
 		}
 		return $newCollection;
 	}
+
+	/**
+	 * Checks the type and decorates it if it is a document.
+	 *
+	 * @param mixed $document
+	 * @return mixed
+	 */
+	protected function checkTypeAndDecorate($document) {
+		if($document instanceof AbstractDocument) {
+			return $this->decorateDocument($document);
+		}
+
+		return $document;
+	}
+
 	/**
 	 * Extend the class and override this method:
-	 * 	This method gives you the possibility to decorate the document object
+	 *
+	 * This method gives you the possibility to decorate the document object
+	 *
 	 * @param AbstractDocument $document
 	 * @return AbstractDocument
 	 */

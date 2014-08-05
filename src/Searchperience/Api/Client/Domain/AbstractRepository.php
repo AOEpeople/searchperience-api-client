@@ -68,9 +68,21 @@ abstract class AbstractRepository implements DecoratableEntityInterface {
 		$newCollection = new $type();
 		$newCollection->setTotalCount($collection->getTotalCount());
 		foreach ($collection as $entity) {
-			$newCollection->append($this->decorate($entity));
+			$newCollection->append($this->checkTypeAndDecorate($entity));
 		}
 		return $newCollection;
+	}
+
+	/**
+	 * @param mixed $entity
+	 * @return mixed
+	 */
+	public function checkTypeAndDecorate($entity) {
+		if($entity !== null) {
+			return $this->decorate($entity);
+		}
+
+		return $entity;
 	}
 
 	/**

@@ -25,5 +25,5 @@ interface DecoratableEntityInterface {
 	 * @param AbstractEntity $entity
 	 * @return mixed
 	 */
-	public function decorate(AbstractEntity $entity);
+	public function checkTypeAndDecorate( $entity);
 }

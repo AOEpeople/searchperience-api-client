@@ -74,4 +74,23 @@ class EnrichmentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->enrichmentRepository->injectValidator($validator);
 		$this->enrichmentRepository->getAllByFilters(0,10,array(),'title','DESC');
 	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function decorateItNotCalledWhenBackendIsReturningNull() {
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('getById'));
+		$storageBackend->expects($this->once())
+				->method('getById')
+				->will($this->returnValue(null));
+
+		$this->enrichmentRepository = $this->getMock('\Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository',array('decorateEnrichment'),array(),'',false);
+		$this->enrichmentRepository->expects($this->never())->method('decorateEnrichment');
+		$this->enrichmentRepository->injectStorageBackend($storageBackend);
+
+		$result = $this->enrichmentRepository->getById(4711);
+		$this->assertEquals(null, $result,'Expected that result will be null when storage backend is returning null');
+	}
 }

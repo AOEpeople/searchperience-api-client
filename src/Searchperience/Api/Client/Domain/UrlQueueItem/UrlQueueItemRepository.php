@@ -121,7 +121,7 @@ class UrlQueueItemRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $documentId. Input was: ' . serialize($documentId));
 		}
 
-		$urqueue = $this->decorateUrlQueueItem($this->storageBackend->getByDocumentId($documentId));
+		$urqueue = $this->checkTypeAndDecorate($this->storageBackend->getByDocumentId($documentId));
 		return $urqueue;
 	}
 
@@ -137,7 +137,7 @@ class UrlQueueItemRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $url. Input was: ' . serialize($url));
 		}
 
-		$urqueue = $this->decorateUrlQueueItem($this->storageBackend->getByUrl($url));
+		$urqueue = $this->checkTypeAndDecorate($this->storageBackend->getByUrl($url));
 		return $urqueue;
 	}
 
@@ -253,9 +253,23 @@ class UrlQueueItemRepository {
 		$newCollection = new UrlQueueItemCollection();
 		$newCollection->setTotalCount($urqueues->getTotalCount());
 		foreach ($urqueues as $urqueue) {
-			$newCollection->append($this->decorateUrlQueueItem($urqueue));
+			$newCollection->append($this->checkTypeAndDecorate($urqueue));
 		}
 		return $newCollection;
+	}
+
+	/**
+	 * Checks the type and applies decorate when the subject is not null
+	 *
+	 * @param mixed $urlQueueItem
+	 * @return mixed
+	 */
+	protected function checkTypeAndDecorate(UrlQueueItem $urlQueueItem) {
+		if($urlQueueItem !== null) {
+			return $this->decorateUrlQueueItem($urlQueueItem);
+		}
+
+		return $urlQueueItem;
 	}
 
 	/**

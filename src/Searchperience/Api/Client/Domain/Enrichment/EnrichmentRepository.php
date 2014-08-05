@@ -88,7 +88,7 @@ class EnrichmentRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
 		}
 
-		$enrichment = $this->decorateEnrichment($this->storageBackend->getById($id));
+		$enrichment = $this->checkTypeAndDecorate($this->storageBackend->getById($id));
 		return $enrichment;
 	}
 
@@ -177,7 +177,6 @@ class EnrichmentRepository {
 		return $statusCode;
 	}
 
-
 	/**
 	 * @param EnrichmentCollection $enrichments
 	 * @return EnrichmentCollection
@@ -186,10 +185,25 @@ class EnrichmentRepository {
 		$newCollection = new EnrichmentCollection();
 		$newCollection->setTotalCount($enrichments->getTotalCount());
 		foreach ($enrichments as $enrichment) {
-			$newCollection->append($this->decorateEnrichment($enrichment));
+			$newCollection->append($this->checkTypeAndDecorate($enrichment));
 		}
 		return $newCollection;
 	}
+
+	/**
+	 * Checks the type and decorates when it is not null
+	 *
+	 * @param mixed $enrichment
+	 * @return mixed
+	 */
+	protected function checkTypeAndDecorate($enrichment) {
+		if($enrichment !== null) {
+			return $this->decorateEnrichment($enrichment);
+		}
+
+		return $enrichment;
+	}
+
 
 	/**
 	 * Extend the class and override this method:

@@ -197,4 +197,21 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->documentRepository->injectValidator($validator);
 		$this->documentRepository->add(new \Searchperience\Api\Client\Domain\Document\Document());
 	}
+
+	/**
+	 * @test
+	 */
+	public function decorateItNotCalledWhenBackendIsReturningNull() {
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByUrl'));
+		$storageBackend->expects($this->once())
+				->method('getByUrl')
+				->will($this->returnValue(null));
+
+		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\Document\DocumentRepository',array('decorateDocument'),array(),'',false);
+		$this->documentRepository->expects($this->never())->method('decorateDocument');
+		$this->documentRepository->injectStorageBackend($storageBackend);
+
+		$result = $this->documentRepository->getByUrl('http://www.google.de');
+		$this->assertEquals(null, $result,'Expected that result will be null when storage backend is returning null');
+	}
 }

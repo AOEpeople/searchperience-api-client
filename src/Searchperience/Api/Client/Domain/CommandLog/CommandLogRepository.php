@@ -70,7 +70,7 @@ class CommandLogRepository {
             throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $processId. Input was: ' . serialize($processId));
         }
 
-        $commandLog = $this->decorateIndexerCommandLog($this->storageBackend->getByProcessId($processId));
+        $commandLog = $this->checkTypeAndDecorate($this->storageBackend->getByProcessId($processId));
         return $commandLog;
     }
 
@@ -146,16 +146,28 @@ class CommandLogRepository {
 		$newCollection = new CommandLogCollection();
 		$newCollection->setTotalCount($commandLogs->getTotalCount());
 		foreach ($commandLogs as $commandLog) {
-			$newCollection->append($this->decorateIndexerCommandLog($commandLog));
+			$newCollection->append($this->checkTypeAndDecorate($commandLog));
 		}
 		return $newCollection;
 	}
 
     /**
-     * @param CommandLog $commandLog
-     * @return CommandLog
+     * @param mixed $commandLog
+     * @return mixed
      */
-    protected function decorateIndexerCommandLog(CommandLog $commandLog) {
+    protected function checkTypeAndDecorate($commandLog) {
+		if($commandLog !== null) {
+			return $this->decorateIndexerCommandLog($commandLog);
+		}
+
+		return $commandLog;
+	}
+
+	/**
+	 * @param CommandLog $commandLog
+	 * @return CommandLog
+	 */
+	protected function decorateIndexerCommandLog(CommandLog $commandLog) {
 		return $commandLog;
 	}
 }
