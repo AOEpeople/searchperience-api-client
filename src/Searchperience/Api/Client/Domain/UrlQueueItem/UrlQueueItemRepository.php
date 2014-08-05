@@ -264,7 +264,7 @@ class UrlQueueItemRepository {
 	 * @param mixed $urlQueueItem
 	 * @return mixed
 	 */
-	protected function checkTypeAndDecorate(UrlQueueItem $urlQueueItem) {
+	protected function checkTypeAndDecorate($urlQueueItem) {
 		if($urlQueueItem !== null) {
 			return $this->decorateUrlQueueItem($urlQueueItem);
 		}
