@@ -27,8 +27,12 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymCollection
 	 */
 	public function getAll() {
-		$response   = $this->getGetResponseFromEndpoint();
-		$xmlElement = $response->xml();
+		try {
+			$response   = $this->getGetResponseFromEndpoint();
+			$xmlElement = $response->xml();
+		} catch (EntityNotFoundException $e) {
+			return new SynonymCollection();
+		}
 
 		return $this->buildSynonymsFromXml($xmlElement);
 	}
