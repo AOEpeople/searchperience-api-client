@@ -13,6 +13,7 @@ class PromotionMapper extends AbstractMapper {
 
 	/**
 	 * @param Promotion $promotion
+	 * @return string
 	 */
 	public function toXML(Promotion $promotion) {
 		$dom        = new \DOMDocument('1.0','UTF-8');
@@ -26,6 +27,11 @@ class PromotionMapper extends AbstractMapper {
 
 		$image = $dom->createElement('image',$promotion->getImageUrl());
 		$promotionNode->appendChild($image);
+
+		if(trim($promotion->getLanguage()) !== '') {
+			$language = $dom->createElement('language',$promotion->getLanguage());
+			$promotionNode->appendChild($language);
+		}
 
 		$searchTerms = $dom->createElement('searchterms');
 		foreach($promotion->getKeywords() as $keyWord) {
@@ -74,6 +80,7 @@ class PromotionMapper extends AbstractMapper {
 		$promotion->__setProperty('promotionTitle', $this->getFirstNodeContent($xpath,'//title'));
 		$promotion->__setProperty('promotionType', $this->getFirstNodeContent($xpath,'//type'));
 		$promotion->__setProperty('imageUrl', $this->getFirstNodeContent($xpath,'//image'));
+		$promotion->__setProperty('language', $this->getFirstNodeContent($xpath,'//language'));
 
 		$searchTerms = $xpath->query("//searchterm");
 		$keywords = array();

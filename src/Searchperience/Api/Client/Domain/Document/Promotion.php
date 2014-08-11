@@ -52,6 +52,11 @@ class Promotion extends AbstractDocument {
 	protected $imageUrl;
 
 	/**
+	 * @var string
+	 */
+	protected $language;
+
+	/**
 	 * @var array
 	 */
 	protected $keywords = array();
@@ -170,6 +175,20 @@ class Promotion extends AbstractDocument {
 	 */
 	public function setImageUrl($imageUrl) {
 		$this->imageUrl = $imageUrl;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLanguage() {
+		return $this->language;
+	}
+
+	/**
+	 * @param string $language
+	 */
+	public function setLanguage($language) {
+		$this->language = $language;
 	}
 
 	/**

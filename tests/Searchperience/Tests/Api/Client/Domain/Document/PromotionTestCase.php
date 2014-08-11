@@ -43,6 +43,7 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 			<title>test</title>
 			<type>organic</type>
 			<image>http://www.foobar.de/test.gif</image>
+			<language>de</language>
 			<searchterms>
 				<searchterm>one</searchterm>
 				<searchterm>two</searchterm>
@@ -65,11 +66,13 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->promotion->addKeyword('one');
 		$this->promotion->addKeyword('two');
 		$this->promotion->addFieldValue('test','Fooobar');
+		$this->promotion->setLanguage('de');
 		$this->promotion->setPromotionContent('<html><head></head><body><![CDATA[test]]></body></html>');
 
 		$content = $this->cleanSpaces( $this->promotion->getContent() );
 		$this->assertEquals($content,$expectedContent,'Could not build xml from promotion as expected');
 	}
+
 
 	/**
 	 * @test
@@ -130,6 +133,9 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 		$typePath = $xpath->query("//body");
 		$this->assertEquals(trim((string) $typePath->item(0)->textContent),"test","Could not get body content from promotion content");
 	}
+
+
+
 
 	/**
 	 * @test
