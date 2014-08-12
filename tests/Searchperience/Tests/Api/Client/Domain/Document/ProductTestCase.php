@@ -257,4 +257,20 @@ class ProductTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function afterReconstitutionIsNotThrowingErrorWithEmptyContent() {
 		$this->product->afterReconstitution();
 	}
+
+	/**
+	 * @test
+	 */
+	public function canSetAttributes() {
+		$productAttribute = new ProductAttribute();
+		$productAttribute->setType(ProductAttribute::TYPE_DATE);
+		$productAttribute->setName('birtyday');
+		$productAttribute->addValue('foo');
+
+		$productAttributes = array();
+		$productAttributes[] = $productAttribute;
+
+		$this->product->setAttributes($productAttributes);
+		$this->assertEquals(1, count($this->product->getAttributes()));
+	}
 }

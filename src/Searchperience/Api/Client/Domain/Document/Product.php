@@ -295,6 +295,13 @@ class Product extends AbstractDocument {
 	}
 
 	/**
+	 * @param array<ProductAttribute> $attributes
+	 */
+	public function setAttributes($attributes) {
+		$this->attributes = $attributes;
+	}
+
+	/**
 	 * @param ProductAttribute $attribute
 	 */
 	public function addAttribute(ProductAttribute $attribute) {
