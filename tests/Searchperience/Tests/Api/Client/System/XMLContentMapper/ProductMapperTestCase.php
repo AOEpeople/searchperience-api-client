@@ -31,8 +31,21 @@ class ProductMapperTest extends \Searchperience\Tests\BaseTestCase {
 		$color = $product->getAttributeByName('color');
 		$this->assertEquals(1,count($color->getValues()),'Reconstituted product with unexpected amount of attributes');
 		$xmlOut = $this->mapper->toXML($product);
-		$cleanFixture = $this->cleanSpaces($fixture);
-		$cleanXml = $this->cleanSpaces($xmlOut);
+		$cleanFixture = $this->getDOMParserXMLOutput($fixture);
+		$cleanXml = $this->getDOMParserXMLOutput($xmlOut);
 		$this->assertEquals($cleanFixture, $cleanXml);
+	}
+
+	/**
+	 * @param string $xml
+	 * @return string
+	 */
+	protected function getDOMParserXMLOutput($xml) {
+		$dom = new \DOMDocument('1.0','UTF-8');
+		$dom->loadXML($xml);
+		$dom->formatOutput = true;
+		$xml = $this->cleanSpaces($dom->saveXML());
+
+		return $xml;
 	}
 }
