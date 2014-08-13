@@ -151,8 +151,6 @@ class ProductMapper extends AbstractMapper {
 
 		$xpath = new \DOMXPath($contentDOM);
 
-
-
 		$this->restoreCommonPropertiesFromDOMContent($xpath, $product);
 		$this->restoreCategoryPathsFromDOMContent($xpath, $product);
 		$this->restoreAttributesFromDOMContent($xpath, $product);
@@ -274,7 +272,7 @@ class ProductMapper extends AbstractMapper {
 			$attribute->setForFaceting($forFaceting);
 			$attribute->setForSorting($forSorting);
 
-			$values = $xpath->query("//value", $attributeNode);
+			$values = $xpath->query("value", $attributeNode);
 			foreach ($values as $value) {
 				/** @var $value \DOMElement */
 				$attribute->addValue($value->textContent);

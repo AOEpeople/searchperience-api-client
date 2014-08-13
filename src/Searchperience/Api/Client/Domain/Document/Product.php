@@ -310,7 +310,7 @@ class Product extends AbstractDocument {
 
 	/**
 	 * @param $name
-	 * @return mixed
+	 * @return ProductAttribute
 	 */
 	public function getAttributeByName($name) {
 		return $this->attributes[$name];
