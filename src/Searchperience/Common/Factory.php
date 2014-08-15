@@ -406,6 +406,34 @@ class Factory {
     }
 
 	/**
+	 * @param string $baseUrl
+	 * @param string $customerKey
+	 * @param string $username
+	 * @param string $password
+	 * @return \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsRepository
+	 */
+	public static function getActivityLogsRepository($baseUrl, $customerKey, $username, $password) {
+		self::getDepedenciesAutoloaded();
+
+		$guzzle = self::getPreparedGuzzleClient($customerKey);
+		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
+
+		$activityLogsStorage = new \Searchperience\Api\Client\System\Storage\RestActivityLogsBackend();
+		$activityLogsStorage->injectRestClient($guzzle);
+		$activityLogsStorage->injectDateTimeService($dateTimeService);
+		$activityLogsStorage->setBaseUrl($baseUrl);
+		$activityLogsStorage->setUsername($username);
+		$activityLogsStorage->setPassword($password);
+
+		$activityLogsRepository = new \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsRepository();
+		$activityLogsRepository->injectStorageBackend($activityLogsStorage);
+		$activityLogsRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\ActivityLogs\Filters\FilterCollectionFactory());
+		$activityLogsRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+		return $activityLogsRepository;
+	}
+
+	/**
 	 * @param $customerKey
 	 * @return \Guzzle\Http\Client
 	 * @throws Exception\RuntimeException
