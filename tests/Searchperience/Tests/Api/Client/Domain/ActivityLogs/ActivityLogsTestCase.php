@@ -29,6 +29,7 @@ class ActivityLogsTestCase extends \Searchperience\Tests\BaseTestCase {
 
         $this->activityLogs->__setProperty('id', '132');
         $this->activityLogs->__setProperty('logTime', '2014-01-01 10:10:00');
+		$this->activityLogs->__setProperty('processId', 1233);
         $this->activityLogs->__setProperty('severity', 3);
         $this->activityLogs->__setProperty('message', 'No queue with documentId found');
         $this->activityLogs->__setProperty('additionalData', "a:0:{}");
@@ -38,6 +39,7 @@ class ActivityLogsTestCase extends \Searchperience\Tests\BaseTestCase {
 
         $this->assertEquals('132', $this->activityLogs->getId());
         $this->assertEquals('2014-01-01 10:10:00', $this->activityLogs->getLogTime());
+		$this->assertEquals(1233, $this->activityLogs->getProcessId());
         $this->assertEquals(3, $this->activityLogs->getSeverity());
         $this->assertEquals('No queue with documentId found', $this->activityLogs->getMessage());
         $this->assertEquals("a:0:{}", $this->activityLogs->getAdditionalData());

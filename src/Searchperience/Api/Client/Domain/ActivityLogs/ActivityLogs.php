@@ -30,6 +30,20 @@ class ActivityLogs extends AbstractEntity{
 	protected $logTime = 0;
 
 	/**
+	 * Holds the id of the process.
+	 *
+	 * @var int
+	 */
+	protected $processId;
+
+	/**
+	 * Holds the tag.
+	 *
+	 * @var string
+	 */
+	protected $tag;
+
+	/**
 	 * @var string holds the severity of the log message
 	 * @see System_Logger_LoggerInterface
 	 */
@@ -77,6 +91,15 @@ class ActivityLogs extends AbstractEntity{
 	 */
 	public function getLogTime() {
 		return $this->logTime;
+	}
+
+	/**
+	 * Returns The passed processId.
+	 *
+	 * @return int
+	 */
+	public function getProcessId() {
+		return $this->processId;
 	}
 
 	/**
@@ -132,5 +155,14 @@ class ActivityLogs extends AbstractEntity{
 	 */
 	public function getMethodName() {
 		return $this->methodName;
+	}
+
+	/**
+	 * This method is used to retrieve the logged tag.
+	 *
+	 * @return string
+	 */
+	public function getTag() {
+		return $this->tag;
 	}
 } 

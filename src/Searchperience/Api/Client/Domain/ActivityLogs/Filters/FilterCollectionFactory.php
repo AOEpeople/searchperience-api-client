@@ -19,7 +19,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 	 * @var array
 	 */
 	protected $allowedFilters = array(
-		'status', 'time', 'duration', 'query'
+		'severity', 'logTime', 'query'
 	);
 
 	/**

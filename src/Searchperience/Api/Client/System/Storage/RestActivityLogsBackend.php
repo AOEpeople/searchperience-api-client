@@ -87,12 +87,14 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 				$logTime = $this->dateTimeService->getDateTimeFromApiDateString($activityLog->logTime);
 				$activityLogsObject->__setProperty('logTime', $logTime);
 			}
+			$activityLogsObject->__setProperty('processId', (string)$activityLog->processId);
 			$activityLogsObject->__setProperty('severity', (string)$activityLog->severity);
 			$activityLogsObject->__setProperty('message', (string)$activityLog->message);
 			$activityLogsObject->__setProperty('additionalData', (array)$activityLog->additionalData);
 			$activityLogsObject->__setProperty('packageKey', (string)$activityLog->packageKey);
 			$activityLogsObject->__setProperty('className', (string)$activityLog->className);
 			$activityLogsObject->__setProperty('methodName', (string)$activityLog->methodName);
+			$activityLogsObject->__setProperty('tag', (string)$activityLog->tag);
 
 			$activityLogsCollection[] = $activityLogsObject;
 
@@ -118,6 +120,10 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 			$valueArray['logTime'] = $activityLogs->getLogTime();
 		}
 
+		if (!is_null($activityLogs->getProcessId())) {
+			$valueArray['processId'] = $activityLogs->getProcessId();
+		}
+
 		if (!is_null($activityLogs->getSeverity())) {
 			$valueArray['severity'] = $activityLogs->getSeverity();
 		}
@@ -140,6 +146,10 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 
 		if (!is_null($activityLogs->getMethodName())) {
 			$valueArray['methodName'] = $activityLogs->getMethodName();
+		}
+
+		if (!is_null($activityLogs->getTag())) {
+			$valueArray['tag'] = $activityLogs->getTag();
 		}
 		return $valueArray;
 	}
