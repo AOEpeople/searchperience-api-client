@@ -2,41 +2,13 @@
 
 namespace Searchperience\Api\Client\Domain\Stopword;
 
+use Searchperience\Api\Client\Domain\AbstractRepository;
+
 /**
  * Class StopwordRepository
  * @package Searchperience\Api\Client\Domain\Stopword
  */
-class StopwordRepository {
-
-	/**
-	 * @var \Searchperience\Api\Client\System\Storage\StopwordBackendInterface
-	 */
-	protected $storageBackend;
-
-	/**
-	 * @var \Symfony\Component\Validator\ValidatorInterface
-	 */
-	protected $stopwordValidator;
-
-	/**
-	 * Injects the storage backend.
-	 *
-	 * @param \Searchperience\Api\Client\System\Storage\StopwordBackendInterface $storageBackend
-	 * @return void
-	 */
-	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\StopwordBackendInterface $storageBackend) {
-		$this->storageBackend = $storageBackend;
-	}
-
-	/**
-	 * Injects the validation service
-	 *
-	 * @param \Symfony\Component\Validator\ValidatorInterface $stopwordValidator
-	 * @return void
-	 */
-	public function injectValidator(\Symfony\Component\Validator\ValidatorInterface $stopwordValidator) {
-		$this->stopwordValidator = $stopwordValidator;
-	}
+class StopwordRepository extends AbstractRepository {
 
 	/**
 	 * Used to add a stopword (tagName needs to be setted)
@@ -56,7 +28,6 @@ class StopwordRepository {
 		return $status;
 	}
 
-
 	/**
 	 * @param string $word
 	 * @param string $tagName
@@ -72,14 +43,14 @@ class StopwordRepository {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->storageBackend->getByWord($tagName, $word);
+		return $this->checkTypeAndDecorate($this->storageBackend->getByWord($tagName, $word));
 	}
 
 	/**
 	 * @return StopwordCollection
 	 */
 	public function getAll() {
-		return $this->storageBackend->getAll();
+		return $this->decorateAll($this->storageBackend->getAll(), 'Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
 	}
 
 	/**
@@ -91,8 +62,7 @@ class StopwordRepository {
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
-
-		return $this->storageBackend->getAllByTag($tagName);
+		return $this->decorateAll($this->storageBackend->getAllByTag($tagName), 'Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
 	}
 
 	/**
