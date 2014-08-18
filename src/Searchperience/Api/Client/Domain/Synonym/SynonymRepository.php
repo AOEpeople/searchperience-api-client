@@ -2,40 +2,12 @@
 
 namespace Searchperience\Api\Client\Domain\Synonym;
 
+use Searchperience\Api\Client\Domain\AbstractRepository;
+
 /**
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class SynonymRepository {
-
-	/**
-	 * @var \Searchperience\Api\Client\System\Storage\SynonymBackendInterface
-	 */
-	protected $storageBackend;
-
-	/**
-	 * @var \Symfony\Component\Validator\ValidatorInterface
-	 */
-	protected $synonymValidator;
-
-	/**
-	 * Injects the storage backend.
-	 *
-	 * @param \Searchperience\Api\Client\System\Storage\SynonymBackendInterface $storageBackend
-	 * @return void
-	 */
-	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\SynonymBackendInterface $storageBackend) {
-		$this->storageBackend = $storageBackend;
-	}
-
-	/**
-	 * Injects the validation service
-	 *
-	 * @param \Symfony\Component\Validator\ValidatorInterface $synonymValidator
-	 * @return void
-	 */
-	public function injectValidator(\Symfony\Component\Validator\ValidatorInterface $synonymValidator) {
-		$this->synonymValidator = $synonymValidator;
-	}
+class SynonymRepository extends AbstractRepository {
 
 	/**
 	 * Used to add a synonym (tagName needs to be setted)
@@ -71,14 +43,14 @@ class SynonymRepository {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->storageBackend->getByMainWord($tagName, $mainWord);
+		return $this->checkTypeAndDecorate($this->storageBackend->getByMainWord($tagName, $mainWord));
 	}
 
 	/**
 	 * @return SynonymCollection
 	 */
 	public function getAll() {
-		return $this->storageBackend->getAll();
+		return $this->decorateAll($this->storageBackend->getAll(), 'Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
 	}
 
 	/**
@@ -90,8 +62,7 @@ class SynonymRepository {
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
-
-		return $this->storageBackend->getAllByTag($tagName);
+		return $this->decorateAll($this->storageBackend->getAllByTag($tagName), 'Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
 	}
 
 	/**
