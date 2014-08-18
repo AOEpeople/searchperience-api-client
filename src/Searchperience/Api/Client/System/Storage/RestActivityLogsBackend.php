@@ -24,7 +24,7 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 	/**
 	 * {@inheritdoc}
 	 * @param int $id
-	 * @return \Searchperience\Api\Client\Domain\Document\Document|null
+	 * @return \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogs|null
 	 * @throws \Searchperience\Common\Exception\RuntimeException
 	 */
 	public function getById($id) {
@@ -71,29 +71,26 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 	 */
 	protected function buildActivityLogsFromXml(\SimpleXMLElement $xml) {
 		$activityLogsCollection = new ActivityLogsCollection();
-
 		if ($xml->totalCount instanceof \SimpleXMLElement) {
 			$activityLogsCollection->setTotalCount((integer)$xml->totalCount->__toString());
 		}
 
-		$activityLogs = $xml->xpath('activitylogs');
+		$activityLogs = $xml->xpath('activitylog');
 		foreach ($activityLogs as $activityLog) {
-			$activityLogsAttributeArray = (array)$activityLog->attributes();
-
 			$activityLogsObject = new ActivityLogs();
-			$activityLogsObject->__setProperty('id', (integer)$activityLogsAttributeArray['@attributes']['id']);
-			if (trim($activityLog->logTime) != '') {
+			$activityLogsObject->__setProperty('id', (integer)$activityLog->id);
+			if (trim($activityLog->logtime) != '') {
 				//we assume that the restAPI always return y-m-d H:i:s in the utc format
-				$logTime = $this->dateTimeService->getDateTimeFromApiDateString($activityLog->logTime);
+				$logTime = $this->dateTimeService->getDateTimeFromApiDateString($activityLog->logtime);
 				$activityLogsObject->__setProperty('logTime', $logTime);
 			}
-			$activityLogsObject->__setProperty('processId', (string)$activityLog->processId);
+			$activityLogsObject->__setProperty('processId', (string)$activityLog->processid);
 			$activityLogsObject->__setProperty('severity', (string)$activityLog->severity);
 			$activityLogsObject->__setProperty('message', (string)$activityLog->message);
-			$activityLogsObject->__setProperty('additionalData', (array)$activityLog->additionalData);
-			$activityLogsObject->__setProperty('packageKey', (string)$activityLog->packageKey);
-			$activityLogsObject->__setProperty('className', (string)$activityLog->className);
-			$activityLogsObject->__setProperty('methodName', (string)$activityLog->methodName);
+			$activityLogsObject->__setProperty('additionalData', (array)$activityLog->additionaldata);
+			$activityLogsObject->__setProperty('packageKey', (string)$activityLog->packagekey);
+			$activityLogsObject->__setProperty('className', (string)$activityLog->classname);
+			$activityLogsObject->__setProperty('methodName', (string)$activityLog->methodname);
 			$activityLogsObject->__setProperty('tag', (string)$activityLog->tag);
 
 			$activityLogsCollection[] = $activityLogsObject;
