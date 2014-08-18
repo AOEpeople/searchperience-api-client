@@ -63,6 +63,21 @@ class ActivityLogsRepository {
 	}
 
 	/**
+	 * Get activity log by id
+	 *
+	 * @param integer $id
+	 * @return ActivityLogs
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function getById($id) {
+		if (!is_numeric($id)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $id. Input was: ' . serialize($id));
+		}
+		$activityLog = $this->checkTypeAndDecorate($this->storageBackend->getById($id));
+		return $activityLog;
+	}
+
+	/**
 	 * Method to retrieve all activity logs entities by filters
 	 *
 	 * @param int $start
