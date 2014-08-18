@@ -18,54 +18,54 @@ class LogTimeFilter extends AbstractDateFilter {
 	protected $filterString;
 
 	/**
-	 * @var \DateTime $logTimeEnd
+	 * @var \DateTime $logtimeEnd
 	 * @Assert\DateTime(message="The value {{ value }} is not a valid datetime.")
 	 */
-	protected $logTimeEnd;
+	protected $logtimeEnd;
 
 	/**
-	 * @var \DateTime $logTimeStart
+	 * @var \DateTime $logtimeStart
 	 * @Assert\DateTime(message="The value {{ value }} is not a valid datetime.")
 	 */
-	protected $logTimeStart;
+	protected $logtimeStart;
 
 	/**
-	 * @param string $logTimeStart
+	 * @param string $logtimeStart
 	 */
-	public function setLogTimeStart($logTimeStart) {
-		$this->logTimeStart = $logTimeStart;
+	public function setLogtimeStart($logtimeStart) {
+		$this->logtimeStart = $logtimeStart;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLogTimeStart() {
-		return $this->logTimeStart;
+	public function getLogtimeStart() {
+		return $this->logtimeStart;
 	}
 
 	/**
-	 * @param string $logTimeEnd
+	 * @param string $logtimeEnd
 	 */
-	public function setLogTimeEnd($logTimeEnd) {
-		$this->logTimeEnd = $logTimeEnd;
+	public function setLogtimeEnd($logtimeEnd) {
+		$this->logtimeEnd = $logtimeEnd;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLogTimeEnd() {
-		return $this->logTimeEnd;
+	public function getLogtimeEnd() {
+		return $this->logtimeEnd;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getFilterString() {
-		if (!empty($this->logTimeEnd)) {
-			$this->filterString = sprintf("&logtimeStart=%s", rawurlencode($this->toString($this->getLogTimeEnd())));
+		if (!empty($this->logtimeEnd)) {
+			$this->filterString = sprintf("&logtimeStart=%s", rawurlencode($this->toString($this->getLogtimeEnd())));
 		}
-		if (!empty($this->logTimeStart)) {
-			$this->filterString .= sprintf("&logtimeEnd=%s", rawurlencode($this->toString($this->getLogTimeStart())));
+		if (!empty($this->logtimeStart)) {
+			$this->filterString .= sprintf("&logtimeEnd=%s", rawurlencode($this->toString($this->getLogtimeStart())));
 		}
 		return $this->filterString;
 	}

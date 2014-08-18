@@ -49,6 +49,7 @@ class ActivityLogsFilterCollectionFactoryTestCase extends \Searchperience\Tests\
 		);
 
 		$filterCollection = $this->instance->createFromFilterArguments($arguments);
+
 		$this->assertEquals('&logtimeStart=2014-01-01%2010%3A00%3A00&logtimeEnd=2014-01-01%2009%3A00%3A00&query=api&queryFields=id%2Cmessage%2Cclassname%2Cmethodname%2Cprocessid%2Ctag', $filterCollection->getFilterStringFromAll(), 'Could not build filterCollection with expected filter string');
 	}
 

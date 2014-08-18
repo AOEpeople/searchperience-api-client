@@ -97,7 +97,6 @@ abstract class AbstractFilterCollectionFactory {
 				throw new \Searchperience\Common\Exception\UnexpectedValueException('Filter not exists: ' . $filterName);
 			}
 		}
-
 		return $result;
 	}
 

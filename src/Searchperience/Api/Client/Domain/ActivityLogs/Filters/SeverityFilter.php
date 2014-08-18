@@ -62,7 +62,7 @@ class SeverityFilter extends AbstractFilter {
 	 */
 	public function getFilterString() {
 		if (!empty($this->severityStart)) {
-			$this->filterString .= sprintf("&severityStart=%s", rawurlencode($this->getSeverityStart()));
+			$this->filterString = sprintf("&severityStart=%s", rawurlencode($this->getSeverityStart()));
 		}
 		if (!empty($this->severityEnd)) {
 			$this->filterString .= sprintf("&severityEnd=%s", rawurlencode($this->getSeverityEnd()));

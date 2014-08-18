@@ -106,9 +106,7 @@ class ActivityLogsRepository {
 		}
 
 		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
-		$documents = $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
-
-		return $documents;
+		return $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
 	}
 
 	/**
@@ -135,8 +133,9 @@ class ActivityLogsRepository {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
 		}
 
-		$commandLogs = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
-		return $this->decorateIndexerActivityLogs($commandLogs);
+		$activityLogs = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
+
+		return $this->decorateIndexerActivityLogs($activityLogs);
 	}
 
 	/**

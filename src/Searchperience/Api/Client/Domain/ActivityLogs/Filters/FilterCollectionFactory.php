@@ -42,7 +42,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 		$filterNames = array_keys($filters);
 		foreach ($filterNames as $filterName) {
 			if (!in_array($filterName, $this->allowedFilters)) {
-				throw new \Searchperience\Common\Exception\UnexpectedValueException('Could not handle filter ' . $filterName . ' for IndexerCommandLog entity. Is this filter allowed?');
+				throw new \Searchperience\Common\Exception\UnexpectedValueException('Could not handle filter ' . $filterName . ' for IndexerActivityLog entity. Is this filter allowed?');
 			}
 		}
 		return true;
