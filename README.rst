@@ -607,6 +607,57 @@ Get command logs by query and filters
 
 Each $commandLogs object provides an command name, log message, binary, start and end time, execution time and status.
 
+Activity Logs
+--------------
+
+Activity logs provide you information about all activitys
+
+You can use it in the following way:
+
+::
+
+		use Searchperience\Common\Factory;
+
+		$activityLogsRepository = Factory::getActivityLogsRepository(
+		    $this->apiEndpointUrl,
+		    $this->apiConfigurationName,
+		    $this->apiUser,
+		    $this->apiPassword
+		);
+
+		$activityLogs = $activityLogsRepository->getAllByFilters(0,10);
+
+::
+
+Get activity logs by query and filters
+
+::
+
+	$activityLogsRepository = \Searchperience\Common\Factory::getActivityLogsRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
+	$activityLogs = $activityLogsRepository->getAllByFilters(
+		0,
+		10,
+		array(
+			'sevirity' => array(
+					'severityStart'	=> 1, 
+					'severityEnd'	=> 3
+				),
+			'logTime'  => array(
+					'logtimeStart'	=> new DateTime(), 
+					'logtimeEnd'	=> new DateTime()
+				),
+			'query'    => array(
+					'queryString' 	=> 'LinkAnalyser',
+					'queryFields'	=> 'id,message,classname,methodname,processid,tag'
+				),
+		)
+	);
+
+
+::
+
+Each $activityLogs object provides an id, message, processid, severity, classname, methodname, additionaldata, tag and logtime.
+
 Option requests
 ---------------
 API provides self-descriptive interface by sending OPTIONS requests for any specified(valid) route:
