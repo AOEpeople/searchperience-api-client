@@ -15,11 +15,6 @@ class SynonymTagRepository {
 	protected $storageBackend;
 
 	/**
-	 * @var \Symfony\Component\Validator\ValidatorInterface
-	 */
-	protected $synonymValidator;
-
-	/**
 	 * Injects the storage backend.
 	 *
 	 * @param \Searchperience\Api\Client\System\Storage\SynonymTagBackendInterface $storageBackend

@@ -17,7 +17,7 @@ class SynonymRepository extends AbstractRepository {
 	 * @throws \InvalidArgumentException
 	 */
 	public function add(Synonym $synonym) {
-		$violations = $this->synonymValidator->validate($synonym);
+		$violations = $this->validator->validate($synonym);
 
 		if ($violations->count() > 0) {
 			throw new \InvalidArgumentException('Given object of type "' . get_class($synonym) . '" is not valid: ' . PHP_EOL . $violations);

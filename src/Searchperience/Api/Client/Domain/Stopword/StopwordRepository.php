@@ -18,7 +18,7 @@ class StopwordRepository extends AbstractRepository {
 	 * @throws \InvalidArgumentException
 	 */
 	public function add(Stopword $stopword) {
-		$violations = $this->stopwordValidator->validate($stopword);
+		$violations = $this->validator->validate($stopword);
 
 		if ($violations->count() > 0) {
 			throw new \InvalidArgumentException('Given object of type "' . get_class($stopword) . '" is not valid: ' . PHP_EOL . $violations);
