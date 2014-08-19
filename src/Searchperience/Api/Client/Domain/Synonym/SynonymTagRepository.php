@@ -2,28 +2,14 @@
 
 namespace Searchperience\Api\Client\Domain\Synonym;
 
+use Searchperience\Api\Client\Domain\AbstractRepository;
+
 /**
  * Class SynonymTagRepository
  * @package Searchperience\Api\Client\Domain\Synonym
  * @author Timo Schmidt <timo.schmidt@aoe.com>
  */
-class SynonymTagRepository {
-
-	/**
-	 * @var \Searchperience\Api\Client\System\Storage\SynonymTagBackendInterface
-	 */
-	protected $storageBackend;
-
-	/**
-	 * Injects the storage backend.
-	 *
-	 * @param \Searchperience\Api\Client\System\Storage\SynonymTagBackendInterface $storageBackend
-	 * @return void
-	 */
-	public function injectStorageBackend(\Searchperience\Api\Client\System\Storage\SynonymTagBackendInterface $storageBackend) {
-		$this->storageBackend = $storageBackend;
-	}
-
+class SynonymTagRepository extends AbstractRepository {
 	/**
 	 * @return SynonymTagCollection
 	 */
