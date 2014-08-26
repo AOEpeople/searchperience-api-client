@@ -55,6 +55,7 @@ class AdminSearchRepositoryTestCase extends BaseTestCase {
 			->method('getAll')
 			->will($this->returnValue(new AdminSearchCollection()));
 
+		$this->adminSearchRepository->setEntityCollection('\Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection');
 		$this->adminSearchRepository->injectStorageBackend($storageBackend);
 
 		$this->adminSearchRepository->getAll();

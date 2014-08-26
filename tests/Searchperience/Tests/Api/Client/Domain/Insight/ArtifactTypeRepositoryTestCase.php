@@ -52,6 +52,7 @@ class ArtifactTypeRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 			->will($this->returnValue(new ArtifactTypeCollection()));
 
 		$this->repository->injectStorageBackend($storageBackend);
+		$this->repository->setEntityCollection('\Searchperience\Api\Client\Domain\Insight\ArtifactTypeCollection');
 
 		$this->repository->getAll();
 	}

@@ -12,12 +12,19 @@ namespace Searchperience\Api\Client\Domain;
 use Searchperience\Common\Exception\InvalidArgumentException;
 use Searchperience\Api\Client\Domain\Insight;
 use Searchperience\Api\Client\Domain;
+use Searchperience\Api\Client\System\Storage\AbstractRestBackend;
 
 /**
  * Class AbstractRepository
  * @package Searchperience\Api\Client\Domain
  */
 abstract class AbstractRepository implements DecoratableEntityInterface {
+
+	/**
+	 * @var \Searchperience\Api\Client\Domain\AbstractEntityCollection
+	 */
+	protected $entityCollectionName;
+
 	/**
 	 * @var \Searchperience\Api\Client\System\Storage\AbstractRestBackend
 	 */
@@ -27,6 +34,21 @@ abstract class AbstractRepository implements DecoratableEntityInterface {
 	 * @var \Symfony\Component\Validator\ValidatorInterface
 	 */
 	protected $validator;
+
+	/**
+	 * @var \Searchperience\Api\Client\Domain\ActivityLogs\Filters\FilterCollectionFactory
+	 */
+	protected $filterCollectionFactory;
+
+	/**
+	 * Injects the filter collection factory
+	 *
+	 * @param \Searchperience\Api\Client\Domain\Filters\AbstractFilterCollectionFactory $filterCollectionFactory
+	 * @return void
+	 */
+	public function injectFilterCollectionFactory(\Searchperience\Api\Client\Domain\Filters\AbstractFilterCollectionFactory $filterCollectionFactory) {
+		$this->filterCollectionFactory = $filterCollectionFactory;
+	}
 
 	/**
 	 * Injects the storage backend.
@@ -49,28 +71,37 @@ abstract class AbstractRepository implements DecoratableEntityInterface {
 	}
 
 	/**
-	 * @param AbstractEntityCollection $collection
-	 * @param string $type
-	 * @return AbstractEntityCollection
-	 * @throws InvalidArgumentException
+	 * @param string $entityCollectionName
 	 */
-	public function decorateAll(AbstractEntityCollection $collection, $type = 'Searchperience\Api\Client\Domain\AbstractEntityCollection') {
+	public function setEntityCollection($entityCollectionName) {
+		$this->entityCollectionName = $entityCollectionName;
+	}
 
-		if(! class_exists($type)) {
-			throw new InvalidArgumentException(sprintf('type param must be an instance of Searchperience\Api\Client\Domain\AbstractEntityCollection. %s give', $type), 123456789124);
+	/**
+	 * @return \Searchperience\Api\Client\Domain\AbstractEntityCollection $this->entityCollection
+	 */
+	protected function getEntityCollection() {
+		return new $this->entityCollectionName();
+	}
+
+	/**
+	 * @param AbstractEntityCollection $collection
+	 * @return mixed|string
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function decorateAll(AbstractEntityCollection $collection) {
+
+		$entityCollection = $this->getEntityCollection();
+
+		if(!$entityCollection) {
+			throw new InvalidArgumentException(sprintf('type param must be an instance of Searchperience\Api\Client\Domain\AbstractEntityCollection. %s give', $this->entityCollection), 123456781231239124);
 		}
 
-		$newCollection = new $type();
-		if (! is_subclass_of($type, 'Searchperience\Api\Client\Domain\AbstractEntityCollection')) {
-			throw new InvalidArgumentException(sprintf('type param must be an instance of Searchperience\Api\Client\Domain\AbstractEntityCollection. %s give', $type), 123456789124);
-		}
-
-		$newCollection = new $type();
-		$newCollection->setTotalCount($collection->getTotalCount());
+		$entityCollection->setTotalCount($collection->getTotalCount());
 		foreach ($collection as $entity) {
-			$newCollection->append($this->checkTypeAndDecorate($entity));
+			$entityCollection->append($this->checkTypeAndDecorate($entity));
 		}
-		return $newCollection;
+		return $entityCollection;
 	}
 
 	/**
@@ -91,5 +122,66 @@ abstract class AbstractRepository implements DecoratableEntityInterface {
 	 */
 	public function decorate(AbstractEntity $entity) {
 		return $entity;
+	}
+
+	/**
+	 * Method to retrieve all entities by filters
+	 *
+	 * @param int $start
+	 * @param int $limit
+	 * @param array $filterArguments
+	 * @param string $sortingField
+	 * @param $sortingType
+	 * @return AbstractEntityCollection
+	 * @throws InvalidArgumentException
+	 */
+	public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array(), $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
+		if (!is_integer($start)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+		}
+		if (!is_integer($limit)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_array($filterArguments)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $filterArguments. Input was: ' . serialize($filterArguments));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
+		}
+
+		$filterCollection = $this->filterCollectionFactory->createFromFilterArguments($filterArguments);
+		return $this->getAllByFilterCollection($start, $limit, $filterCollection, $sortingField, $sortingType);
+	}
+
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection
+	 * @param string $sortingField
+	 * @param string $sortingType
+	 *
+	 * @return AbstractEntityCollection
+	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
+	 */
+	public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
+		if (!is_integer($start)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
+		}
+		if (!is_integer($limit)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $limit. Input was: ' . serialize($limit));
+		}
+		if (!is_string($sortingField)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingField. Input was: ' . serialize($sortingField));
+		}
+		if (!is_string($sortingType)) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
+		}
+
+		$activityLogs = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
+
+		return $this->decorateAll($activityLogs);
 	}
 }

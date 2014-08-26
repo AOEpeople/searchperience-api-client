@@ -50,7 +50,7 @@ class SynonymRepository extends AbstractRepository {
 	 * @return SynonymCollection
 	 */
 	public function getAll() {
-		return $this->decorateAll($this->storageBackend->getAll(), 'Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
+		return $this->decorateAll($this->storageBackend->getAll());
 	}
 
 	/**
@@ -62,7 +62,7 @@ class SynonymRepository extends AbstractRepository {
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
-		return $this->decorateAll($this->storageBackend->getAllByTag($tagName), 'Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
+		return $this->decorateAll($this->storageBackend->getAllByTag($tagName));
 	}
 
 	/**

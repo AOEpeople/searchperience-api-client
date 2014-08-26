@@ -24,6 +24,6 @@ class ArtifactTypeRepository extends AbstractRepository {
 	 */
 	public function getAll() {
 		$artifactTypes = $this->storageBackend->getAll();
-		return $this->decorateAll($artifactTypes, 'Searchperience\Api\Client\Domain\Insight\ArtifactTypeCollection');
+		return $this->decorateAll($artifactTypes);
 	}
 }

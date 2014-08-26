@@ -21,6 +21,6 @@ class AdminSearchRepository extends AbstractRepository {
 	 */
 	public function getAll() {
 		$adminSearchCollection = $this->storageBackend->getAll();
-		return $this->decorateAll($adminSearchCollection, 'Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection');
+		return $this->decorateAll($adminSearchCollection);
 	}
 }

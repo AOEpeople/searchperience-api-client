@@ -16,10 +16,9 @@ namespace Searchperience\Api\Client\Domain;
 interface DecoratableEntityInterface {
 	/**
 	 * @param AbstractEntityCollection $collection
-	 * @param string $type
 	 * @return mixed
 	 */
-	public function decorateAll(AbstractEntityCollection $collection, $type = 'AbstractEntityCollection');
+	public function decorateAll(AbstractEntityCollection $collection);
 
 	/**
 	 * @param AbstractEntity $entity

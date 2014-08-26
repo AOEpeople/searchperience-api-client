@@ -33,6 +33,7 @@ class CommandLogRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 			new \Searchperience\Api\Client\Domain\CommandLog\CommandLogCollection()
 		));;
 		$this->commandLogRepository->injectStorageBackend($storageBackendMock);
+		$this->commandLogRepository->setEntityCollection('\Searchperience\Api\Client\Domain\CommandLog\CommandLogCollection');
 		$this->commandLogRepository->injectFilterCollectionFactory(new FilterCollectionFactory());
 		$this->commandLogRepository->getAllByFilterCollection(0,10);
 	}
