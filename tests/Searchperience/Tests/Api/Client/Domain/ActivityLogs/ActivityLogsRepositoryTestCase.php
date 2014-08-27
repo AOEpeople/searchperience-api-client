@@ -32,7 +32,7 @@ class ActivityLogsRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 		$storageBackendMock->expects($this->once())->method('getAllByFilterCollection')->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsCollection()
 		));
-		$this->activityLogsRepository->setEntityCollection('\Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsCollection');
+		$this->activityLogsRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsCollection');
 		$this->activityLogsRepository->injectStorageBackend($storageBackendMock);
 		$this->activityLogsRepository->injectFilterCollectionFactory(new FilterCollectionFactory());
 		$this->activityLogsRepository->getAllByFilterCollection(0,10);

@@ -21,7 +21,7 @@ use Searchperience\Api\Client\System\Storage\AbstractRestBackend;
 abstract class AbstractRepository implements DecoratableEntityInterface {
 
 	/**
-	 * @var \Searchperience\Api\Client\Domain\AbstractEntityCollection
+	 * @var string
 	 */
 	protected $entityCollectionName;
 
@@ -73,7 +73,7 @@ abstract class AbstractRepository implements DecoratableEntityInterface {
 	/**
 	 * @param string $entityCollectionName
 	 */
-	public function setEntityCollection($entityCollectionName) {
+	public function setEntityCollectionName($entityCollectionName) {
 		$this->entityCollectionName = $entityCollectionName;
 	}
 
@@ -93,8 +93,11 @@ abstract class AbstractRepository implements DecoratableEntityInterface {
 
 		$entityCollection = $this->getEntityCollection();
 
-		if(!$entityCollection) {
-			throw new InvalidArgumentException(sprintf('type param must be an instance of Searchperience\Api\Client\Domain\AbstractEntityCollection. %s give', $this->entityCollection), 123456781231239124);
+		if(!$entityCollection instanceof AbstractEntityCollection) {
+			throw new InvalidArgumentException(
+				sprintf('type param must be an instance of Searchperience\Api\Client\Domain\AbstractEntityCollection. %s given', get_class($entityCollection)),
+				123456781231239124
+			);
 		}
 
 		$entityCollection->setTotalCount($collection->getTotalCount());

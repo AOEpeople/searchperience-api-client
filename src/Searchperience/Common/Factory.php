@@ -195,7 +195,7 @@ class Factory {
 		$synonymStorage->setPassword($password);
 
 		$synonymRepository = new \Searchperience\Api\Client\Domain\Synonym\SynonymRepository();
-		$synonymRepository->setEntityCollection('\Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
+		$synonymRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
 		$synonymRepository->injectStorageBackend($synonymStorage);
 		$synonymRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
@@ -221,7 +221,7 @@ class Factory {
 		$synonymStorage->setPassword($password);
 
 		$synonymRepository = new \Searchperience\Api\Client\Domain\Synonym\SynonymTagRepository();
-		$synonymRepository->setEntityCollection('\Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
+		$synonymRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
 		$synonymRepository->injectStorageBackend($synonymStorage);
 
 		return $synonymRepository;
@@ -246,7 +246,7 @@ class Factory {
 		$stopwordStorage->setPassword($password);
 
 		$stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordRepository();
-		$stopwordRepository->setEntityCollection('\Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
+		$stopwordRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
 		$stopwordRepository->injectStorageBackend($stopwordStorage);
 		$stopwordRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
@@ -272,7 +272,7 @@ class Factory {
 		$stopwordStorage->setPassword($password);
 
 		$stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordTagRepository();
-		$stopwordRepository->setEntityCollection('\Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
+		$stopwordRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
 		$stopwordRepository->injectStorageBackend($stopwordStorage);
 
 		return $stopwordRepository;
@@ -319,7 +319,7 @@ class Factory {
 		$storageBackend->setPassword($password);
 
 		$artifactTypeRepository = new \Searchperience\Api\Client\Domain\Insight\ArtifactTypeRepository();
-		$artifactTypeRepository->setEntityCollection('\Searchperience\Api\Client\Domain\Insight\ArtifactTypeCollection');
+		$artifactTypeRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Insight\ArtifactTypeCollection');
 		$artifactTypeRepository->injectStorageBackend($storageBackend);
 		$artifactTypeRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
@@ -345,7 +345,7 @@ class Factory {
 		$storageBackend->setPassword($password);
 
 		$artifactRepository = new \Searchperience\Api\Client\Domain\Insight\ArtifactRepository();
-		$artifactRepository->setEntityCollection('\Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
+		$artifactRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
 		$artifactRepository->injectStorageBackend($storageBackend);
 		$artifactRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
@@ -377,7 +377,7 @@ class Factory {
 		$adminSearchStorage->setPassword($password);
 
 		$adminSearchRepository = new \Searchperience\Api\Client\Domain\AdminSearch\AdminSearchRepository();
-		$adminSearchRepository->setEntityCollection('\Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection');
+		$adminSearchRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\AdminSearch\AdminSearchCollection');
 		$adminSearchRepository->injectStorageBackend($adminSearchStorage);
 		$adminSearchRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
@@ -407,7 +407,7 @@ class Factory {
         $commandLogStorage->setPassword($password);
 
         $commandLogRepository = new \Searchperience\Api\Client\Domain\CommandLog\CommandLogRepository();
-		$commandLogRepository->setEntityCollection('\Searchperience\Api\Client\Domain\CommandLog\CommandLogCollection');
+		$commandLogRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\CommandLog\CommandLogCollection');
         $commandLogRepository->injectStorageBackend($commandLogStorage);
         $commandLogRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\CommandLog\Filters\FilterCollectionFactory());
         $commandLogRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
@@ -436,7 +436,7 @@ class Factory {
 		$activityLogsStorage->setPassword($password);
 
 		$activityLogsRepository = new \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsRepository();
-		$activityLogsRepository->setEntityCollection('\Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsCollection');
+		$activityLogsRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsCollection');
 		$activityLogsRepository->injectStorageBackend($activityLogsStorage);
 		$activityLogsRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\ActivityLogs\Filters\FilterCollectionFactory());
 		$activityLogsRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
