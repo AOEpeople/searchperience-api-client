@@ -28,7 +28,7 @@ class ArtifactRepository extends AbstractRepository {
 		$violations = $this->validator->validate($artifactType);
 
 		$artifactCollection = $this->storageBackend->getAllByType($artifactType);
-		return $this->decorateAll($artifactCollection, 'Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
+		return $this->decorateAll($artifactCollection);
 	}
 
 	/**
@@ -48,6 +48,6 @@ class ArtifactRepository extends AbstractRepository {
 	 */
 	public function getOneByTypeAndId($artifactTypeName, $artifactId) {
 		$artifactCollection = $this->storageBackend->getOneByTypeAndId($artifactTypeName, $artifactId);
-		return $this->decorateAll($artifactCollection, 'Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
+		return $this->decorateAll($artifactCollection);
 	}
 }
