@@ -61,11 +61,11 @@ class LogTimeFilter extends AbstractDateFilter {
 	 * @return string
 	 */
 	public function getFilterString() {
-		if (!empty($this->logtimeEnd)) {
-			$this->filterString = sprintf("&logtimeStart=%s", rawurlencode($this->toString($this->getLogtimeEnd())));
-		}
 		if (!empty($this->logtimeStart)) {
-			$this->filterString .= sprintf("&logtimeEnd=%s", rawurlencode($this->toString($this->getLogtimeStart())));
+			$this->filterString = sprintf("&logtimeStart=%s", rawurlencode($this->toString($this->getLogtimeStart())));
+		}
+		if (!empty($this->logtimeEnd)) {
+			$this->filterString .= sprintf("&logtimeEnd=%s", rawurlencode($this->toString($this->getLogtimeEnd())));
 		}
 		return $this->filterString;
 	}

@@ -113,8 +113,8 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 			$valueArray['id'] = $activityLogs->getId();
 		}
 
-		if (!is_null($activityLogs->getLogTime())) {
-			$valueArray['logTime'] = $activityLogs->getLogTime();
+		if ($activityLogs->getLogTime() instanceof \DateTime) {
+			$valueArray['logTime'] = $this->dateTimeService->getDateStringFromDateTime($activityLogs->getLogTime());
 		}
 
 		if (!is_null($activityLogs->getProcessId())) {
@@ -148,6 +148,7 @@ class RestActivityLogsBackend extends AbstractRestBackend implements ActivityLog
 		if (!is_null($activityLogs->getTag())) {
 			$valueArray['tag'] = $activityLogs->getTag();
 		}
+
 		return $valueArray;
 	}
 } 

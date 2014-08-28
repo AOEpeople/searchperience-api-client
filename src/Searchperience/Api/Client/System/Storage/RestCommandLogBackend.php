@@ -128,8 +128,8 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$valueArray['status'] = $commandLog->getStatus();
 		}
 
-		if (!is_null($commandLog->getStartTime())) {
-			$valueArray['startTime'] = $commandLog->getStartTime();
+		if ($commandLog->getStartTime() instanceof \DateTime) {
+			$valueArray['startTime'] = $this->dateTimeService->getDateStringFromDateTime($commandLog->getStartTime());
 		}
 
 		if (!is_null($commandLog->getDuration())) {
