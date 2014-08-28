@@ -59,7 +59,7 @@ class ArtifactRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 			->will($this->returnValue(new ArtifactCollection()));
 
 		$this->repository->injectStorageBackend($storageBackend);
-		$this->repository->setEntityCollection('\Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
+		$this->repository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
 		$this->repository->injectValidator($validator);
 
 		$this->repository->getAllByType($artifactType);
@@ -84,7 +84,7 @@ class ArtifactRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 			->will($this->returnValue(new ArtifactCollection()));
 
 		$this->repository->injectStorageBackend($storageBackend);
-		$this->repository->setEntityCollection('\Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
+		$this->repository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Insight\ArtifactCollection');
 		$this->repository->injectValidator($validator);
 
 		$this->repository->getOneByTypeAndId($artifactTypeName, $artifactId);
