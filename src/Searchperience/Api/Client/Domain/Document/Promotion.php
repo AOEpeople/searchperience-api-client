@@ -126,12 +126,6 @@ class Promotion extends AbstractDocument {
 	 */
 	public function setPromotionType($promotionType) {
 		$this->promotionType = $promotionType;
-
-		if($this->promotionType === Promotion::TYPE_PROMOTION) {
-			$this->setIsProminent(TRUE);
-		} elseif($this->promotionType === Promotion::TYPE_ORGANIC) {
-			$this->setIsProminent(FALSE);
-		}
 	}
 
 	/**

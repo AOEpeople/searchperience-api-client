@@ -71,7 +71,6 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$content = $this->cleanSpaces( $this->promotion->getContent() );
 		$this->assertEquals($content,$expectedContent,'Could not build xml from promotion as expected');
-		$this->assertFalse($this->promotion->getIsProminent(), 'isPromiment is not set as expected');
 	}
 
 
