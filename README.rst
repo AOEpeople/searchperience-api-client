@@ -8,48 +8,6 @@ Searchperience Api Client
 :Homepage: http://www.searchperience.com
 :Build status: |buildStatusIcon|
 
-Installing via Composer
-========================
-
-The recommended way to install Searchperience API client is through [Composer](http://getcomposer.org).
-
-1. Add ``aoemedia/searchperience-api-client`` as a dependency in your project's ``composer.json`` file:
-
-::
-
-	{
-		"require": {
-			"aoepeople/searchperience-api-client": "*"
-		},
-		"require-dev": {
-			"guzzle/plugin-log": "*"
-		}
-	}
-
-Consider tightening your dependencies to a known version when deploying mission critical applications (e.g. ``1.0.*``).
-
-2. Download and install Composer:
-
-::
-
-	curl -s http://getcomposer.org/installer | php
-
-3. Install your dependencies:
-
-::
-
-	php composer.phar install
-
-4. Require Composer's autoloader
-
-Composer also prepares an autoload file that's capable of autoloading all of the classes in any of the libraries that it downloads. To use it, just add the following line to your code's bootstrap process:
-
-::
-
-	require 'vendor/autoload.php';
-
-You can find out more on how to install Composer, configure autoloading, and other best-practices for defining dependencies at http://getcomposer.org.
-
 Searchperience API Client basics
 ========================
 
@@ -711,3 +669,44 @@ There is a HTTP_DEBUG mode which can be easy enabled.
    :alt: Build Status
    :target: http://travis-ci.org/AOEpeople/searchperience-api-client
 
+Installing via Composer
+========================
+
+The recommended way to install Searchperience API client is through [Composer](http://getcomposer.org).
+
+1. Add ``aoemedia/searchperience-api-client`` as a dependency in your project's ``composer.json`` file:
+
+::
+
+	{
+		"require": {
+			"aoepeople/searchperience-api-client": "*"
+		},
+		"require-dev": {
+			"guzzle/plugin-log": "*"
+		}
+	}
+
+Consider tightening your dependencies to a known version when deploying mission critical applications (e.g. ``1.0.*``).
+
+2. Download and install Composer:
+
+::
+
+	curl -s http://getcomposer.org/installer | php
+
+3. Install your dependencies:
+
+::
+
+	php composer.phar install
+
+4. Require Composer's autoloader
+
+Composer also prepares an autoload file that's capable of autoloading all of the classes in any of the libraries that it downloads. To use it, just add the following line to your code's bootstrap process:
+
+::
+
+	require 'vendor/autoload.php';
+
+You can find out more on how to install Composer, configure autoloading, and other best-practices for defining dependencies at http://getcomposer.org.
