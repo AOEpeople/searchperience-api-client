@@ -58,6 +58,7 @@ Add or update documents
 	$document->setContent('some content');
 	$document->setForeignId(12);
 	$document->setUrl('http://www.some.test/product/detail');
+	$document->setMimeType('text/xml');
 
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$documentRepository->add($document);
