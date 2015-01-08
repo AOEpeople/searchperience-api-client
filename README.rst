@@ -59,6 +59,7 @@ Add or update documents
 	$document->setForeignId(12);
 	$document->setUrl('http://www.some.test/product/detail');
 	$document->setMimeType('text/xml');
+	$document->setSource('magento');
 
 	$documentRepository = \Searchperience\Common\Factory::getDocumentRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 	$documentRepository->add($document);
