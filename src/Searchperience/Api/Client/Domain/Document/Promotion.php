@@ -57,6 +57,16 @@ class Promotion extends AbstractDocument {
 	protected $language;
 
 	/**
+	 * @var string
+	 */
+	protected $limitedTimeFrom;
+
+	/**
+	 * @var string
+	 */
+	protected $limitedTimeTo;
+
+	/**
 	 * @var array
 	 */
 	protected $keywords = array();
@@ -189,6 +199,34 @@ class Promotion extends AbstractDocument {
 	 */
 	public function setLanguage($language) {
 		$this->language = $language;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLimitedTimeFrom() {
+		return $this->limitedTimeFrom;
+	}
+
+	/**
+	 * @param string $dateTime
+	 */
+	public function setLimitedTimeFrom($dateTime) {
+		$this->limitedTimeFrom = $dateTime;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLimitedTimeTo() {
+		return $this->limitedTimeTo;
+	}
+
+	/**
+	 * @param string $dateTime
+	 */
+	public function setLimitedTimeTo($dateTime) {
+		$this->limitedTimeTo = $dateTime;
 	}
 
 	/**

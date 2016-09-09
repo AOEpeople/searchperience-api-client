@@ -52,6 +52,12 @@ class PromotionMapper extends AbstractMapper {
 			$solrFieldValues->appendChild($solrFieldValue);
 		}
 
+		$limitedTimeFrom = $dom->createElement('limitedTimeFrom', $promotion->getLimitedTimeFrom());
+		$promotionNode->appendChild($limitedTimeFrom);
+
+		$limitedTimeTo = $dom->createElement('limitedTimeTo', $promotion->getLimitedTimeTo());
+		$promotionNode->appendChild($limitedTimeTo);
+
 		$promotionNode->appendChild($solrFieldValues);
 		$content = $dom->createElement('content');
 		$cdata = $dom->createCDATASection($promotion->getPromotionContent());
@@ -60,7 +66,6 @@ class PromotionMapper extends AbstractMapper {
 		$dom->appendChild($promotionNode);
 
 		return $dom->saveXML();
-
 	}
 
 	/**
@@ -81,6 +86,8 @@ class PromotionMapper extends AbstractMapper {
 		$promotion->__setProperty('promotionType', $this->getFirstNodeContent($xpath,'//type'));
 		$promotion->__setProperty('imageUrl', $this->getFirstNodeContent($xpath,'//image'));
 		$promotion->__setProperty('language', $this->getFirstNodeContent($xpath,'//language'));
+		$promotion->__setProperty('limitedTimeFrom', $this->getFirstNodeContent($xpath,'//limitedTimeFrom'));
+		$promotion->__setProperty('limitedTimeTo', $this->getFirstNodeContent($xpath,'//limitedTimeTo'));
 
 		$searchTerms = $xpath->query("//searchterm");
 		$keywords = array();

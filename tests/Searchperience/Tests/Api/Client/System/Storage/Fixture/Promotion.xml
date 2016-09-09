@@ -15,14 +15,16 @@
                     <searchterm>one</searchterm>
                     <searchterm>two</searchterm>
                </searchterms>
+               <limitedTimeFrom/>
+               <limitedTimeTo/>
                 <solrfieldvalues>
                     <solrfieldvalue fieldname="test">Fooobar</solrfieldvalue>
                 </solrfieldvalues>
                 <content><![CDATA[
-				    <html>
-					    <head></head>
-					    <body>test <![CDATA[test]]]]]]><![CDATA[><![CDATA[></body>
-				    </html>
+                    <html>
+                        <head></head>
+                        <body>test <![CDATA[test]]]]]]><![CDATA[><![CDATA[></body>
+                    </html>
                 ]]]]><![CDATA[></content>
             </promotion>
          ]]></content>

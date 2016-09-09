@@ -48,6 +48,8 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 				<searchterm>one</searchterm>
 				<searchterm>two</searchterm>
 			</searchterms>
+			<limitedTimeFrom>2006-09-09T16:00:00.0Z</limitedTimeFrom>
+			<limitedTimeTo>2040-01-01T08:00:00.0Z</limitedTimeTo>
 			<solrfieldvalues>
 				<solrfieldvalue fieldname="test">Fooobar</solrfieldvalue>
 			</solrfieldvalues>
@@ -68,6 +70,8 @@ class PromotionTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->promotion->addFieldValue('test','Fooobar');
 		$this->promotion->setLanguage('de');
 		$this->promotion->setPromotionContent('<html><head></head><body><![CDATA[test]]></body></html>');
+		$this->promotion->setLimitedTimeFrom('2006-09-09T16:00:00.0Z');
+		$this->promotion->setLimitedTimeTo('2040-01-01T08:00:00.0Z');
 
 		$content = $this->cleanSpaces( $this->promotion->getContent() );
 		$this->assertEquals($content,$expectedContent,'Could not build xml from promotion as expected');
