@@ -55,11 +55,12 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertSame($matchingRule->getOperandValue(), "10");
 
         // context boosting
-        $contextsBoosting = json_decode($enrichment->getContextsBoosting());
-        $this->assertSame($contextsBoosting->contexts->boostFieldName, "categories");
-        $this->assertSame($contextsBoosting->contexts->boostFieldValue, "naiset_asusteet");
-        $this->assertSame($contextsBoosting->contexts->boostOptionName, "is_loyalty");
-        $this->assertSame((int)$contextsBoosting->contexts->boostingValue, (int)"5.0");
+        $contextsBoostingArray = $this->getArrayFromSimpleXMLElement($enrichment->getContextsBoosting());
+
+        $this->assertSame($contextsBoostingArray['context']['boostFieldName'], "categories");
+        $this->assertSame($contextsBoostingArray['context']['boostFieldValue'], "naiset_asusteet");
+        $this->assertSame($contextsBoostingArray['context']['boostOptionName'], "is_loyalty");
+        $this->assertSame((int)$contextsBoostingArray['context']['boostingValue'], (int)"5.0");
 	}
 
 	/**
@@ -107,16 +108,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 					'content' => 'dsad adas das das das dsarewr lkilklök lklöklö ',
 					'fieldName' => 'testfield'
 				)
-			),
-            'contextsBoosting' => array(
-                'contexts' => array(
-                    'boostFieldName' => 'categories',
-                    'boostFieldValue' => 'naiset_asusteet',
-                    'boostOptionName' => 'is_loyalty',
-                    'boostOptionValue' => 1,
-                    'boostingValue' => 5.0
-                )
-            )
+			)
 		);
 
 		$restClient = $this->getMock('\Guzzle\Http\Client',array('post','setAuth','send'),array('http://api.searcperience.com/'));
@@ -141,18 +133,6 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$fieldEnrichment->setContent('dsad adas das das das dsarewr lkilklök lklöklö ');
 		$fieldEnrichment->setFieldName('testfield');
 		$enrichment->addFieldEnrichment($fieldEnrichment);
-
-        $contextsBoosting = array(
-                                'contexts' => array(
-                                    'boostFieldName' => 'categories',
-                                    'boostFieldValue' => 'naiset_asusteet',
-                                    'boostOptionName' => 'is_loyalty',
-                                    'boostOptionValue' => 1,
-                                    'boostingValue' => 5.0
-                                )
-        );
-
-        $enrichment->setContextsBoosting($contextsBoosting);
 
 		$this->enrichmentBackend->injectRestClient($restClient);
 		$this->enrichmentBackend->post($enrichment);
@@ -191,4 +171,13 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$enrichment = $this->enrichmentBackend->getById(1234);
 		$this->assertNull($enrichment,'Get by documentId did not return null for unexisting entity');
 	}
+
+    /**
+     * @param $xml
+     * @return mixed
+     */
+    protected function getArrayFromSimpleXMLElement($xml) {
+        $json = json_encode($xml);
+        return json_decode($json, TRUE);
+    }
 }

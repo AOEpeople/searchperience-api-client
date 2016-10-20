@@ -25,13 +25,13 @@
 			</fieldenrichment>
 		</fieldenrichments>
 		<contextsBoosting>
-			<contexts>
+			<context>
 				<boostFieldName>categories</boostFieldName>
 				<boostFieldValue>naiset_asusteet</boostFieldValue>
 				<boostOptionName>is_loyalty</boostOptionName>
 				<boostOptionValue>1</boostOptionValue>
 				<boostingValue>5.0</boostingValue>
-			</contexts>
+			</context>
 		</contextsBoosting>
 	</enrichment>
 </enrichments>
