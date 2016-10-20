@@ -132,18 +132,21 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 				}
 			}
 
+            if(isset($enrichment->contextsBoosting->context)) {
+                $contextsBoosting = $enrichment->contextsBoosting;
+                $enrichmentObject->__setProperty('contextsBoosting', $contextsBoosting);
+            }
+
 			$enrichmentObject->afterReconstitution();
 			$enrichmentCollection->append($enrichmentObject);
 		}
 		return $enrichmentCollection ;
 	}
 
-	/**
-	 * Create an array containing only the available urlqueue property values.
-	 *
-	 * @param \Searchperience\Api\Client\Domain\Enrichment\Enrichment $enrichment
-	 * @return array
-	 */
+    /**
+     * @param \Searchperience\Api\Client\Domain\AbstractEntity $enrichment
+     * @return array
+     */
 	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity  $enrichment) {
 		$valueArray = array();
 
@@ -197,6 +200,15 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 
 			$valueArray['matchingRules'][$key] = $data;
 		}
+
+        if (!is_null($enrichment->getContextsBoosting())) {
+            // return SimpleXMLElement object
+            $json = json_encode($enrichment->getContextsBoosting());
+            // converting to normal array
+            $contexts = json_decode($json, TRUE);
+            $contextsBoosting = ['contextsBoosting' => $contexts];
+            $valueArray['contextsBoosting'] = $contextsBoosting;
+        }
 
 		return $valueArray;
 	}

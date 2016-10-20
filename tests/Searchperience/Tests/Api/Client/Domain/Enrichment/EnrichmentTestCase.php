@@ -49,6 +49,17 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->enrichment->addMatchingRule($matchingRuleA)->addMatchingRule($matchingRuleB);
 		$this->enrichment->addFieldEnrichment($fieldEnrichment);
 
+        $contextsBoosting = array(
+            'contexts' => array(
+                'boostFieldName' => 'categories',
+                'boostFieldValue' => 'naiset_asusteet',
+                'boostOptionName' => 'is_loyalty',
+                'boostOptionValue' => 1,
+                'boostingValue' => 5.0
+            )
+        );
+        $this->enrichment->setContextsBoosting($contextsBoosting);
+
 		$this->assertEquals(2, $this->enrichment->getMatchingRules()->getCount());
 	}
 
@@ -139,5 +150,27 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals("low", $this->enrichment->getLowBoostedKeywords());
 		$this->assertEquals("normal", $this->enrichment->getNormalBoostedKeywords());
 		$this->assertEquals("high", $this->enrichment->getHighBoostedKeywords());
+	}
+
+	/**
+	 * @test
+	 */
+	public function verifyContextsBoostingCanBeRetrievedFromEnrichment() {
+        $contextsBoosting = array(
+            'contexts' => array(
+                'boostFieldName' => 'categories',
+                'boostFieldValue' => 'naiset_asusteet',
+                'boostOptionName' => 'is_loyalty',
+                'boostOptionValue' => 1,
+                'boostingValue' => 5.0
+            )
+        );
+	    $this->enrichment->setContextsBoosting($contextsBoosting);
+
+		$this->assertEquals("categories", $this->enrichment->getContextsBoosting()['contexts']['boostFieldName']);
+		$this->assertEquals("naiset_asusteet", $this->enrichment->getContextsBoosting()['contexts']['boostFieldValue']);
+		$this->assertEquals("is_loyalty", $this->enrichment->getContextsBoosting()['contexts']['boostOptionName']);
+		$this->assertEquals(true, (int)$this->enrichment->getContextsBoosting()['contexts']['boostOptionValue']);
+		$this->assertEquals(5.0, (double)$this->enrichment->getContextsBoosting()['contexts']['boostingValue']);
 	}
 }

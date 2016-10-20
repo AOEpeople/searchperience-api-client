@@ -59,6 +59,11 @@ class Enrichment extends AbstractEntity{
 	 */
 	protected $matchingRulesExpectedResult = TRUE;
 
+    /**
+     * @var null
+     */
+    protected $contextsBoosting;
+
 	/**
 	 * @var array
 	 */
@@ -364,4 +369,21 @@ class Enrichment extends AbstractEntity{
 
 		$this->addFieldEnrichment($fieldEnrichment);
 	}
+
+    /**
+     * @return null
+     */
+    public function getContextsBoosting()
+    {
+        return $this->contextsBoosting;
+    }
+
+    /**
+     * @param null $contextsBoosting
+     */
+    public function setContextsBoosting($contextsBoosting)
+    {
+        $this->contextsBoosting = $contextsBoosting;
+    }
+
 }
