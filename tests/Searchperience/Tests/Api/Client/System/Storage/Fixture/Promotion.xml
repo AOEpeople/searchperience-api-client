@@ -15,8 +15,8 @@
                     <searchterm>one</searchterm>
                     <searchterm>two</searchterm>
                </searchterms>
-               <limitedTimeFrom/>
-               <limitedTimeTo/>
+               <limitedTimeFrom><limitedTimeFrom/>
+               <limitedTimeTo><limitedTimeTo/>
                 <solrfieldvalues>
                     <solrfieldvalue fieldname="test">Fooobar</solrfieldvalue>
                 </solrfieldvalues>
