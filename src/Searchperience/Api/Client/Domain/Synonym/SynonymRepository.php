@@ -29,21 +29,21 @@ class SynonymRepository extends AbstractRepository {
 
 
 	/**
-	 * @param string $mainWord
-	 * @param string $tagName
+	 * @param array $synonyms
+     * @param string $tagName
 	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
 	 * @throws \InvalidArgumentException
 	 */
-	public function getByMainWord($mainWord, $tagName) {
-		if (!is_string($mainWord)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $mainWord. Input was: ' . serialize($mainWord));
+	public function getBySynonyms($synonyms, $tagName) {
+		if (!is_array($synonyms)) {
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only array of string values as $synonyms. Input was: ' . serialize($synonyms));
 		}
 
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->checkTypeAndDecorate($this->storageBackend->getByMainWord($tagName, $mainWord));
+		return $this->checkTypeAndDecorate($this->storageBackend->getBySynonyms($tagName, $synonyms));
 	}
 
 	/**
@@ -78,26 +78,26 @@ class SynonymRepository extends AbstractRepository {
 	 * @return mixed
 	 */
 	public function delete(Synonym $synonym) {
-		return $this->deleteByMainWord($synonym->getMainWord(), $synonym->getTagName());
+		return $this->deleteBySynonyms($synonym->getSynonyms(), $synonym->getTagName());
 	}
 
 	/**
-	 * Deletes synonym by mainWord and tagName.
+	 * Deletes synonym by synonyms and tagName.
 	 *
-	 * @param string $mainWord
-	 * @param string $tagName
+	 * @param array $synonyms
+     * @param string $tagName
 	 * @return mixed
 	 * @throws \InvalidArgumentException
 	 */
-	public function deleteByMainWord($mainWord, $tagName) {
-		if (!is_string($mainWord)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $mainWord. Input was: ' . serialize($mainWord));
+	public function deleteBySynonyms($synonyms, $tagName) {
+		if (!is_array($synonyms)) {
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only array of string values as $synonyms. Input was: ' . serialize($synonyms));
 		}
 
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->storageBackend->deleteByMainWord($tagName, $mainWord);
+		return $this->storageBackend->deleteBySynonyms($tagName, $synonyms);
 	}
 }

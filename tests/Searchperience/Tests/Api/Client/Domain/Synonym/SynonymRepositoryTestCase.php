@@ -42,7 +42,7 @@ class SynonymRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->synonymRepository->expects($this->never())->method('decorate');
 		$this->synonymRepository->injectStorageBackend($storageBackend);
 
-		$result = $this->synonymRepository->getByMainWord('test', 'test');
+		$result = $this->synonymRepository->getBySynonyms('test', 'test');
 		$this->assertEquals(null, $result, 'Expected that result will be null when storage backend is returning null');
 	}
 }

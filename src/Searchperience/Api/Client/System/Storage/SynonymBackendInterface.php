@@ -37,8 +37,8 @@ interface SynonymBackendInterface extends BackendInterface {
 
 	/**
 	 * @param string $tagName
-	 * @param string $mainWord
- 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @param string $synonyms
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
@@ -46,7 +46,7 @@ interface SynonymBackendInterface extends BackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
 	 */
-	public function getByMainWord($tagName, $mainWord);
+	public function getBySynonyms($tagName, $synonyms);
 
 	/**
 	 * @param string $tagName
@@ -87,8 +87,8 @@ interface SynonymBackendInterface extends BackendInterface {
 
 	/**
 	 * @param string $tagName
-	 * @param string $mainWord
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+	 * @param string $synonyms
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
@@ -96,5 +96,5 @@ interface SynonymBackendInterface extends BackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function deleteByMainWord($tagName, $mainWord);
+	public function deleteBySynonyms($tagName, $synonyms);
 }

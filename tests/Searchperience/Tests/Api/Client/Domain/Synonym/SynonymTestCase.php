@@ -27,30 +27,30 @@ class SynonymTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canSetMainWord() {
-		$this->synonym->setMainWord("foo");
-		$this->assertSame("foo",$this->synonym->getMainWord());
+		$this->synonym->setSynonyms("foo");
+		$this->assertSame("foo",$this->synonym->getSynonyms());
 	}
 
 	/**
 	 * @test
 	 */
 	public function canAddWordsWithSameMeaning() {
-		$this->assertSame(0, count($this->synonym->getWordsWithSameMeaning()),'Wrong initial state of words with same meaning of the synonym');
-		$this->synonym->addWordWithSameMeaning("foo");
-		$this->synonym->addWordWithSameMeaning("bar");
-		$this->assertSame(2, count($this->synonym->getWordsWithSameMeaning()),'Could not add words with same meaning to the synonyms');
+		$this->assertSame(0, count($this->synonym->getMappedWords()),'Wrong initial state of words with same meaning of the synonym');
+		$this->synonym->addMappedWord("foo");
+		$this->synonym->addMappedWord("bar");
+		$this->assertSame(2, count($this->synonym->getMappedWords()),'Could not add words with same meaning to the synonyms');
 	}
 
 	/**
 	 * @test
 	 */
 	public function canRemoveWordWithSameMeaning() {
-		$this->assertSame(0, count($this->synonym->getWordsWithSameMeaning()),'Wrong initial state of words with same meaning of the synonym');
-		$this->synonym->addWordWithSameMeaning("foo");
-		$this->synonym->addWordWithSameMeaning("bar");
-		$this->assertSame(2, count($this->synonym->getWordsWithSameMeaning()),'Could not add words with same meaning to the synonyms');
-		$this->synonym->removeWordWithSameMeaning("foo");
-		$this->assertSame(1, count($this->synonym->getWordsWithSameMeaning()),'Could not remove words with same meaning to the synonyms');
+		$this->assertSame(0, count($this->synonym->getMappedWords()),'Wrong initial state of words with same meaning of the synonym');
+		$this->synonym->addMappedWord("foo");
+		$this->synonym->addMappedWord("bar");
+		$this->assertSame(2, count($this->synonym->getMappedWords()),'Could not add words with same meaning to the synonyms');
+		$this->synonym->removeMappedWord("foo");
+		$this->assertSame(1, count($this->synonym->getMappedWords()),'Could not remove words with same meaning to the synonyms');
 	}
 
 	/**
