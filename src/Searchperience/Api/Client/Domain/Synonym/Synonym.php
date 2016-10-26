@@ -19,10 +19,10 @@ class Synonym extends AbstractEntity {
 
 
     /**
-     * @var array
+     * @var string
      * @Assert\NotBlank
      */
-    protected $synonyms = array();
+    protected $synonyms;
 
     /**
      * @var string
@@ -32,9 +32,9 @@ class Synonym extends AbstractEntity {
     protected $tagName = '';
 
     /**
-     * @var array
+     * @var string
      */
-    protected $mappedWords = array();
+    protected $mappedWords = '';
 
     /**
      * @var string
@@ -75,23 +75,14 @@ class Synonym extends AbstractEntity {
     }
 
     /**
-     * @param string $synonym
+     * @param string $synonyms
      */
-    public function addSynonym($synonym) {
-        $this->synonyms[$synonym] = $synonym;
+    public function setSynonyms($synonyms) {
+        $this->synonyms = $synonyms;
     }
 
     /**
-     * @param string $synonym
-     */
-    public function removeSynonym($synonym) {
-        if (isset($this->synonyms[$synonym])) {
-            unset($this->synonyms[$synonym]);
-        }
-    }
-
-    /**
-     * @return array
+     * @return string
      */
     public function getSynonyms() {
         return $this->synonyms;
@@ -112,19 +103,10 @@ class Synonym extends AbstractEntity {
     }
 
     /**
-     * @param string $mappedWord
+     * @param string $mappedWords
      */
-    public function addMappedWord($mappedWord) {
-        $this->mappedWords[$mappedWord] = $mappedWord;
-    }
-
-    /**
-     * @param string $mappedWord
-     */
-    public function removeMappedWord($mappedWord) {
-        if (isset($this->mappedWords[$mappedWord])) {
-            unset($this->mappedWords[$mappedWord]);
-        }
+    public function setMappedWords($mappedWords) {
+        $this->mappedWords = $mappedWords;
     }
 
     /**

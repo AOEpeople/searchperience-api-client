@@ -60,7 +60,7 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
     /**
      * @param string $tagName
-     * @param array $synonyms
+     * @param string $synonyms
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
      * @throws \Searchperience\Common\Http\Exception\ForbiddenException
      * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
@@ -71,8 +71,7 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      */
     public function getBySynonyms($tagName, $synonyms) {
         try {
-            $s = is_array($synonyms) ? implode(',', $synonyms) : $synonyms;
-            $response   = $this->getGetResponseFromEndpoint('/'.$tagName.'/' . implode(',', $s));
+            $response   = $this->getGetResponseFromEndpoint('/'.$tagName.'/' . $synonyms);
             $xmlElement = $response->xml();
         } catch (EntityNotFoundException $e) {
             return null;
@@ -94,7 +93,6 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      */
     public function post($tagName, Synonym $synonym) {
         return $this->getPostResponseFromEndpoint($synonym,'/'.$tagName);
-
     }
 
     /**
@@ -128,7 +126,7 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
     /**
      * @param string $tagName
-     * @param array $synonyms
+     * @param string $synonyms
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
      * @throws \Searchperience\Common\Http\Exception\ForbiddenException
      * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
@@ -138,8 +136,7 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      * @return mixed
      */
     public function deleteBySynonyms($tagName, $synonyms) {
-        $s = is_array($synonyms) ? implode(',', $synonyms) : $synonyms;
-        $response = $this->getDeleteResponseFromEndpoint('/'.$tagName.'/' . $s);
+        $response = $this->getDeleteResponseFromEndpoint('/'.$tagName.'/' . $synonyms);
         return $response->getStatusCode();
     }
 
@@ -167,25 +164,10 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
             $synonymObject = new Synonym();
 
-            $synonymsArray = array();
-            if(isset( $synonym->synonyms )) {
-                foreach($synonym->synonyms as $synonymEntry) {
-                    $synonymsArray[(string) $synonymEntry] = (string) $synonymEntry;
-                }
-            }
-
-            $synonymObject->__setProperty('synonyms', $synonymsArray);
-
+            $synonymObject->__setProperty('synonyms',(string) $synonymAttributeArray['@attributes']['synonyms']);
             $synonymObject->__setProperty('tagName',(string) $synonymAttributeArray['@attributes']['tag']);
+            $synonymObject->__setProperty('mappedWords',(string) $synonymAttributeArray['@attributes']['mappedWords']);
 
-            $mappedWords = array();
-            if(isset( $synonym->mappedWords )) {
-                foreach($synonym->mappedWords as $synonymEntry) {
-                    $mappedWords[(string) $synonymEntry] = (string) $synonymEntry;
-                }
-            }
-
-            $synonymObject->__setProperty('mappedWords',$mappedWords);
             $synonymCollection->append($synonymObject);
         }
         return $synonymCollection;
@@ -214,9 +196,9 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
             $valueArray['type'] = $synonym->getType();
         }
 
-
-        $mappedWords = $synonym->getMappedWords();
-        $valueArray['mappedWords'] = is_array($mappedWords) ? array_values($mappedWords) : array();
+        if (!is_null($synonym->getMappedWords())) {
+            $valueArray['mappedWords'] = $synonym->getMappedWords();
+        }
 
         return $valueArray;
     }

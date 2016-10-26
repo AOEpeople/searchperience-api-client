@@ -29,14 +29,14 @@ class SynonymRepository extends AbstractRepository {
 
 
 	/**
-	 * @param array $synonyms
+	 * @param string $synonyms
      * @param string $tagName
 	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
 	 * @throws \InvalidArgumentException
 	 */
 	public function getBySynonyms($synonyms, $tagName) {
-		if (!is_array($synonyms)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only array of string values as $synonyms. Input was: ' . serialize($synonyms));
+		if (!is_string($synonyms)) {
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string value as $synonyms. Input was: ' . serialize($synonyms));
 		}
 
 		if (!is_string($tagName)) {
@@ -84,14 +84,14 @@ class SynonymRepository extends AbstractRepository {
 	/**
 	 * Deletes synonym by synonyms and tagName.
 	 *
-	 * @param array $synonyms
+	 * @param string $synonyms
      * @param string $tagName
 	 * @return mixed
 	 * @throws \InvalidArgumentException
 	 */
 	public function deleteBySynonyms($synonyms, $tagName) {
-		if (!is_array($synonyms)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only array of string values as $synonyms. Input was: ' . serialize($synonyms));
+		if (!is_string($synonyms)) {
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string value as $synonyms. Input was: ' . serialize($synonyms));
 		}
 
 		if (!is_string($tagName)) {
