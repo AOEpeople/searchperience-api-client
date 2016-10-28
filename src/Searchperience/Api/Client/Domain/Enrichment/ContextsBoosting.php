@@ -8,32 +8,33 @@ use Searchperience\Api\Client\Domain\AbstractEntity;
 /**
  * @author Nikolay Diaur <nikolay.diaur@aoe.com>
  */
-class ContextsBoosting extends AbstractEntity {
-
-	/**
-	 * @var string
-	 */
-	protected $boostFieldName;
+class ContextsBoosting extends AbstractEntity
+{
 
     /**
-	 * @var string
-	 */
-	protected $boostFieldValue;
+     * @var string
+     */
+    protected $boostFieldName;
 
     /**
-	 * @var string
-	 */
-	protected $boostOptionName;
+     * @var string
+     */
+    protected $boostFieldValue;
 
-	/**
-	 * @var bool
-	 */
-	protected $boostOptionValue;
+    /**
+     * @var string
+     */
+    protected $boostOptionName;
 
-	/**
-	 * @var double
-	 */
-	protected $boostingValue;
+    /**
+     * @var bool
+     */
+    protected $boostOptionValue;
+
+    /**
+     * @var double
+     */
+    protected $boostingValue;
 
     /**
      * @return string
