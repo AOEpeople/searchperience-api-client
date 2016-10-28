@@ -2,6 +2,8 @@
 
 namespace Searchperience\Api\Client\System\Storage;
 
+use Searchperience\Api\Client\Domain\AbstractEntity;
+
 /**
  * Class AbstractRestBackend
  * @package Searchperience\Api\Client\System\Storage
@@ -364,6 +366,7 @@ abstract class AbstractRestBackend {
 
 	/**
 	 * @param string $queryString
+	 * @param AbstractEntity $entity
 	 * @return \Guzzle\http\Message\Response
 	 * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
@@ -375,11 +378,12 @@ abstract class AbstractRestBackend {
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 */
-	protected function getDeleteResponseFromEndpoint($queryString = '') {
+	protected function getDeleteResponseFromEndpoint($queryString = '', $entity = NULL) {
 		try {
+			$postArray = $entity !== NULL ? $this->buildRequestArray($entity) : array();
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->delete('/{customerKey}/'.$this->endpoint.$queryString)
+				->delete('/{customerKey}/'.$this->endpoint.$queryString, NULL, $postArray)
 				->setAuth($this->username, $this->password)
 				->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {

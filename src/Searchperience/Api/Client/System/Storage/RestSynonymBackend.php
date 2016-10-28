@@ -121,7 +121,8 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      * @return mixed
      */
     public function delete($tagName, Synonym $synonym) {
-        return $this->deleteBySynonyms($tagName, $synonym->getSynonyms());
+        $response = $this->getDeleteResponseFromEndpoint('/'.$tagName, $synonym);
+        return $response->getStatusCode();
     }
 
     /**
@@ -179,7 +180,7 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      * @param \Searchperience\Api\Client\Domain\AbstractEntity $synonym
      * @return array
      */
-    protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity  $synonym) {
+    protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $synonym) {
         $valueArray = array();
 
         /** @var \Searchperience\Api\Client\Domain\Synonym\Synonym $synonym */

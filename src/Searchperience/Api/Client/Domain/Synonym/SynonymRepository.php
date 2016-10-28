@@ -76,9 +76,16 @@ class SynonymRepository extends AbstractRepository {
 	 * Delete a synonym from the api.
 	 * @param Synonym $synonym
 	 * @return mixed
+	 * @throws \InvalidArgumentException
 	 */
 	public function delete(Synonym $synonym) {
-		return $this->deleteBySynonyms($synonym->getSynonyms(), $synonym->getTagName());
+		$violations = $this->validator->validate($synonym);
+
+		if ($violations->count() > 0) {
+				throw new \InvalidArgumentException('Given object of type "' . get_class($synonym) . '" is not valid: ' . PHP_EOL . $violations);
+		}
+
+		return $this->storageBackend->delete($synonym->getTagName(), $synonym);
 	}
 
 	/**
