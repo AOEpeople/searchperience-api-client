@@ -3,6 +3,7 @@
 namespace Searchperience\Api\Client\System\Storage;
 
 use Guzzle\Http\Client;
+use Searchperience\Api\Client\Domain\Enrichment\ContextsBoosting;
 use Searchperience\Api\Client\Domain\Enrichment\EnrichmentCollection;
 use Searchperience\Api\Client\Domain\Enrichment\FieldEnrichment;
 use Searchperience\Api\Client\Domain\Enrichment\MatchingRule;
@@ -133,8 +134,21 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			}
 
             if(isset($enrichment->contextsBoosting->context)) {
-                $contextsBoosting = $enrichment->contextsBoosting;
-                $enrichmentObject->__setProperty('contextsBoosting', $contextsBoosting);
+                foreach ($enrichment->contextsBoosting->context as $context) {
+                    $contextsBoostingObject = new ContextsBoosting();
+                    $contextsBoostingObject->__setProperty('boostFieldName', (string)$context->boostFieldName);
+                    $contextsBoostingObject->__setProperty('boostFieldValue', (string)$context->boostFieldValue);
+                    $contextsBoostingObject->__setProperty('boostOptionName', (string)$context->boostOptionName);
+                    $contextsBoostingObject->__setProperty('boostOptionValue', (bool)$context->boostOptionValue);
+                    $contextsBoostingObject->__setProperty('boostingValue', (double)$context->boostingValue);
+
+                    $contextsBoosting = $enrichmentObject->getContextsBoosting();
+                    $contextsBoosting->append($contextsBoostingObject);
+
+                    $contextsBoostingObject->afterReconstitution();
+
+                    $enrichmentObject->__setProperty('contextsBoosting', $contextsBoosting);
+                }
             }
 
 			$enrichmentObject->afterReconstitution();
@@ -201,13 +215,16 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$valueArray['matchingRules'][$key] = $data;
 		}
 
-        if (!is_null($enrichment->getContextsBoosting())) {
-            // return SimpleXMLElement object
-            $json = json_encode($enrichment->getContextsBoosting());
-            // converting to normal array
-            $contexts = json_decode($json, TRUE);
-            $contextsBoosting = ['contextsBoosting' => $contexts];
-            $valueArray['contextsBoosting'] = $contextsBoosting;
+		foreach ($enrichment->getContextsBoosting() as $key => $contextsBoosting) {
+            /** @var ContextsBoosting $contextsBoosting */
+            $data = [];
+            $data['boostFieldName'] = $contextsBoosting->getBoostFieldName();
+            $data['boostFieldValue'] = $contextsBoosting->getBoostFieldValue();
+            $data['boostOptionName'] = $contextsBoosting->getBoostOptionName();
+            $data['boostOptionValue'] = $contextsBoosting->getBoostOptionValue();
+            $data['boostingValue'] = $contextsBoosting->getBoostingValue();
+
+            $valueArray['contextsBoosting'][$key] = $data;
         }
 
 		return $valueArray;
