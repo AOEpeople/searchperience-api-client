@@ -27,7 +27,7 @@ class ContextsBoosting extends AbstractEntity
     protected $boostOptionName;
 
     /**
-     * @var bool
+     * @var int
      */
     protected $boostOptionValue;
 
@@ -93,7 +93,7 @@ class ContextsBoosting extends AbstractEntity
     }
 
     /**
-     * @param bool $boostOptionValue
+     * @param int $boostOptionValue
      */
     public function setBoostOptionValue($boostOptionValue)
     {
