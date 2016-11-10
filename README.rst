@@ -221,11 +221,19 @@ as a word to the field "highboost_words_sm" that is configured as highly relevan
 Synonyms
 --------------
 
-Sometimes it is useful to replace search terms with synonyms on index or search time.
+Sometimes it is useful to replace search terms with its synonyms on index or search time.
 In searchperience we provide an api to maintain these synonyms.
 
 Depending on the project there can be multiple "instances" of synonym collections, to be able
 to handle multiple use cases. Each of this "instances" or "synonym collections" are represented by a tag.
+
+You can use two types of Synonyms:
+ 1. grouping - where all synonyms are interchangeable (e.g. by searching for one synonym, you effectively search for all)
+ 2. mapping - where synonyms are replaced by mapped words (e.g. by searching fore a synonym, you effectively search for its mapped words)
+
+Note:
+ - Synonym field 'synonyms' is a string that can be written as a comm separated list
+ - Synonym field 'mappedWords' is a string that can be written as a comm separated list
 
 To figure out which synonym instances exist you can use the SynonymTagRepository to get them:
 
@@ -253,22 +261,22 @@ Get synonyms:
     /* get all by tag name, return synonyms collection for defined tag name */
     $synonymRepository->getAllByTagName("en");
 
-    /* get by main word, return synonym collection */
-    $synonymRepository->getByMainWord("bike", "en");
+    /* get by synonyms, return synonym collection */
+    $synonymRepository->getBySynonyms("bike", "en");
 
 ::
 
 When you push new Synonyms or Update existing once, you can instantiate a synonym object, with
-mainWord, tag and words with the same meaning and push the,:
+synonyms, tag and mapped words and push them:
 
 ::
 
     $synonymRepository = \Searchperience\Common\Factory::getSynonymRepository('http://api.searchperience.com/', 'customerKey', 'username', 'password');
 
     $synonym = new \Searchperience\Api\Client\Domain\Synonym\Synonym();
-    $synonym->setMainWord("bike");
+    $synonym->setSynonyms("bike");
     $synonym->setTagName("en");
-    $synonym->addWordWithSameMeaning("bicycle");
+    $synonym->setMappedWords("bicycle");
 
     $synonymRepository->add($synonym);
 ::
@@ -285,12 +293,12 @@ How to delete synonyms:
 
     /* delete with synonym object */
     $synonym = new \Searchperience\Api\Client\Domain\Synonym\Synonym();
-    $synonym->setMainWord("bike");
+    $synonym->setSynonyms("bike");
     $synonym->setTagName("en");
     $synonymRepository->delete($synonym);
 
-    /* delete with main word */
-    $synonymRepository->deleteByMainWord("bike", "en");
+    /* delete with synonyms */
+    $synonymRepository->deleteBySynonyms("bike", "en");
 
 ::
 
