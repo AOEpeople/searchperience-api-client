@@ -33,9 +33,9 @@ class SynonymRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function decorateNotCalledWhenNullObjectReturned() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getByMainWord'));
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getBySynonyms'));
 		$storageBackend->expects($this->once())
-				->method('getByMainWord')
+				->method('getBySynonyms')
 				->will($this->returnValue(null));
 
 		$this->synonymRepository = $this->getMock('\Searchperience\Api\Client\Domain\Synonym\SynonymRepository',array('decorate'),array(),'',false);

@@ -165,9 +165,9 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
             $synonymObject = new Synonym();
 
-            $synonymObject->__setProperty('synonyms',(string) $synonymAttributeArray['@attributes']['synonyms']);
+            $synonymObject->__setProperty('synonyms',(string) $synonym->synonyms);
             $synonymObject->__setProperty('tagName',(string) $synonymAttributeArray['@attributes']['tag']);
-            $synonymObject->__setProperty('mappedWords',(string) $synonymAttributeArray['@attributes']['mappedWords']);
+            $synonymObject->__setProperty('mappedWords',(string) $synonym->mappedWords);
 
             $synonymCollection->append($synonymObject);
         }
