@@ -33,16 +33,16 @@ class SynonymRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function decorateNotCalledWhenNullObjectReturned() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getByMainWord'));
+		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getBySynonyms'));
 		$storageBackend->expects($this->once())
-				->method('getByMainWord')
+				->method('getBySynonyms')
 				->will($this->returnValue(null));
 
 		$this->synonymRepository = $this->getMock('\Searchperience\Api\Client\Domain\Synonym\SynonymRepository',array('decorate'),array(),'',false);
 		$this->synonymRepository->expects($this->never())->method('decorate');
 		$this->synonymRepository->injectStorageBackend($storageBackend);
 
-		$result = $this->synonymRepository->getByMainWord('test', 'test');
+		$result = $this->synonymRepository->getBySynonyms('test', 'test');
 		$this->assertEquals(null, $result, 'Expected that result will be null when storage backend is returning null');
 	}
 }

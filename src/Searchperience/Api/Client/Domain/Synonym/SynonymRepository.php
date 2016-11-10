@@ -29,21 +29,21 @@ class SynonymRepository extends AbstractRepository {
 
 
 	/**
-	 * @param string $mainWord
-	 * @param string $tagName
+	 * @param string $synonyms
+     * @param string $tagName
 	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
 	 * @throws \InvalidArgumentException
 	 */
-	public function getByMainWord($mainWord, $tagName) {
-		if (!is_string($mainWord)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $mainWord. Input was: ' . serialize($mainWord));
+	public function getBySynonyms($synonyms, $tagName) {
+		if (!is_string($synonyms)) {
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string value as $synonyms. Input was: ' . serialize($synonyms));
 		}
 
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->checkTypeAndDecorate($this->storageBackend->getByMainWord($tagName, $mainWord));
+		return $this->checkTypeAndDecorate($this->storageBackend->getBySynonyms($tagName, $synonyms));
 	}
 
 	/**
@@ -76,28 +76,35 @@ class SynonymRepository extends AbstractRepository {
 	 * Delete a synonym from the api.
 	 * @param Synonym $synonym
 	 * @return mixed
+	 * @throws \InvalidArgumentException
 	 */
 	public function delete(Synonym $synonym) {
-		return $this->deleteByMainWord($synonym->getMainWord(), $synonym->getTagName());
+		$violations = $this->validator->validate($synonym);
+
+		if ($violations->count() > 0) {
+				throw new \InvalidArgumentException('Given object of type "' . get_class($synonym) . '" is not valid: ' . PHP_EOL . $violations);
+		}
+
+		return $this->storageBackend->delete($synonym->getTagName(), $synonym);
 	}
 
 	/**
-	 * Deletes synonym by mainWord and tagName.
+	 * Deletes synonym by synonyms and tagName.
 	 *
-	 * @param string $mainWord
-	 * @param string $tagName
+	 * @param string $synonyms
+     * @param string $tagName
 	 * @return mixed
 	 * @throws \InvalidArgumentException
 	 */
-	public function deleteByMainWord($mainWord, $tagName) {
-		if (!is_string($mainWord)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $mainWord. Input was: ' . serialize($mainWord));
+	public function deleteBySynonyms($synonyms, $tagName) {
+		if (!is_string($synonyms)) {
+			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string value as $synonyms. Input was: ' . serialize($synonyms));
 		}
 
 		if (!is_string($tagName)) {
 			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
 		}
 
-		return $this->storageBackend->deleteByMainWord($tagName, $mainWord);
+		return $this->storageBackend->deleteBySynonyms($tagName, $synonyms);
 	}
 }

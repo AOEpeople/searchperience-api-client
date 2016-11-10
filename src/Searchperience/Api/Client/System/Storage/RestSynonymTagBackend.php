@@ -24,7 +24,7 @@ class RestSynonymTagBackend extends AbstractRestBackend implements SynonymTagBac
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymCollection
+	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymTagCollection
 	 */
 	public function getAll() {
 		try {

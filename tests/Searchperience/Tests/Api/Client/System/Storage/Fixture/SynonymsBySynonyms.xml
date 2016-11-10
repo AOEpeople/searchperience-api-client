@@ -1,11 +1,12 @@
 <synonyms>
   <totalCount>2</totalCount>
   <synonym tag="en">
-    <synonyms>mobile</synonyms>
-    <mappedWords>phone,mobilephone</mappedWords>
-  </synonym>
-  <synonym tag="en">
     <synonyms>bike</synonyms>
     <mappedWords>bicycle</mappedWords>
+  </synonym>
+
+  <synonym tag="en">
+    <synonyms>mobile</synonyms>
+    <mappedWords>phone,mobilephone</mappedWords>
   </synonym>
 </synonyms>

@@ -38,41 +38,42 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$this->assertEquals(2, $synonyms->getTotalCount(), 'Could not reconstitute synonym collection');
 		$this->assertEquals(2, $synonyms->getCount(), 'Could not get count from synonyms');
-		$firstSynonym = $synonyms->offsetGet(0);
+		/** @var Synonym $firstSynonym */
+        $firstSynonym = $synonyms->offsetGet(0);
 		$this->assertSame("en",$firstSynonym->getTagName(),'Could not reconstitude tagName from xml response');
-		$this->assertSame(2, count($firstSynonym->getWordsWithSameMeaning()),'Could not reconstitude words with same meaning');
+		$this->assertSame(2, count(explode(',', $firstSynonym->getMappedWords())),'Could not reconstitude mapped words');
 
-		$firstWordsWithSameMeaning  = array_values($firstSynonym->getWordsWithSameMeaning());
-		$this->assertSame("mobilephone", $firstWordsWithSameMeaning[1],'Could not reconstitude words with same meaning');
+		$mappedWords  = explode(',', $firstSynonym->getMappedWords());
+		$this->assertSame("mobilephone", $mappedWords[1],'Could not reconstitude mapped words');
 	}
 
 	/**
 	 * @test
 	 */
-	public function getByMainWord() {
+	public function getBySynonyms() {
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
 		$mock = new \Guzzle\Plugin\Mock\MockPlugin();
-		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/SynonymsByMainWord.xml')));
+		$mock->addResponse(new \Guzzle\Http\Message\Response(201, NULL, $this->getFixtureContent('Api/Client/System/Storage/Fixture/SynonymsBySynonyms.xml')));
 		$restClient->addSubscriber($mock);
 
 		$this->synonymBackend->injectRestClient($restClient);
-		$synonym = $this->synonymBackend->getByMainWord('en','bike');
+		$synonym = $this->synonymBackend->getBySynonyms('en','bike');
 
 		$this->assertSame("en",$synonym->getTagName(),'Could not reconstitude tagName from xml response');
-		$this->assertSame(1, count($synonym->getWordsWithSameMeaning()),'Could not reconstitude words with same meaning');
+		$this->assertSame(1, count(explode(',', $synonym->getMappedWords())),'Could not reconstitude mapped words');
 
-		$firstWordsWithSameMeaning  = array_values($synonym->getWordsWithSameMeaning());
-		$this->assertSame("bicycle", $firstWordsWithSameMeaning[0],'Could not reconstitude words with same meaning');
+		$mappedWords  = explode(',', $synonym->getMappedWords());
+		$this->assertSame("bicycle", $mappedWords[0],'Could not reconstitude mapped words');
 	}
 
 	/**
 	 * @test
 	 */
-	public function getByMainWordReturnsNothingForEmptyResponse() {
+	public function getBySynonymsReturnsNothingForEmptyResponse() {
 		$restClient = $this->getMockedRestClientWith404Response();
 		$this->synonymBackend->injectRestClient($restClient);
-		$synonym = $this->synonymBackend->getByMainWord('en','bike');
-		$this->assertNull($synonym,'Get by mainword did not return null for unexisting entity');
+		$synonym = $this->synonymBackend->getBySynonyms('en','bike');
+		$this->assertNull($synonym,'Get by synonyms did not return null for unexisting entity');
 	}
 
 	/**
@@ -90,10 +91,8 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->synonymBackend->injectRestClient($restClient);
 
 		$expectsArgumentsArray = Array(
-			'mainWord' => 'foo',
-			'wordsWithSameMeaning' => array(
-				'bla','bar'
-			),
+			'synonyms' => 'foo',
+			'mappedWords' => 'bla,bar',
 			'tagName' => 'one',
 			'type' => 'grouping'
 		);
@@ -103,9 +102,8 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		);
 
 		$synonym = new Synonym();
-		$synonym->setMainWord('foo');
-		$synonym->addWordWithSameMeaning('bla');
-		$synonym->addWordWithSameMeaning('bar');
+		$synonym->setSynonyms('foo');
+		$synonym->setMappedWords('bla,bar');
 		$synonym->setTagName('one');
 
 		$this->synonymBackend->post('one',$synonym);
@@ -114,9 +112,9 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function canDeleteSynonym() {
+	public function canDeleteBySynonyms() {
 		//$this->markTestIncomplete('Process error');
-		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('deleteByMainWord'));
+		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getDeleteResponseFromEndpoint'));
 		$this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -125,15 +123,37 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$restClient->addSubscriber($mock);
 		$this->synonymBackend->injectRestClient($restClient);
 
-		$this->synonymBackend->expects($this->once())->method('deleteByMainWord')->with('one', 'foo')->will(
+		$this->synonymBackend->expects($this->once())->method('getDeleteResponseFromEndpoint')->with('/one/foo')->will(
 				$this->returnValue($this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
 		);
 
-		$synonym = new Synonym();
-		$synonym->setMainWord('foo');
-		$synonym->setTagName('one');
-
-		$this->synonymBackend->delete('one',$synonym);
+		$this->synonymBackend->deleteBySynonyms('one', 'foo');
 	}
+
+    /**
+     * @test
+     */
+    public function canDeleteBySynonym() {
+        //$this->markTestIncomplete('Process error');
+        $this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getDeleteResponseFromEndpoint'));
+        $this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
+
+        $restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
+        $mock = new \Guzzle\Plugin\Mock\MockPlugin();
+        $mock->addResponse(new \Guzzle\Http\Message\Response(201));
+        $restClient->addSubscriber($mock);
+        $this->synonymBackend->injectRestClient($restClient);
+
+
+        $synonym = new Synonym();
+        $synonym->setSynonyms('foo');
+        $synonym->setTagName('one');
+
+        $this->synonymBackend->expects($this->once())->method('getDeleteResponseFromEndpoint')->with('/one', $synonym)->will(
+            $this->returnValue($this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
+        );
+
+        $this->synonymBackend->delete('one',$synonym);
+    }
 
 }
