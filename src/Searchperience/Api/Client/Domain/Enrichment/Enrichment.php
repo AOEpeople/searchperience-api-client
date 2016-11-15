@@ -421,4 +421,11 @@ class Enrichment extends AbstractEntity
         return $this;
     }
 
+    /**
+     * @param ContextsBoostingCollection $contextsBoostingCollection
+     */
+    public function setContextsBoosting($contextsBoostingCollection) {
+        $this->contextsBoosting = $contextsBoostingCollection;
+    }
+
 }
