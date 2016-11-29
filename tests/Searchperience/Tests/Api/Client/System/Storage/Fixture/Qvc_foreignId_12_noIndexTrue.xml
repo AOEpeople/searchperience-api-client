@@ -9,6 +9,8 @@
         <generalPriority>0</generalPriority>
         <temporaryPriority>2</temporaryPriority>
         <foreignId>13211</foreignId>
+        <createdAt>2016-11-28 23:30:42</createdAt>
+        <updatedAt>2016-11-28 23:30:42</updatedAt>
         <content><![CDATA[<xml>some value</xml>]]></content>
         <lastProcessingTime>2012-11-14 17:35:03</lastProcessingTime>
         <boostFactor>1</boostFactor>
