@@ -140,6 +140,8 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->documentBackend->injectRestClient($restClient);
 		$document = $this->documentBackend->getByUrl('http://www.dummy.tld/some/product');
 
+		$time = new \DateTime('2016-11-28 23:30:42', new \DateTimeZone('UTC'));
+
 		$expectedDocument = $this->getDocument(array(
 			'id' => 12,
 			'foreignId' => '13211',
@@ -153,11 +155,14 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			'noIndex' => 1,
 			'isProminent' => 1,
 			'isMarkedForProcessing' => 0,
-			'mimeType' => 'text/xml'
+			'mimeType' => 'text/xml',
+			'createdAt' => $time,
+			'updatedAt' => $time
 		));
 
 		$this->assertInstanceOf('\Searchperience\Api\Client\Domain\Document\Document', $document);
 		$this->assertEquals($expectedDocument, $document);
+		$this->assertEquals($document->getCreatedAt()->getTimestamp(), $time->getTimestamp());
 	}
 
 	/**
