@@ -205,6 +205,17 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 				$documentObject ->__setProperty('lastCrawlingDateTime',$lastCrawlingDateTime);
 			}
 
+			if(trim($document->updatedAt) != '') {
+				//we assume that the restapi allways return y-m-d H:i:s in the utc format
+				$updatedAt = $this->dateTimeService->getDateTimeFromApiDateString($document->updatedAt);
+				$documentObject ->__setProperty('updatedAt',$updatedAt);
+			}
+			if(trim($document->createdAt) != '') {
+				//we assume that the restapi allways return y-m-d H:i:s in the utc format
+				$createdAt = $this->dateTimeService->getDateTimeFromApiDateString($document->createdAt);
+				$documentObject ->__setProperty('createdAt',$createdAt);
+			}
+
 			$documentObject ->__setProperty('noIndex',(integer)$document->noIndex);
 			$documentArray[]=$documentObject;
 
@@ -267,6 +278,13 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		}
 		if (!is_null($document->getSolrCoreHints())) {
 			$valueArray['solrCoreHints'] = $document->getSolrCoreHints();
+		}
+
+		if ($document->getCreatedAt() instanceof \DateTime) {
+			$valueArray['createdAt'] = $this->dateTimeService->getDateStringFromDateTime($document->getCreatedAt());
+		}
+		if ($document->getUpdatedAt() instanceof \DateTime) {
+			$valueArray['updatedAt'] = $this->dateTimeService->getDateStringFromDateTime($document->getUpdatedAt());
 		}
 
 		return $valueArray;

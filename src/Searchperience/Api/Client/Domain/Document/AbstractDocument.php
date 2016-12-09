@@ -219,6 +219,16 @@ abstract class AbstractDocument extends AbstractEntity {
 	protected $contentDOM = null;
 
 	/**
+	 * @var \DateTime
+	 */
+	protected $createdAt = null;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $updatedAt = null;
+
+	/**
 	 * @return array
 	 */
 	public static function getValidNotifications() {
@@ -609,5 +619,35 @@ abstract class AbstractDocument extends AbstractEntity {
 		$this->contentDOM->loadXML($this->content);
 
 		return $this->contentDOM;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+
+	/**
+	 * @param \DateTime $createdAt
+	 * @return \DateTime
+	 */
+	public function setCreatedAt(\DateTime $createdAt) {
+		return $this->createdAt = $createdAt;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param \DateTime $updatedAt
+	 * @return \DateTime
+	 */
+	public function setUpdatedAt(\DateTime $updatedAt) {
+		return $this->updatedAt = $updatedAt;
 	}
 }

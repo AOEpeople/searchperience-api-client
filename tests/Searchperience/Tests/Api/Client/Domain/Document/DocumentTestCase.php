@@ -36,6 +36,7 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function verifyGetterAndSetter() {
+		$dateTime = new \DateTime('2016-11-28 23:30:42', new \DateTimeZone('UTC'));
 		$this->document->setId(12);
 		$this->document->setForeignId(312);
 		$this->document->setMimeType('application/json');
@@ -49,6 +50,8 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->document->setIsMarkedForProcessing(1);
 		$this->document->setIsMarkedForDeletion(1);
 		$this->document->setNoIndex(1);
+		$this->document->setCreatedAt($dateTime);
+		$this->document->setUpdatedAt($dateTime);
 
 		$this->assertEquals($this->document->getId(), 12);
 		$this->assertEquals($this->document->getForeignId(), 312);
@@ -63,6 +66,8 @@ class DocumentTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->assertEquals($this->document->getIsMarkedForProcessing(), 1);
 		$this->assertEquals($this->document->getIsMarkedForDeletion(), 1);
 		$this->assertEquals($this->document->getNoIndex(), 1);
+		$this->assertEquals($this->document->getCreatedAt()->getTimestamp(), $dateTime->getTimestamp());
+		$this->assertEquals($this->document->getUpdatedAt()->getTimestamp(), $dateTime->getTimestamp());
 	}
 
 	/**
