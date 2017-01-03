@@ -58,7 +58,6 @@ class NotificationsFilter extends AbstractFilter {
 					$filter->setProcessingThreadIdStart(1);
 					$filter->setProcessingThreadIdEnd(65536);
 					$result->addFilter($filter);
-
 					$filter = new IsDeletedFilter();
 					$filter->setDeleted(false);
 					$result->addFilter($filter);
@@ -68,7 +67,6 @@ class NotificationsFilter extends AbstractFilter {
 					$filter->setDeleted(true);
 					$result->addFilter($filter);
 					break;
-
 				case Document::IS_ERROR:
 					$filter = new HasErrorFilter();
 					$filter->setError(true);
@@ -82,6 +80,11 @@ class NotificationsFilter extends AbstractFilter {
 				case Document::IS_WAITING:
 					$filter = new IsWaitingFilter();
 					$filter->setIsWaiting(true);
+					$result->addFilter($filter);
+					break;
+				case Document::IS_NOT_INDEXED:
+					$filter = new IsNotIndexedFilter();
+					$filter->setIsNotIndexed(true);
 					$result->addFilter($filter);
 					break;
 				case Document::IS_REDIRECT:
