@@ -217,6 +217,11 @@ abstract class AbstractDocument extends AbstractEntity {
 	protected $internalNoIndex;
 
 	/**
+	 * @var int
+	 */
+	protected $processingThreadId;
+
+	/**
 	 * @var float
 	 */
 	protected $pageRank;
@@ -598,6 +603,20 @@ abstract class AbstractDocument extends AbstractEntity {
 	 */
 	public function getUrl() {
 		return $this->url;
+	}
+
+	 /**
+	 * @return int
+	 */
+	public function getProcessingThreadId() {
+		return $this->processingThreadId;
+	}
+
+	/**
+	 * @param int $processingThreadId
+	 */
+	public function setProcessingThreadId($processingThreadId) {
+		$this->processingThreadId = $processingThreadId;
 	}
 
 	/**

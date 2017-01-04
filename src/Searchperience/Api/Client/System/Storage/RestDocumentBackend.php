@@ -193,6 +193,7 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			$documentObject ->__setProperty('pageRank',(float)$document->pageRank);
 			$documentObject ->__setProperty('solrCoreHints',(string)$document->solrCoreHints);
 			$documentObject ->__setProperty('notIndexedReason',(string)$document->notIndexedReason);
+			$documentObject ->__setProperty('processingThreadId',(integer)$document->processingThreadId);
 
 			if(trim($document->lastProcessingTime) != '') {
 				//we assume that the restapi allways return y-m-d H:i:s in the utc format
