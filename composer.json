@@ -7,7 +7,7 @@
 		"guzzle/guzzle": "v3.8.1",
 		"php": ">=5.3.3",
 		"symfony/validator": "v2.4.1",
-		"doctrine/common": "2.3"
+		"doctrine/common": "2.4.3"
 	},
 	"require-dev": {
 		"guzzle/plugin-mock": "*",
