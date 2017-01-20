@@ -50,7 +50,10 @@ class NotificationsFilterTestCase extends \Searchperience\Tests\BaseTestCase
 			array(
 				'notifications' => array(Document::IS_REDIRECT,Document::IS_ERROR),
 				'expectedResult' => '&isRedirect=1&hasError=1'
-
+			),
+			array(
+				'notifications' => array(Document::IS_NOT_INDEXED),
+				'expectedResult' => '&isNotIndexed=1'
 			)
 		);
 	}

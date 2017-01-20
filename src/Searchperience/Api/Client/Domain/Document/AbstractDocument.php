@@ -55,6 +55,13 @@ abstract class AbstractDocument extends AbstractEntity {
 	const IS_WAITING = 'IS_WAITING';
 
 	/**
+	 * Indicates that the document is hidden.
+	 *
+	 * @var string
+	 */
+	const IS_NOT_INDEXED = 'IS_NOT_INDEXED';
+
+	/**
 	 * @var array
 	 */
 	protected static $validNotifications = array(
@@ -63,7 +70,8 @@ abstract class AbstractDocument extends AbstractEntity {
 		self::IS_ERROR,
 		self::IS_PROCESSING,
 		self::IS_REDIRECT,
-		self::IS_WAITING
+		self::IS_WAITING,
+		self::IS_NOT_INDEXED,
 	);
 
 	/**
@@ -184,6 +192,11 @@ abstract class AbstractDocument extends AbstractEntity {
 	protected $lastErrorMessage;
 
 	/**
+	 * @var string
+	 */
+	protected $notIndexedReason;
+
+	/**
 	 * @var integer
 	 */
 	protected $isRedirectTo;
@@ -202,6 +215,11 @@ abstract class AbstractDocument extends AbstractEntity {
 	 * @var int
 	 */
 	protected $internalNoIndex;
+
+	/**
+	 * @var int
+	 */
+	protected $processingThreadId;
 
 	/**
 	 * @var float
@@ -346,6 +364,27 @@ abstract class AbstractDocument extends AbstractEntity {
 	 */
 	public function getLastErrorMessage() {
 		return $this->lastErrorMessage;
+	}
+
+	/**
+	 * @param $reason
+	 */
+	public function setNotIndexedReason($reason) {
+		$this->notIndexedReason = $reason;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNotIndexedReason() {
+		return $this->notIndexedReason;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasNotIndexedReason() {
+		return empty($this->notIndexedReason);
 	}
 
 	/**
@@ -566,6 +605,20 @@ abstract class AbstractDocument extends AbstractEntity {
 		return $this->url;
 	}
 
+	 /**
+	 * @return int
+	 */
+	public function getProcessingThreadId() {
+		return $this->processingThreadId;
+	}
+
+	/**
+	 * @param int $processingThreadId
+	 */
+	public function setProcessingThreadId($processingThreadId) {
+		$this->processingThreadId = $processingThreadId;
+	}
+
 	/**
 	 * Retrieve the state of a current document to easily indicate if a document:
 	 * - has an error
@@ -592,6 +645,10 @@ abstract class AbstractDocument extends AbstractEntity {
 
 		if (!is_null($this->isMarkedForDeletion) && $this->isMarkedForDeletion > 0) {
 			$notifications[] = Document::IS_DELETING;
+		}
+
+		if ($this->noIndex > 0 || $this->internalNoIndex > 0) {
+			$notifications[] = Document::IS_NOT_INDEXED;
 		}
 
 		return array_unique($notifications);

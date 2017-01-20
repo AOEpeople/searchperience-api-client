@@ -184,14 +184,16 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 			$documentObject ->__setProperty('isMarkedForProcessing',(integer)$document->isMarkedForProcessing);
 			$documentObject ->__setProperty('isMarkedForDeletion',(integer)$document->isMarkedForDeletion);
 			$documentObject ->__setProperty('isProminent',(integer)$document->isProminent);
-			$documentObject	->__setProperty('isRedirectTo',(integer)$document->isRedirectTo);
-			$documentObject	->__setProperty('isDuplicateOf',(integer)$document->isDuplicateOf);
+			$documentObject ->__setProperty('isRedirectTo',(integer)$document->isRedirectTo);
+			$documentObject ->__setProperty('isDuplicateOf',(integer)$document->isDuplicateOf);
 			$documentObject ->__setProperty('errorCount',(integer)$document->errorCount);
 			$documentObject ->__setProperty('lastErrorMessage',(string)$document->lastErrorMessage);
 			$documentObject ->__setProperty('recrawlTimeSpan',(string)$document->recrawlTimeSpan);
 			$documentObject ->__setProperty('internalNoIndex',(string)$document->internalNoIndex);
 			$documentObject ->__setProperty('pageRank',(float)$document->pageRank);
 			$documentObject ->__setProperty('solrCoreHints',(string)$document->solrCoreHints);
+			$documentObject ->__setProperty('notIndexedReason',(string)$document->notIndexedReason);
+			$documentObject ->__setProperty('processingThreadId',(integer)$document->processingThreadId);
 
 			if(trim($document->lastProcessingTime) != '') {
 				//we assume that the restapi allways return y-m-d H:i:s in the utc format
@@ -279,7 +281,9 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 		if (!is_null($document->getSolrCoreHints())) {
 			$valueArray['solrCoreHints'] = $document->getSolrCoreHints();
 		}
-
+        if (!is_null($document->getNotIndexedReason())) {
+            $valueArray['notIndexedReason'] = $document->getNotIndexedReason();
+        }
 		if ($document->getCreatedAt() instanceof \DateTime) {
 			$valueArray['createdAt'] = $this->dateTimeService->getDateStringFromDateTime($document->getCreatedAt());
 		}
