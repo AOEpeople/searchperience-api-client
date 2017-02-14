@@ -35,20 +35,20 @@ class RestDocumentStatusBackendTestCase extends \Searchperience\Tests\BaseTestCa
 			/** @var $documentStatus \Searchperience\Api\Client\Domain\Document\DocumentStatus */
 		$documentStatus = $this->documentStatusBackend->get();
 
-		$this->assertEquals(25,$documentStatus->getErrorCount(),'Could not reconstitude the error count from the response xml');
-		$this->assertEquals(26,$documentStatus->getAllCount(),'Could not reconstitude the document count from the response xml');
-		$this->assertEquals(10,$documentStatus->getWaitingCount(),'Could not reconstitude the waiting count from the response xml');
-		$this->assertEquals(100,$documentStatus->getProcessingCount(),'Could not reconstitude the processing count from the response xml');
-		$this->assertEquals(5,$documentStatus->getProcessedCount(),'Could not reconstitude the processed count from the response xml');
-		$this->assertEquals(1,$documentStatus->getDeletedCount(),'Could not reconstitude the deleted count from the response xml');
-		$this->assertEquals(43,$documentStatus->getProcessingCountLongerThan90Minutes(),'Could not reconstitude the processing longer than 90 minutes count from the response xml');
-		$this->assertEquals(11,$documentStatus->getProcessedCountLast60Minutes(),'Could not reconstitude the processed last 60 minutes count from the response xml');
-		$this->assertEquals(12,$documentStatus->getProcessedCountLast24Hours(),'Could not reconstitude the processed last 24 hours count from the response xml');
-		$this->assertEquals(1486993801,$documentStatus->getLastProcessedDate(),'Could not reconstitude the last processed date from the response xml');
-		$this->assertEquals(4,$documentStatus->getErrorCountLast60Minutes(),'Could not reconstitude the errors last 60 minutes count from the response xml');
-		$this->assertEquals(13,$documentStatus->getErrorCountLast24Hours(),'Could not reconstitude the errors last 24 hours count from the response xml');
-		$this->assertEquals(65,$documentStatus->getMarkedAsHiddenCount(),'Could not reconstitude the hidden count from the response xml');
-		$this->assertEquals(33,$documentStatus->getMarkedAsHiddenCountByUser(),'Could not reconstitude the hidden by user count from the response xml');
-		$this->assertEquals(32,$documentStatus->getMarkedAsHiddenCountInternal(),'Could not reconstitude the hidden internally count from the response xml');
+		$this->assertEquals(25,$documentStatus->getErrorCount(),'Could not reconstitute the error count from the response xml');
+		$this->assertEquals(26,$documentStatus->getAllCount(),'Could not reconstitute the document count from the response xml');
+		$this->assertEquals(10,$documentStatus->getWaitingCount(),'Could not reconstitute the waiting count from the response xml');
+		$this->assertEquals(100,$documentStatus->getProcessingCount(),'Could not reconstitute the processing count from the response xml');
+		$this->assertEquals(5,$documentStatus->getProcessedCount(),'Could not reconstitute the processed count from the response xml');
+		$this->assertEquals(1,$documentStatus->getDeletedCount(),'Could not reconstitute the deleted count from the response xml');
+		$this->assertEquals(43,$documentStatus->getProcessingCountLongerThan90Minutes(),'Could not reconstitute the processing longer than 90 minutes count from the response xml');
+		$this->assertEquals(11,$documentStatus->getProcessedCountLast60Minutes(),'Could not reconstitute the processed last 60 minutes count from the response xml');
+		$this->assertEquals(12,$documentStatus->getProcessedCountLast24Hours(),'Could not reconstitute the processed last 24 hours count from the response xml');
+		$this->assertEquals(1486993801,$documentStatus->getLastProcessedDate(),'Could not reconstitute the last processed date from the response xml');
+		$this->assertEquals(4,$documentStatus->getErrorCountLast60Minutes(),'Could not reconstitute the errors last 60 minutes count from the response xml');
+		$this->assertEquals(13,$documentStatus->getErrorCountLast24Hours(),'Could not reconstitute the errors last 24 hours count from the response xml');
+		$this->assertEquals(65,$documentStatus->getMarkedAsHiddenCount(),'Could not reconstitute the hidden count from the response xml');
+		$this->assertEquals(33,$documentStatus->getMarkedAsHiddenCountByUser(),'Could not reconstitute the hidden by user count from the response xml');
+		$this->assertEquals(32,$documentStatus->getMarkedAsHiddenCountInternal(),'Could not reconstitute the hidden internally count from the response xml');
 	}
 }
