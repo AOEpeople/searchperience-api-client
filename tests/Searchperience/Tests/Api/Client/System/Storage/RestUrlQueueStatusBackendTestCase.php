@@ -39,6 +39,5 @@ class RestUrlQueueStatusBackendTestCase extends \Searchperience\Tests\BaseTestCa
 		$this->assertEquals(5,$urlQueueStatus->getAllCount(),'Could not reconstitude the error count from the response xml');
 		$this->assertEquals(3,$urlQueueStatus->getWaitingCount(),'Could not reconstitude the error count from the response xml');
 		$this->assertEquals(2,$urlQueueStatus->getProcessingCount(),'Could not reconstitude the error count from the response xml');
-		$this->assertEquals(2,$urlQueueStatus->getDeletedCount(),'Could not reconstitude the error count from the response xml');
 	}
 }

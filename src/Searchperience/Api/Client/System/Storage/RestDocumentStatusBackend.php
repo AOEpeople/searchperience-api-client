@@ -26,7 +26,7 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 	public function get() {
 		try {
 			$xml = $this->getStatusXmlFromEndpoint();
-			return $this->buildUrlQueueStatusFromXml($xml);
+			return $this->buildDocumentStatusFromXml($xml);
 		} catch (EntityNotFoundException $e) {
 			return null;
 		}
@@ -47,18 +47,28 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 	 * @param $xml
 	 * @return DocumentStatus
 	 */
-	protected function buildUrlQueueStatusFromXml($xml) {
+	protected function buildDocumentStatusFromXml($xml) {
 		$documentStatus = new DocumentStatus();
 		if(!$xml instanceof \SimpleXMLElement) {
 			return $documentStatus;
 		}
 
-		$documentStatus->__setProperty('waitingCount', (int) $xml->waitingCount);
-		$documentStatus->__setProperty('processingCount', (int) $xml->processingCount);
-		$documentStatus->__setProperty('deletedCount', (int) $xml->deletedCount);
-		$documentStatus->__setProperty('errorCount', (int) $xml->errorCount);
-		$documentStatus->__setProperty('allCount', (int) $xml->allCount);
-		$documentStatus->__setProperty('processedCount', (int) $xml->processedCount);
+		$documentStatus->__setProperty('waitingCount', (int) $xml->waiting->total);
+		$documentStatus->__setProperty('processingCount', (int) $xml->processing->total);
+		$documentStatus->__setProperty('deletedCount', (int) $xml->waiting->forDeletion);
+		$documentStatus->__setProperty('errorCount', (int) $xml->error->total);
+		$documentStatus->__setProperty('allCount', (int) $xml->total);
+		$documentStatus->__setProperty('processedCount', (int) $xml->processed->total);
+		$documentStatus->__setProperty('lastProcessedDate', (int) $xml->processed->lastDate);
+		$documentStatus->__setProperty('processingCountLongerThan90Minutes', (int) $xml->processing->longerThan90Minutes);
+		$documentStatus->__setProperty('processedCountLast60Minutes', (int) $xml->processed->last60Minutes);
+		$documentStatus->__setProperty('processedCountLast24Hours', (int) $xml->processed->last24Hours);
+		$documentStatus->__setProperty('waitingCountLongerThan60Mins', (int) $xml->waiting->longerThan60Minutes);
+		$documentStatus->__setProperty('errorCountLast60Minutes', (int) $xml->error->last60Minutes);
+		$documentStatus->__setProperty('errorCountLast24Hours', (int) $xml->error->last24Hours);
+		$documentStatus->__setProperty('markedAsHiddenCount', (int) $xml->hidden->total);
+		$documentStatus->__setProperty('markedAsHiddenCountInternal', (int) $xml->hidden->internal);
+		$documentStatus->__setProperty('markedAsHiddenCountByUser', (int) $xml->hidden->byUser);
 
 		$documentStatus->afterReconstitution();
 

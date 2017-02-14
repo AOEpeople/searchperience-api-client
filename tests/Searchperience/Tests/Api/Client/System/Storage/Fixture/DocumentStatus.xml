@@ -1,9 +1,28 @@
-<?xml version="1.0"?>
-<documentsstatus>
-    <allCount>25</allCount>
-    <waitingCount>10</waitingCount>
-    <processingCount>12</processingCount>
-    <errorCount>2</errorCount>
-    <deletedCount>1</deletedCount>
-    <processedCount>3</processedCount>
-</documentsstatus>
+<documentstatus xmlns:atom="http://www.w3.org/2005/Atom">
+    <total>26</total>
+    <waiting>
+        <total>10</total>
+        <forDeletion>1</forDeletion>
+        <longerThan60Minutes>8</longerThan60Minutes>
+    </waiting>
+    <processing>
+        <total>100</total>
+        <longerThan90Minutes>43</longerThan90Minutes>
+    </processing>
+    <processed>
+        <total>5</total>
+        <last60Minutes>11</last60Minutes>
+        <last24Hours>12</last24Hours>
+        <lastDate>1486993801</lastDate>
+    </processed>
+    <hidden>
+        <total>65</total>
+        <internal>32</internal>
+        <byUser>33</byUser>
+    </hidden>
+    <error>
+        <total>25</total>
+        <last60Minutes>4</last60Minutes>
+        <last24Hours>13</last24Hours>
+    </error>
+</documentstatus>

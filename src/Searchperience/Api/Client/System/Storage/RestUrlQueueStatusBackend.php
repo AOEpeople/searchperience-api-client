@@ -42,11 +42,11 @@ class RestUrlQueueStatusBackend extends \Searchperience\Api\Client\System\Storag
 			return $urlQueueStatus;
 		}
 
-		$urlQueueStatus->__setProperty('waitingCount', (int) $xml->waitingCount);
-		$urlQueueStatus->__setProperty('processingCount', (int) $xml->processingCount);
-		$urlQueueStatus->__setProperty('deletedCount', (int) $xml->deletedCount);
-		$urlQueueStatus->__setProperty('errorCount', (int) $xml->errorCount);
-		$urlQueueStatus->__setProperty('allCount', (int) $xml->allCount);
+		$urlQueueStatus->__setProperty('waitingCount', (int) $xml->waiting->total);
+		$urlQueueStatus->__setProperty('processingCount', (int) $xml->processing->total);
+		$urlQueueStatus->__setProperty('deletedCount', (int) $xml->waiting->forDeletion);
+		$urlQueueStatus->__setProperty('errorCount', (int) $xml->error->total);
+		$urlQueueStatus->__setProperty('allCount', (int) $xml->total);
 
 		$urlQueueStatus->afterReconstitution();
 

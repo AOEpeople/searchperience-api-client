@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <urlqueuestatus>
-    <allCount>5</allCount>
-    <waitingCount>3</waitingCount>
-    <processingCount>2</processingCount>
-    <errorCount>4</errorCount>
-    <deletedCount>2</deletedCount>
+    <total>5</total>
+    <waiting>
+        <total>3</total>
+    </waiting>
+    <processing>
+        <total>2</total>
+    </processing>
+    <error>
+        <total>4</total>
+    </error>
 </urlqueuestatus>
