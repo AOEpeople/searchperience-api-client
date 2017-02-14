@@ -63,7 +63,6 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 		$documentStatus->__setProperty('processingCountLongerThan90Minutes', (int) $xml->processing->longerThan90Minutes);
 		$documentStatus->__setProperty('processedCountLast60Minutes', (int) $xml->processed->last60Minutes);
 		$documentStatus->__setProperty('processedCountLast24Hours', (int) $xml->processed->last24Hours);
-		$documentStatus->__setProperty('waitingCountLongerThan60Mins', (int) $xml->waiting->longerThan60Minutes);
 		$documentStatus->__setProperty('errorCountLast60Minutes', (int) $xml->error->last60Minutes);
 		$documentStatus->__setProperty('errorCountLast24Hours', (int) $xml->error->last24Hours);
 		$documentStatus->__setProperty('markedAsHiddenCount', (int) $xml->hidden->total);

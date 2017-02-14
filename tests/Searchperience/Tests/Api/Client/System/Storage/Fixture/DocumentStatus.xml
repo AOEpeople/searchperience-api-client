@@ -3,7 +3,6 @@
     <waiting>
         <total>10</total>
         <forDeletion>1</forDeletion>
-        <longerThan60Minutes>8</longerThan60Minutes>
     </waiting>
     <processing>
         <total>100</total>

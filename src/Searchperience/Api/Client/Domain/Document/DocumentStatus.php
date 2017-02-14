@@ -63,11 +63,6 @@ class DocumentStatus extends AbstractEntity{
 	/**
 	 * @var int
 	 */
-	protected $waitingCountLongerThan60Mins;
-
-	/**
-	 * @var int
-	 */
 	protected $errorCountLast60Minutes;
 
 	/**
@@ -229,19 +224,6 @@ class DocumentStatus extends AbstractEntity{
 	    $this->processedCountLast24Hours = $processedCountLast24Hours;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getWaitingCountLongerThan60Mins() {
-	    return $this->waitingCountLongerThan60Mins;
-	}
-
-	/**
-	 * @param mixed $waitingCountLongerThan60Mins
-	 */
-	public function setWaitingCountLongerThan60Mins($waitingCountLongerThan60Mins) {
-	    $this->waitingCountLongerThan60Mins = $waitingCountLongerThan60Mins;
-	}
 	/**
 	 * @return mixed
 	 */

@@ -45,7 +45,6 @@ class RestDocumentStatusBackendTestCase extends \Searchperience\Tests\BaseTestCa
 		$this->assertEquals(11,$documentStatus->getProcessedCountLast60Minutes(),'Could not reconstitude the processed last 60 minutes count from the response xml');
 		$this->assertEquals(12,$documentStatus->getProcessedCountLast24Hours(),'Could not reconstitude the processed last 24 hours count from the response xml');
 		$this->assertEquals(1486993801,$documentStatus->getLastProcessedDate(),'Could not reconstitude the last processed date from the response xml');
-		$this->assertEquals(8,$documentStatus->getWaitingCountLongerThan60Mins(),'Could not reconstitude the waiting longer than 60 mins count from the response xml');
 		$this->assertEquals(4,$documentStatus->getErrorCountLast60Minutes(),'Could not reconstitude the errors last 60 minutes count from the response xml');
 		$this->assertEquals(13,$documentStatus->getErrorCountLast24Hours(),'Could not reconstitude the errors last 24 hours count from the response xml');
 		$this->assertEquals(65,$documentStatus->getMarkedAsHiddenCount(),'Could not reconstitude the hidden count from the response xml');
