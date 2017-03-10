@@ -109,6 +109,8 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
             $enrichmentObject->__setProperty('addBoost', (string)$enrichment->addBoost);
             $enrichmentObject->__setProperty('description', (string)$enrichment->description);
             $enrichmentObject->__setProperty('enabled', (bool)(int)$enrichment->status);
+            $enrichmentObject->__setProperty('matchingRulesCombinationType', $enrichment->matchingRulesCombinationType);
+            $enrichmentObject->__setProperty('matchingRulesExpectedResult', (bool)$enrichment->matchingRulesExpectedResult);
 
             if (isset($enrichment->matchingrules->matchingrule)) {
                 foreach ($enrichment->matchingrules->matchingrule as $matchingrule) {
@@ -197,7 +199,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
         }
 
         if (!is_null($enrichment->getMatchingRulesExpectedResult())) {
-            $valueArray['matchingRuleExpectedResult'] = ($enrichment->getMatchingRulesExpectedResult()) ? 1 : 0;
+            $valueArray['matchingRuleExpectedResult'] = ($enrichment->getMatchingRulesExpectedResult() === 'TRUE') ? 1 : 0;
         }
 
         foreach ($enrichment->getFieldEnrichments() as $key => $fieldEnrichment) {
