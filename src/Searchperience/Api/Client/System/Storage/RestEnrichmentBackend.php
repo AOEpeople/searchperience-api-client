@@ -199,7 +199,7 @@ class RestEnrichmentBackend extends \Searchperience\Api\Client\System\Storage\Ab
         }
 
         if (!is_null($enrichment->getMatchingRulesExpectedResult())) {
-            $valueArray['matchingRuleExpectedResult'] = ($enrichment->getMatchingRulesExpectedResult() === 'TRUE') ? 1 : 0;
+            $valueArray['matchingRuleExpectedResult'] = ($enrichment->getMatchingRulesExpectedResult()) ? 1 : 0;
         }
 
         foreach ($enrichment->getFieldEnrichments() as $key => $fieldEnrichment) {
