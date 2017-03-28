@@ -384,7 +384,7 @@ abstract class AbstractDocument extends AbstractEntity {
 	 * @return bool
 	 */
 	public function hasNotIndexedReason() {
-		return empty($this->notIndexedReason);
+		return !empty($this->notIndexedReason);
 	}
 
 	/**
