@@ -23,7 +23,7 @@ class FilterCollectionFactory extends AbstractFilterCollectionFactory {
 	 * @var array
 	 */
 	protected $allowedFilters = array(
-		'isDuplicate','isRedirect','isWaiting','isDeleted','hasError','boostFactor','crawl','lastProcessed','notifications','pageRank','query','source', 'created', 'updated'
+		'isDuplicate','isRedirect','isWaiting','isDeleted','hasError','boostFactor','crawl','lastProcessed','notifications','pageRank','query','mimeType','source', 'created', 'updated'
 	);
 
 	/**
