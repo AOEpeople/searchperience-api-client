@@ -68,6 +68,7 @@ class RestDocumentStatusBackend extends \Searchperience\Api\Client\System\Storag
 		$documentStatus->__setProperty('markedAsHiddenCount', (int) $xml->hidden->total);
 		$documentStatus->__setProperty('markedAsHiddenCountInternal', (int) $xml->hidden->internal);
 		$documentStatus->__setProperty('markedAsHiddenCountByUser', (int) $xml->hidden->byUser);
+		$documentStatus->__setProperty('isDeploymentInProgress', (bool) $xml->deploymentInProgress);
 
 		$documentStatus->afterReconstitution();
 

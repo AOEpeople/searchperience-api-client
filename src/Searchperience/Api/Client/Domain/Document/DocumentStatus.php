@@ -85,6 +85,11 @@ class DocumentStatus extends AbstractEntity{
 	 */
 	protected $markedAsHiddenCountByUser;
 
+    /**
+     * @var
+     */
+    protected $isDeploymentInProgress;
+
 	/**
 	 * @return int
 	 */
@@ -293,4 +298,20 @@ class DocumentStatus extends AbstractEntity{
 	public function setMarkedAsHiddenCountByUser($markedAsHiddenCountByUser) {
 	    $this->markedAsHiddenCountByUser = $markedAsHiddenCountByUser;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getIsDeploymentInProgress()
+    {
+        return $this->isDeploymentInProgress;
+    }
+
+    /**
+     * @param mixed $isDeploymentInProgress
+     */
+    public function setIsDeploymentInProgress($isDeploymentInProgress)
+    {
+        $this->isDeploymentInProgress = $isDeploymentInProgress;
+    }
 }
