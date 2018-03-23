@@ -456,6 +456,9 @@ class Factory {
 			'redirect.disable' => true
 		));
 
+		$guzzle->setDefaultOption('connect_timeout', 30);
+		$guzzle->setDefaultOption('timeout', 30);
+
 		if (self::$HTTP_DEBUG === TRUE) {
 			if (class_exists('\Guzzle\Plugin\Log\LogPlugin')) {
 				$guzzle->addSubscriber(\Guzzle\Plugin\Log\LogPlugin::getDebugPlugin());
