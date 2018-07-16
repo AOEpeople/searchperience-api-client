@@ -39,7 +39,7 @@ class EnrichmentTestCase extends \Searchperience\Tests\BaseTestCase
     {
         $matchingRuleA = new MatchingRule();
         $matchingRuleA->setFieldName('brand');
-        $matchingRuleA->setOperator(MatchingRule::OPERATOR_EQUALS);
+        $matchingRuleA->setOperator(MatchingRule::OPERATOR_MATCHES);
         $matchingRuleA->setOperandValue('aoe');
 
         $matchingRuleB = new MatchingRule();

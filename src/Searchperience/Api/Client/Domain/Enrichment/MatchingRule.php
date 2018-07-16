@@ -25,19 +25,19 @@ class MatchingRule extends AbstractEntity {
 	 */
 	protected $operandValue = '';
 
-	const OPERATOR_EQUALS = 'equals';
+	const OPERATOR_MATCHES = 'matches';
 	const OPERATOR_CONTAINS = 'contains';
 	const OPERATOR_CONTAINSNOT = 'contains_not';
-	const OPERATOR_EQUALSNOT = 'equals_not';
-	const OPERATOR_GREATER = 'greater_then';
-	const OPERATOR_LOWER = 'lower_then';
+	const OPERATOR_DOESNOTMATCH = 'does_not_match';
+	const OPERATOR_GREATER = 'greater_than';
+	const OPERATOR_LOWER = 'lower_than';
 
 	/**
 	 * @var array
 	 */
 	protected static $allowedOperators = array(
-		self::OPERATOR_EQUALS, self::OPERATOR_CONTAINS,
-		self::OPERATOR_CONTAINSNOT, self::OPERATOR_EQUALSNOT,
+		self::OPERATOR_MATCH, self::OPERATOR_CONTAINS,
+		self::OPERATOR_CONTAINSNOT, self::OPERATOR_DOESNOTMATCH,
 		self::OPERATOR_GREATER, self::OPERATOR_LOWER
 	);
 
