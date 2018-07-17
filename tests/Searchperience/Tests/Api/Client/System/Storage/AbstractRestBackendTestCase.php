@@ -118,11 +118,11 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyTransformStatusCodeToClientErrorResponseException($statusCode, $exceptionClassName) {
 		$this->setExpectedException($exceptionClassName);
-		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', FALSE);
+		$response = $this->createMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', FALSE);
 		$response->expects($this->once())
 			->method('getStatusCode')
 			->will($this->returnValue($statusCode));
-		$clientException = $this->getMock('\Guzzle\Http\Exception\ClientErrorResponseException', array('getResponse'));
+		$clientException = $this->createMock('\Guzzle\Http\Exception\ClientErrorResponseException', array('getResponse'));
 		$clientException->expects($this->exactly(2))
 			->method('getResponse')
 			->will($this->returnValue($response));
@@ -152,11 +152,11 @@ class AbstractRestBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyTransformStatusCodeToServerErrorResponseException($statusCode, $exceptionClassName) {
 		$this->setExpectedException($exceptionClassName);
-		$response = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', FALSE);
+		$response = $this->createMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', FALSE);
 		$response->expects($this->once())
 			->method('getStatusCode')
 			->will($this->returnValue($statusCode));
-		$serverException = $this->getMock('\Guzzle\Http\Exception\ServerErrorResponseException', array('getResponse'));
+		$serverException = $this->createMock('\Guzzle\Http\Exception\ServerErrorResponseException', array('getResponse'));
 		$serverException->expects($this->exactly(2))
 			->method('getResponse')
 			->will($this->returnValue($response));

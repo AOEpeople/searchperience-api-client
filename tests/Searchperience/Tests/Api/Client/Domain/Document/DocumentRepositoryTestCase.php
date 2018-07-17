@@ -58,7 +58,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyGetByForeignIdReturnsValidDomainDocument($foreignId) {
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\Document\DocumentRepository();
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByForeignId'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByForeignId'));
 		$storageBackend->expects($this->once())
 			->method('getByForeignId')
 			->will($this->returnValue(new \Searchperience\Api\Client\Domain\Document\Document()));
@@ -90,7 +90,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyDeleteByForeignIdReturnsValidDomainDocument($foreignId) {
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\Document\DocumentRepository();
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteByForeignId'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteByForeignId'));
 		$storageBackend->expects($this->once())
 			->method('deleteByForeignId')
 			->with($foreignId)
@@ -107,7 +107,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	public function verifyGetByUrlReturnsValidDomainDocument() {
 		$url = 'http://www.qvc.it';
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\Document\DocumentRepository();
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByUrl'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByUrl'));
 		$storageBackend->expects($this->once())
 				->method('getByUrl')
 				->with($url)
@@ -129,7 +129,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$sourceFilter->setSource('magento');
 		$filterCollection->addFilter($sourceFilter);
 
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAllByFilterCollection'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getAllByFilterCollection'));
 		$storageBackend->expects($this->once())
 				->method('getAllByFilterCollection')
 				->with(1,11, $filterCollection)
@@ -161,7 +161,7 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function verifyDeleteBySourceReturnsValidDomainDocument($source) {
 		$this->documentRepository = new \Searchperience\Api\Client\Domain\Document\DocumentRepository();
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteBySource'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('deleteBySource'));
 		$storageBackend->expects($this->once())
 			->method('deleteBySource')
 			->will($this->returnValue(200));
@@ -185,11 +185,11 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function addThrowsInvalidArgumentExceptionOnInvalidArgument() {
-		$violationList = $this->getMock('\Symfony\Component\Validator\ConstraintViolationList', array('count'), array(), '', FALSE);
+		$violationList = $this->createMock('\Symfony\Component\Validator\ConstraintViolationList', array('count'), array(), '', FALSE);
 		$violationList->expects($this->once())
 			->method('count')
 			->will($this->returnValue(1));
-		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
+		$validator = $this->createMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
 		$validator->expects($this->once())
 			->method('validate')
 			->will($this->returnValue($violationList));
@@ -202,12 +202,12 @@ class DocumentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function decorateItNotCalledWhenBackendIsReturningNull() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByUrl'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestDocumentBackend', array('getByUrl'));
 		$storageBackend->expects($this->once())
 				->method('getByUrl')
 				->will($this->returnValue(null));
 
-		$this->documentRepository = $this->getMock('\Searchperience\Api\Client\Domain\Document\DocumentRepository',array('decorateDocument'),array(),'',false);
+		$this->documentRepository = $this->getMockBuilder('\Searchperience\Api\Client\Domain\Document\DocumentRepository')->setMethods(array('decorateDocument'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$this->documentRepository->expects($this->never())->method('decorateDocument');
 		$this->documentRepository->injectStorageBackend($storageBackend);
 

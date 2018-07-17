@@ -48,7 +48,7 @@ class RestStopwordBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function canPostStopword() {
 		//$this->markTestIncomplete('Process error');
-		$this->stopwordBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestStopwordBackend', array('executePostRequest'));
+		$this->stopwordBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestStopwordBackend')->setMethods(array('executePostRequest'))->getMock();
 		$this->stopwordBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -60,7 +60,7 @@ class RestStopwordBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$expectsArgumentsArray = array('word' => 'foo', 'tagName' => 'one');
 
 		$this->stopwordBackend->expects($this->once())->method('executePostRequest')->with($expectsArgumentsArray,'/one')->will(
-			$this->returnValue($this->getMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
+			$this->returnValue($this->createMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
 		);
 
 		$stopword = new Stopword();
@@ -75,7 +75,7 @@ class RestStopwordBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function canDeleteStopword() {
 		//$this->markTestIncomplete('Process error');
-		$this->stopwordBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestStopwordBackend', array('deleteByWord'));
+		$this->stopwordBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestStopwordBackend')->setMethods(array('deleteByWord'))->getMock();
 		$this->stopwordBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -85,7 +85,7 @@ class RestStopwordBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->stopwordBackend->injectRestClient($restClient);
 
 		$this->stopwordBackend->expects($this->once())->method('deleteByWord')->with('one', 'foo')->will(
-				$this->returnValue($this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
+				$this->returnValue($this->createMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
 		);
 
 		$stopword = new Stopword();

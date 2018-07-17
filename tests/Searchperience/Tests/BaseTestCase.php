@@ -44,7 +44,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 	 * @api
 	 */
 	protected function getAccessibleMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = TRUE, $callOriginalClone = TRUE, $callAutoload = TRUE) {
-		return $this->getMock($this->buildAccessibleProxy($originalClassName), $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
+		return $this->createMock($this->buildAccessibleProxy($originalClassName), $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
 	}
 
 	/**
@@ -180,7 +180,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getMockedRestClientWith404Response() {
-		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$resquestMock = $this->createMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
 		$resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
 			return $resquestMock;
 		}));
@@ -188,7 +188,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 		$self = $this;
 		$resquestMock->expects($this->once())->method('send')->will($this->returnCallback(function () use ($self) {
 			/** @var $responsetMock \Guzzle\Http\Message\Response */
-			$responseMock = $self->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
+			$responseMock = $self->createMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
 			$responseMock->expects($self->once())->method('getStatusCode')->will($self->returnValue(404));
 
 			$exception = new \Guzzle\Http\Exception\ClientErrorResponseException();
@@ -197,7 +197,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 			throw $exception;
 		}));
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array(),array(),'',false);
+		$restClient = $this->createMock('\Guzzle\Http\Client',array(),array(),'',false);
 		$restClient->expects($this->once())->method('setDefaultHeaders')->will($this->returnValue($restClient));
 		$restClient->expects($this->once())->method('setBaseUrl')->will($this->returnValue($restClient));
 		$restClient->expects($this->once())->method('get')->will($this->returnValue($resquestMock));

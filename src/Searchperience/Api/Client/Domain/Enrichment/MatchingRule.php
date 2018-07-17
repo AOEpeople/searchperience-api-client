@@ -36,7 +36,7 @@ class MatchingRule extends AbstractEntity {
 	 * @var array
 	 */
 	protected static $allowedOperators = array(
-		self::OPERATOR_MATCH, self::OPERATOR_CONTAINS,
+		self::OPERATOR_MATCHES, self::OPERATOR_CONTAINS,
 		self::OPERATOR_CONTAINSNOT, self::OPERATOR_DOESNOTMATCH,
 		self::OPERATOR_GREATER, self::OPERATOR_LOWER
 	);

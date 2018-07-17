@@ -50,7 +50,7 @@ class AdminSearchRepositoryTestCase extends BaseTestCase {
 	 * @group admin
 	 */
 	public function verifyRepositoryRetrievesAdminSearchCollection() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestAdminSearchBackend', array('getAll'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestAdminSearchBackend', array('getAll'));
 		$storageBackend->expects($this->once())
 			->method('getAll')
 			->will($this->returnValue(new AdminSearchCollection()));

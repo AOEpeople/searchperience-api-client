@@ -51,8 +51,8 @@ class ArtifactRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$artifactType = new ArtifactType();
 		$artifactType->setName('topseller');
 
-		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestArtifactBackend', array('getAllByType'));
+		$validator = $this->createMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestArtifactBackend', array('getAllByType'));
 		$storageBackend->expects($this->once())
 			->method('getAllByType')
 			->with($artifactType)
@@ -76,8 +76,8 @@ class ArtifactRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$artifact->setId($artifactId);
 		$artifact->setTypeName($artifactTypeName);
 
-		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestArtifactBackend', array('getOneByTypeAndId'));
+		$validator = $this->createMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestArtifactBackend', array('getOneByTypeAndId'));
 		$storageBackend->expects($this->once())
 			->method('getOneByTypeAndId')
 			->with($artifactTypeName, $artifactId)

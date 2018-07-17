@@ -46,7 +46,7 @@ class ArtifactTypeRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	 * @test
 	 */
 	public function canGetAll() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestArtifactTypeBackend', array('getAll'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestArtifactTypeBackend', array('getAll'));
 		$storageBackend->expects($this->once())
 			->method('getAll')
 			->will($this->returnValue(new ArtifactTypeCollection()));

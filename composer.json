@@ -13,7 +13,7 @@
 		"guzzle/plugin-mock": "*",
 		"guzzle/plugin-log": "*",
 		"phing/phing": "*",
-		"phpunit/phpunit": "4.1.3",
+		"phpunit/phpunit": "5.7.26",
 		"squizlabs/php_codesniffer": "*"
 	},
 	"autoload": {

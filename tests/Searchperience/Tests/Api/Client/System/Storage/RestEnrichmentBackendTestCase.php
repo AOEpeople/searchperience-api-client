@@ -57,7 +57,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase
         /** @var $matchingRule MatchingRule */
         $matchingRule = $matchingRulesCollection->getIterator()->offsetGet(0);
         $this->assertSame($matchingRule->getFieldName(), 'content');
-        $this->assertSame($matchingRule->getOperator(), 'equals');
+        $this->assertSame($matchingRule->getOperator(), 'matches');
         $this->assertSame($matchingRule->getOperandValue(), "10");
 
         /** @var ContextsBoostingCollection $contextsBoostingCollection */
@@ -90,8 +90,8 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase
      */
     public function canPostEnrichment()
     {
-        $responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
-        $resquestMock = $this->getMock('\Guzzle\Http\Message\Request', array('setAuth', 'send'), array(), '', false);
+        $responsetMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array())->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
+		$resquestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
         $resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
             return $resquestMock;
         }));
@@ -129,7 +129,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase
             ),
         );
 
-        $restClient = $this->getMock('\Guzzle\Http\Client', array('post', 'setAuth', 'send'), array('http://api.searcperience.com/'));
+        $restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('post','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
         $restClient->expects($this->once())->method('post')->with('/{customerKey}/enrichments', null, $expectedArguments)->will($this->returnCallback(function ($url, $foo, $arguments) use ($resquestMock) {
             return $resquestMock;
         }));
@@ -179,7 +179,7 @@ class RestEnrichmentBackendTestCase extends \Searchperience\Tests\BaseTestCase
     public function restBackendReturnsEmptyCollectionForEmptyListResponse()
     {
         /** @var  $restBackend RestEnrichmentBackend */
-        $restBackend = $this->getMock('Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('getListResponseFromEndpoint'));
+        $restBackend = $this->getMockBuilder('Searchperience\Api\Client\System\Storage\RestEnrichmentBackend')->setMethods(array('getListResponseFromEndpoint'))->getMock();
         $restBackend->expects($this->once())->method('getListResponseFromEndpoint')->will($this->returnCallback(
             function () {
                 throw new EntityNotFoundException();

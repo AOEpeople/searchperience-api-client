@@ -288,10 +288,10 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function canDeleteByUrl() {
 		$expectedUrl =  '/{customerKey}/documents?url='.urlencode('http://www.google.de/');
-		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
+		$responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array('getStatusCode'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
 
-		$requestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$requestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$requestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($requestMock) {
 			return $requestMock;
 		}));
@@ -299,7 +299,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			return $responseMock;
 		}));
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array('delete','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('delete','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$restClient->expects($this->once())->method('delete')->with($expectedUrl)->will($this->returnCallback(function() use ($requestMock) {
 			return $requestMock;
 		}));
@@ -380,10 +380,10 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 						'processEnd=2014-01-03%2010%3A00%3A00&'.
 						'isDuplicate=1&hasError=1&processingThreadIdStart=1&processingThreadIdEnd=65536&isDeleted=0';
 
-		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array('xml'), array(), '', false);
+		$responsetMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array('xml'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$responsetMock->expects($this->once())->method('xml')->will($this->returnValue(new \SimpleXMLElement('<?xml version="1.0"?><documents></documents>')));
 
-		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$resquestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
 			return $resquestMock;
 		}));
@@ -391,7 +391,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			return $responsetMock;
 		}));
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array('get','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('get','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$restClient->expects($this->once())->method('get')->with($expectedUrl)->will($this->returnCallback(function() use ($resquestMock) {
 			return $resquestMock;
 		}));
@@ -413,10 +413,11 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function sortingIsPassedToRestBackend() {
 		$expectedUrl = '/{customerKey}/documents?start=0&limit=10&sortingField=foo&sortingType=DESC';
-		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array('xml'), array(), '', false);
-		$responsetMock->expects($this->once())->method('xml')->will($this->returnValue(new \SimpleXMLElement('<?xml version="1.0"?><documents></documents>')));
 
-		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$responsetMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array('xml'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
+		$responsetMock->expects($this->once())->method('xml')->will($this->returnValue(new \SimpleXMLElement('<?xml version="1.0"?><documents></documents>')));
+		
+		$resquestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
 			return $resquestMock;
 		}));
@@ -424,7 +425,7 @@ class RestDocumentBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 			return $responsetMock;
 		}));
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array('get','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('get','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$restClient->expects($this->once())->method('get')->with($expectedUrl)->will($this->returnCallback(function() use ($resquestMock) {
 			return $resquestMock;
 		}));

@@ -39,16 +39,16 @@ class EnrichmentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 		$enrichment->setTitle('test');
 		$enrichment->setId(44);
 
-		$violationList = $this->getMock('\Symfony\Component\Validator\ConstraintViolationList', array('count'), array(), '', FALSE);
+		$violationList = $this->createMock('\Symfony\Component\Validator\ConstraintViolationList', array('count'), array(), '', FALSE);
 		$violationList->expects($this->once())
 			->method('count')
 			->will($this->returnValue(0));
-		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
+		$validator = $this->createMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
 		$validator->expects($this->once())
 			->method('validate')
 			->will($this->returnValue($violationList));
 
-		$storageBackendMock = $this->getMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('post'), array(), '', false);
+		$storageBackendMock = $this->createMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('post'), array(), '', false);
 
 		$this->enrichmentRepository->injectStorageBackend($storageBackendMock);
 		$this->enrichmentRepository->injectValidator($validator);
@@ -60,13 +60,13 @@ class EnrichmentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @return void
 	 */
 	public function testCanGetAllGyFilterCollectionAppliesSortingCorrectly() {
-		$storageBackendMock = $this->getMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('getAllByFilterCollection'), array(), '', false);
+		$storageBackendMock = $this->createMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('getAllByFilterCollection'), array(), '', false);
 		$storageBackendMock->expects($this->once())->method('getAllByFilterCollection')->with(0,10,new FilterCollection(),'title','DESC')->will(
 			$this->returnValue(new EnrichmentCollection())
 		);
 
-		$validator = $this->getMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
-		$filterCollectionFactoryMock = $this->getMock('\Searchperience\Api\Client\Domain\Enrichment\Filters\FilterCollectionFactory',array('createFromFilterArguments'),array(),'',false);
+		$validator = $this->createMock('\Symfony\Component\Validator\Validator', array('validate'), array(), '', FALSE);
+		$filterCollectionFactoryMock = $this->createMock('\Searchperience\Api\Client\Domain\Enrichment\Filters\FilterCollectionFactory',array('createFromFilterArguments'),array(),'',false);
 		$filterCollectionFactoryMock->expects($this->once())->method('createFromFilterArguments')->will($this->returnValue(new FilterCollection()));
 
 		$this->enrichmentRepository->injectStorageBackend($storageBackendMock);
@@ -81,12 +81,12 @@ class EnrichmentRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function decorateItNotCalledWhenBackendIsReturningNull() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('getById'));
+		$storageBackend = $this->createMock('\Searchperience\Api\Client\System\Storage\RestEnrichmentBackend', array('getById'));
 		$storageBackend->expects($this->once())
 				->method('getById')
 				->will($this->returnValue(null));
 
-		$this->enrichmentRepository = $this->getMock('\Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository',array('decorateEnrichment'),array(),'',false);
+		$this->enrichmentRepository = $this->getMockBuilder('\Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository')->setMethods(array('decorateEnrichment'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$this->enrichmentRepository->expects($this->never())->method('decorateEnrichment');
 		$this->enrichmentRepository->injectStorageBackend($storageBackend);
 

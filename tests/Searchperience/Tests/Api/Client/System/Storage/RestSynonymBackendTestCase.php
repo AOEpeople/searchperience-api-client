@@ -81,7 +81,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function canPostSynonym() {
 		//$this->markTestIncomplete('Process error');
-		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('executePostRequest'));
+		$this->synonymBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestSynonymBackend')->setMethods(array('executePostRequest'))->getMock();
 		$this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -98,7 +98,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		);
 
 		$this->synonymBackend->expects($this->once())->method('executePostRequest')->with($expectsArgumentsArray,'/one')->will(
-			$this->returnValue($this->getMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
+			$this->returnValue($this->createMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
 		);
 
 		$synonym = new Synonym();
@@ -114,7 +114,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function canDeleteBySynonyms() {
 		//$this->markTestIncomplete('Process error');
-		$this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getDeleteResponseFromEndpoint'));
+		$this->synonymBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestSynonymBackend')->setMethods(array('getDeleteResponseFromEndpoint'))->getMock();
 		$this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -124,7 +124,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$this->synonymBackend->injectRestClient($restClient);
 
 		$this->synonymBackend->expects($this->once())->method('getDeleteResponseFromEndpoint')->with('/one/foo')->will(
-				$this->returnValue($this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
+				$this->returnValue($this->createMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
 		);
 
 		$this->synonymBackend->deleteBySynonyms('one', 'foo');
@@ -134,8 +134,8 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
      * @test
      */
     public function canDeleteBySynonym() {
-        //$this->markTestIncomplete('Process error');
-        $this->synonymBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestSynonymBackend', array('getDeleteResponseFromEndpoint'));
+		//$this->markTestIncomplete('Process error');
+		$this->synonymBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestSynonymBackend')->setMethods(array('getDeleteResponseFromEndpoint'))->getMock();
         $this->synonymBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
         $restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -150,7 +150,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
         $synonym->setTagName('one');
 
         $this->synonymBackend->expects($this->once())->method('getDeleteResponseFromEndpoint')->with('/one', $synonym)->will(
-            $this->returnValue($this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
+            $this->returnValue($this->createMock('\Guzzle\Http\Message\Response', array(), array(), '', false))
         );
 
         $this->synonymBackend->delete('one',$synonym);

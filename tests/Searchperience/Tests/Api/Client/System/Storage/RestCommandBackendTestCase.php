@@ -27,8 +27,8 @@ class RestCommandBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canPostCommand() {
-		$responsetMock = $this->getMock('\Guzzle\Http\Message\Response', array(), array(), '', false);
-		$resquestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$responsetMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array())->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
+		$resquestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$resquestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($resquestMock) {
 			return $resquestMock;
 		}));
@@ -47,7 +47,7 @@ class RestCommandBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		);
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array('post','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('post','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$restClient->expects($this->once())->method('post')->with('/{customerKey}/commands',null,$expectedArguments)->will($this->returnCallback(function($url,$foo,$arguments) use ($resquestMock) {
 			return $resquestMock;
 		}));

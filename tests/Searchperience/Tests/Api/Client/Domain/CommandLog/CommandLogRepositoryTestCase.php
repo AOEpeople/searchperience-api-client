@@ -28,7 +28,7 @@ class CommandLogRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function getAll() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestCommandLogBackend */
-		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestCommandLogBackend",array('getAllByFilterCollection'));
+		$storageBackendMock = $this->createMock("\Searchperience\Api\Client\System\Storage\RestCommandLogBackend",array('getAllByFilterCollection'));
 		$storageBackendMock->expects($this->once())->method('getAllByFilterCollection')->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\CommandLog\CommandLogCollection()
 		));;

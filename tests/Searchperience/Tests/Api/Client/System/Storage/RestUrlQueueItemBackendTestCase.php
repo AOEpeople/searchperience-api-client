@@ -69,7 +69,7 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 	 * @test
 	 */
 	public function canPostDocument() {
-		$this->urlQueueItemBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend', array('executePostRequest'));
+		$this->urlQueueItemBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend')->setMethods(array('executePostRequest'))->getMock();
 		$this->urlQueueItemBackend->injectDateTimeService(new \Searchperience\Api\Client\System\DateTime\DateTimeService());
 
 		$restClient = new \Guzzle\Http\Client('http://api.searchperience.com/');
@@ -85,7 +85,7 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 				'url' => 'http://aoe.com'
 		);
 		$this->urlQueueItemBackend->expects($this->once())->method('executePostRequest')->with($expectsArgumentsArray)->will(
-			$this->returnValue($this->getMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
+			$this->returnValue($this->createMock('\Guzzle\Http\Message\Response',array(),array(),'',false))
 		);
 		$this->urlQueueItemBackend->post($this->getTestUrlQueueItem());
 	}
@@ -116,10 +116,10 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 	 */
 	public function canDeleteUrlQueueItemByDocumentId() {
 		$expectedUrl =  '/{customerKey}/urlqueueitems/4711';
-		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
+		$responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array('getStatusCode'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
 
-		$requestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$requestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$requestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($requestMock) {
 			return $requestMock;
 		}));
@@ -127,7 +127,7 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 			return $responseMock;
 		}));
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array('delete','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('delete','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$restClient->expects($this->once())->method('delete')->with($expectedUrl)->will($this->returnCallback(function() use ($requestMock) {
 			return $requestMock;
 		}));
@@ -139,12 +139,12 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 	/**
 	 * @test
 	 */
-	public function canDeleteUrlQueueItemByUrl() {
+	public function canDeleteUrlQueueItemByUrl() {       
 		$expectedUrl =  '/{customerKey}/urlqueueitems?url='.rawurlencode('http://www.google.de/');
-		$responseMock = $this->getMock('\Guzzle\Http\Message\Response', array('getStatusCode'), array(), '', false);
+		$responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')->setMethods(array('getStatusCode'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$responseMock->expects($this->once())->method('getStatusCode')->will($this->returnValue(200));
 
-		$requestMock = $this->getMock('\Guzzle\Http\Message\Request',array('setAuth','send'),array(),'',false);
+		$requestMock = $this->getMockBuilder('\Guzzle\Http\Message\Request')->setMethods(array('setAuth','send'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$requestMock->expects($this->once())->method('setAuth')->will($this->returnCallback(function () use ($requestMock) {
 			return $requestMock;
 		}));
@@ -152,7 +152,7 @@ class RestUrlQueueItemBackendTestCase extends \Searchperience\Tests\BaseTestCase
 			return $responseMock;
 		}));
 
-		$restClient = $this->getMock('\Guzzle\Http\Client',array('delete','setAuth','send'),array('http://api.searcperience.com/'));
+		$restClient = $this->getMockBuilder('\Guzzle\Http\Client')->setMethods(array('delete','setAuth','send'))->setConstructorArgs(array('http://api.searcperience.com/'))->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$restClient->expects($this->once())->method('delete')->with($expectedUrl)->will($this->returnCallback(function() use ($requestMock) {
 			return $requestMock;
 		}));

@@ -33,12 +33,12 @@ class StopwordRepositoryTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function decorateNotCalledWhenNullObjectReturned() {
-		$storageBackend = $this->getMock('\Searchperience\Api\Client\System\Storage\RestStopwordBackend', array('getByWord'));
+		$storageBackend = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestStopwordBackend')->setMethods(array('getByWord'))->getMock();
 		$storageBackend->expects($this->once())
 				->method('getByWord')
 				->will($this->returnValue(null));
 
-		$this->stopwordRepository = $this->getMock('\Searchperience\Api\Client\Domain\Stopword\StopwordRepository',array('decorate'),array(),'',false);
+		$this->stopwordRepository = $this->getMockBuilder('\Searchperience\Api\Client\Domain\Stopword\StopwordRepository')->setMethods(array('decorate'))->setConstructorArgs(array())->setMockClassName('')->disableOriginalConstructor(false)->getMock();
 		$this->stopwordRepository->expects($this->never())->method('decorate');
 		$this->stopwordRepository->injectStorageBackend($storageBackend);
 

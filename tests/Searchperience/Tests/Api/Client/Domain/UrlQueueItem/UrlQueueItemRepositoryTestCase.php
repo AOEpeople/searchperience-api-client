@@ -28,7 +28,7 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	 */
 	public function canGetByUrl() {
 			/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
-		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('getByUrl'));
+		$storageBackendMock = $this->createMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('getByUrl'));
 		$storageBackendMock->expects($this->once())->method('getByUrl')->with('http://www.google.de/')->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem()
 		));;
@@ -41,7 +41,7 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	 */
 	public function canDeleteByDocumentId() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
-		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('deleteByDocumentId'));
+		$storageBackendMock = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend')->setMethods(array('deleteByDocumentId'))->getMock();
 		$storageBackendMock->expects($this->once())->method('deleteByDocumentId')->with(111)->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem()
 		));;
@@ -54,7 +54,7 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	 */
 	public function canDeleteByUrl() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
-		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('deleteByUrl'));
+		$storageBackendMock = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend')->setMethods(array('deleteByUrl'))->getMock();
 		$storageBackendMock->expects($this->once())->method('deleteByUrl')->with('http://www.customer.com/')->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItem()
 		));;
@@ -67,7 +67,7 @@ class UrlQueueItemRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	 */
 	public function getAllByStates() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend */
-		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend",array('getAllByFilterCollection'));
+		$storageBackendMock = $this->getMockBuilder('\Searchperience\Api\Client\System\Storage\RestUrlQueueItemBackend')->setMethods(array('getAllByFilterCollection'))->getMock();
 		$storageBackendMock->expects($this->once())->method('getAllByFilterCollection')->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\UrlQueueItem\UrlQueueItemCollection()
 		));;

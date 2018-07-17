@@ -28,7 +28,7 @@ class ActivityLogsRepositoryTestCase extends \Searchperience\Tests\BaseTestCase 
 	 */
 	public function getAll() {
 		/** @var  $storageBackendMock \Searchperience\Api\Client\System\Storage\RestActivityLogsBackend */
-		$storageBackendMock = $this->getMock("\Searchperience\Api\Client\System\Storage\RestActivityLogsBackend",array('getAllByFilterCollection'));
+		$storageBackendMock = $this->getMockBuilder("\Searchperience\Api\Client\System\Storage\RestActivityLogsBackend")->setMethods(array('getAllByFilterCollection'))->getMock();
 		$storageBackendMock->expects($this->once())->method('getAllByFilterCollection')->will($this->returnValue(
 			new \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsCollection()
 		));

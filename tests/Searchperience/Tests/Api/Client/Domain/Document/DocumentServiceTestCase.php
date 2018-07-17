@@ -29,7 +29,7 @@ class DocumentServiceTestCase extends \Searchperience\Tests\BaseTestCase {
 	 */
 	public function setUp() {
 		$this->documentService = new DocumentService();
-		$this->documentRepositoryMock = $this->getMock('Searchperience\Api\Client\Domain\Document\DocumentRepository',array(),array(),'',false);
+		$this->documentRepositoryMock = $this->createMock('Searchperience\Api\Client\Domain\Document\DocumentRepository',array(),array(),'',false);
 		$this->documentService->injectDocumentRepository($this->documentRepositoryMock);
 	}
 
@@ -37,7 +37,7 @@ class DocumentServiceTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function testNoIndex() {
-		$documentMock = $this->getMock('Searchperience\Api\Client\Domain\Document\Document',array(),array(),'',false);
+		$documentMock = $this->createMock('Searchperience\Api\Client\Domain\Document\Document',array(),array(),'',false);
 		$documentMock->expects($this->once())->method('setNoIndex');
 		$this->documentService->markDocumentForNoIndex($documentMock);
 	}
@@ -46,7 +46,7 @@ class DocumentServiceTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function testNeedProcessing() {
-		$documentMock = $this->getMock('Searchperience\Api\Client\Domain\Document\Document',array(),array(),'',false);
+		$documentMock = $this->createMock('Searchperience\Api\Client\Domain\Document\Document',array(),array(),'',false);
 		$documentMock->expects($this->once())->method('setIsMarkedForProcessing');
 		$this->documentService->markDocumentForReIndexing($documentMock);
 	}
