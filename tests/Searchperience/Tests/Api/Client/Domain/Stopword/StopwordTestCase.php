@@ -34,7 +34,7 @@ class StopwordTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canSetTagName() {
-		$this->stopword->setTagName("en");
-		$this->assertSame("en", $this->stopword->getTagName());
+		$this->stopword->setLanguage("en");
+		$this->assertSame("en", $this->stopword->getLanguage());
 	}
 }

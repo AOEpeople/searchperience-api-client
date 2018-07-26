@@ -245,10 +245,11 @@ class Factory {
 		$stopwordStorage->setUsername($username);
 		$stopwordStorage->setPassword($password);
 
-		$stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordRepository();
+        $stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordRepository();
 		$stopwordRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
-		$stopwordRepository->injectStorageBackend($stopwordStorage);
-		$stopwordRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $stopwordRepository->injectStorageBackend($stopwordStorage);
+        $stopwordRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Stopword\Filters\FilterCollectionFactory());
+        $stopwordRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $stopwordRepository;
 	}
