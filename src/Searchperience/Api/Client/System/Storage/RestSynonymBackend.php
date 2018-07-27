@@ -38,40 +38,20 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
     }
 
     /**
-     * @param string $tagName
+     * @param string $id
+     *
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
      * @throws \Searchperience\Common\Http\Exception\ForbiddenException
      * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
      * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
      * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
      * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-     * @return \Searchperience\Api\Client\Domain\Synonym\SynonymCollection
+     * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
      */
-    public function getAllByTag($tagName) {
+    public function getById($id)
+    {
         try {
-            $response   = $this->getGetResponseFromEndpoint('/'.$tagName);
-            $xmlElement = $response->xml();
-        } catch (EntityNotFoundException $e) {
-            return new SynonymCollection();
-        }
-
-        return $this->buildSynonymsFromXml($xmlElement);
-    }
-
-    /**
-     * @param string $tagName
-     * @param string $synonyms
-     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-     * @return \Searchperience\Api\Client\Domain\Synonym\Synonym|null
-     */
-    public function getBySynonyms($tagName, $synonyms) {
-        try {
-            $response   = $this->getGetResponseFromEndpoint('/'.$tagName.'/' . $synonyms);
+            $response = $this->getGetResponseFromEndpoint('/'.$id);
             $xmlElement = $response->xml();
         } catch (EntityNotFoundException $e) {
             return null;
@@ -81,7 +61,6 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
     }
 
     /**
-     * @param string $tagName
      * @param Synonym $synonym
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
      * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -91,8 +70,8 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
      * @return mixed
      */
-    public function post($tagName, Synonym $synonym) {
-        return $this->getPostResponseFromEndpoint($synonym,'/'.$tagName);
+    public function post(Synonym $synonym) {
+        return $this->getPostResponseFromEndpoint($synonym,'');
     }
 
     /**
@@ -110,7 +89,6 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
     }
 
     /**
-     * @param string $tagName
      * @param Synonym $synonym
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
      * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -120,14 +98,12 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
      * @return mixed
      */
-    public function delete($tagName, Synonym $synonym) {
-        $response = $this->getDeleteResponseFromEndpoint('/'.$tagName, $synonym);
-        return $response->getStatusCode();
+    public function delete(Synonym $synonym) {
+        return $this->deleteById($synonym->getId());
     }
 
     /**
-     * @param string $tagName
-     * @param string $synonyms
+     * @param int $id
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
      * @throws \Searchperience\Common\Http\Exception\ForbiddenException
      * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
@@ -136,9 +112,22 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
      * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
      * @return mixed
      */
-    public function deleteBySynonyms($tagName, $synonyms) {
-        $response = $this->getDeleteResponseFromEndpoint('/'.$tagName.'/' . $synonyms);
+    public function deleteById($id) {
+        $response = $this->getDeleteResponseFromEndpoint('/'.$id);
         return $response->getStatusCode();
+    }
+
+    /**
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     */
+    public function pushAll()
+    {
+        return $this->getPostResponseFromEndpointWithoutBody('/pushAll');
     }
 
     /**
@@ -164,11 +153,12 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
             $synonymAttributeArray = (array)$synonym->attributes();
 
             $synonymObject = new Synonym();
-
-            $synonymObject->__setProperty('synonyms',(string) $synonym->synonyms);
-            $synonymObject->__setProperty('tagName',(string) $synonymAttributeArray['@attributes']['tag']);
-            $synonymObject->__setProperty('mappedWords',(string) $synonym->mappedWords);
-
+            $synonymObject->__setProperty('id',(string) $synonymAttributeArray['@attributes']['id']);
+            $synonymObject->__setProperty('synonyms',(string) $synonymAttributeArray['@attributes']['synonyms']);
+            $synonymObject->__setProperty('matchingType',(string) $synonymAttributeArray['@attributes']['matchingtype']);
+            $synonymObject->__setProperty('language',(string) $synonymAttributeArray['@attributes']['language']);
+            $synonymObject->__setProperty('isActive',(bool) (int) $synonymAttributeArray['@attributes']['isactive']);
+            $synonymObject->__setProperty('mappedWords',(string) $synonymAttributeArray['@attributes']['mappedwords']);
             $synonymCollection->append($synonymObject);
         }
         return $synonymCollection;
@@ -185,16 +175,24 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
 
         /** @var \Searchperience\Api\Client\Domain\Synonym\Synonym $synonym */
 
+        if (!is_null($synonym->getId())) {
+            $valueArray['id'] = $synonym->getId();
+        }
+
         if (!is_null($synonym->getSynonyms())) {
             $valueArray['synonyms'] = $synonym->getSynonyms();
         }
 
-        if (!is_null($synonym->getTagName())) {
-            $valueArray['tagName'] = $synonym->getTagName();
+        if (!is_null($synonym->getMatchingType())) {
+            $valueArray['matchingType'] = $synonym->getMatchingType();
         }
 
-        if (!is_null($synonym->getType())) {
-            $valueArray['type'] = $synonym->getType();
+        if (!is_null($synonym->getLanguage())) {
+            $valueArray['language'] = $synonym->getLanguage();
+        }
+
+        if (!is_null($synonym->isActive())) {
+            $valueArray['isActive'] = $synonym->isActive() ? 1 : 0;
         }
 
         if (!is_null($synonym->getMappedWords())) {
@@ -202,5 +200,25 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
         }
 
         return $valueArray;
+    }
+
+    /**
+     * @param int $start
+     * @param int $limit
+     * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection|null $filtersCollection
+     * @param string $sortingField
+     * @param string $sortingType
+     * @return mixed
+     */
+    public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC)
+    {
+        try {
+            $response = $this->getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType);
+            $xmlElement = $response->xml();
+        } catch (EntityNotFoundException $e) {
+            return new StopwordCollection();
+        }
+
+        return $this->buildStopwordsFromXml($xmlElement);
     }
 }

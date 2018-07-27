@@ -72,7 +72,6 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	 */
 	public function post(Stopword $stopword) {
 		return $this->getPostResponseFromEndpoint($stopword,'');
-
 	}
 
 	/**
@@ -117,6 +116,19 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 		$response = $this->getDeleteResponseFromEndpoint('/'.$id);
 		return $response->getStatusCode();
 	}
+
+    /**
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     */
+    public function pushAll()
+    {
+        return $this->getPostResponseFromEndpointWithoutBody('/pushAll');
+    }
 
 	/**
 	 * @param \SimpleXMLElement $xml
@@ -190,18 +202,5 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
         }
 
         return $this->buildStopwordsFromXml($xmlElement);
-    }
-
-    /**
-     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-     */
-    public function pushAll()
-    {
-        return $this->getPostResponseFromEndpointWithoutBody('/pushAll');
     }
 }

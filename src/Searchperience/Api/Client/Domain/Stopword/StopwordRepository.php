@@ -39,8 +39,6 @@ class StopwordRepository extends AbstractRepository {
      * @return StopwordCollection
      */
     public function getAllByFilters($start = 0, $limit = 10, array $filterArguments = array(), $sortingField = '', $sortingType = AbstractRestBackend::SORTING_DESC) {
-
-
         if (!is_integer($start)) {
             throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only integer values as $start. Input was: ' . serialize($start));
         }
@@ -126,18 +124,6 @@ class StopwordRepository extends AbstractRepository {
 	 */
 	public function getAll() {
 		return $this->decorateAll($this->storageBackend->getAll());
-	}
-
-	/**
-	 * @param string $tagName
-	 * @return mixed
-	 * @throws \InvalidArgumentException
-	 */
-	public function getAllByTagName($tagName) {
-		if (!is_string($tagName)) {
-			throw new \InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $tagName. Input was: ' . serialize($tagName));
-		}
-		return $this->decorateAll($this->storageBackend->getAllByTag($tagName));
 	}
 
 	/**

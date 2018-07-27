@@ -44,8 +44,8 @@ class SynonymTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @test
 	 */
 	public function canSetType() {
-		$this->synonym->setType(Synonym::TYPE_GROUPING);
-		$this->assertEquals(Synonym::TYPE_GROUPING, $this->synonym->getType());
+		$this->synonym->setMatchingType(Synonym::TYPE_GROUPING);
+		$this->assertEquals(Synonym::TYPE_GROUPING, $this->synonym->getMatchingType());
 	}
 
 	/**
@@ -53,7 +53,7 @@ class SynonymTestCase extends \Searchperience\Tests\BaseTestCase {
 	 * @expectedException \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	public function canNotSetInvalidMatchingType() {
-		$this->synonym->setType('Nothing');
+		$this->synonym->setMatchingType('Nothing');
 	}
 
 }

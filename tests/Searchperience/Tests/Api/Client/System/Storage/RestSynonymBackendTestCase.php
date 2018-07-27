@@ -104,7 +104,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 		$synonym = new Synonym();
 		$synonym->setSynonyms('foo');
 		$synonym->setMappedWords('bla,bar');
-		$synonym->setTagName('one');
+		$synonym->setLanguage('one');
 
 		$this->synonymBackend->post('one',$synonym);
 	}
@@ -147,7 +147,7 @@ class RestSynonymBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
         $synonym = new Synonym();
         $synonym->setSynonyms('foo');
-        $synonym->setTagName('one');
+        $synonym->setLanguage('one');
 
         $this->synonymBackend->expects($this->once())->method('getDeleteResponseFromEndpoint')->with('/one', $synonym)->will(
             $this->returnValue($this->createMock('\Guzzle\Http\Message\Response', array(), array(), '', false))

@@ -17,6 +17,10 @@ class Synonym extends AbstractEntity {
 
     const TYPE_GROUPING = 'grouping';
 
+    /**
+     * @var int
+     */
+    protected $id;
 
     /**
      * @var string
@@ -29,7 +33,7 @@ class Synonym extends AbstractEntity {
      * @Assert\Length(min = 2, max = 40)
      * @Assert\NotBlank
      */
-    protected $tagName = '';
+    protected $language = 'en';
 
     /**
      * @var string
@@ -37,9 +41,14 @@ class Synonym extends AbstractEntity {
     protected $mappedWords = '';
 
     /**
+     * @var boolean
+     */
+    protected $isActive;
+
+    /**
      * @var string
      */
-    protected $type = self::TYPE_GROUPING;
+    protected $matchingType = self::TYPE_GROUPING;
 
     /**
      * @var array
@@ -60,18 +69,34 @@ class Synonym extends AbstractEntity {
     /**
      * @return string
      */
-    public function getType() {
-        return $this->type;
+    public function getMatchingType() {
+        return $this->matchingType;
     }
 
     /**
-     * @param string $type
+     * @param string $matchingType
      */
-    public function setType($type) {
-        if(!$this->isAllowedType($type)) {
-            throw new InvalidArgumentException("Type ".htmlspecialchars($type)." is not supported!");
+    public function setMatchingType($matchingType) {
+        if(!$this->isAllowedType($matchingType)) {
+            throw new InvalidArgumentException("Type ".htmlspecialchars($matchingType)." is not supported!");
         }
-        $this->type = $type;
+        $this->matchingType = $matchingType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -91,15 +116,15 @@ class Synonym extends AbstractEntity {
     /**
      * @return string
      */
-    public function getTagName() {
-        return $this->tagName;
+    public function getLanguage() {
+        return $this->language;
     }
 
     /**
-     * @param string $tagName
+     * @param string $language
      */
-    public function setTagName($tagName) {
-        $this->tagName = $tagName;
+    public function setLanguage($language) {
+        $this->language = $language;
     }
 
     /**
@@ -110,9 +135,25 @@ class Synonym extends AbstractEntity {
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getMappedWords() {
         return $this->mappedWords;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
     }
 }
