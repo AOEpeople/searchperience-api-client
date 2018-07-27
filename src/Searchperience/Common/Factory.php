@@ -197,6 +197,7 @@ class Factory {
 		$synonymRepository = new \Searchperience\Api\Client\Domain\Synonym\SynonymRepository();
 		$synonymRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
 		$synonymRepository->injectStorageBackend($synonymStorage);
+        $synonymRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Stopword\Filters\FilterCollectionFactory());
 		$synonymRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $synonymRepository;
