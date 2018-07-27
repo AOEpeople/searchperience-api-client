@@ -83,8 +83,8 @@ class SynonymRepository extends AbstractRepository {
             throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only string values as $sortingType. Input was: ' . serialize($sortingType));
         }
 
-        $stopwords = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
-        return $this->decorateAll($stopwords);
+        $synonyms = $this->storageBackend->getAllByFilterCollection($start, $limit, $filtersCollection, $sortingField, $sortingType);
+        return $this->decorateAll($synonyms);
     }
 
 	/**
@@ -107,7 +107,7 @@ class SynonymRepository extends AbstractRepository {
 
     /**
      * @param int $id
-     * @return \Searchperience\Api\Client\Domain\Stopword\Stopword
+     * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
      * @throws \InvalidArgumentException
      */
     public function getById($id) {

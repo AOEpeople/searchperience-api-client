@@ -45,7 +45,7 @@ interface SynonymBackendInterface extends BackendInterface {
      * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
      * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
      * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-     * @return \Searchperience\Api\Client\Domain\Stopword\Stopword
+     * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
      */
     public function getById($id);
 

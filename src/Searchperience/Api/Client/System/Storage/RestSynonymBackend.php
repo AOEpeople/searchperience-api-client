@@ -216,9 +216,9 @@ class RestSynonymBackend extends AbstractRestBackend implements SynonymBackendIn
             $response = $this->getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType);
             $xmlElement = $response->xml();
         } catch (EntityNotFoundException $e) {
-            return new StopwordCollection();
+            return new SynonymCollection();
         }
 
-        return $this->buildStopwordsFromXml($xmlElement);
+        return $this->buildSynonymsFromXml($xmlElement);
     }
 }
