@@ -156,4 +156,8 @@ class SynonymRepository extends AbstractRepository {
 
         return $this->storageBackend->deleteById($id);
     }
+
+    public function pushAll() {
+        return $this->storageBackend->pushAll();
+    }
 }
