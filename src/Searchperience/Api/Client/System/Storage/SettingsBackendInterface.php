@@ -2,13 +2,13 @@
 
 namespace Searchperience\Api\Client\System\Storage;
 
-use Searchperience\Api\Client\Domain\Stopword\StopwordTagCollection;
+use Searchperience\Api\Client\Domain\Synonym\LanguageCollection;
 
 /**
  * Interface StopwordBackendInterface
  * @package Searchperience\Api\Client\System\Storage
  */
-interface StopwordTagBackendInterface extends BackendInterface {
+interface SettingsBackendInterface extends BackendInterface {
 
 	/**
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
@@ -17,7 +17,7 @@ interface StopwordTagBackendInterface extends BackendInterface {
 	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
 	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return StopwordTagCollection
+	 * @return \Searchperience\Api\Client\Domain\Settings\LanguageCollection
 	 */
-	public function getAll();
+	public function getLanguages();
 }

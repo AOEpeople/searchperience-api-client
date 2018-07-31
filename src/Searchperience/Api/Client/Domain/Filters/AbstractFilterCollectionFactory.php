@@ -85,7 +85,6 @@ abstract class AbstractFilterCollectionFactory {
 	 * @return FilterCollection
 	 */
 	public function createFromFilterArguments($filters){
-        file_put_contents("/tmp/shit.log", var_export($filters, true), FILE_APPEND);
         if(!$this->validateFilterArguments($filters)) {
             throw new UnexpectedValueException('Filter not valid');
 		}

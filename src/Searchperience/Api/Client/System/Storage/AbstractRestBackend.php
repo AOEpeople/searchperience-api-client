@@ -263,15 +263,12 @@ abstract class AbstractRestBackend {
 				->send();
 			return $response;
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-            file_put_contents("/tmp/shit.log", $exception->getMessage() , FILE_APPEND);
 			$this->transformStatusCodeToClientErrorResponseException($exception);
 			return $response;
 		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-            file_put_contents("/tmp/shit.log", $exception->getMessage() , FILE_APPEND);
 			$this->transformStatusCodeToServerErrorResponseException($exception);
 			return $response;
 		} catch (\Exception $exception) {
-            file_put_contents("/tmp/shit.log", $exception->getMessage() , FILE_APPEND);
 			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
 		}
 
