@@ -37,51 +37,30 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 		return $this->buildStopwordsFromXml($xmlElement);
 	}
 
-	/**
-	 * @param string $tagName
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Stopword\StopwordCollection
-	 */
-	public function getAllByTag($tagName) {
-		try {
-			$response   = $this->getGetResponseFromEndpoint('/'.$tagName);
-			$xmlElement = $response->xml();
-		} catch (EntityNotFoundException $e) {
-			return new StopwordCollection();
-		}
+    /**
+     * @param string $id
+     *
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return \Searchperience\Api\Client\Domain\Stopword\Stopword
+     */
+    public function getById($id)
+    {
+        try {
+            $response = $this->getGetResponseFromEndpoint('/'.$id);
+            $xmlElement = $response->xml();
+        } catch (EntityNotFoundException $e) {
+            return null;
+        }
 
-		return $this->buildStopwordsFromXml($xmlElement);
-	}
-
-	/**
-	 * @param string $tagName
-	 * @param string $word
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Stopword\Stopword|null
-	 */
-	public function getByWord($tagName, $word) {
-		try {
-			$response   = $this->getGetResponseFromEndpoint('/'.$tagName.'/'. $word);
-			$xmlElement = $response->xml();
-		} catch (EntityNotFoundException $e) {
-			return null;
-		}
-
-		return $this->buildStopwordFromXml($xmlElement);
-	}
+        return $this->buildStopwordFromXml($xmlElement);
+    }
 
 	/**
-	 * @param string $tagName
 	 * @param Stopword $stopword
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -91,9 +70,8 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function post($tagName, Stopword $stopword) {
-		return $this->getPostResponseFromEndpoint($stopword,'/'.$tagName);
-
+	public function post(Stopword $stopword) {
+		return $this->getPostResponseFromEndpoint($stopword,'');
 	}
 
 	/**
@@ -111,7 +89,6 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	}
 
 	/**
-	 * @param string $tagName
 	 * @param Stopword $stopword
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
@@ -121,13 +98,12 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function delete($tagName, Stopword $stopword) {
-		return $this->deleteByWord($tagName, $stopword->getWord());
+	public function delete(Stopword $stopword) {
+		return $this->deleteById($stopword->getId());
 	}
 
 	/**
-	 * @param string $tagName
-	 * @param string $word
+	 * @param int $id
 	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
 	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
 	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
@@ -136,10 +112,23 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
 	 * @return mixed
 	 */
-	public function deleteByWord($tagName, $word) {
-		$response = $this->getDeleteResponseFromEndpoint('/'.$tagName.'/' . $word);
+	public function deleteById($id) {
+		$response = $this->getDeleteResponseFromEndpoint('/'.$id);
 		return $response->getStatusCode();
 	}
+
+    /**
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     */
+    public function pushAll()
+    {
+        return $this->getPostResponseFromEndpointWithoutBody('/pushAll');
+    }
 
 	/**
 	 * @param \SimpleXMLElement $xml
@@ -164,8 +153,10 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 			$stopwordAttributeArray = (array)$stopword->attributes();
 
 			$stopwordObject = new Stopword();
+			$stopwordObject->__setProperty('id',(string) $stopwordAttributeArray['@attributes']['id']);
+			$stopwordObject->__setProperty('isActive',(bool) (int) $stopwordAttributeArray['@attributes']['isactive']);
 			$stopwordObject->__setProperty('word',(string) $stopwordAttributeArray['@attributes']['word']);
-			$stopwordObject->__setProperty('tagName',(string) $stopwordAttributeArray['@attributes']['tag']);
+			$stopwordObject->__setProperty('language',(string) $stopwordAttributeArray['@attributes']['language']);
 
 			$stopwordCollection->append($stopwordObject);
 		}
@@ -178,18 +169,38 @@ class RestStopwordBackend extends AbstractRestBackend implements StopwordBackend
 	 * @param \Searchperience\Api\Client\Domain\AbstractEntity $stopword
 	 * @return array
 	 */
-	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity  $stopword) {
+	protected function buildRequestArray(\Searchperience\Api\Client\Domain\AbstractEntity $stopword) {
 		$valueArray = array();
 
 		/** @var \Searchperience\Api\Client\Domain\Stopword\Stopword $stopword */
+
+        if (!is_null($stopword->getId())) {
+            $valueArray['id'] = $stopword->getId();
+        }
+
+        if (!is_null($stopword->isActive())) {
+            $valueArray['isActive'] = $stopword->isActive() ? 1 : 0;
+        }
 
 		if (!is_null($stopword->getWord())) {
 			$valueArray['word'] = $stopword->getWord();
 		}
 
-		if (!is_null($stopword->getTagName())) {
-			$valueArray['tagName'] = $stopword->getTagName();
+		if (!is_null($stopword->getLanguage())) {
+			$valueArray['language'] = $stopword->getLanguage();
 		}
 		return $valueArray;
 	}
+
+    public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filtersCollection = null, $sortingField = '', $sortingType = self::SORTING_DESC)
+    {
+        try {
+            $response = $this->getListResponseFromEndpoint($start, $limit, $filtersCollection, $sortingField, $sortingType);
+            $xmlElement = $response->xml();
+        } catch (EntityNotFoundException $e) {
+            return new StopwordCollection();
+        }
+
+        return $this->buildStopwordsFromXml($xmlElement);
+    }
 }

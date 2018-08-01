@@ -23,7 +23,17 @@ class Stopword extends AbstractEntity {
 	 * @Assert\Length(min = 2, max = 40)
 	 * @Assert\NotBlank
 	 */
-	protected $tagName = '';
+	protected $language = 'en';
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var boolean
+     */
+    protected $isActive;
 
 	/**
 	 * @return string
@@ -42,14 +52,46 @@ class Stopword extends AbstractEntity {
 	/**
 	 * @return string
 	 */
-	public function getTagName() {
-		return $this->tagName;
+	public function getLanguage() {
+		return $this->language;
 	}
 
 	/**
-	 * @param string $tagName
+	 * @param string $language
 	 */
-	public function setTagName($tagName) {
-		$this->tagName = $tagName;
+	public function setLanguage($language) {
+		$this->language = $language;
 	}
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 }

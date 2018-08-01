@@ -65,7 +65,7 @@ class RestStopwordBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$stopword = new Stopword();
 		$stopword->setWord('foo');
-		$stopword->setTagName('one');
+		$stopword->setLanguage('one');
 
 		$this->stopwordBackend->post('one',$stopword);
 	}
@@ -90,7 +90,7 @@ class RestStopwordBackendTestCase extends \Searchperience\Tests\BaseTestCase {
 
 		$stopword = new Stopword();
 		$stopword->setWord('foo');
-		$stopword->setTagName('one');
+		$stopword->setLanguage('one');
 
 		$this->stopwordBackend->delete('one',$stopword);
 	}

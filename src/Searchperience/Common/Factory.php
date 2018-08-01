@@ -29,7 +29,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Document\DocumentRepository
 	 */
 	public static function getDocumentRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 
@@ -61,7 +61,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Document\DocumentStatusRepository
 	 */
 	public static function getDocumentStatusRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 
@@ -103,7 +103,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemRepository
 	 */
 	public static function getUrlQueueItemRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
@@ -131,7 +131,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Document\UrlQueueItemRepository
 	 */
 	public static function getUrlQueueStatusRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 
@@ -156,7 +156,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Enrichment\EnrichmentRepository
 	 */
 	public static function getEnrichmentRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
@@ -184,7 +184,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymRepository
 	 */
 	public static function getSynonymRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 		$synonymStorage 	= new \Searchperience\Api\Client\System\Storage\RestSynonymBackend();
@@ -197,6 +197,7 @@ class Factory {
 		$synonymRepository = new \Searchperience\Api\Client\Domain\Synonym\SynonymRepository();
 		$synonymRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Synonym\SynonymCollection');
 		$synonymRepository->injectStorageBackend($synonymStorage);
+        $synonymRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Synonym\Filters\FilterCollectionFactory());
 		$synonymRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $synonymRepository;
@@ -210,7 +211,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Synonym\SynonymTagRepository
 	 */
 	public static function getSynonymTagRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 		$synonymStorage 	= new \Searchperience\Api\Client\System\Storage\RestSynonymTagBackend();
@@ -235,7 +236,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Stopword\StopwordRepository
 	 */
 	public static function getStopwordRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle = self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 		$stopwordStorage = new \Searchperience\Api\Client\System\Storage\RestStopwordBackend();
@@ -245,10 +246,11 @@ class Factory {
 		$stopwordStorage->setUsername($username);
 		$stopwordStorage->setPassword($password);
 
-		$stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordRepository();
+        $stopwordRepository = new \Searchperience\Api\Client\Domain\Stopword\StopwordRepository();
 		$stopwordRepository->setEntityCollectionName('\Searchperience\Api\Client\Domain\Stopword\StopwordCollection');
-		$stopwordRepository->injectStorageBackend($stopwordStorage);
-		$stopwordRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $stopwordRepository->injectStorageBackend($stopwordStorage);
+        $stopwordRepository->injectFilterCollectionFactory(new \Searchperience\Api\Client\Domain\Stopword\Filters\FilterCollectionFactory());
+        $stopwordRepository->injectValidator(\Symfony\Component\Validator\Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
 		return $stopwordRepository;
 	}
@@ -261,7 +263,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Stopword\StopwordTagRepository
 	 */
 	public static function getStopwordTagRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle = self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 		$stopwordStorage = new \Searchperience\Api\Client\System\Storage\RestStopwordTagBackend();
@@ -286,7 +288,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Command\CommandExecutionService
 	 */
 	public static function getCommandExecutionService($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$commandBackend 	= new \Searchperience\Api\Client\System\Storage\RestCommandBackend();
 		$commandBackend->injectRestClient($guzzle);
@@ -308,7 +310,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Insight\ArtifactTypeRepository
 	 */
 	public static function getArtifactTypeRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 		$storageBackend 	= new \Searchperience\Api\Client\System\Storage\RestArtifactTypeBackend();
@@ -334,7 +336,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\Insight\ArtifactTypeRepository
 	 */
 	public static function getArtifactRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 		$storageBackend 	= new \Searchperience\Api\Client\System\Storage\RestArtifactBackend();
@@ -365,7 +367,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\AdminSearch\AdminSearchRepository
 	 */
 	public static function getAdminSearchRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 		$guzzle 			= self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService 	= new \Searchperience\Api\Client\System\DateTime\DateTimeService();
 
@@ -392,7 +394,7 @@ class Factory {
      * @return \Searchperience\Api\Client\Domain\CommandLog\CommandLogRepository
      */
     public static function getCommandLogRepository($baseUrl, $customerKey, $username, $password) {
-        self::getDepedenciesAutoloaded();
+        self::getDependenciesAutoloaded();
 
         $guzzle = self::getPreparedGuzzleClient($customerKey);
         $dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
@@ -423,7 +425,7 @@ class Factory {
 	 * @return \Searchperience\Api\Client\Domain\ActivityLogs\ActivityLogsRepository
 	 */
 	public static function getActivityLogsRepository($baseUrl, $customerKey, $username, $password) {
-		self::getDepedenciesAutoloaded();
+		self::getDependenciesAutoloaded();
 
 		$guzzle = self::getPreparedGuzzleClient($customerKey);
 		$dateTimeService = new \Searchperience\Api\Client\System\DateTime\DateTimeService();
@@ -473,7 +475,7 @@ class Factory {
 	/**
 	 * load some dependencies
 	 */
-	protected static function getDepedenciesAutoloaded() {
+	protected static function getDependenciesAutoloaded() {
 		// TODO resolve this "autoloading" in a right way
 		class_exists('\Symfony\Component\Validator\Constraints\Url');
 		class_exists('\Symfony\Component\Validator\Constraints\NotBlank');

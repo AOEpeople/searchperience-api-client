@@ -291,20 +291,56 @@ abstract class AbstractRestBackend {
 	 * @return int
 	 */
 	protected function getPostResponseFromEndpoint($entity, $queryString = '') {
-		try {
-			/** @var $response \Guzzle\http\Message\Response */
-			$postArray  = $this->buildRequestArray($entity);
-			$response = $this->executePostRequest($postArray, $queryString);
-		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-			$this->transformStatusCodeToClientErrorResponseException($exception);
-		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
-			$this->transformStatusCodeToServerErrorResponseException($exception);
-		} catch (\Exception $exception) {
-			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
-		}
-
-		return $response->getStatusCode();
+		return $this->getPostResponseFromEndpointWithArray($this->buildRequestArray($entity), $queryString);
 	}
+
+    /**
+     * @param string $queryString
+     * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Exception\RuntimeException
+     * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @internal param string $endpoint
+     * @return int
+     */
+    protected function getPostResponseFromEndpointWithoutBody($queryString = '') {
+        return $this->getPostResponseFromEndpointWithArray(array(), $queryString);
+    }
+
+    /**
+     * @param array $postArray
+     * @param string $queryString
+     * @throws \Searchperience\Common\Http\Exception\EntityNotFoundException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Exception\RuntimeException
+     * @throws \Searchperience\Common\Http\Exception\ServerErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @internal param string $endpoint
+     * @return int
+     */
+    private function getPostResponseFromEndpointWithArray($postArray, $queryString = '') {
+        try {
+            /** @var $response \Guzzle\http\Message\Response */
+            $response = $this->executePostRequest($postArray, $queryString);
+        } catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+            $this->transformStatusCodeToClientErrorResponseException($exception);
+        } catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
+            $this->transformStatusCodeToServerErrorResponseException($exception);
+        } catch (\Exception $exception) {
+            throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579269, $exception);
+        }
+
+        return $response->getStatusCode();
+    }
 
 	/**
 	 * @param string $postArray

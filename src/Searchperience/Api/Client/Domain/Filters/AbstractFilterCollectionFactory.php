@@ -2,6 +2,8 @@
 
 namespace Searchperience\Api\Client\Domain\Filters;
 
+use Searchperience\Common\Exception\UnexpectedValueException;
+
 abstract class AbstractFilterCollectionFactory {
 
 	/**
@@ -49,7 +51,7 @@ abstract class AbstractFilterCollectionFactory {
 	/**
 	 * @param string $filterClassName
 	 * @param array $filterValue
-	 * @throws \Searchperience\Common\Exception\UnexpectedValueException
+	 * @throws UnexpectedValueException
 	 * @throws \Searchperience\Common\Exception\InvalidArgumentException
 	 */
 	protected function initFilter($filterClassName, $filterValue) {
@@ -60,7 +62,7 @@ abstract class AbstractFilterCollectionFactory {
 		}
 
 		if (!is_array($filterValue)) {
-			throw new \Searchperience\Common\Exception\UnexpectedValueException($filterClassName.' values "' . __METHOD__ . '" should be an array: ' . $filterValue);
+			throw new UnexpectedValueException($filterClassName.' values "' . __METHOD__ . '" should be an array: ' . $filterValue);
 		} else {
 			foreach ($filterValue as $key => $value) {
 				if ( is_object($value) || is_array($value) || trim($value) != '') {
@@ -79,12 +81,12 @@ abstract class AbstractFilterCollectionFactory {
 
 	/**
 	 * @param array $filters
-	 * @throws \Searchperience\Common\Exception\UnexpectedValueException
+	 * @throws UnexpectedValueException
 	 * @return FilterCollection
 	 */
 	public function createFromFilterArguments($filters){
-		if(!$this->validateFilterArguments($filters)) {
-			throw new \Searchperience\Common\Exception\UnexpectedValueException('');
+        if(!$this->validateFilterArguments($filters)) {
+            throw new UnexpectedValueException('Filter not valid');
 		}
 		$result = new FilterCollection();
 		foreach ($filters as $filterName => $filterValue) {
@@ -94,8 +96,8 @@ abstract class AbstractFilterCollectionFactory {
 				$filter = $this->initFilter($filterClassName, $filterValue);
 				$result->addFilter($filter);
 			} else {
-				throw new \Searchperience\Common\Exception\UnexpectedValueException('Filter not exists: ' . $filterName);
-			}
+				throw new UnexpectedValueException('Filter not exists: ' . $filterName);
+            }
 		}
 		return $result;
 	}

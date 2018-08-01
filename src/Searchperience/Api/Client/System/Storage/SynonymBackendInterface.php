@@ -11,90 +11,98 @@ use Searchperience\Api\Client\Domain\Synonym\SynonymCollection;
 * @author: Timo Schmidt <timo.schmidt@aoe.com>
 */
 interface SynonymBackendInterface extends BackendInterface {
-
-	/**
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function getAll();
-
-	/**
-	 * @param string $tagName
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function getAllByTag($tagName);
-
-	/**
-	 * @param string $tagName
-	 * @param string $synonyms
+    /**
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
-	 */
-	public function getBySynonyms($tagName, $synonyms);
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return mixed
+     */
+    public function getAll();
 
-	/**
-	 * @param string $tagName
-	 * @param Synonym $synonym
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function post($tagName, Synonym $synonym);
-
-	/**
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function deleteAll();
-
-	/**
-	 * @param string $tagName
-	 * @param Synonym $synonym
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function delete($tagName, Synonym $synonym);
-
-	/**
-	 * @param string $tagName
-	 * @param string $synonyms
+    /**
+     * @param int $start
+     * @param int $limit
+     * @param \Searchperience\Api\Client\Domain\Filters\FilterCollection|null $filterCollection
      * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
-	 * @return mixed
-	 */
-	public function deleteBySynonyms($tagName, $synonyms);
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return mixed
+     */
+    public function getAllByFilterCollection($start, $limit, \Searchperience\Api\Client\Domain\Filters\FilterCollection $filterCollection = null);
+
+    /**
+     * @param string $id
+     *
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return \Searchperience\Api\Client\Domain\Synonym\Synonym
+     */
+    public function getById($id);
+
+    /**
+     * @param Synonym $synonym
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return mixed
+     */
+    public function post(Synonym $synonym);
+
+    /**
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return mixed
+     */
+    public function deleteAll();
+
+    /**
+     * @param Synonym $synonym
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return mixed
+     */
+    public function delete(Synonym $synonym);
+
+    /**
+     * @param int $id
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     * @return mixed
+     */
+    public function deleteById($id);
+
+    /**
+     * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
+     * @throws \Searchperience\Common\Http\Exception\ForbiddenException
+     * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
+     * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
+     * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
+     * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+     */
+    public function pushAll();
 }
