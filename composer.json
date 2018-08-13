@@ -5,9 +5,7 @@
 	"license": "MIT",
 	"require": {
 		"guzzle/guzzle": "v3.8.1",
-		"php": ">=5.3.3",
-		"symfony/validator": "v3.4.0",
-		"doctrine/common": "2.4.3"
+		"php": ">=5.3.3"
 	},
 	"require-dev": {
 		"guzzle/plugin-mock": "*",
