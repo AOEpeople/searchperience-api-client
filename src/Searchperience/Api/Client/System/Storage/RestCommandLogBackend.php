@@ -81,6 +81,7 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
             $commandLogObject->__setProperty('status', (string)$commandLog->status);
             $commandLogObject->__setProperty('logMessage', (string)$commandLog->log);
             $commandLogObject->__setProperty('commandName', (string)$commandLog->command);
+            $commandLogObject->__setProperty('instanceName', (string)$commandLog->instancename);
 
 			if (trim($commandLog->starttime) != '') {
 				//we assume that the restapi always return y-m-d H:i:s in the utc format
@@ -104,7 +105,7 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 
             $commandLogArray->append($commandLogObject);
 		}
-		return $commandLogArray ;
+		return $commandLogArray;
 	}
 
 	/**
@@ -136,9 +137,14 @@ class RestCommandLogBackend extends \Searchperience\Api\Client\System\Storage\Ab
 			$valueArray['duration'] = $commandLog->getDuration();
 		}
 
-        if (!is_null($commandLog->getLogMessage())) {
-            $valueArray['logMessage'] = $commandLog->getLogMessage();
-        }
+		if (!is_null($commandLog->getLogMessage())) {
+			$valueArray['logMessage'] = $commandLog->getLogMessage();
+		}
+
+		if (!is_null($commandLog->getInstanceName())) {
+			$valueArray['instanceName'] = $commandLog->getInstanceName();
+		}
+
 		return $valueArray;
 	}
 }
