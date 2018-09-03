@@ -53,6 +53,11 @@ class CommandLog extends AbstractEntity {
     protected $binary = null;
 
     /**
+     * @var string
+     */
+    protected $instanceName = null;
+
+    /**
      * @return string
      */
     public function getCommandName() {
@@ -106,5 +111,21 @@ class CommandLog extends AbstractEntity {
      */
     public function getBinary() {
         return $this->binary;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstanceName()
+    {
+        return $this->instanceName;
+    }
+
+    /**
+     * @param $instanceName
+     */
+    public function setInstanceName($instanceName)
+    {
+        $this->instanceName = $instanceName;
     }
 }
