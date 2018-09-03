@@ -385,7 +385,7 @@ abstract class AbstractRestBackend {
 		try {
 			/** @var $response \Guzzle\http\Message\Response */
 			$response = $this->restClient->setBaseUrl($this->baseUrl)
-				->get('/{customerKey}/'.$this->endpoint.$queryString)
+				->get('/{customerKey}/'.$this->endpoint.$queryString, [], ['connect_timeout' => 3, 'timeout' => 3])
 				->setAuth($this->username, $this->password)
 				->send();
 		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
