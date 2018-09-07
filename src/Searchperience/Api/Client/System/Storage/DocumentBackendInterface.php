@@ -68,16 +68,10 @@ interface DocumentBackendInterface extends BackendInterface {
 	/**
 	 * @param string $foreignId
 	 *
-	 * @throws \Searchperience\Common\Http\Exception\InternalServerErrorException
-	 * @throws \Searchperience\Common\Http\Exception\ForbiddenException
-	 * @throws \Searchperience\Common\Http\Exception\ClientErrorResponseException
-	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
-	 * @throws \Searchperience\Common\Http\Exception\UnauthorizedException
-	 * @throws \Searchperience\Common\Http\Exception\MethodNotAllowedException
-	 * @throws \Searchperience\Common\Http\Exception\RequestEntityTooLargeException
+	 * @param $mimeType
 	 * @return mixed
 	 */
-	public function deleteByForeignId($foreignId);
+	public function deleteByForeignId($foreignId, $mimeType);
 
 	/**
 	 * @param string $id

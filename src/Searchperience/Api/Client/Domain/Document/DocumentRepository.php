@@ -260,12 +260,16 @@ class DocumentRepository {
 	 * @throws \Searchperience\Common\Http\Exception\DocumentNotFoundException
 	 * @return integer HTTP status code
 	 */
-	public function deleteByForeignId($foreignId) {
+	public function deleteByForeignId($foreignId, $mimeType = null) {
 		if (!is_string($foreignId) && !is_integer($foreignId) || preg_match('/^[a-zA-Z0-9_-]*$/u', $foreignId) !== 1) {
 			throw new InvalidArgumentException('Method "' . __METHOD__ . '" accepts only strings values as $foreignId. Input was: ' . serialize($foreignId));
 		}
 
-		$statusCode = $this->storageBackend->deleteByForeignId($foreignId);
+		if($mimeType == null) {
+			throw new InvalidArgumentException('Method "' . __METHOD__ . '" needs "mimeType" as second parameter');
+		}
+
+		$statusCode = $this->storageBackend->deleteByForeignId($foreignId, $mimeType);
 		return $statusCode;
 	}
 
