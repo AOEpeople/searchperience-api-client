@@ -116,8 +116,8 @@ class RestDocumentBackend extends \Searchperience\Api\Client\System\Storage\Abst
 	/**
 	 * {@inheritdoc}
 	 */
-	public function deleteByForeignId($foreignId) {
-		$response = $this->getDeleteResponseFromEndpoint('?foreignId=' . $foreignId);
+	public function deleteByForeignId($foreignId, $mimeType) {
+		$response = $this->getDeleteResponseFromEndpoint('?foreignId=' . $foreignId . '&mimeType=' . $mimeType);
 		return $response->getStatusCode();
 	}
 
