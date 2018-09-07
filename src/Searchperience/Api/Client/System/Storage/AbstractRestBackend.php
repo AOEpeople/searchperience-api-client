@@ -393,7 +393,6 @@ abstract class AbstractRestBackend {
 		} catch (\Guzzle\Http\Exception\ServerErrorResponseException $exception) {
 			$this->transformStatusCodeToServerErrorResponseException($exception);
 		} catch (\Exception $exception) {
-			var_dump($exception->getMessage());
 			throw new \Searchperience\Common\Exception\RuntimeException('Unknown error occurred; Please check parent exception for more details.', 1353579279, $exception);
 		}
 
